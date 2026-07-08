@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noUnusedLocals": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@flex/uikit": ["packages/uikit/src/primitive"],
+      "@flex/uikit/theme": ["packages/uikit/src/theme"],
+      "@flex/uikit/business": ["packages/uikit/src/biz"],
+      "@flex/uikit/hooks": ["packages/uikit/src/hooks"],
+      "@flex/uikit/utils": ["packages/uikit/src/utils"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

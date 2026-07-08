@@ -1,16 +1,49 @@
 {
-  "name": "your-uikit",
+  "name": "uikit",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
+  "description": "uikit system monorepo",
   "scripts": {
-    "build": "pnpm -r build",
-    "dev": "pnpm -r --parallel dev",
-    "typecheck": "pnpm -r typecheck"
+    "build": "pnpm -r run build",
+    "type-check": "pnpm -r run type-check",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@flex/uikit": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "@storybook/addon-essentials": "^8.5.8",
+    "@storybook/react": "^8.5.8",
+    "@storybook/react-vite": "^8.5.8",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "storybook": "^8.5.8",
+    "storybook-dark-mode": "^4.0.2",
+    "tsx": "^4.16.3",
+    "typescript": "^5.4.2",
+    "vite": "^6.1.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "18.3.1",
+      "react-dom": "18.3.1",
+      "@types/react": "18.3.18",
+      "@types/react-dom": "18.3.5"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "react",
+        "react-dom",
+        "@tabler/icons-react"
+      ]
+    }
   },
   "engines": {
-    "node": ">=18"
-  }
+    "node": ">= 20",
+    "pnpm": ">= 8"
+  },
+  "packageManager": "pnpm@10.30.0"
 }

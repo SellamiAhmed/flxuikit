@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-restricted-imports
-import type { MantineColorsTuple } from '@mantine/core'
 
-export type ShadingColor = MantineColorsTuple
+import { ShadingColor } from './colors'
+
 
 // Linear is dark-only; dark.ts mirrors colors.ts exactly.
 // This file exists so the useTheme() hook can switch palettes

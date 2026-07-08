@@ -1,0 +1,102 @@
+{
+  "name": "@flex/uikit",
+  "version": "0.1.0",
+  "description": "system UI kit built on Mantine v7",
+  "type": "module",
+  "main": "dist/primitive/index.cjs",
+  "module": "dist/primitive/index.mjs",
+  "types": "dist/primitive/index.d.ts",
+  "scripts": {
+    "build": "vite build",
+    "type-check": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/primitive/index.mjs",
+      "require": "./dist/primitive/index.cjs",
+      "types": "./dist/primitive/index.d.ts"
+    },
+    "./biz": {
+      "import": "./dist/biz/index.mjs",
+      "require": "./dist/biz/index.cjs",
+      "types": "./dist/biz/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.cjs",
+      "types": "./dist/hooks/index.d.ts"
+    },
+    "./theme": {
+      "import": "./dist/theme/index.mjs",
+      "require": "./dist/theme/index.cjs",
+      "types": "./dist/theme/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.cjs",
+      "types": "./dist/utils/index.d.ts"
+    },
+    "./icons": {
+      "import": "./dist/icons/index.mjs",
+      "require": "./dist/icons/index.cjs",
+      "types": "./dist/icons/index.d.ts"
+    },
+    "./style.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "dependencies": {
+    "@mantine/carousel": "7.17.8",
+    "@mantine/code-highlight": "7.17.8",
+    "@mantine/core": "7.17.8",
+    "@mantine/dates": "7.17.8",
+    "@mantine/dropzone": "7.17.8",
+    "@mantine/hooks": "7.17.8",
+    "@mantine/modals": "7.17.8",
+    "@mantine/notifications": "7.17.8",
+    "@tabler/icons-react": "^3.26.0",
+    "@hookform/error-message": "^2.0.1",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.5",
+    "embla-carousel-react": "^7.0.5",
+    "google-libphonenumber": "^3.2.30",
+    "react-phone-input-2": "^2.15.1",
+    "react-table": "^7.8.0",
+    "react-table-sticky": "^1.1.3",
+    "react-textarea-autosize": "8.5.6",
+    "react-window": "^1.8.9",
+    "lodash-es": "^4.17.21"
+  },
+  "peerDependencies": {
+    "react": "^18.x || ^19.x",
+    "react-dom": "^18.x || ^19.x",
+    "react-hook-form": "^7.x"
+  },
+  "peerDependenciesMeta": {
+    "react-hook-form": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/google-libphonenumber": "^7.4.23",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/react-table": "^7.7.12",
+    "@types/react-window": "^1.8.5",
+    "@vitejs/plugin-react": "^4.3.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-hook-form": "^7.51.5",
+    "typescript": "^5.4.2",
+    "vite": "^6.1.1",
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

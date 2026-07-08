@@ -64,7 +64,7 @@ const InputFontSizes = {
 }
 
 // ═══════════════════════════════════════════════════════
-// Input styles helper (TiDBCloud pattern)
+// Input styles helper 
 // ═══════════════════════════════════════════════════════
 function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'variant'>) {
   const size = InputSizes[(props.size as keyof typeof InputSizes) ?? 'md']
@@ -1578,7 +1578,7 @@ export type Theme = MantineTheme & {
   colors: ColorMap
 }
 
-export function useTheme(colorScheme: 'light' | 'dark'): Theme {
+  export function useTheme(colorScheme: 'light' | 'dark'): Theme {
   const isLight = colorScheme === 'light'
   const colors = isLight ? light : dark
 
