@@ -1,4 +1,4 @@
-# your-uikit
+# flex-uikit
 
 Shared theme + components across your apps, built on Mantine.
 
