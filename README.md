@@ -4,8 +4,6 @@ Shared theme + components across your apps, built on Mantine.
 
 ## Structure
 
-Mirrors tidbcloud-uikit's layout - one small file per concern instead of one big file:
-
 - `packages/theme` — colors.ts, colors.dark.ts, font.ts, fns.ts, theme.ts, **and** `ThemeProvider.tsx`. The provider lives here (not in `primitives`) because it's what turns these token files into an actual runtime theme.
 - `packages/primitives` — restyled/re-exported Mantine components. One place to import from instead of `@mantine/core` directly.
 - `packages/business` — composed components with real product opinions: `PageShell`, and anything else you build (`SearchArea`, `PropertyCard`, etc.)
@@ -18,16 +16,16 @@ In the consuming app's `package.json`:
 
 ```json
 "dependencies": {
-  "@your-uikit/theme": "github:yourusername/your-uikit#v0.1.0",
-  "@your-uikit/primitives": "github:yourusername/your-uikit#v0.1.0",
-  "@your-uikit/business": "github:yourusername/your-uikit#v0.1.0"
+  "@your-uikit/theme": "github:SellamiAhmed/flex-uikit#v0.1.0",
+  "@your-uikit/primitives": "github:SellamIAhmed/flex-uikit#v0.1.0",
+  "@your-uikit/business": "github:SellamiAhmed/flex-uikit#v0.1.0"
 }
 ```
 
 Then in your app's root:
 
 ```tsx
-import { ThemeProvider } from '@your-uikit/theme'
+import { ThemeProvider } from '@flex-uikit/theme'
 
 export default function App({ children }) {
   return <ThemeProvider colorScheme="auto">{children}</ThemeProvider>
