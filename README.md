@@ -16,9 +16,9 @@ In the consuming app's `package.json`:
 
 ```json
 "dependencies": {
-  "@your-uikit/theme": "github:SellamiAhmed/flex-uikit#v0.1.0",
-  "@your-uikit/primitives": "github:SellamIAhmed/flex-uikit#v0.1.0",
-  "@your-uikit/business": "github:SellamiAhmed/flex-uikit#v0.1.0"
+  "@flex-uikit/theme": "github:SellamiAhmed/flex-uikit#v0.1.0",
+  "@flex-uikit/primitives": "github:SellamIAhmed/flex-uikit#v0.1.0",
+  "@flex-uikit/business": "github:SellamiAhmed/flex-uikit#v0.1.0"
 }
 ```
 
