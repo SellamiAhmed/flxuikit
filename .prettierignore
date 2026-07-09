@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+.github/
+.husky/
+*.json
+*.yaml
+*.lock
+examples/

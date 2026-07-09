@@ -20,9 +20,9 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@flex/uikit": ["packages/uikit/src/primitive"],
+      "@flex/uikit": ["packages/uikit/src/primitives"],
       "@flex/uikit/theme": ["packages/uikit/src/theme"],
-      "@flex/uikit/business": ["packages/uikit/src/biz"],
+      "@flex/uikit/business": ["packages/uikit/src/business"],
       "@flex/uikit/hooks": ["packages/uikit/src/hooks"],
       "@flex/uikit/utils": ["packages/uikit/src/utils"]
     }
