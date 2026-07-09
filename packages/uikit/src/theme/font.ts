@@ -1,10 +1,8 @@
 export const FONT_FAMILY = {
   display:
     '"SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  text:
-    '"SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  mono:
-    '"SF Mono", "SFMono-Medium", ui-monospace, Menlo, Consolas, monospace',
+  text: '"SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  mono: '"SF Mono", "SFMono-Medium", ui-monospace, Menlo, Consolas, monospace'
 } as const
 
 export const FONT_SIZE = {
@@ -20,7 +18,7 @@ export const FONT_SIZE = {
   caption: '12px',
   button: '14px',
   eyebrow: '13px',
-  mono: '13px',
+  mono: '13px'
 } as const
 
 export const LINE_HEIGHT = {
@@ -36,7 +34,7 @@ export const LINE_HEIGHT = {
   caption: '1.40',
   button: '1.20',
   eyebrow: '1.30',
-  mono: '1.50',
+  mono: '1.50'
 } as const
 
 export const LETTER_SPACING = {
@@ -52,12 +50,12 @@ export const LETTER_SPACING = {
   caption: '0',
   button: '0',
   eyebrow: '0.4px',
-  mono: '0',
+  mono: '0'
 } as const
 
 export const FONT_WEIGHT = {
   regular: 400,
   medium: 500,
   semibold: 600,
-  bold: 700,
+  bold: 700
 } as const

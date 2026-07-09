@@ -1,12 +1,9 @@
-// Re-export Mantine's own primitives from ONE place, so every consuming
-// app imports components from @your-uikit/primitives instead of
-// @mantine/core directly.
-export {
-  Button,
-  TextInput,
-  Card,
-  Table,
-  Modal,
-  Select,
-  Badge
-} from '@mantine/core'
+import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
+import '@mantine/notifications/styles.css'
+import '@mantine/carousel/styles.css'
+import '@mantine/dropzone/styles.css'
+
+export type ColorScheme = 'light' | 'dark'
+export { Button } from './button/index.js'
+export type { ButtonProps } from '@mantine/core'

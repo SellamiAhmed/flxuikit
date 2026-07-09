@@ -12,34 +12,34 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/primitive/index.d.ts",
       "import": "./dist/primitive/index.mjs",
-      "require": "./dist/primitive/index.cjs",
-      "types": "./dist/primitive/index.d.ts"
+      "require": "./dist/primitive/index.cjs"
     },
-    "./biz": {
-      "import": "./dist/biz/index.mjs",
-      "require": "./dist/biz/index.cjs",
-      "types": "./dist/biz/index.d.ts"
+    "./business": {
+      "types": "./dist/business/index.d.ts",
+      "import": "./dist/business/index.mjs",
+      "require": "./dist/business/index.cjs"
     },
     "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
       "import": "./dist/hooks/index.mjs",
-      "require": "./dist/hooks/index.cjs",
-      "types": "./dist/hooks/index.d.ts"
+      "require": "./dist/hooks/index.cjs"
     },
     "./theme": {
+      "types": "./dist/theme/index.d.ts",
       "import": "./dist/theme/index.mjs",
-      "require": "./dist/theme/index.cjs",
-      "types": "./dist/theme/index.d.ts"
+      "require": "./dist/theme/index.cjs"
     },
     "./utils": {
+      "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.mjs",
-      "require": "./dist/utils/index.cjs",
-      "types": "./dist/utils/index.d.ts"
+      "require": "./dist/utils/index.cjs"
     },
     "./icons": {
+      "types": "./dist/icons/index.d.ts",
       "import": "./dist/icons/index.mjs",
-      "require": "./dist/icons/index.cjs",
-      "types": "./dist/icons/index.d.ts"
+      "require": "./dist/icons/index.cjs"
     },
     "./style.css": "./dist/style.css",
     "./package.json": "./package.json"

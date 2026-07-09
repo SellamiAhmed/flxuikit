@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
 
-import { ShadingColor } from './colors'
-
+import { ShadingColor } from './colors.js'
 
 // Linear is dark-only; dark.ts mirrors colors.ts exactly.
 // This file exists so the useTheme() hook can switch palettes
@@ -17,7 +16,7 @@ export const brand = [
   '#5e6ad2',
   '#5e69d1',
   '#4a529e',
-  '#363a6a',
+  '#363a6a'
 ] as ShadingColor
 
 export const success = [
@@ -30,7 +29,7 @@ export const success = [
   '#1f8536',
   '#176427',
   '#0f4318',
-  '#072209',
+  '#072209'
 ] as ShadingColor
 
 export const dark = [
@@ -43,7 +42,7 @@ export const dark = [
   '#23252a',
   '#18191a',
   '#141516',
-  '#010102',
+  '#010102'
 ] as ShadingColor
 
 export const neutral = [
@@ -56,7 +55,7 @@ export const neutral = [
   '#55585c',
   '#3e4145',
   '#2c2e32',
-  '#1d1f22',
+  '#1d1f22'
 ] as ShadingColor
 
 export const danger = [
@@ -69,7 +68,7 @@ export const danger = [
   '#bf2600',
   '#9e1b00',
   '#7a1500',
-  '#5c1000',
+  '#5c1000'
 ] as ShadingColor
 
 export const warning = [
@@ -82,5 +81,5 @@ export const warning = [
   '#d98c00',
   '#b37200',
   '#8a5900',
-  '#664200',
+  '#664200'
 ] as ShadingColor

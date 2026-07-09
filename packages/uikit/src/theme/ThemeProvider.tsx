@@ -19,18 +19,14 @@ export function ThemeProvider({
   colorScheme = 'dark',
   theme: themeOverride,
   notifications,
-  modals,
+  modals
 }: ThemeProviderProps) {
-  const resolvedScheme: 'light' | 'dark' =
-    colorScheme === 'auto' ? 'dark' : colorScheme
+  const resolvedScheme: 'light' | 'dark' = colorScheme === 'auto' ? 'dark' : colorScheme
 
   const theme = useTheme(resolvedScheme)
 
   return (
-    <MantineProvider
-      forceColorScheme={resolvedScheme}
-      theme={themeOverride ? { ...theme, ...themeOverride } : theme}
-    >
+    <MantineProvider forceColorScheme={resolvedScheme} theme={themeOverride ? { ...theme, ...themeOverride } : theme}>
       <Notifications position="top-center" {...notifications} />
       <ModalsProvider {...modals}>{children}</ModalsProvider>
     </MantineProvider>

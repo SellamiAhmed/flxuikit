@@ -4,7 +4,7 @@ import {
   getPrimaryShade,
   MantineTheme,
   parseThemeColor,
-  VariantColorsResolver,
+  VariantColorsResolver
 } from '@mantine/core'
 
 /** Resolve a theme color + shade to its CSS variable or hex value */
@@ -23,7 +23,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
 
   const parsedColor = parseThemeColor({
     color: inputColor || theme.primaryColor,
-    theme,
+    theme
   })
 
   const colorName = parsedColor.isThemeColor ? parsedColor.color : theme.primaryColor
@@ -35,7 +35,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: themeColor(theme, 'brand', 6),
         hover: themeColor(theme, 'brand', 5),
         color: '#ffffff',
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'light') {
@@ -43,7 +43,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'rgba(94, 106, 210, 0.12)',
         color: themeColor(theme, 'brand', 6),
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'outline') {
@@ -51,7 +51,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'rgba(94, 106, 210, 0.08)',
         color: themeColor(theme, 'brand', 6),
-        border: `1px solid ${themeColor(theme, 'brand', 7)}`,
+        border: `1px solid ${themeColor(theme, 'brand', 7)}`
       }
     }
     if (variant === 'subtle') {
@@ -59,7 +59,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'rgba(94, 106, 210, 0.08)',
         color: themeColor(theme, 'brand', 6),
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'transparent') {
@@ -67,7 +67,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'transparent',
         color: themeColor(theme, 'brand', 6),
-        border: 'none',
+        border: 'none'
       }
     }
   }
@@ -79,7 +79,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: themeColor(theme, 'dark', 8),
         hover: themeColor(theme, 'dark', 7),
         color: themeColor(theme, 'dark', 0),
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'light') {
@@ -87,7 +87,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: themeColor(theme, 'dark', 8),
         color: themeColor(theme, 'dark', 0),
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'outline') {
@@ -95,7 +95,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: themeColor(theme, 'dark', 8),
         color: themeColor(theme, 'dark', 0),
-        border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+        border: `1px solid ${themeColor(theme, 'dark', 6)}`
       }
     }
     if (variant === 'subtle') {
@@ -103,7 +103,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: themeColor(theme, 'dark', 8),
         color: themeColor(theme, 'dark', 1),
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'default') {
@@ -111,7 +111,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: themeColor(theme, 'dark', 2),
         hover: themeColor(theme, 'dark', 3),
         color: themeColor(theme, 'dark', 0),
-        border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+        border: `1px solid ${themeColor(theme, 'dark', 6)}`
       }
     }
     if (variant === 'transparent') {
@@ -119,7 +119,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'transparent',
         color: themeColor(theme, 'dark', 1),
-        border: 'none',
+        border: 'none'
       }
     }
   }
@@ -131,7 +131,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: themeColor(theme, 'success', 5),
         hover: themeColor(theme, 'success', 4),
         color: '#ffffff',
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'light') {
@@ -139,7 +139,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'rgba(39, 166, 68, 0.12)',
         color: themeColor(theme, 'success', 5),
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'outline') {
@@ -147,7 +147,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'rgba(39, 166, 68, 0.08)',
         color: themeColor(theme, 'success', 5),
-        border: `1px solid ${themeColor(theme, 'success', 5)}`,
+        border: `1px solid ${themeColor(theme, 'success', 5)}`
       }
     }
   }
@@ -159,7 +159,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: themeColor(theme, 'danger', 5),
         hover: themeColor(theme, 'danger', 4),
         color: '#ffffff',
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'light') {
@@ -167,7 +167,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: 'rgba(227, 73, 53, 0.12)',
         color: themeColor(theme, 'danger', 5),
-        border: 'none',
+        border: 'none'
       }
     }
   }
@@ -179,7 +179,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: themeColor(theme, 'neutral', 6),
         hover: themeColor(theme, 'neutral', 5),
         color: '#ffffff',
-        border: 'none',
+        border: 'none'
       }
     }
     if (variant === 'light') {
@@ -187,7 +187,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
         background: 'transparent',
         hover: themeColor(theme, 'neutral', 2),
         color: themeColor(theme, 'neutral', 6),
-        border: 'none',
+        border: 'none'
       }
     }
   }

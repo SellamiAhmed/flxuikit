@@ -6,9 +6,8 @@ import {
   MantineThemeOverride,
   PaginationProps,
   createTheme,
-  mergeMantineTheme,
+  mergeMantineTheme
 } from '@mantine/core'
-
 import {
   ActionIconProps,
   AlertProps,
@@ -25,20 +24,13 @@ import {
   StepperProps,
   SwitchProps,
   TableProps,
-  TabsProps,
+  TabsProps
 } from '@mantine/core'
 
-import {
-  FONT_FAMILY,
-  FONT_SIZE,
-  LINE_HEIGHT,
-  LETTER_SPACING,
-  FONT_WEIGHT,
-} from './font.js'
-
-import { variantColorResolver, themeColor, rem } from './fns.js'
 import * as dark from './colors.dark.js'
 import * as light from './colors.js'
+import { variantColorResolver, themeColor, rem } from './fns.js'
+import { FONT_FAMILY, FONT_SIZE, LINE_HEIGHT, LETTER_SPACING, FONT_WEIGHT } from './font.js'
 
 export type ColorMap = typeof light
 export type Color = keyof ColorMap
@@ -52,7 +44,7 @@ const InputSizes = {
   lg: 44,
   md: 40,
   sm: 32,
-  xs: 28,
+  xs: 28
 }
 
 const InputFontSizes = {
@@ -60,11 +52,11 @@ const InputFontSizes = {
   lg: 14,
   md: 14,
   sm: 13,
-  xs: 12,
+  xs: 12
 }
 
 // ═══════════════════════════════════════════════════════
-// Input styles helper 
+// Input styles helper
 // ═══════════════════════════════════════════════════════
 function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'variant'>) {
   const size = InputSizes[(props.size as keyof typeof InputSizes) ?? 'md']
@@ -75,14 +67,14 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
         '--input-size': `${size}px`,
         '--input-height': `${size}px`,
         '--input-line-height': `${size - 2}px`,
-        '--input-fz': `${inputFontSize}px`,
+        '--input-fz': `${inputFontSize}px`
       }
     : {}
 
   const withInputSize = {
     '&:not(.mantine-Textarea-input)': {
-      ...inputSize,
-    },
+      ...inputSize
+    }
   }
 
   const passwordInnerInputSize = size
@@ -90,7 +82,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
         height: size - 2,
         minHeight: size - 2,
         lineHeight: `${size - 2}px`,
-        fontSize: inputFontSize,
+        fontSize: inputFontSize
       }
     : {}
 
@@ -99,28 +91,28 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       input: {
         ...withInputSize,
         '& .mantine-PasswordInput-innerInput': {
-          ...passwordInnerInputSize,
+          ...passwordInnerInputSize
         },
         '&::placeholder': {
-          color: `${themeColor(theme, 'dark', 2)} !important`,
-        },
-      },
+          color: `${themeColor(theme, 'dark', 2)} !important`
+        }
+      }
     }
   }
 
   if (props.variant === 'filled') {
     return {
       input: {
-        '--input-bg': themeColor(theme, 'dark', 8),   // surface-2
+        '--input-bg': themeColor(theme, 'dark', 8), // surface-2
         '--input-bd-focus': themeColor(theme, 'brand', 7), // primary-focus
         ...withInputSize,
         '& .mantine-PasswordInput-innerInput': {
-          ...passwordInnerInputSize,
+          ...passwordInnerInputSize
         },
         '&::placeholder': {
-          color: `${themeColor(theme, 'dark', 2)} !important`,
-        },
-      },
+          color: `${themeColor(theme, 'dark', 2)} !important`
+        }
+      }
     }
   }
 
@@ -131,47 +123,47 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       marginBottom: 6,
       lineHeight: '20px',
       fontSize: 14,
-      fontWeight: 500,
+      fontWeight: 500
     },
     description: {
       color: themeColor(theme, 'dark', 2), // ink-subtle
-      fontSize: 12,
+      fontSize: 12
     },
     input: {
       color: themeColor(theme, 'dark', 0), // ink
       border: `1px solid ${themeColor(theme, 'dark', 6)}`, // hairline
-      backgroundColor: themeColor(theme, 'dark', 8),       // surface-2
+      backgroundColor: themeColor(theme, 'dark', 8), // surface-2
       borderRadius: '8px',
 
       ...withInputSize,
 
       '&:hover': {
-        borderColor: themeColor(theme, 'dark', 5), // hairline-strong
+        borderColor: themeColor(theme, 'dark', 5) // hairline-strong
       },
       '&:focus, &:focus-within': {
         borderColor: themeColor(theme, 'brand', 7), // primary-focus
         outline: `2px solid rgba(94, 105, 209, 0.5)`,
-        outlineOffset: '-1px',
+        outlineOffset: '-1px'
       },
       '&:disabled': {
         borderColor: themeColor(theme, 'dark', 6),
         backgroundColor: themeColor(theme, 'dark', 7),
         color: themeColor(theme, 'dark', 2),
-        opacity: 1,
+        opacity: 1
       },
       '&::placeholder': {
-        color: `${themeColor(theme, 'dark', 2)} !important`,
+        color: `${themeColor(theme, 'dark', 2)} !important`
       },
 
       '& .mantine-PasswordInput-innerInput': {
         ...passwordInnerInputSize,
         '&::placeholder': {
-          color: `${themeColor(theme, 'dark', 2)} !important`,
-        },
-      },
+          color: `${themeColor(theme, 'dark', 2)} !important`
+        }
+      }
     },
     error: {
-      color: themeColor(theme, 'danger', 5),
+      color: themeColor(theme, 'danger', 5)
     },
     wrapper: {
       '&[data-error]': {
@@ -180,26 +172,26 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           borderColor: themeColor(theme, 'danger', 4),
 
           '& .mantine-PasswordInput-innerInput': {
-            borderColor: 'transparent',
+            borderColor: 'transparent'
           },
           '&:hover': {
-            borderColor: themeColor(theme, 'danger', 4),
+            borderColor: themeColor(theme, 'danger', 4)
           },
           '&:focus, &:focus-within': {
-            borderColor: themeColor(theme, 'danger', 4),
+            borderColor: themeColor(theme, 'danger', 4)
           },
           '&::placeholder': {
-            color: `${themeColor(theme, 'dark', 2)} !important`,
-          },
-        },
-      },
+            color: `${themeColor(theme, 'dark', 2)} !important`
+          }
+        }
+      }
     },
     section: {
       overflow: 'hidden',
       '& .mantine-PasswordInput-visibilityToggle svg': {
-        color: themeColor(theme, 'dark', 2),
-      },
-    },
+        color: themeColor(theme, 'dark', 2)
+      }
+    }
   }
 }
 
@@ -218,7 +210,7 @@ const theme = createTheme({
     sm: '48em',
     md: '60em',
     lg: '75em',
-    xl: '90em',
+    xl: '90em'
   },
 
   // Linear shadows — minimal, used only for modals/dropdowns
@@ -227,16 +219,16 @@ const theme = createTheme({
     sm: '0 1px 3px rgba(0,0,0,0.1)',
     md: '0 4px 8px -2px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1)',
     lg: '0 8px 16px -4px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1)',
-    xl: '0 12px 24px -6px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.1)',
+    xl: '0 12px 24px -6px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.1)'
   },
 
   // Linear font sizes
   fontSizes: {
-    xs: FONT_SIZE.caption,      // 12px
-    sm: FONT_SIZE['body-sm'],   // 14px
-    md: FONT_SIZE.body,         // 16px
-    lg: FONT_SIZE['body-lg'],   // 18px
-    xl: FONT_SIZE.subhead,      // 20px
+    xs: FONT_SIZE.caption, // 12px
+    sm: FONT_SIZE['body-sm'], // 14px
+    md: FONT_SIZE.body, // 16px
+    lg: FONT_SIZE['body-lg'], // 18px
+    xl: FONT_SIZE.subhead // 20px
   },
 
   // Linear spacing: xxs 4 | xs 8 | sm 12 | md 16 | lg 24 | xl 32 | xxl 48 | section 96
@@ -248,7 +240,7 @@ const theme = createTheme({
     lg: rem(24),
     xl: rem(32),
     xxl: rem(48),
-    section: rem(96),
+    section: rem(96)
   },
 
   // Linear radius: xs 4 | sm 6 | md 8 | lg 12 | xl 16 | xxl 24
@@ -258,7 +250,7 @@ const theme = createTheme({
     md: '8px',
     lg: '12px',
     xl: '16px',
-    xxl: '24px',
+    xxl: '24px'
   },
 
   // Variant resolver
@@ -268,179 +260,184 @@ const theme = createTheme({
   // COMPONENT DEFAULTS
   // ═══════════════════════════════════════════════════════
   components: {
-    // ── Button ──
+    // In your theme.ts components section
     Button: {
       defaultProps: {
         size: 'md',
-        variant: 'filled',
+        variant: 'filled'
       },
       styles: (theme: MantineTheme, props: ButtonProps) => {
-        let color = props.color || theme.primaryColor
+        const color = props.color || theme.primaryColor
+        const isBrand = color === 'brand' || color === theme.primaryColor
 
-        const getFilledStyles = () => {
-          const bgColorShade = color === 'dark' ? 8 : 6
-          const hoverBgColorShade = color === 'dark' ? 7 : 5
+        // ── Size scale ──
+        const sizeMap = {
+          xs: { height: 24, padding: '0 8px', fontSize: 12, radius: 4 },
+          sm: { height: 32, padding: '0 12px', fontSize: 13, radius: 8 },
+          md: { height: 40, padding: '0 16px', fontSize: 14, radius: 8 },
+          lg: { height: 48, padding: '0 20px', fontSize: 15, radius: 12 }
+        }
+        const s = sizeMap[props.size as keyof typeof sizeMap] || sizeMap.md
 
-          const bgColor = themeColor(theme, color, bgColorShade)
-          const bgHoverColor = themeColor(theme, color, hoverBgColorShade)
-
-          return {
-            color: color === 'dark' ? themeColor(theme, 'dark', 0) : '#ffffff',
-            backgroundColor: bgColor,
-
-            '&:hover': {
-              backgroundColor: bgHoverColor,
-            },
-
-            '&:disabled, &[data-disabled]': {
-              color: color === 'dark' ? themeColor(theme, 'dark', 2) : '#ffffff',
-              backgroundColor: themeColor(theme, color, 4),
-            },
+        // ── Base physics (Linear charm) ──
+        const base = {
+          height: s.height,
+          padding: s.padding,
+          fontSize: s.fontSize,
+          fontWeight: 500,
+          letterSpacing: 0,
+          borderRadius: s.radius,
+          transition:
+            'transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms ease, background-color 150ms ease, border-color 150ms ease',
+          '&:hover': { transform: 'translateY(-0.5px)' },
+          '&:active': { transform: 'translateY(0)' },
+          '&:disabled, &[data-disabled]': {
+            opacity: 0.4,
+            transform: 'none',
+            boxShadow: 'none',
+            cursor: 'not-allowed'
           }
         }
 
-        const getLightStyles = () => {
-          color = color || 'brand'
-          const fontColorShade = 6
-          const bgColorShade = 1
-          const borderColorShade = 4
+        // ── Focus ring (Linear offset) ──
+        const focusRing = {
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: '0 0 0 2px #010102, 0 0 0 4px rgba(94, 106, 210, 0.4)'
+          }
+        }
 
+        // ── Variant: Filled ──
+        if (props.variant === 'filled') {
+          if (isBrand) {
+            // Lavender gradient
+            return {
+              root: {
+                ...base,
+                ...focusRing,
+                background: 'linear-gradient(180deg, #828fff 0%, #5e6ad2 100%)',
+                border: '1px solid rgba(94, 106, 210, 0.5)',
+                color: '#ffffff',
+                '&:hover': {
+                  ...base['&:hover'],
+                  background: 'linear-gradient(180deg, #9e9eff 0%, #828fff 100%)',
+                  boxShadow: '0 4px 12px rgba(94, 106, 210, 0.35), 0 0 0 1px rgba(94, 106, 210, 0.2)'
+                },
+                '&:active': {
+                  ...base['&:active'],
+                  background: 'linear-gradient(180deg, #5e6ad2 0%, #5e69d1 100%)'
+                }
+              },
+              label: { fontWeight: 500, fontSize: s.fontSize }
+            }
+          }
+
+          // Non-brand filled
           return {
-            color: themeColor(theme, color, fontColorShade),
-            backgroundColor: 'transparent',
-            borderWidth: 1,
-            borderStyle: 'solid',
-            borderColor: themeColor(theme, color, borderColorShade),
-
-            '&:hover': {
-              color: themeColor(theme, color, fontColorShade),
-              borderColor: themeColor(theme, color, borderColorShade + 1),
-              backgroundColor: `rgba(94, 106, 210, 0.08)`,
+            root: {
+              ...base,
+              ...focusRing,
+              backgroundColor: themeColor(theme, color, 6),
+              color: '#ffffff',
+              '&:hover': {
+                ...base['&:hover'],
+                backgroundColor: themeColor(theme, color, 5)
+              }
             },
+            label: { fontWeight: 500, fontSize: s.fontSize }
+          }
+        }
 
-            '&:disabled, &[data-disabled]': {
-              color: themeColor(theme, color, 4),
-              borderColor: themeColor(theme, color, 3),
+        // ── Variant: Default (dark surface) ──
+        if (props.variant === 'default') {
+          return {
+            root: {
+              ...base,
+              ...focusRing,
+              backgroundColor: '#18191a',
+              border: '1px solid #23252a',
+              color: '#f7f8f8',
+              '&:hover': {
+                ...base['&:hover'],
+                backgroundColor: '#23252a',
+                borderColor: '#34343a',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+              }
+            },
+            label: { fontWeight: 500, fontSize: s.fontSize }
+          }
+        }
+
+        // ── Variant: Outline (ghost) ──
+        if (props.variant === 'outline') {
+          return {
+            root: {
+              ...base,
+              ...focusRing,
               backgroundColor: 'transparent',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#8a8f98',
+              '&:hover': {
+                ...base['&:hover'],
+                backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                borderColor: 'rgba(255, 255, 255, 0.14)',
+                color: '#f7f8f8'
+              }
             },
+            label: { fontWeight: 500, fontSize: s.fontSize }
           }
         }
 
-        const getDefaultStyles = () => {
-          const fontColorShade = color === 'dark' ? 0 : 6
-          const bgColorShade = color === 'dark' ? 8 : 2
-          const borderColorShade = color === 'dark' ? 6 : 4
-
+        // ── Variant: Subtle ──
+        if (props.variant === 'subtle') {
           return {
-            color: themeColor(theme, color, fontColorShade),
-            backgroundColor: themeColor(theme, color, bgColorShade),
-            borderColor: themeColor(theme, color, borderColorShade),
-
-            '&:hover': {
-              color: themeColor(theme, color, fontColorShade),
-              borderColor: themeColor(theme, color, borderColorShade),
-              backgroundColor: themeColor(theme, color, bgColorShade === 8 ? 7 : 3),
+            root: {
+              ...base,
+              ...focusRing,
+              backgroundColor: 'transparent',
+              border: '1px solid transparent',
+              color: '#8a8f98',
+              '&:hover': {
+                ...base['&:hover'],
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                color: '#d0d6e0'
+              }
             },
-
-            '&:disabled, &[data-disabled]': {
-              color: themeColor(theme, 'dark', 3),
-              backgroundColor: themeColor(theme, 'dark', 7),
-            },
+            label: { fontWeight: 500, fontSize: s.fontSize }
           }
         }
 
-        const getSubtleStyles = () => {
-          color = color || 'brand'
-          const fontColorShade = 6
-
+        // ── Variant: Light ──
+        if (props.variant === 'light') {
           return {
-            color: themeColor(theme, color, fontColorShade),
-            backgroundColor: 'transparent',
-
-            '&:hover': {
-              color: themeColor(theme, color, fontColorShade),
-              backgroundColor: `rgba(94, 106, 210, 0.08)`,
+            root: {
+              ...base,
+              ...focusRing,
+              backgroundColor: 'transparent',
+              border: '1px solid transparent',
+              color: themeColor(theme, color, 6),
+              '&:hover': {
+                ...base['&:hover'],
+                backgroundColor: `rgba(94, 106, 210, 0.08)`
+              }
             },
-
-            '&:disabled, &[data-disabled]': {
-              color: themeColor(theme, color, 4),
-            },
+            label: { fontWeight: 500, fontSize: s.fontSize }
           }
         }
 
-        const getTransparentStyles = () => {
-          return {
-            color: themeColor(theme, color, 1),
-            '&:hover': {
-              color: themeColor(theme, color, 0),
-            },
-          }
-        }
-
-        const getOutlineStyles = () => {
-          return {
-            color: themeColor(theme, color, color === 'dark' ? 0 : 6),
-            backgroundColor: 'transparent',
-            border: `1px solid ${themeColor(theme, color, color === 'dark' ? 6 : 4)}`,
-            '&:hover': {
-              backgroundColor: themeColor(theme, color, color === 'dark' ? 8 : 1),
-            },
-          }
-        }
-
-        const variantStyles = {
-          filled: getFilledStyles(),
-          light: getLightStyles(),
-          default: getDefaultStyles(),
-          subtle: getSubtleStyles(),
-          outline: getOutlineStyles(),
-          transparent: getTransparentStyles(),
-        }
-
-        const sizeStyles = {
-          xs: { height: 28 },
-          sm: { height: 32 },
-          md: { height: 40 },
-          lg: { height: 48 },
-          xl: { height: 56 },
-        }
-
-        // @ts-ignore
-        const variantStyle = variantStyles[props.variant!]
-        // @ts-ignore
-        const sizeStyle = sizeStyles[props.size!]
-
+        // Fallback
         return {
-          label: {
-            fontWeight: 500,
-            fontSize: props.size === 'xs' ? 12 : 14,
-            letterSpacing: LETTER_SPACING.button,
-            lineHeight: LINE_HEIGHT.button,
-          },
-          root: {
-            overflow: 'unset',
-            paddingLeft: 14,
-            paddingRight: 14,
-            borderRadius: '8px',
-            transition: 'background-color 150ms ease, border-color 150ms ease',
-            ...variantStyle,
-            ...sizeStyle,
-          },
-          leftIcon: {
-            marginRight: 4,
-          },
-          rightIcon: {
-            marginLeft: 4,
-          },
+          root: { ...base, ...focusRing },
+          label: { fontWeight: 500, fontSize: s.fontSize }
         }
-      },
+      }
     },
 
     // ── Loader ──
     Loader: {
       defaultProps: {
-        color: 'dark.5',
-      },
+        color: 'dark.5'
+      }
     },
 
     // ── Skeleton ──
@@ -454,13 +451,11 @@ const theme = createTheme({
             '&::after': {
               background: `linear-gradient(90deg, ${c1}, ${c2}, ${c1}, ${c2})`,
               backgroundSize: '400% 100%',
-              animation: props.animate
-                ? 'mantine-skeleton-shimmer 2000ms ease-in-out infinite'
-                : 'none',
-            },
-          },
+              animation: props.animate ? 'mantine-skeleton-shimmer 2000ms ease-in-out infinite' : 'none'
+            }
+          }
         }
-      },
+      }
     },
 
     // ── Tabs ──
@@ -473,7 +468,7 @@ const theme = createTheme({
             list: {
               '--tab-border-color': 'transparent',
               gap: props.orientation === 'vertical' ? 8 : 32,
-              border: 0,
+              border: 0
             },
             tab: {
               color: themeColor(theme, 'dark', 2), // ink-subtle
@@ -481,21 +476,21 @@ const theme = createTheme({
               paddingLeft: 0,
               paddingRight: props.orientation === 'vertical' ? 8 : 0,
               '&[data-active]': {
-                color: themeColor(theme, 'dark', 0), // ink
+                color: themeColor(theme, 'dark', 0) // ink
               },
               '&:hover': {
                 color: themeColor(theme, 'dark', 0),
-                backgroundColor: 'transparent',
-              },
-            },
+                backgroundColor: 'transparent'
+              }
+            }
           }
         }
 
         if (variant === 'outline') {
           return {
             list: {
-              '--tab-border-color': themeColor(theme, 'dark', 6),
-            },
+              '--tab-border-color': themeColor(theme, 'dark', 6)
+            }
           }
         }
 
@@ -506,7 +501,7 @@ const theme = createTheme({
               gap: 4,
               backgroundColor: themeColor(theme, 'dark', 9), // canvas
               padding: 4,
-              borderRadius: '9999px',
+              borderRadius: '9999px'
             },
             tab: {
               borderRadius: '9999px',
@@ -516,18 +511,18 @@ const theme = createTheme({
               fontWeight: 500,
               '&[data-active]': {
                 color: themeColor(theme, 'dark', 0), // ink
-                backgroundColor: themeColor(theme, 'dark', 8), // surface-2
+                backgroundColor: themeColor(theme, 'dark', 8) // surface-2
               },
               '&:hover:not([data-active])': {
                 color: themeColor(theme, 'dark', 1), // ink-muted
-                backgroundColor: 'rgba(255,255,255,0.03)',
-              },
-            },
+                backgroundColor: 'rgba(255,255,255,0.03)'
+              }
+            }
           }
         }
 
         return {}
-      },
+      }
     },
 
     // ── Notification ──
@@ -545,50 +540,50 @@ const theme = createTheme({
               top: 8,
               bottom: 8,
               left: 8,
-              width: 4,
-            },
+              width: 4
+            }
           },
           body: {
             marginRight: 8,
             lineHeight: 20,
-            fontSize: 14,
+            fontSize: 14
           },
           title: {
             fontWeight: 600,
-            color: themeColor(theme, 'dark', 0), // ink
+            color: themeColor(theme, 'dark', 0) // ink
           },
           description: {
-            color: themeColor(theme, 'dark', 1), // ink-muted
-          },
+            color: themeColor(theme, 'dark', 1) // ink-muted
+          }
         }
-      },
+      }
     },
 
     // ── Menu ──
     Menu: {
       styles: (theme: MantineTheme) => {
-        const bgHoverColor = themeColor(theme, 'dark', 7)  // surface-3
+        const bgHoverColor = themeColor(theme, 'dark', 7) // surface-3
         const bgActiveColor = themeColor(theme, 'dark', 6) // hairline
         return {
           dropdown: {
             boxShadow: theme.shadows.md,
             backgroundColor: themeColor(theme, 'dark', 8), // surface-2
             border: `1px solid ${themeColor(theme, 'dark', 6)}`,
-            borderRadius: '8px',
+            borderRadius: '8px'
           },
           item: {
             color: themeColor(theme, 'dark', 0),
             fontSize: 14,
             transition: 'background 150ms ease-in-out',
             '&:hover, &[data-hovered]': {
-              backgroundColor: bgHoverColor,
+              backgroundColor: bgHoverColor
             },
             '&:active, &[data-active]': {
-              backgroundColor: bgActiveColor,
-            },
-          },
+              backgroundColor: bgActiveColor
+            }
+          }
         }
-      },
+      }
     },
 
     // ── NavLink ──
@@ -599,34 +594,33 @@ const theme = createTheme({
         lh: 1.5,
         fw: 500,
         variant: 'light',
-        component: 'button',
+        component: 'button'
       },
       styles: (theme: MantineTheme, props: NavLinkProps) => {
-        const withThemeColor = (shade: number) =>
-          themeColor(theme, props.color ?? theme.primaryColor, shade)
+        const withThemeColor = (shade: number) => themeColor(theme, props.color ?? theme.primaryColor, shade)
 
         const rootStyles = {
           light: {
             color: withThemeColor(0),
             '&:hover': {
               color: withThemeColor(0),
-              backgroundColor: themeColor(theme, 'dark', 7),
+              backgroundColor: themeColor(theme, 'dark', 7)
             },
             '&:active': {
               color: withThemeColor(0),
-              backgroundColor: themeColor(theme, 'dark', 6),
+              backgroundColor: themeColor(theme, 'dark', 6)
             },
             '&[data-active]': {
               color: withThemeColor(0),
               backgroundColor: themeColor(theme, 'dark', 6),
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 6),
+                backgroundColor: themeColor(theme, 'dark', 6)
               },
               '&:active': {
-                backgroundColor: themeColor(theme, 'dark', 6),
-              },
-            },
-          },
+                backgroundColor: themeColor(theme, 'dark', 6)
+              }
+            }
+          }
         }
 
         // @ts-ignore
@@ -636,19 +630,19 @@ const theme = createTheme({
           root: {
             ...matchedStyle,
             borderRadius: '8px',
-            transition: 'background 150ms ease-in-out',
+            transition: 'background 150ms ease-in-out'
           },
           label: {
             lineHeight: '24px',
-            fontSize: 14,
+            fontSize: 14
           },
           section: {
             '&:where([data-position="left"])': {
-              marginInlineEnd: 8,
+              marginInlineEnd: 8
             },
             '&:where([data-position="right"])': {
-              marginInlineStart: 8,
-            },
+              marginInlineStart: 8
+            }
           },
           collapse: {
             position: 'relative',
@@ -660,11 +654,11 @@ const theme = createTheme({
               top: 0,
               width: 1,
               height: '100%',
-              backgroundColor: themeColor(theme, 'dark', 6),
-            },
-          },
+              backgroundColor: themeColor(theme, 'dark', 6)
+            }
+          }
         }
-      },
+      }
     },
 
     // ── Stepper ──
@@ -679,41 +673,41 @@ const theme = createTheme({
             '&[data-progress]': {
               backgroundColor: themeColor(theme, color, 6),
               color: '#ffffff',
-              borderColor: themeColor(theme, color, 6),
+              borderColor: themeColor(theme, color, 6)
             },
             '&[data-completed]': {
               backgroundColor: themeColor(theme, color, 1),
               color: themeColor(theme, color, 6),
-              borderColor: themeColor(theme, color, 6),
-            },
+              borderColor: themeColor(theme, color, 6)
+            }
           },
           stepCompletedIcon: {
             color: themeColor(theme, color, 6),
             '& > svg': {
               width: '14px !important',
-              height: '14px !important',
-            },
+              height: '14px !important'
+            }
           },
           separator: {
             backgroundColor: themeColor(theme, 'dark', 6),
             '&[data-active]': {
-              backgroundColor: themeColor(theme, color, 6),
-            },
+              backgroundColor: themeColor(theme, color, 6)
+            }
           },
           verticalSeparator: {
             borderColor: themeColor(theme, 'dark', 6),
             '&[data-active]': {
-              borderColor: themeColor(theme, color, 6),
-            },
-          },
+              borderColor: themeColor(theme, color, 6)
+            }
+          }
         }
-      },
+      }
     },
 
     // ── Alert ──
     Alert: {
       defaultProps: {
-        color: 'brand',
+        color: 'brand'
       },
       styles: (theme: MantineTheme, props: AlertProps) => {
         const color = props.color || theme.primaryColor
@@ -723,21 +717,21 @@ const theme = createTheme({
             border: 'none',
             borderLeft: `2px solid ${themeColor(theme, color, 6)}`,
             color: themeColor(theme, 'dark', 0),
-            backgroundColor: themeColor(theme, 'dark', 8),
+            backgroundColor: themeColor(theme, 'dark', 8)
           },
           title: {
             color: 'inherit',
-            fontWeight: 600,
+            fontWeight: 600
           },
           icon: {
             color: 'inherit',
-            marginRight: 4,
+            marginRight: 4
           },
           message: {
-            color: themeColor(theme, 'dark', 1),
-          },
+            color: themeColor(theme, 'dark', 1)
+          }
         }
-      },
+      }
     },
 
     // ── Select ──
@@ -746,7 +740,7 @@ const theme = createTheme({
         size: 'md',
         withCheckIcon: true,
         checkIconPosition: 'right',
-        allowDeselect: false,
+        allowDeselect: false
       },
       styles: (theme: MantineTheme, props: SelectProps) => {
         return {
@@ -754,10 +748,10 @@ const theme = createTheme({
             lineHeight: '20px',
             marginBottom: 6,
             color: themeColor(theme, 'dark', 1),
-            fontWeight: 500,
+            fontWeight: 500
           },
           description: {
-            color: themeColor(theme, 'dark', 2),
+            color: themeColor(theme, 'dark', 2)
           },
           input: {
             color: themeColor(theme, 'dark', 0),
@@ -768,25 +762,25 @@ const theme = createTheme({
             ...(props.variant === 'unstyled' && {
               border: 'none',
               '&:disabled': {
-                color: themeColor(theme, 'dark', 2),
-              },
+                color: themeColor(theme, 'dark', 2)
+              }
             }),
             ...(props.variant === 'filled' && {
               backgroundColor: themeColor(theme, 'dark', 7),
               borderColor: 'transparent',
               '&:disabled': {
                 color: themeColor(theme, 'dark', 2),
-                cursor: 'not-allowed',
-              },
+                cursor: 'not-allowed'
+              }
             }),
 
             '&:hover': {
-              borderColor: themeColor(theme, 'dark', 5),
+              borderColor: themeColor(theme, 'dark', 5)
             },
             '&:focus, &:focus-within': {
               borderColor: themeColor(theme, 'brand', 7),
-              outline: `2px solid rgba(94, 105, 209, 0.5)`,
-            },
+              outline: `2px solid rgba(94, 105, 209, 0.5)`
+            }
           },
           option: {
             transition: 'background 150ms ease-in-out',
@@ -794,40 +788,40 @@ const theme = createTheme({
             fontSize: 14,
             '&:hover': {
               color: themeColor(theme, 'dark', 0),
-              backgroundColor: themeColor(theme, 'dark', 7),
+              backgroundColor: themeColor(theme, 'dark', 7)
             },
             '&[data-checked]': {
               color: themeColor(theme, 'dark', 0),
               fontWeight: 600,
               backgroundColor: 'transparent',
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7),
+                backgroundColor: themeColor(theme, 'dark', 7)
               },
               '& > svg': {
                 color: themeColor(theme, 'brand', 6),
-                opacity: 1,
-              },
-            },
+                opacity: 1
+              }
+            }
           },
           section: {
             '& > svg': {
-              color: `${themeColor(theme, 'dark', 2)} !important`,
-            },
+              color: `${themeColor(theme, 'dark', 2)} !important`
+            }
           },
           dropdown: {
             backgroundColor: themeColor(theme, 'dark', 8),
             border: `1px solid ${themeColor(theme, 'dark', 6)}`,
-            boxShadow: theme.shadows.md,
-          },
+            boxShadow: theme.shadows.md
+          }
         }
-      },
+      }
     },
 
     // ── MultiSelect ──
     MultiSelect: {
       defaultProps: {
         size: 'md',
-        withCheckIcon: false,
+        withCheckIcon: false
       },
       styles: (theme: MantineTheme, props: MultiSelectProps) => {
         return {
@@ -835,54 +829,54 @@ const theme = createTheme({
             fontSize: 14,
             marginBottom: 6,
             color: themeColor(theme, 'dark', 1),
-            fontWeight: 500,
+            fontWeight: 500
           },
           inputField: {
             '&::placeholder': {
-              color: `${themeColor(theme, 'dark', 2)} !important`,
-            },
+              color: `${themeColor(theme, 'dark', 2)} !important`
+            }
           },
           pill: {
             borderRadius: '6px',
             backgroundColor: themeColor(theme, 'dark', 7),
-            color: themeColor(theme, 'dark', 0),
+            color: themeColor(theme, 'dark', 0)
           },
           section: {
             '& > svg': {
-              color: `${themeColor(theme, 'dark', 2)} !important`,
-            },
+              color: `${themeColor(theme, 'dark', 2)} !important`
+            }
           },
           option: {
             '&[data-checked]': {
-              fontWeight: 600,
-            },
-          },
+              fontWeight: 600
+            }
+          }
         }
-      },
+      }
     },
 
     // ── Inputs ──
     Input: {
       defaultProps: { size: 'md' },
-      styles: getInputStyles,
+      styles: getInputStyles
     },
     TextInput: {
       defaultProps: {
         size: 'md',
-        inputWrapperOrder: ['label', 'input', 'description', 'error'],
+        inputWrapperOrder: ['label', 'input', 'description', 'error']
       },
-      styles: getInputStyles,
+      styles: getInputStyles
     },
     PasswordInput: {
       defaultProps: { size: 'md' },
-      styles: getInputStyles,
+      styles: getInputStyles
     },
     NumberInput: {
       defaultProps: { size: 'md' },
-      styles: getInputStyles,
+      styles: getInputStyles
     },
     Textarea: {
-      styles: getInputStyles,
+      styles: getInputStyles
     },
 
     // ── Badge ──
@@ -890,7 +884,7 @@ const theme = createTheme({
       defaultProps: {
         color: 'brand',
         size: 'md',
-        variant: 'light',
+        variant: 'light'
       },
       styles: (theme: MantineTheme, props: BadgeProps) => {
         const color = props.color ?? theme.primaryColor
@@ -901,7 +895,7 @@ const theme = createTheme({
           sm: 12,
           md: 13,
           lg: 14,
-          xl: 16,
+          xl: 16
         }
 
         // @ts-ignore
@@ -918,23 +912,23 @@ const theme = createTheme({
             padding: 0,
             borderRadius: 0,
             '&:before': {
-              backgroundColor: themeColor(theme, color, 6),
-            },
+              backgroundColor: themeColor(theme, color, 6)
+            }
           },
           outline: {
             color: themeColor(theme, color, mainShade),
             borderColor: themeColor(theme, color, 4),
-            backgroundColor: 'transparent',
+            backgroundColor: 'transparent'
           },
           light: {
             backgroundColor: themeColor(theme, 'dark', 8),
             color: themeColor(theme, color, mainShade),
-            border: 'none',
+            border: 'none'
           },
           filled: {
             backgroundColor: themeColor(theme, color, mainShade),
-            color: color === 'dark' ? themeColor(theme, 'dark', 9) : '#ffffff',
-          },
+            color: color === 'dark' ? themeColor(theme, 'dark', 9) : '#ffffff'
+          }
         }
 
         return {
@@ -944,17 +938,16 @@ const theme = createTheme({
             letterSpacing: '0',
             textTransform: 'none',
             // @ts-ignore
-            ...styles[props.variant],
-          },
+            ...styles[props.variant]
+          }
         }
-      },
+      }
     },
 
     // ── Checkbox ──
     Checkbox: {
       styles: (theme: MantineTheme, props: CheckboxProps) => {
-        const withThemeColor = (shade: number) =>
-          themeColor(theme, props.color ?? theme.primaryColor, shade)
+        const withThemeColor = (shade: number) => themeColor(theme, props.color ?? theme.primaryColor, shade)
         return {
           input: {
             borderRadius: 4,
@@ -963,65 +956,65 @@ const theme = createTheme({
 
             '&:checked:not(:disabled)': {
               backgroundColor: withThemeColor(6),
-              borderColor: withThemeColor(6),
+              borderColor: withThemeColor(6)
             },
             '&:disabled:checked': {
               backgroundColor: themeColor(theme, 'dark', 5),
-              borderColor: themeColor(theme, 'dark', 5),
-            },
+              borderColor: themeColor(theme, 'dark', 5)
+            }
           },
           label: {
             color: themeColor(theme, 'dark', 0),
             '&[data-disabled]': {
-              color: themeColor(theme, 'dark', 3),
-            },
-          },
+              color: themeColor(theme, 'dark', 3)
+            }
+          }
         }
-      },
+      }
     },
 
     // ── Divider ──
     Divider: {
       defaultProps: {
-        color: 'dark.6',
-      },
+        color: 'dark.6'
+      }
     },
 
     // ── Card ──
     Card: {
       defaultProps: {
         shadow: 'none',
-        withBorder: true,
+        withBorder: true
       },
       styles: (theme: MantineTheme) => {
         return {
           root: {
             backgroundColor: themeColor(theme, 'dark', 8), // surface-2
-            borderColor: themeColor(theme, 'dark', 6),     // hairline
-            borderRadius: '12px', // lg
+            borderColor: themeColor(theme, 'dark', 6), // hairline
+            borderRadius: '12px' // lg
           },
           section: {
-            borderColor: themeColor(theme, 'dark', 6),
-          },
+            borderColor: themeColor(theme, 'dark', 6)
+          }
         }
-      },
+      }
     },
 
     // ── Paper ──
     Paper: {
       defaultProps: {
         shadow: 'none',
-        withBorder: false,
+        withBorder: false
       },
       styles: (theme: MantineTheme, props: PaperProps) => {
         return {
           root: {
             backgroundColor: themeColor(theme, 'dark', 8),
             borderColor: props.withBorder ? themeColor(theme, 'dark', 6) : 'transparent',
-            borderRadius: '12px',
-          },
+            borderRadius: '12px'
+          }
         }
-      },
+      }
     },
 
     // ── Drawer ──
@@ -1030,22 +1023,22 @@ const theme = createTheme({
         overlayProps: {
           backgroundOpacity: 0.9,
           blur: 3,
-          color: themeColor(theme, 'dark', 9),
-        },
+          color: themeColor(theme, 'dark', 9)
+        }
       }),
       styles: (theme: MantineTheme) => ({
         content: {
           backgroundColor: themeColor(theme, 'dark', 8),
-          border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+          border: `1px solid ${themeColor(theme, 'dark', 6)}`
         },
         header: {
           backgroundColor: themeColor(theme, 'dark', 8),
-          borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`,
+          borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`
         },
         body: {
-          backgroundColor: themeColor(theme, 'dark', 8),
-        },
-      }),
+          backgroundColor: themeColor(theme, 'dark', 8)
+        }
+      })
     },
 
     // ── Modal ──
@@ -1056,19 +1049,19 @@ const theme = createTheme({
         centered: true,
         transitionProps: {
           duration: 200,
-          transition: 'fade-down',
+          transition: 'fade-down'
         },
         overlayProps: {
           backgroundOpacity: 0.9,
           blur: 3,
-          color: themeColor(theme, 'dark', 9),
-        },
+          color: themeColor(theme, 'dark', 9)
+        }
       }),
       styles: (theme: MantineTheme) => ({
         content: {
           border: `1px solid ${themeColor(theme, 'dark', 6)} !important`,
           backgroundColor: themeColor(theme, 'dark', 8),
-          borderRadius: '12px',
+          borderRadius: '12px'
         },
         header: {
           borderTopLeftRadius: '12px',
@@ -1076,21 +1069,21 @@ const theme = createTheme({
           padding: '16px 16px 16px 24px',
           margin: 0,
           backgroundColor: themeColor(theme, 'dark', 8),
-          borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`,
+          borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`
         },
         title: {
           fontWeight: 600,
           fontSize: 16,
           lineHeight: 1.5,
-          color: themeColor(theme, 'dark', 0),
+          color: themeColor(theme, 'dark', 0)
         },
         body: {
           padding: 24,
           backgroundColor: themeColor(theme, 'dark', 8),
           borderBottomLeftRadius: '12px',
-          borderBottomRightRadius: '12px',
-        },
-      }),
+          borderBottomRightRadius: '12px'
+        }
+      })
     },
 
     // ── Table ──
@@ -1102,47 +1095,47 @@ const theme = createTheme({
               borderSpacing: 0,
               borderRadius: '8px',
               'thead tr:first-of-type th:first-of-type': {
-                borderTopLeftRadius: '8px',
+                borderTopLeftRadius: '8px'
               },
               'thead tr:first-of-type th:last-of-type': {
-                borderTopRightRadius: '8px',
-              },
+                borderTopRightRadius: '8px'
+              }
             }
           : {}
 
         return {
           table: {
             ...borderStyles,
-            '--table-border-color': themeColor(theme, 'dark', 6),
+            '--table-border-color': themeColor(theme, 'dark', 6)
           },
           thead: {
-            backgroundColor: themeColor(theme, 'dark', 7),
+            backgroundColor: themeColor(theme, 'dark', 7)
           },
           th: {
             color: themeColor(theme, 'dark', 0),
             fontWeight: 600,
             fontSize: 14,
             padding: '12px 16px',
-            borderBottom: `2px solid ${themeColor(theme, 'dark', 6)}`,
+            borderBottom: `2px solid ${themeColor(theme, 'dark', 6)}`
           },
           td: {
             color: themeColor(theme, 'dark', 1),
             fontSize: 14,
             padding: '12px 16px',
-            borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`,
+            borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`
           },
           tr: {
             '&:where([data-with-row-border]):not(:last-of-type)': {
               td: {
-                borderBottom: `1px solid ${themeColor(theme, 'dark', 6)} !important`,
-              },
+                borderBottom: `1px solid ${themeColor(theme, 'dark', 6)} !important`
+              }
             },
             '&:hover': {
-              backgroundColor: 'rgba(255,255,255,0.02)',
-            },
-          },
+              backgroundColor: 'rgba(255,255,255,0.02)'
+            }
+          }
         }
-      },
+      }
     },
 
     // ── Switch ──
@@ -1154,38 +1147,38 @@ const theme = createTheme({
           root: {
             '& input:checked+.mantine-Switch-track': {
               backgroundColor: themeColor(theme, color, 6),
-              borderColor: themeColor(theme, color, 6),
+              borderColor: themeColor(theme, color, 6)
             },
             '& input:disabled+.mantine-Switch-track': {
               backgroundColor: themeColor(theme, 'dark', 6),
-              borderColor: themeColor(theme, 'dark', 6),
+              borderColor: themeColor(theme, 'dark', 6)
             },
             '& input:disabled:checked+.mantine-Switch-track': {
               backgroundColor: themeColor(theme, 'dark', 5),
-              borderColor: themeColor(theme, 'dark', 5),
+              borderColor: themeColor(theme, 'dark', 5)
             },
             '& input+*>.mantine-Switch-trackLabel': {
-              color: themeColor(theme, 'dark', 0),
+              color: themeColor(theme, 'dark', 0)
             },
             '& input:checked+*>.mantine-Switch-trackLabel': {
-              color: '#ffffff',
-            },
+              color: '#ffffff'
+            }
           },
           label: {
             color: themeColor(theme, 'dark', 0),
             '&[data-disabled]': {
-              color: themeColor(theme, 'dark', 3),
-            },
+              color: themeColor(theme, 'dark', 3)
+            }
           },
           track: {
             backgroundColor: themeColor(theme, 'dark', 6),
-            borderColor: themeColor(theme, 'dark', 6),
+            borderColor: themeColor(theme, 'dark', 6)
           },
           trackLabel: {
-            color: themeColor(theme, 'dark', 2),
-          },
+            color: themeColor(theme, 'dark', 2)
+          }
         }
-      },
+      }
     },
 
     // ── Radio ──
@@ -1199,14 +1192,14 @@ const theme = createTheme({
           sm: 16,
           md: 20,
           lg: 24,
-          xl: 30,
+          xl: 30
         }
         const iconSizes = {
           xs: 5,
           sm: 6,
           md: 8,
           lg: 10,
-          xl: 12,
+          xl: 12
         }
 
         // @ts-ignore
@@ -1219,18 +1212,17 @@ const theme = createTheme({
             '--radio-size': rem(size),
             '--radio-icon-size': rem(iconSize),
             '--radio-color': themeColor(theme, color, shade) + ' !important',
-            '--radio-icon-color':
-              props.variant === 'outline' ? themeColor(theme, color, shade) : '#ffffff !important',
+            '--radio-icon-color': props.variant === 'outline' ? themeColor(theme, color, shade) : '#ffffff !important'
           },
           label: {
             lineHeight: `${size}px`,
             color: themeColor(theme, 'dark', 0),
             '&[data-disabled]': {
-              color: themeColor(theme, 'dark', 3),
-            },
+              color: themeColor(theme, 'dark', 3)
+            }
           },
           icon: {
-            transform: 'var(--radio-icon-transform, scale(0.2))',
+            transform: 'var(--radio-icon-transform, scale(0.2))'
           },
           radio: {
             borderColor: themeColor(theme, 'dark', 6),
@@ -1238,17 +1230,17 @@ const theme = createTheme({
             '&:disabled:not(:checked)': {
               background: themeColor(theme, 'dark', 7),
               borderColor: themeColor(theme, 'dark', 6),
-              cursor: 'not-allowed',
+              cursor: 'not-allowed'
             },
             '&:disabled:checked': {
               color: themeColor(theme, 'dark', 2),
               background: themeColor(theme, 'dark', 6),
               borderColor: themeColor(theme, 'dark', 6),
-              cursor: 'not-allowed',
-            },
-          },
+              cursor: 'not-allowed'
+            }
+          }
         }
-      },
+      }
     },
 
     // ── SegmentedControl ──
@@ -1258,47 +1250,47 @@ const theme = createTheme({
           root: {
             backgroundColor: themeColor(theme, 'dark', 6), // hairline
             borderRadius: '9999px',
-            padding: 2,
+            padding: 2
           },
           indicator: {
             backgroundColor: themeColor(theme, 'dark', 8), // surface-2
-            borderRadius: '9999px',
+            borderRadius: '9999px'
           },
           label: {
             color: themeColor(theme, 'dark', 2) + ' !important',
             fontSize: 14,
             fontWeight: 500,
             '&[data-active]': {
-              color: themeColor(theme, 'dark', 0) + ' !important',
+              color: themeColor(theme, 'dark', 0) + ' !important'
             },
             '&[data-disabled]': {
-              color: themeColor(theme, 'dark', 3) + ' !important',
-            },
+              color: themeColor(theme, 'dark', 3) + ' !important'
+            }
           },
           control: {
-            '--separator-color': themeColor(theme, 'dark', 6),
-          },
+            '--separator-color': themeColor(theme, 'dark', 6)
+          }
         }
-      },
+      }
     },
 
     // ── Tooltip ──
     Tooltip: {
       defaultProps: {
-        withArrow: true,
+        withArrow: true
       },
       styles: (theme: MantineTheme) => {
         return {
           tooltip: {
             backgroundColor: themeColor(theme, 'dark', 7), // surface-3
-            color: themeColor(theme, 'dark', 0),            // ink
+            color: themeColor(theme, 'dark', 0), // ink
             border: `1px solid ${themeColor(theme, 'dark', 6)}`,
             borderRadius: '6px',
             fontSize: 12,
-            padding: '6px 10px',
-          },
+            padding: '6px 10px'
+          }
         }
-      },
+      }
     },
 
     // ── ActionIcon ──
@@ -1306,7 +1298,7 @@ const theme = createTheme({
       defaultProps: {
         variant: 'subtle',
         color: 'dark',
-        size: 'md',
+        size: 'md'
       },
       styles: (theme: MantineTheme, props: ActionIconProps) => {
         const color = props.color ?? theme.primaryColor
@@ -1320,25 +1312,25 @@ const theme = createTheme({
             '&:hover': {
               backgroundColor: themeColor(theme, 'dark', 7),
               borderColor: themeColor(theme, 'dark', 5),
-              color: themeColor(theme, 'dark', 0),
+              color: themeColor(theme, 'dark', 0)
             },
             '&:active': {
               backgroundColor: themeColor(theme, 'dark', 6),
               borderColor: themeColor(theme, 'dark', 5),
-              color: themeColor(theme, 'dark', 0),
+              color: themeColor(theme, 'dark', 0)
             },
             '&:disabled': {
               backgroundColor: themeColor(theme, 'dark', 8),
               borderColor: themeColor(theme, 'dark', 6),
-              color: themeColor(theme, 'dark', 3),
-            },
+              color: themeColor(theme, 'dark', 3)
+            }
           },
           transparent: {
             backgroundColor: 'transparent',
             color: themeColor(theme, color, shade),
             '&:hover': {
-              color: themeColor(theme, color, shade),
-            },
+              color: themeColor(theme, color, shade)
+            }
           },
           subtle: {
             backgroundColor: 'transparent',
@@ -1346,17 +1338,17 @@ const theme = createTheme({
             borderColor: 'transparent',
             '&:hover': {
               backgroundColor: themeColor(theme, 'dark', 7),
-              color: themeColor(theme, 'dark', 0),
+              color: themeColor(theme, 'dark', 0)
             },
             '&:active': {
-              backgroundColor: themeColor(theme, 'dark', 6),
+              backgroundColor: themeColor(theme, 'dark', 6)
             },
             '&:disabled': {
               color: themeColor(theme, 'dark', 3),
               backgroundColor: 'transparent',
               borderColor: 'transparent',
-              cursor: 'not-allowed',
-            },
+              cursor: 'not-allowed'
+            }
           },
           outline: {
             backgroundColor: 'transparent',
@@ -1364,27 +1356,27 @@ const theme = createTheme({
             border: `1px solid ${themeColor(theme, color, 4)}`,
             '&:hover': {
               backgroundColor: themeColor(theme, 'dark', 7),
-              color: themeColor(theme, color, shade),
-            },
+              color: themeColor(theme, color, shade)
+            }
           },
           filled: {
             backgroundColor: themeColor(theme, color, color === 'dark' ? 8 : 6),
             color: color === 'dark' ? themeColor(theme, 'dark', 0) : '#ffffff',
             '&:hover': {
-              color: color === 'dark' ? themeColor(theme, 'dark', 0) : '#ffffff',
-            },
+              color: color === 'dark' ? themeColor(theme, 'dark', 0) : '#ffffff'
+            }
           },
           light: {
             backgroundColor: themeColor(theme, color, 1),
             color: themeColor(theme, color, 6),
             '&:hover': {
               backgroundColor: themeColor(theme, color, 2),
-              color: themeColor(theme, color, 6),
+              color: themeColor(theme, color, 6)
             },
             '&:active': {
-              backgroundColor: themeColor(theme, color, 3),
-            },
-          },
+              backgroundColor: themeColor(theme, color, 3)
+            }
+          }
         }
 
         const sizes = {
@@ -1392,7 +1384,7 @@ const theme = createTheme({
           sm: 20,
           md: 28,
           lg: 32,
-          xl: 40,
+          xl: 40
         }
         // @ts-ignore
         const size = sizes[props.size ?? 'md']
@@ -1403,16 +1395,16 @@ const theme = createTheme({
           root: {
             ...variantStyle,
             '--ai-size': size,
-            borderRadius: '8px',
-          },
+            borderRadius: '8px'
+          }
         }
-      },
+      }
     },
 
     // ── Anchor ──
     Anchor: {
       defaultProps: {
-        c: 'brand.6',
+        c: 'brand.6'
       },
       styles: (theme: MantineTheme) => ({
         root: {
@@ -1420,10 +1412,10 @@ const theme = createTheme({
           textDecoration: 'none',
           '&:hover': {
             color: themeColor(theme, 'brand', 5),
-            textDecoration: 'underline',
-          },
-        },
-      }),
+            textDecoration: 'underline'
+          }
+        }
+      })
     },
 
     // ── Progress ──
@@ -1431,42 +1423,42 @@ const theme = createTheme({
       styles: (theme: MantineTheme) => {
         return {
           root: {
-            backgroundColor: themeColor(theme, 'dark', 7),
+            backgroundColor: themeColor(theme, 'dark', 7)
           },
           section: {
             '&:where(:first-of-type)': {
               borderStartStartRadius: 'var(--progress-radius) !important',
-              borderEndStartRadius: 'var(--progress-radius) !important',
+              borderEndStartRadius: 'var(--progress-radius) !important'
             },
             '&:where(:last-of-type)': {
               borderStartEndRadius: 'var(--progress-radius) !important',
-              borderEndEndRadius: 'var(--progress-radius) !important',
-            },
-          },
+              borderEndEndRadius: 'var(--progress-radius) !important'
+            }
+          }
         }
-      },
+      }
     },
 
     // ── HoverCard ──
     HoverCard: {
       defaultProps: {
         withArrow: true,
-        shadow: 'md',
-      },
+        shadow: 'md'
+      }
     },
 
     // ── Popover ──
     Popover: {
       defaultProps: {
         withArrow: true,
-        shadow: 'md',
+        shadow: 'md'
       },
       styles: (theme: MantineTheme) => ({
         dropdown: {
           backgroundColor: themeColor(theme, 'dark', 8),
-          border: `1px solid ${themeColor(theme, 'dark', 6)}`,
-        },
-      }),
+          border: `1px solid ${themeColor(theme, 'dark', 6)}`
+        }
+      })
     },
 
     // ── Accordion ──
@@ -1477,31 +1469,31 @@ const theme = createTheme({
             item: {
               '--item-border-color': themeColor(theme, 'dark', 6),
               '--item-filled-color': 'inherit',
-              backgroundColor: themeColor(theme, 'dark', 8),
+              backgroundColor: themeColor(theme, 'dark', 8)
             },
             control: {
               color: themeColor(theme, 'dark', 0),
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7),
-              },
+                backgroundColor: themeColor(theme, 'dark', 7)
+              }
             },
             panel: {
-              color: themeColor(theme, 'dark', 1),
-            },
+              color: themeColor(theme, 'dark', 1)
+            }
           }
         }
         return {
           control: {
             color: themeColor(theme, 'dark', 0),
             '&:hover': {
-              backgroundColor: themeColor(theme, 'dark', 7),
-            },
+              backgroundColor: themeColor(theme, 'dark', 7)
+            }
           },
           panel: {
-            color: themeColor(theme, 'dark', 1),
-          },
+            color: themeColor(theme, 'dark', 1)
+          }
         }
-      },
+      }
     },
 
     // ── Code ──
@@ -1513,10 +1505,10 @@ const theme = createTheme({
             color: themeColor(theme, 'dark', 0),
             fontFamily: FONT_FAMILY.mono,
             fontSize: 13,
-            borderRadius: '4px',
-          },
+            borderRadius: '4px'
+          }
         }
-      },
+      }
     },
 
     // ── Pill ──
@@ -1526,10 +1518,10 @@ const theme = createTheme({
           root: {
             backgroundColor: themeColor(theme, 'dark', 7),
             color: themeColor(theme, 'dark', 0),
-            borderRadius: '6px',
-          },
+            borderRadius: '6px'
+          }
         }
-      },
+      }
     },
 
     // ── Pagination ──
@@ -1542,33 +1534,33 @@ const theme = createTheme({
             borderRadius: '8px',
             backgroundColor: 'transparent',
             '&:hover': {
-              backgroundColor: themeColor(theme, 'dark', 7),
+              backgroundColor: themeColor(theme, 'dark', 7)
             },
             '&[data-active]': {
               color: '#ffffff',
               backgroundColor: themeColor(theme, 'brand', 6),
               '&:hover': {
-                backgroundColor: themeColor(theme, 'brand', 5),
-              },
-            },
-          },
+                backgroundColor: themeColor(theme, 'brand', 5)
+              }
+            }
+          }
         }
-      },
+      }
     },
 
     // ── ScrollArea ──
     ScrollArea: {
       styles: (theme: MantineTheme) => ({
         scrollbar: {
-          backgroundColor: 'transparent',
+          backgroundColor: 'transparent'
         },
         thumb: {
           backgroundColor: themeColor(theme, 'dark', 5),
-          borderRadius: '4px',
-        },
-      }),
-    },
-  },
+          borderRadius: '4px'
+        }
+      })
+    }
+  }
 })
 
 // ═══════════════════════════════════════════════════════
@@ -1578,7 +1570,7 @@ export type Theme = MantineTheme & {
   colors: ColorMap
 }
 
-  export function useTheme(colorScheme: 'light' | 'dark'): Theme {
+export function useTheme(colorScheme: 'light' | 'dark'): Theme {
   const isLight = colorScheme === 'light'
   const colors = isLight ? light : dark
 
@@ -1586,7 +1578,7 @@ export type Theme = MantineTheme & {
     ...theme,
     colors,
     white: '#ffffff',
-    black: '#010102',
+    black: '#010102'
   })
 
   return mergedTheme as Theme
