@@ -35,12 +35,6 @@
   "files.insertFinalNewline": true,
   "files.eol": "\n",
 
-  // ── Explorer ──
-  "files.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/.git": true
-  },
 
   // ── Prettier-specific per-language ──
   "[json]": {

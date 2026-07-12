@@ -1,6 +1,7 @@
-export { theme, useTheme } from './theme.js'
-export type { Theme, ColorMap, Color } from './theme'
-export type { ThemeProviderProps } from './ThemeProvider'
-export { ThemeProvider } from './ThemeProvider.js'
-export { FONT_FAMILY, FONT_SIZE, LINE_HEIGHT, LETTER_SPACING, FONT_WEIGHT } from './font.js'
-export { variantColorResolver, themeColor, rem } from './fns.js'
+// src/theme/index.ts
+export { ThemeProvider, type ThemeProviderProps } from './ThemeProvider.js'
+export { useTheme, createAppTheme, type Theme } from './theme.js'
+export { themeColor, themeColorHex, rem } from './fns.js'
+export { createFontFamily, FONT_SIZE, LINE_HEIGHT, LETTER_SPACING } from './font.js'
+export type { FontConfig } from './font.js'
+export type { Color, ColorMap, Colors } from './theme.js'

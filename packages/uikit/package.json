@@ -5,39 +5,39 @@
   "type": "module",
   "main": "dist/primitive/index.cjs",
   "module": "dist/primitive/index.mjs",
-  "types": "dist/primitive/index.d.ts",
+  "types": "dist/primitive/index.d.mts",
   "scripts": {
     "build": "vite build",
     "type-check": "tsc --noEmit"
   },
   "exports": {
     ".": {
-      "types": "./dist/primitive/index.d.ts",
+      "types": "./dist/primitive/index.d.mts",
       "import": "./dist/primitive/index.mjs",
       "require": "./dist/primitive/index.cjs"
     },
     "./business": {
-      "types": "./dist/business/index.d.ts",
+      "types": "./dist/business/index.d.mts",
       "import": "./dist/business/index.mjs",
       "require": "./dist/business/index.cjs"
     },
     "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
+      "types": "./dist/hooks/index.d.mts",
       "import": "./dist/hooks/index.mjs",
       "require": "./dist/hooks/index.cjs"
     },
     "./theme": {
-      "types": "./dist/theme/index.d.ts",
+      "types": "./dist/theme/index.d.mts",
       "import": "./dist/theme/index.mjs",
       "require": "./dist/theme/index.cjs"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
+      "types": "./dist/utils/index.d.mts",
       "import": "./dist/utils/index.mjs",
       "require": "./dist/utils/index.cjs"
     },
     "./icons": {
-      "types": "./dist/icons/index.d.ts",
+      "types": "./dist/icons/index.d.mts",
       "import": "./dist/icons/index.mjs",
       "require": "./dist/icons/index.cjs"
     },
@@ -68,10 +68,17 @@
     "react-window": "^1.8.9",
     "lodash-es": "^4.17.21"
   },
-  "peerDependencies": {
+   "peerDependencies": {
     "react": "^18.x || ^19.x",
     "react-dom": "^18.x || ^19.x",
-    "react-hook-form": "^7.x"
+    "@mantine/core": "^7.17.8",
+    "@mantine/hooks": "^7.17.8",
+    "@mantine/modals": "^7.17.8",
+    "@mantine/notifications": "^7.17.8",
+    "@mantine/carousel": "^7.17.8",
+    "@mantine/dates": "^7.17.8",
+    "@mantine/dropzone": "^7.17.8",
+    "@mantine/code-highlight": "^7.17.8"
   },
   "peerDependenciesMeta": {
     "react-hook-form": {

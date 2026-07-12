@@ -8,14 +8,26 @@ import {
 } from '@mantine/core'
 
 /** Resolve a theme color + shade to its CSS variable or hex value */
+
 export function themeColor(theme: MantineTheme, color: string, shade: number): string {
-  const parsed = parseThemeColor({ color, theme })
-  if (parsed.isThemeColor && parsed.color !== undefined) {
-    return `var(--mantine-color-${parsed.color}-${shade})`
+  const colors = theme.colors[color as keyof typeof theme.colors]
+  if (colors && colors[shade] !== undefined) {
+    return `var(--mantine-color-${color}-${shade})`
   }
   return color
 }
 
+export function themeColorHex(theme: MantineTheme, color: string, shade: number): string {
+  const colors = theme.colors[color as keyof typeof theme.colors]
+  if (colors && colors[shade] !== undefined) {
+    return colors[shade]
+  }
+  return color
+}
+
+export function rem(px: number): string {
+  return `${px / 16}rem`
+}
 /** Custom variant resolver for Linear dark-canvas aesthetic */
 export const variantColorResolver: VariantColorsResolver = (input) => {
   const defaultResolved = defaultVariantColorsResolver(input)
@@ -193,9 +205,4 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
   }
 
   return defaultResolved
-}
-
-/** Rem helper — converts px number to rem string */
-export function rem(px: number): string {
-  return `${px / 16}rem`
 }

@@ -68,7 +68,7 @@ module.exports = {
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],
-      excludedFiles: ['**/primitives/**/*', '**/theme/**/*'],
+      excludedFiles: ['**/primitive/**/*', '**/theme/**/*'],
       rules: {
         'no-restricted-imports': [
           'error',
