@@ -13,9 +13,9 @@ export interface FontConfig {
  * - CSS: :root { --font-sans: "Plus Jakarta Sans", sans-serif; }
  * - Theme prop: <ThemeProvider font={{ sans: '...' }} />
  */
-const defaultSans = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+const defaultSans = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 const defaultMono = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace'
-const defaultDisplay = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+const defaultDisplay = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 
 export const createFontFamily = (overrides?: FontConfig) => ({
   sans: overrides?.sans ?? `var(--font-sans, ${defaultSans})`,

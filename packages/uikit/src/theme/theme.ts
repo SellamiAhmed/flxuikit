@@ -27,19 +27,55 @@ import {
   TabsProps
 } from '@mantine/core'
 
-// NOTE: inverted naming — `light` var holds light-mode palette, `dark` var holds dark-mode palette
-import * as darkPalette from './colors.dark.js'
-import * as lightPalette from './colors.js'
-import { themeColor, rem } from './fns.js'
+import { token, tokenHex, rem, type TokenName } from './fns.js'
 import { createFontFamily, FONT_SIZE, LINE_HEIGHT, LETTER_SPACING } from './font.js'
 import type { FontConfig } from './font.js'
 
-export type ColorMap = typeof lightPalette
-export type Color = keyof ColorMap
-export const Colors = Object.keys(lightPalette) as Color[]
+// ═══════════════════════════════════════════════════════
+// COLOR NAMES
+// ═══════════════════════════════════════════════════════
+// The six semantic color families your tokens/Button component use.
+// Mantine still requires each to exist as a real 10-shade tuple in
+// theme.colors — for `primaryColor: 'brand'` to validate, and for
+// parseThemeColor()/isThemeColor checks in fns.ts's variantColorResolver
+// to actually match (without this, every custom color silently falls
+// through to Mantine's default resolver, never reaching the token()
+// logic there).
+//
+// These tuples are built from real --ds-* token hex values (via
+// tokenHex, not the old disconnected Linear palette), so they stay
+// visually consistent with the rest of the design system. They're
+// intentionally NOT used by any styles() function above/below — those
+// all read live CSS var() references via token(), which stay dark-mode
+// accurate without needing a rebuild. This tuple only exists to satisfy
+// Mantine's own internal color-shade API surface.
+export type Color = 'brand' | 'danger' | 'warning' | 'success' | 'discovery' | 'neutral'
+export type ColorMap = Record<Color, [string, string, string, string, string, string, string, string, string, string]>
+export const Colors: Color[] = ['brand', 'danger', 'warning', 'success', 'discovery', 'neutral']
+
+function buildColorTuple(color: Color, mode: 'light' | 'dark'): ColorMap[Color] {
+  const hex = (name: TokenName) => tokenHex(name, mode)
+  const border = hex(`color.border.${color}` as TokenName)
+  const text = hex(`color.text.${color}` as TokenName)
+  const bold = hex(`color.background.${color}.bold` as TokenName)
+  const boldHovered = hex(`color.background.${color}.bold.hovered` as TokenName)
+  const boldPressed = hex(`color.background.${color}.bold.pressed` as TokenName)
+
+  // Shade 6 = primaryShade (see createAppTheme below) → the actual bold
+  // fill color. Shades 0-5 use border/text as reasonable stand-ins since
+  // most of your color families don't expose a full 10-step ramp.
+  return [border, border, border, border, border, text, bold, boldHovered, boldPressed, boldPressed]
+}
+
+export function buildColorMap(mode: 'light' | 'dark'): ColorMap {
+  return Colors.reduce((acc, color) => {
+    acc[color] = buildColorTuple(color, mode)
+    return acc
+  }, {} as ColorMap)
+}
 
 // ═══════════════════════════════════════════════════════
-// Input size scale (Linear compact spec)
+// Input size scale
 // ═══════════════════════════════════════════════════════
 const InputSizes = {
   xl: 48,
@@ -96,7 +132,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           ...passwordInnerInputSize
         },
         '&::placeholder': {
-          color: `${themeColor(theme, 'dark', 2)} !important`
+          color: `${token('color.text.subtlest')} !important`
         }
       }
     }
@@ -105,14 +141,14 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
   if (props.variant === 'filled') {
     return {
       input: {
-        '--input-bg': themeColor(theme, 'dark', 8),
-        '--input-bd-focus': themeColor(theme, 'brand', 7),
+        '--input-bg': token('color.background.input'),
+        '--input-bd-focus': token('color.border.brand'),
         ...withInputSize,
         '& .mantine-PasswordInput-innerInput': {
           ...passwordInnerInputSize
         },
         '&::placeholder': {
-          color: `${themeColor(theme, 'dark', 2)} !important`
+          color: `${token('color.text.subtlest')} !important`
         }
       }
     }
@@ -120,69 +156,69 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
 
   return {
     label: {
-      color: themeColor(theme, 'dark', 1),
+      color: token('color.text.subtle'),
       marginBottom: 6,
       lineHeight: '20px',
       fontSize: 14,
       fontWeight: 500
     },
     description: {
-      color: themeColor(theme, 'dark', 2),
+      color: token('color.text.subtlest'),
       fontSize: 12
     },
     input: {
-      color: themeColor(theme, 'dark', 0),
-      border: `1px solid ${themeColor(theme, 'dark', 6)}`,
-      backgroundColor: themeColor(theme, 'dark', 8),
+      color: token('color.text'),
+      border: `1px solid ${token('color.border.input')}`,
+      backgroundColor: token('color.background.input'),
       borderRadius: '8px',
 
       ...withInputSize,
 
       '&:hover': {
-        borderColor: themeColor(theme, 'dark', 5)
+        borderColor: token('color.border.bold')
       },
       '&:focus, &:focus-within': {
-        borderColor: themeColor(theme, 'brand', 7),
-        outline: `2px solid rgba(94, 105, 209, 0.5)`,
+        borderColor: token('color.border.brand'),
+        outline: `2px solid ${token('color.border.focused')}`,
         outlineOffset: '-1px'
       },
       '&:disabled': {
-        borderColor: themeColor(theme, 'dark', 6),
-        backgroundColor: themeColor(theme, 'dark', 7),
-        color: themeColor(theme, 'dark', 2),
+        borderColor: token('color.border.disabled'),
+        backgroundColor: token('color.background.disabled'),
+        color: token('color.text.disabled'),
         opacity: 1
       },
       '&::placeholder': {
-        color: `${themeColor(theme, 'dark', 2)} !important`
+        color: `${token('color.text.subtlest')} !important`
       },
 
       '& .mantine-PasswordInput-innerInput': {
         ...passwordInnerInputSize,
         '&::placeholder': {
-          color: `${themeColor(theme, 'dark', 2)} !important`
+          color: `${token('color.text.subtlest')} !important`
         }
       }
     },
     error: {
-      color: themeColor(theme, 'danger', 5)
+      color: token('color.text.danger')
     },
     wrapper: {
       '&[data-error]': {
         '.mantine-Input-input, .mantine-TextInput-input, .mantine-PasswordInput-innerInput': {
-          color: themeColor(theme, 'danger', 5),
-          borderColor: themeColor(theme, 'danger', 4),
+          color: token('color.text.danger'),
+          borderColor: token('color.border.danger'),
 
           '& .mantine-PasswordInput-innerInput': {
             borderColor: 'transparent'
           },
           '&:hover': {
-            borderColor: themeColor(theme, 'danger', 4)
+            borderColor: token('color.border.danger')
           },
           '&:focus, &:focus-within': {
-            borderColor: themeColor(theme, 'danger', 4)
+            borderColor: token('color.border.danger')
           },
           '&::placeholder': {
-            color: `${themeColor(theme, 'dark', 2)} !important`
+            color: `${token('color.text.subtlest')} !important`
           }
         }
       }
@@ -190,7 +226,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
     section: {
       overflow: 'hidden',
       '& .mantine-PasswordInput-visibilityToggle svg': {
-        color: themeColor(theme, 'dark', 2)
+        color: token('color.text.subtlest')
       }
     }
   }
@@ -200,7 +236,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
 // THEME CONFIGURATION
 // ═══════════════════════════════════════════════════════
 
-export function createAppTheme(fontConfig?: FontConfig) {
+export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontConfig) {
   const font = createFontFamily(fontConfig)
 
   return createTheme({
@@ -210,6 +246,7 @@ export function createAppTheme(fontConfig?: FontConfig) {
     cursorType: 'pointer',
     fontFamily: font.sans,
     fontFamilyMonospace: font.mono,
+    colors: buildColorMap(colorScheme),
 
     breakpoints: {
       xs: '36em',
@@ -220,11 +257,11 @@ export function createAppTheme(fontConfig?: FontConfig) {
     },
 
     shadows: {
-      xs: '0 1px 2px rgba(0,0,0,0.05)',
-      sm: '0 1px 3px rgba(0,0,0,0.1)',
-      md: '0 4px 8px -2px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1)',
-      lg: '0 8px 16px -4px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1)',
-      xl: '0 12px 24px -6px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.1)'
+      xs: '0 1px rgb(0 0 0 / 0.05)',
+      sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+      md: '0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08)',
+      lg: '0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08)',
+      xl: '0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08)'
     },
 
     fontSizes: {
@@ -250,9 +287,9 @@ export function createAppTheme(fontConfig?: FontConfig) {
       xs: '4px',
       sm: '6px',
       md: '8px',
-      lg: '12px',
-      xl: '16px',
-      xxl: '24px'
+      lg: '8px',
+      xl: '12px',
+      xxl: '9999px'
     },
 
     headings: {
@@ -270,151 +307,21 @@ export function createAppTheme(fontConfig?: FontConfig) {
     // COMPONENT DEFAULTS
     // ═══════════════════════════════════════════════════════
     components: {
-      // In your theme.ts components section
-      Button: {
-        defaultProps: {
-          size: 'sm',
-          variant: 'filled'
-        },
-        styles: (theme: MantineTheme, props: ButtonProps) => {
-          const color = props.color || theme.primaryColor
-          const isBrand = color === 'brand'
-
-          // Linear uses pill shape for ALL buttons
-          const isPill = true
-
-          // Size scale (Linear compact)
-          const sizeMap = {
-            xs: { height: 24, padding: '0 8px', fontSize: 12 },
-            sm: { height: 28, padding: '0 12px', fontSize: 13 },
-            md: { height: 32, padding: '0 16px', fontSize: 13 },
-            lg: { height: 40, padding: '0 20px', fontSize: 14 }
-          }
-          const s = sizeMap[props.size as keyof typeof sizeMap] || sizeMap.sm
-
-          // Base: pill shape, no lift, subtle transitions
-          const base = {
-            height: s.height,
-            padding: s.padding,
-            fontSize: s.fontSize,
-            fontWeight: 500,
-            letterSpacing: '-0.01em',
-            borderRadius: isPill ? '9999px' : '6px',
-            transition: 'background-color 100ms ease, opacity 100ms ease',
-            '&:active': {
-              transform: 'scale(0.98)'
-            },
-            '&:disabled, &[data-disabled]': {
-              opacity: 0.5,
-              cursor: 'not-allowed'
-            }
-          }
-
-          // ── FILLED (Lavender) ──
-          if (props.variant === 'filled') {
-            if (isBrand) {
-              return {
-                root: {
-                  ...base,
-                  background: 'linear-gradient(180deg, #8b93ff 0%, #6b75e6 100%)',
-                  color: '#ffffff',
-                  border: 'none',
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
-                  '&:hover': {
-                    background: 'linear-gradient(180deg, #7a82f0 0%, #5e68d4 100%)'
-                  },
-                  '&:active': {
-                    background: 'linear-gradient(180deg, #6b75e6 0%, #5a63c7 100%)',
-                    transform: 'scale(0.98)'
-                  }
-                },
-                label: { fontWeight: 500 }
-              }
-            }
-
-            // Non-brand filled (rare in Linear)
-            return {
-              root: {
-                ...base,
-                backgroundColor: themeColor(theme, color, 6),
-                color: '#ffffff',
-                '&:hover': {
-                  backgroundColor: themeColor(theme, color, 5)
-                }
-              }
-            }
-          }
-
-          // ── DEFAULT / OUTLINE (Secondary) ──
-          if (props.variant === 'default' || props.variant === 'outline') {
-            return {
-              root: {
-                ...base,
-                backgroundColor: 'transparent',
-                border: `1px solid ${themeColor(theme, 'dark', 6)}`,
-                color: themeColor(theme, 'dark', 2),
-                '&:hover': {
-                  backgroundColor: themeColor(theme, 'dark', 8),
-                  borderColor: themeColor(theme, 'dark', 5),
-                  color: themeColor(theme, 'dark', 1)
-                },
-                '&:active': {
-                  backgroundColor: themeColor(theme, 'dark', 7)
-                }
-              }
-            }
-          }
-
-          // ── SUBTLE (Tertiary) ──
-          if (props.variant === 'subtle') {
-            return {
-              root: {
-                ...base,
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: themeColor(theme, 'dark', 2),
-                '&:hover': {
-                  backgroundColor: themeColor(theme, 'dark', 8),
-                  color: themeColor(theme, 'dark', 2)
-                }
-              }
-            }
-          }
-
-          // ── LIGHT ──
-          if (props.variant === 'light') {
-            return {
-              root: {
-                ...base,
-                backgroundColor: 'rgba(94,106,210,0.1)',
-                border: 'none',
-                color: themeColor(theme, 'brand', 5),
-                '&:hover': {
-                  backgroundColor: 'rgba(94,106,210,0.15)'
-                }
-              }
-            }
-          }
-
-          return { root: base }
-        }
-      },
-
       // ── Loader ──
       Loader: {
         defaultProps: {
-          color: 'dark.5'
+          color: undefined // inherits currentColor; set via CSS `color` on parent instead of a fixed shade
         }
       },
 
       // ── Skeleton ──
       Skeleton: {
         styles: (theme: MantineTheme, props: SkeletonProps) => {
-          const c1 = themeColor(theme, 'dark', 7) // surface-3
-          const c2 = themeColor(theme, 'dark', 5) // hairline-strong
+          const c1 = token('elevation.surface.raised')
+          const c2 = token('color.border.bold')
           return {
             root: {
-              backgroundColor: themeColor(theme, 'dark', 8),
+              backgroundColor: token('color.skeleton'),
               '&::after': {
                 background: `linear-gradient(90deg, ${c1}, ${c2}, ${c1}, ${c2})`,
                 backgroundSize: '400% 100%',
@@ -438,15 +345,15 @@ export function createAppTheme(fontConfig?: FontConfig) {
                 border: 0
               },
               tab: {
-                color: themeColor(theme, 'dark', 2), // ink-subtle
+                color: token('color.text.subtlest'),
                 fontWeight: 600,
                 paddingLeft: 0,
                 paddingRight: props.orientation === 'vertical' ? 8 : 0,
                 '&[data-active]': {
-                  color: themeColor(theme, 'dark', 0) // ink
+                  color: token('color.text')
                 },
                 '&:hover': {
-                  color: themeColor(theme, 'dark', 0),
+                  color: token('color.text'),
                   backgroundColor: 'transparent'
                 }
               }
@@ -456,33 +363,32 @@ export function createAppTheme(fontConfig?: FontConfig) {
           if (variant === 'outline') {
             return {
               list: {
-                '--tab-border-color': themeColor(theme, 'dark', 6)
+                '--tab-border-color': token('color.border')
               }
             }
           }
 
           if (variant === 'pills') {
-            // Linear pricing-tab style: pill toggle
             return {
               list: {
                 gap: 4,
-                backgroundColor: themeColor(theme, 'dark', 9), // canvas
+                backgroundColor: token('elevation.surface.sunken'),
                 padding: 4,
                 borderRadius: '9999px'
               },
               tab: {
                 borderRadius: '9999px',
                 padding: '6px 14px',
-                color: themeColor(theme, 'dark', 2), // ink-subtle
+                color: token('color.text.subtlest'),
                 fontSize: 14,
                 fontWeight: 500,
                 '&[data-active]': {
-                  color: themeColor(theme, 'dark', 0), // ink
-                  backgroundColor: themeColor(theme, 'dark', 8) // surface-2
+                  color: token('color.text'),
+                  backgroundColor: token('elevation.surface.raised')
                 },
                 '&:hover:not([data-active])': {
-                  color: themeColor(theme, 'dark', 1), // ink-muted
-                  backgroundColor: themeColor(theme, 'dark', 8)
+                  color: token('color.text.subtle'),
+                  backgroundColor: token('elevation.surface.raised')
                 }
               }
             }
@@ -499,8 +405,8 @@ export function createAppTheme(fontConfig?: FontConfig) {
             root: {
               padding: 8,
               paddingLeft: 28,
-              backgroundColor: themeColor(theme, 'dark', 8), // surface-2
-              border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+              backgroundColor: token('elevation.surface.raised'),
+              border: `1px solid ${token('color.border')}`,
               borderRadius: '12px',
 
               '&:before': {
@@ -517,10 +423,10 @@ export function createAppTheme(fontConfig?: FontConfig) {
             },
             title: {
               fontWeight: 600,
-              color: themeColor(theme, 'dark', 0) // ink
+              color: token('color.text')
             },
             description: {
-              color: themeColor(theme, 'dark', 1) // ink-muted
+              color: token('color.text.subtle')
             }
           }
         }
@@ -529,24 +435,22 @@ export function createAppTheme(fontConfig?: FontConfig) {
       // ── Menu ──
       Menu: {
         styles: (theme: MantineTheme) => {
-          const bgHoverColor = themeColor(theme, 'dark', 7) // surface-3
-          const bgActiveColor = themeColor(theme, 'dark', 6) // hairline
           return {
             dropdown: {
               boxShadow: theme.shadows.md,
-              backgroundColor: themeColor(theme, 'dark', 8), // surface-2
-              border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+              backgroundColor: token('elevation.surface.overlay'),
+              border: `1px solid ${token('color.border')}`,
               borderRadius: '8px'
             },
             item: {
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               fontSize: 14,
               transition: 'background 150ms ease-in-out',
               '&:hover, &[data-hovered]': {
-                backgroundColor: bgHoverColor
+                backgroundColor: token('elevation.surface.raised.hovered')
               },
               '&:active, &[data-active]': {
-                backgroundColor: bgActiveColor
+                backgroundColor: token('elevation.surface.raised.pressed')
               }
             }
           }
@@ -564,27 +468,25 @@ export function createAppTheme(fontConfig?: FontConfig) {
           component: 'button'
         },
         styles: (theme: MantineTheme, props: NavLinkProps) => {
-          const withThemeColor = (shade: number) => themeColor(theme, props.color ?? theme.primaryColor, shade)
-
           const rootStyles = {
             light: {
-              color: withThemeColor(0),
+              color: token('color.text'),
               '&:hover': {
-                color: withThemeColor(0),
-                backgroundColor: themeColor(theme, 'dark', 7)
+                color: token('color.text'),
+                backgroundColor: token('elevation.surface.raised.hovered')
               },
               '&:active': {
-                color: withThemeColor(0),
-                backgroundColor: themeColor(theme, 'dark', 6)
+                color: token('color.text'),
+                backgroundColor: token('elevation.surface.raised.pressed')
               },
               '&[data-active]': {
-                color: withThemeColor(0),
-                backgroundColor: themeColor(theme, 'dark', 6),
+                color: token('color.text'),
+                backgroundColor: token('color.background.selected'),
                 '&:hover': {
-                  backgroundColor: themeColor(theme, 'dark', 6)
+                  backgroundColor: token('color.background.selected.hovered')
                 },
                 '&:active': {
-                  backgroundColor: themeColor(theme, 'dark', 6)
+                  backgroundColor: token('color.background.selected.pressed')
                 }
               }
             }
@@ -621,7 +523,7 @@ export function createAppTheme(fontConfig?: FontConfig) {
                 top: 0,
                 width: 1,
                 height: '100%',
-                backgroundColor: themeColor(theme, 'dark', 6)
+                backgroundColor: token('color.border')
               }
             }
           }
@@ -631,40 +533,39 @@ export function createAppTheme(fontConfig?: FontConfig) {
       // ── Stepper ──
       Stepper: {
         styles: (theme: MantineTheme, props: StepperProps) => {
-          const color = props.color || theme.primaryColor
           return {
             stepIcon: {
-              backgroundColor: themeColor(theme, 'dark', 8),
-              borderColor: themeColor(theme, 'dark', 6),
-              color: themeColor(theme, 'dark', 2),
+              backgroundColor: token('elevation.surface.raised'),
+              borderColor: token('color.border'),
+              color: token('color.text.subtlest'),
               '&[data-progress]': {
-                backgroundColor: themeColor(theme, color, 6),
-                color: '#ffffff',
-                borderColor: themeColor(theme, color, 6)
+                backgroundColor: token('color.background.brand.bold'),
+                color: token('color.text.inverse'),
+                borderColor: token('color.background.brand.bold')
               },
               '&[data-completed]': {
-                backgroundColor: themeColor(theme, color, 1),
-                color: themeColor(theme, color, 6),
-                borderColor: themeColor(theme, color, 6)
+                backgroundColor: token('color.background.brand.subtlest'),
+                color: token('color.text.brand'),
+                borderColor: token('color.background.brand.bold')
               }
             },
             stepCompletedIcon: {
-              color: themeColor(theme, color, 6),
+              color: token('color.text.brand'),
               '& > svg': {
                 width: '14px !important',
                 height: '14px !important'
               }
             },
             separator: {
-              backgroundColor: themeColor(theme, 'dark', 6),
+              backgroundColor: token('color.border'),
               '&[data-active]': {
-                backgroundColor: themeColor(theme, color, 6)
+                backgroundColor: token('color.background.brand.bold')
               }
             },
             verticalSeparator: {
-              borderColor: themeColor(theme, 'dark', 6),
+              borderColor: token('color.border'),
               '&[data-active]': {
-                borderColor: themeColor(theme, color, 6)
+                borderColor: token('color.background.brand.bold')
               }
             }
           }
@@ -677,14 +578,13 @@ export function createAppTheme(fontConfig?: FontConfig) {
           color: 'brand'
         },
         styles: (theme: MantineTheme, props: AlertProps) => {
-          const color = props.color || theme.primaryColor
           return {
             root: {
               borderRadius: '8px',
               border: 'none',
-              borderLeft: `2px solid ${themeColor(theme, color, 6)}`,
-              color: themeColor(theme, 'dark', 0),
-              backgroundColor: themeColor(theme, 'dark', 8)
+              borderLeft: `2px solid ${token('color.border.brand')}`,
+              color: token('color.text'),
+              backgroundColor: token('elevation.surface.raised')
             },
             title: {
               color: 'inherit',
@@ -695,7 +595,7 @@ export function createAppTheme(fontConfig?: FontConfig) {
               marginRight: 4
             },
             message: {
-              color: themeColor(theme, 'dark', 1)
+              color: token('color.text.subtle')
             }
           }
         }
@@ -714,70 +614,70 @@ export function createAppTheme(fontConfig?: FontConfig) {
             label: {
               lineHeight: '20px',
               marginBottom: 6,
-              color: themeColor(theme, 'dark', 1),
+              color: token('color.text.subtle'),
               fontWeight: 500
             },
             description: {
-              color: themeColor(theme, 'dark', 2)
+              color: token('color.text.subtlest')
             },
             input: {
-              color: themeColor(theme, 'dark', 0),
-              backgroundColor: themeColor(theme, 'dark', 8),
-              border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+              color: token('color.text'),
+              backgroundColor: token('color.background.input'),
+              border: `1px solid ${token('color.border.input')}`,
               borderRadius: '8px',
 
               ...(props.variant === 'unstyled' && {
                 border: 'none',
                 '&:disabled': {
-                  color: themeColor(theme, 'dark', 2)
+                  color: token('color.text.disabled')
                 }
               }),
               ...(props.variant === 'filled' && {
-                backgroundColor: themeColor(theme, 'dark', 7),
+                backgroundColor: token('color.background.input.hovered'),
                 borderColor: 'transparent',
                 '&:disabled': {
-                  color: themeColor(theme, 'dark', 2),
+                  color: token('color.text.disabled'),
                   cursor: 'not-allowed'
                 }
               }),
 
               '&:hover': {
-                borderColor: themeColor(theme, 'dark', 5)
+                borderColor: token('color.border.bold')
               },
               '&:focus, &:focus-within': {
-                borderColor: themeColor(theme, 'brand', 7),
-                outline: `2px solid rgba(94, 105, 209, 0.5)`
+                borderColor: token('color.border.brand'),
+                outline: `2px solid ${token('color.border.focused')}`
               }
             },
             option: {
               transition: 'background 150ms ease-in-out',
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               fontSize: 14,
               '&:hover': {
-                color: themeColor(theme, 'dark', 0),
-                backgroundColor: themeColor(theme, 'dark', 7)
+                color: token('color.text'),
+                backgroundColor: token('elevation.surface.raised.hovered')
               },
               '&[data-checked]': {
-                color: themeColor(theme, 'dark', 0),
+                color: token('color.text'),
                 fontWeight: 600,
                 backgroundColor: 'transparent',
                 '&:hover': {
-                  backgroundColor: themeColor(theme, 'dark', 7)
+                  backgroundColor: token('elevation.surface.raised.hovered')
                 },
                 '& > svg': {
-                  color: themeColor(theme, 'brand', 6),
+                  color: token('color.text.brand'),
                   opacity: 1
                 }
               }
             },
             section: {
               '& > svg': {
-                color: `${themeColor(theme, 'dark', 2)} !important`
+                color: `${token('color.text.subtlest')} !important`
               }
             },
             dropdown: {
-              backgroundColor: themeColor(theme, 'dark', 8),
-              border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+              backgroundColor: token('elevation.surface.overlay'),
+              border: `1px solid ${token('color.border')}`,
               boxShadow: theme.shadows.md
             }
           }
@@ -795,22 +695,22 @@ export function createAppTheme(fontConfig?: FontConfig) {
             label: {
               fontSize: 14,
               marginBottom: 6,
-              color: themeColor(theme, 'dark', 1),
+              color: token('color.text.subtle'),
               fontWeight: 500
             },
             inputField: {
               '&::placeholder': {
-                color: `${themeColor(theme, 'dark', 2)} !important`
+                color: `${token('color.text.subtlest')} !important`
               }
             },
             pill: {
               borderRadius: '6px',
-              backgroundColor: themeColor(theme, 'dark', 7),
-              color: themeColor(theme, 'dark', 0)
+              backgroundColor: token('elevation.surface.raised.hovered'),
+              color: token('color.text')
             },
             section: {
               '& > svg': {
-                color: `${themeColor(theme, 'dark', 2)} !important`
+                color: `${token('color.text.subtlest')} !important`
               }
             },
             option: {
@@ -854,19 +754,74 @@ export function createAppTheme(fontConfig?: FontConfig) {
           variant: 'light'
         },
         styles: (theme: MantineTheme, props: BadgeProps) => {
-          const color = props.color ?? theme.primaryColor
-          const mainShade = color === 'dark' ? 0 : 6
-
-          const sizes = {
-            xs: 11,
-            sm: 12,
-            md: 13,
-            lg: 14,
-            xl: 16
-          }
-
+          const color = (props.color ?? theme.primaryColor) as string
+          const sizes = { xs: 11, sm: 12, md: 13, lg: 14, xl: 16 }
           // @ts-ignore
           const fontSize = sizes[props.size]
+
+          // Explicit per-color token lookup — background/border/text token
+          // suffixes aren't uniform across families (only brand/selected/
+          // information/discovery have a `.subtlest` bg, for example), so
+          // this avoids guessing a token name that may not exist.
+          type BadgeTokens = {
+            bold: TokenName
+            boldText: TokenName
+            lightBg: TokenName
+            lightBgHover: TokenName
+            text: TokenName
+            border: TokenName
+          }
+          const byColor: Record<string, BadgeTokens> = {
+            brand: {
+              bold: 'color.background.brand.bold',
+              boldText: 'color.text.inverse',
+              lightBg: 'color.background.brand.subtlest',
+              lightBgHover: 'color.background.brand.subtlest.hovered',
+              text: 'color.text.brand',
+              border: 'color.border.brand'
+            },
+            danger: {
+              bold: 'color.background.danger.bold',
+              boldText: 'color.text.inverse',
+              lightBg: 'color.background.danger',
+              lightBgHover: 'color.background.danger.hovered',
+              text: 'color.text.danger',
+              border: 'color.border.danger'
+            },
+            warning: {
+              bold: 'color.background.warning.bold',
+              boldText: 'color.text.warning.inverse', // yellow bg needs dark text
+              lightBg: 'color.background.warning',
+              lightBgHover: 'color.background.warning.hovered',
+              text: 'color.text.warning',
+              border: 'color.border.warning'
+            },
+            success: {
+              bold: 'color.background.success.bold',
+              boldText: 'color.text.inverse',
+              lightBg: 'color.background.success',
+              lightBgHover: 'color.background.success.hovered',
+              text: 'color.text.success',
+              border: 'color.border.success'
+            },
+            discovery: {
+              bold: 'color.background.discovery.bold',
+              boldText: 'color.text.inverse',
+              lightBg: 'color.background.discovery.subtle',
+              lightBgHover: 'color.background.discovery.subtler.hovered',
+              text: 'color.text.discovery',
+              border: 'color.border.discovery'
+            },
+            neutral: {
+              bold: 'color.background.neutral.bold',
+              boldText: 'color.text.inverse',
+              lightBg: 'color.background.neutral.subtle',
+              lightBgHover: 'color.background.neutral.subtle.hovered',
+              text: 'color.text',
+              border: 'color.border'
+            }
+          }
+          const t = byColor[color] ?? byColor.brand
 
           const styles = {
             dot: {
@@ -875,32 +830,32 @@ export function createAppTheme(fontConfig?: FontConfig) {
               fontWeight: 400,
               fontSize,
               backgroundColor: 'transparent',
-              color: themeColor(theme, 'dark', 1),
+              color: token('color.text.subtle'),
               padding: 0,
               borderRadius: 0,
               '&:before': {
-                backgroundColor: themeColor(theme, color, 6)
+                backgroundColor: token(t.bold)
               }
             },
             outline: {
-              color: themeColor(theme, color, mainShade),
-              borderColor: themeColor(theme, color, 4),
+              color: token(t.text),
+              borderColor: token(t.border),
               backgroundColor: 'transparent'
             },
             light: {
-              backgroundColor: themeColor(theme, 'dark', 8),
-              color: themeColor(theme, color, mainShade),
+              backgroundColor: token(t.lightBg),
+              color: token(t.text),
               border: 'none'
             },
             filled: {
-              backgroundColor: themeColor(theme, color, mainShade),
-              color: color === 'dark' ? themeColor(theme, 'dark', 9) : '#ffffff'
+              backgroundColor: token(t.bold),
+              color: token(t.boldText)
             }
           }
 
           return {
             root: {
-              borderRadius: '9999px', // pill
+              borderRadius: '9999px',
               padding: '2px 8px',
               letterSpacing: '0',
               textTransform: 'none',
@@ -914,26 +869,25 @@ export function createAppTheme(fontConfig?: FontConfig) {
       // ── Checkbox ──
       Checkbox: {
         styles: (theme: MantineTheme, props: CheckboxProps) => {
-          const withThemeColor = (shade: number) => themeColor(theme, props.color ?? theme.primaryColor, shade)
           return {
             input: {
               borderRadius: 4,
-              borderColor: themeColor(theme, 'dark', 6),
-              backgroundColor: themeColor(theme, 'dark', 8),
+              borderColor: token('color.border.input'),
+              backgroundColor: token('color.background.input'),
 
               '&:checked:not(:disabled)': {
-                backgroundColor: withThemeColor(6),
-                borderColor: withThemeColor(6)
+                backgroundColor: token('color.background.brand.bold'),
+                borderColor: token('color.background.brand.bold')
               },
               '&:disabled:checked': {
-                backgroundColor: themeColor(theme, 'dark', 5),
-                borderColor: themeColor(theme, 'dark', 5)
+                backgroundColor: token('color.background.disabled'),
+                borderColor: token('color.border.disabled')
               }
             },
             label: {
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               '&[data-disabled]': {
-                color: themeColor(theme, 'dark', 3)
+                color: token('color.text.disabled')
               }
             }
           }
@@ -943,7 +897,7 @@ export function createAppTheme(fontConfig?: FontConfig) {
       // ── Divider ──
       Divider: {
         defaultProps: {
-          color: 'dark.6'
+          color: undefined // let default CSS var (--ds-color-border) apply
         }
       },
 
@@ -956,12 +910,12 @@ export function createAppTheme(fontConfig?: FontConfig) {
         styles: (theme: MantineTheme) => {
           return {
             root: {
-              backgroundColor: themeColor(theme, 'dark', 8), // surface-2
-              borderColor: themeColor(theme, 'dark', 6), // hairline
-              borderRadius: '12px' // lg
+              backgroundColor: token('elevation.surface.raised'),
+              borderColor: token('color.border'),
+              borderRadius: '12px'
             },
             section: {
-              borderColor: themeColor(theme, 'dark', 6)
+              borderColor: token('color.border')
             }
           }
         }
@@ -976,8 +930,8 @@ export function createAppTheme(fontConfig?: FontConfig) {
         styles: (theme: MantineTheme, props: PaperProps) => {
           return {
             root: {
-              backgroundColor: themeColor(theme, 'dark', 8),
-              borderColor: props.withBorder ? themeColor(theme, 'dark', 6) : 'transparent',
+              backgroundColor: token('elevation.surface.raised'),
+              borderColor: props.withBorder ? token('color.border') : 'transparent',
               borderRadius: '12px'
             }
           }
@@ -986,31 +940,31 @@ export function createAppTheme(fontConfig?: FontConfig) {
 
       // ── Drawer ──
       Drawer: {
-        defaultProps: (theme: MantineTheme) => ({
+        defaultProps: () => ({
           overlayProps: {
             backgroundOpacity: 0.85,
             blur: 3,
             color: '#000000'
           }
         }),
-        styles: (theme: MantineTheme) => ({
+        styles: () => ({
           content: {
-            backgroundColor: themeColor(theme, 'dark', 8),
-            border: `1px solid ${themeColor(theme, 'dark', 6)}`
+            backgroundColor: token('elevation.surface.overlay'),
+            border: `1px solid ${token('color.border')}`
           },
           header: {
-            backgroundColor: themeColor(theme, 'dark', 8),
-            borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`
+            backgroundColor: token('elevation.surface.overlay'),
+            borderBottom: `1px solid ${token('color.border')}`
           },
           body: {
-            backgroundColor: themeColor(theme, 'dark', 8)
+            backgroundColor: token('elevation.surface.overlay')
           }
         })
       },
 
       // ── Modal ──
       Modal: {
-        defaultProps: (theme: MantineTheme) => ({
+        defaultProps: () => ({
           shadow: 'xl',
           padding: 0,
           centered: true,
@@ -1024,10 +978,10 @@ export function createAppTheme(fontConfig?: FontConfig) {
             color: '#000000'
           }
         }),
-        styles: (theme: MantineTheme) => ({
+        styles: () => ({
           content: {
-            border: `1px solid ${themeColor(theme, 'dark', 6)} !important`,
-            backgroundColor: themeColor(theme, 'dark', 8),
+            border: `1px solid ${token('color.border')} !important`,
+            backgroundColor: token('elevation.surface.overlay'),
             borderRadius: '12px'
           },
           header: {
@@ -1035,18 +989,18 @@ export function createAppTheme(fontConfig?: FontConfig) {
             borderTopRightRadius: '12px',
             padding: '16px 16px 16px 24px',
             margin: 0,
-            backgroundColor: themeColor(theme, 'dark', 8),
-            borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`
+            backgroundColor: token('elevation.surface.overlay'),
+            borderBottom: `1px solid ${token('color.border')}`
           },
           title: {
             fontWeight: 600,
             fontSize: 16,
             lineHeight: 1.5,
-            color: themeColor(theme, 'dark', 0)
+            color: token('color.text')
           },
           body: {
             padding: 24,
-            backgroundColor: themeColor(theme, 'dark', 8),
+            backgroundColor: token('elevation.surface.overlay'),
             borderBottomLeftRadius: '12px',
             borderBottomRightRadius: '12px'
           }
@@ -1073,32 +1027,32 @@ export function createAppTheme(fontConfig?: FontConfig) {
           return {
             table: {
               ...borderStyles,
-              '--table-border-color': themeColor(theme, 'dark', 6)
+              '--table-border-color': token('color.border')
             },
             thead: {
-              backgroundColor: themeColor(theme, 'dark', 7)
+              backgroundColor: token('elevation.surface.raised')
             },
             th: {
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               fontWeight: 600,
               fontSize: 14,
               padding: '12px 16px',
-              borderBottom: `2px solid ${themeColor(theme, 'dark', 6)}`
+              borderBottom: `2px solid ${token('color.border')}`
             },
             td: {
-              color: themeColor(theme, 'dark', 1),
+              color: token('color.text.subtle'),
               fontSize: 14,
               padding: '12px 16px',
-              borderBottom: `1px solid ${themeColor(theme, 'dark', 6)}`
+              borderBottom: `1px solid ${token('color.border')}`
             },
             tr: {
               '&:where([data-with-row-border]):not(:last-of-type)': {
                 td: {
-                  borderBottom: `1px solid ${themeColor(theme, 'dark', 6)} !important`
+                  borderBottom: `1px solid ${token('color.border')} !important`
                 }
               },
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7)
+                backgroundColor: token('elevation.surface.raised.hovered')
               }
             }
           }
@@ -1108,41 +1062,39 @@ export function createAppTheme(fontConfig?: FontConfig) {
       // ── Switch ──
       Switch: {
         styles: (theme: MantineTheme, props: SwitchProps) => {
-          const color = props.color ?? theme.primaryColor
-
           return {
             root: {
               '& input:checked+.mantine-Switch-track': {
-                backgroundColor: themeColor(theme, color, 6),
-                borderColor: themeColor(theme, color, 6)
+                backgroundColor: token('color.background.brand.bold'),
+                borderColor: token('color.background.brand.bold')
               },
               '& input:disabled+.mantine-Switch-track': {
-                backgroundColor: themeColor(theme, 'dark', 6),
-                borderColor: themeColor(theme, 'dark', 6)
+                backgroundColor: token('color.background.disabled'),
+                borderColor: token('color.border.disabled')
               },
               '& input:disabled:checked+.mantine-Switch-track': {
-                backgroundColor: themeColor(theme, 'dark', 5),
-                borderColor: themeColor(theme, 'dark', 5)
+                backgroundColor: token('color.background.disabled'),
+                borderColor: token('color.border.disabled')
               },
               '& input+*>.mantine-Switch-trackLabel': {
-                color: themeColor(theme, 'dark', 0)
+                color: token('color.text')
               },
               '& input:checked+*>.mantine-Switch-trackLabel': {
-                color: '#ffffff'
+                color: token('color.text.inverse')
               }
             },
             label: {
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               '&[data-disabled]': {
-                color: themeColor(theme, 'dark', 3)
+                color: token('color.text.disabled')
               }
             },
             track: {
-              backgroundColor: themeColor(theme, 'dark', 6),
-              borderColor: themeColor(theme, 'dark', 6)
+              backgroundColor: token('color.border.bold'),
+              borderColor: token('color.border.bold')
             },
             trackLabel: {
-              color: themeColor(theme, 'dark', 2)
+              color: token('color.text.subtlest')
             }
           }
         }
@@ -1151,23 +1103,8 @@ export function createAppTheme(fontConfig?: FontConfig) {
       // ── Radio ──
       Radio: {
         styles: (theme: MantineTheme, props: RadioProps) => {
-          const color = (props.color?.includes('.') ? props.color.split('.')[0] : (props.color ?? 'brand')) as Color
-          const shade = color === 'dark' ? 0 : 6
-
-          const sizes = {
-            xs: 14,
-            sm: 16,
-            md: 20,
-            lg: 24,
-            xl: 30
-          }
-          const iconSizes = {
-            xs: 5,
-            sm: 6,
-            md: 8,
-            lg: 10,
-            xl: 12
-          }
+          const sizes = { xs: 14, sm: 16, md: 20, lg: 24, xl: 30 }
+          const iconSizes = { xs: 5, sm: 6, md: 8, lg: 10, xl: 12 }
 
           // @ts-ignore
           const size = sizes[props.size ?? 'sm']
@@ -1178,31 +1115,32 @@ export function createAppTheme(fontConfig?: FontConfig) {
             root: {
               '--radio-size': rem(size),
               '--radio-icon-size': rem(iconSize),
-              '--radio-color': themeColor(theme, color, shade) + ' !important',
-              '--radio-icon-color': props.variant === 'outline' ? themeColor(theme, color, shade) : '#ffffff !important'
+              '--radio-color': token('color.background.brand.bold') + ' !important',
+              '--radio-icon-color':
+                props.variant === 'outline' ? token('color.text.brand') : token('color.text.inverse') + ' !important'
             },
             label: {
               lineHeight: `${size}px`,
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               '&[data-disabled]': {
-                color: themeColor(theme, 'dark', 3)
+                color: token('color.text.disabled')
               }
             },
             icon: {
               transform: 'var(--radio-icon-transform, scale(0.2))'
             },
             radio: {
-              borderColor: themeColor(theme, 'dark', 6),
-              backgroundColor: themeColor(theme, 'dark', 8),
+              borderColor: token('color.border.input'),
+              backgroundColor: token('color.background.input'),
               '&:disabled:not(:checked)': {
-                background: themeColor(theme, 'dark', 7),
-                borderColor: themeColor(theme, 'dark', 6),
+                background: token('color.background.disabled'),
+                borderColor: token('color.border.disabled'),
                 cursor: 'not-allowed'
               },
               '&:disabled:checked': {
-                color: themeColor(theme, 'dark', 2),
-                background: themeColor(theme, 'dark', 6),
-                borderColor: themeColor(theme, 'dark', 6),
+                color: token('color.text.disabled'),
+                background: token('color.background.disabled'),
+                borderColor: token('color.border.disabled'),
                 cursor: 'not-allowed'
               }
             }
@@ -1215,27 +1153,27 @@ export function createAppTheme(fontConfig?: FontConfig) {
         styles: (theme: MantineTheme) => {
           return {
             root: {
-              backgroundColor: themeColor(theme, 'dark', 6), // hairline
+              backgroundColor: token('elevation.surface.sunken'),
               borderRadius: '9999px',
               padding: 2
             },
             indicator: {
-              backgroundColor: themeColor(theme, 'dark', 8), // surface-2
+              backgroundColor: token('elevation.surface.raised'),
               borderRadius: '9999px'
             },
             label: {
-              color: themeColor(theme, 'dark', 2) + ' !important',
+              color: token('color.text.subtlest') + ' !important',
               fontSize: 14,
               fontWeight: 500,
               '&[data-active]': {
-                color: themeColor(theme, 'dark', 0) + ' !important'
+                color: token('color.text') + ' !important'
               },
               '&[data-disabled]': {
-                color: themeColor(theme, 'dark', 3) + ' !important'
+                color: token('color.text.disabled') + ' !important'
               }
             },
             control: {
-              '--separator-color': themeColor(theme, 'dark', 6)
+              '--separator-color': token('color.border')
             }
           }
         }
@@ -1249,9 +1187,9 @@ export function createAppTheme(fontConfig?: FontConfig) {
         styles: (theme: MantineTheme) => {
           return {
             tooltip: {
-              backgroundColor: themeColor(theme, 'dark', 7), // surface-3
-              color: themeColor(theme, 'dark', 0), // ink
-              border: `1px solid ${themeColor(theme, 'dark', 6)}`,
+              backgroundColor: token('elevation.surface.overlay'),
+              color: token('color.text'),
+              border: `1px solid ${token('color.border')}`,
               borderRadius: '6px',
               fontSize: 12,
               padding: '6px 10px'
@@ -1264,54 +1202,51 @@ export function createAppTheme(fontConfig?: FontConfig) {
       ActionIcon: {
         defaultProps: {
           variant: 'subtle',
-          color: 'dark',
+          color: 'neutral',
           size: 'md'
         },
         styles: (theme: MantineTheme, props: ActionIconProps) => {
-          const color = props.color ?? theme.primaryColor
-          const shade = color === 'dark' ? 0 : 6
-
           const variantStyles = {
             default: {
-              backgroundColor: themeColor(theme, 'dark', 8),
-              borderColor: themeColor(theme, 'dark', 6),
-              color: themeColor(theme, 'dark', 0),
+              backgroundColor: token('color.background.input'),
+              borderColor: token('color.border.input'),
+              color: token('color.text'),
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7),
-                borderColor: themeColor(theme, 'dark', 5),
-                color: themeColor(theme, 'dark', 0)
+                backgroundColor: token('color.background.input.hovered'),
+                borderColor: token('color.border.bold'),
+                color: token('color.text')
               },
               '&:active': {
-                backgroundColor: themeColor(theme, 'dark', 6),
-                borderColor: themeColor(theme, 'dark', 5),
-                color: themeColor(theme, 'dark', 0)
+                backgroundColor: token('elevation.surface.raised.pressed'),
+                borderColor: token('color.border.bold'),
+                color: token('color.text')
               },
               '&:disabled': {
-                backgroundColor: themeColor(theme, 'dark', 8),
-                borderColor: themeColor(theme, 'dark', 6),
-                color: themeColor(theme, 'dark', 3)
+                backgroundColor: token('color.background.disabled'),
+                borderColor: token('color.border.disabled'),
+                color: token('color.text.disabled')
               }
             },
             transparent: {
               backgroundColor: 'transparent',
-              color: themeColor(theme, color, shade),
+              color: token('color.text.subtle'),
               '&:hover': {
-                color: themeColor(theme, color, shade)
+                color: token('color.text')
               }
             },
             subtle: {
               backgroundColor: 'transparent',
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               borderColor: 'transparent',
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7),
-                color: themeColor(theme, 'dark', 0)
+                backgroundColor: token('elevation.surface.raised.hovered'),
+                color: token('color.text')
               },
               '&:active': {
-                backgroundColor: themeColor(theme, 'dark', 6)
+                backgroundColor: token('elevation.surface.raised.pressed')
               },
               '&:disabled': {
-                color: themeColor(theme, 'dark', 3),
+                color: token('color.text.disabled'),
                 backgroundColor: 'transparent',
                 borderColor: 'transparent',
                 cursor: 'not-allowed'
@@ -1319,40 +1254,35 @@ export function createAppTheme(fontConfig?: FontConfig) {
             },
             outline: {
               backgroundColor: 'transparent',
-              color: themeColor(theme, color, shade),
-              border: `1px solid ${themeColor(theme, color, 4)}`,
+              color: token('color.text.brand'),
+              border: `1px solid ${token('color.border.brand')}`,
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7),
-                color: themeColor(theme, color, shade)
+                backgroundColor: token('color.background.brand.subtlest'),
+                color: token('color.text.brand')
               }
             },
             filled: {
-              backgroundColor: themeColor(theme, color, color === 'dark' ? 8 : 6),
-              color: color === 'dark' ? themeColor(theme, 'dark', 0) : '#ffffff',
+              backgroundColor: token('color.background.brand.bold'),
+              color: token('color.text.inverse'),
               '&:hover': {
-                color: color === 'dark' ? themeColor(theme, 'dark', 0) : '#ffffff'
+                backgroundColor: token('color.background.brand.bold.hovered'),
+                color: token('color.text.inverse')
               }
             },
             light: {
-              backgroundColor: themeColor(theme, color, 1),
-              color: themeColor(theme, color, 6),
+              backgroundColor: token('color.background.brand.subtlest'),
+              color: token('color.text.brand'),
               '&:hover': {
-                backgroundColor: themeColor(theme, color, 2),
-                color: themeColor(theme, color, 6)
+                backgroundColor: token('color.background.brand.subtlest.hovered'),
+                color: token('color.text.brand')
               },
               '&:active': {
-                backgroundColor: themeColor(theme, color, 3)
+                backgroundColor: token('color.background.brand.subtlest.pressed')
               }
             }
           }
 
-          const sizes = {
-            xs: 16,
-            sm: 20,
-            md: 28,
-            lg: 32,
-            xl: 40
-          }
+          const sizes = { xs: 16, sm: 20, md: 28, lg: 32, xl: 40 }
           // @ts-ignore
           const size = sizes[props.size ?? 'md']
           // @ts-ignore
@@ -1370,15 +1300,12 @@ export function createAppTheme(fontConfig?: FontConfig) {
 
       // ── Anchor ──
       Anchor: {
-        defaultProps: {
-          c: 'brand.6'
-        },
-        styles: (theme: MantineTheme) => ({
+        styles: () => ({
           root: {
-            color: themeColor(theme, 'brand', 6),
+            color: token('color.link'),
             textDecoration: 'none',
             '&:hover': {
-              color: themeColor(theme, 'brand', 5),
+              color: token('color.link.pressed'),
               textDecoration: 'underline'
             }
           }
@@ -1387,10 +1314,10 @@ export function createAppTheme(fontConfig?: FontConfig) {
 
       // ── Progress ──
       Progress: {
-        styles: (theme: MantineTheme) => {
+        styles: () => {
           return {
             root: {
-              backgroundColor: themeColor(theme, 'dark', 7)
+              backgroundColor: token('elevation.surface.sunken')
             },
             section: {
               '&:where(:first-of-type)': {
@@ -1420,10 +1347,10 @@ export function createAppTheme(fontConfig?: FontConfig) {
           withArrow: true,
           shadow: 'md'
         },
-        styles: (theme: MantineTheme) => ({
+        styles: () => ({
           dropdown: {
-            backgroundColor: themeColor(theme, 'dark', 8),
-            border: `1px solid ${themeColor(theme, 'dark', 6)}`
+            backgroundColor: token('elevation.surface.overlay'),
+            border: `1px solid ${token('color.border')}`
           }
         })
       },
@@ -1434,30 +1361,30 @@ export function createAppTheme(fontConfig?: FontConfig) {
           if (props.variant === 'contained') {
             return {
               item: {
-                '--item-border-color': themeColor(theme, 'dark', 6),
+                '--item-border-color': token('color.border'),
                 '--item-filled-color': 'inherit',
-                backgroundColor: themeColor(theme, 'dark', 8)
+                backgroundColor: token('elevation.surface.raised')
               },
               control: {
-                color: themeColor(theme, 'dark', 0),
+                color: token('color.text'),
                 '&:hover': {
-                  backgroundColor: themeColor(theme, 'dark', 7)
+                  backgroundColor: token('elevation.surface.raised.hovered')
                 }
               },
               panel: {
-                color: themeColor(theme, 'dark', 1)
+                color: token('color.text.subtle')
               }
             }
           }
           return {
             control: {
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7)
+                backgroundColor: token('elevation.surface.raised.hovered')
               }
             },
             panel: {
-              color: themeColor(theme, 'dark', 1)
+              color: token('color.text.subtle')
             }
           }
         }
@@ -1465,11 +1392,11 @@ export function createAppTheme(fontConfig?: FontConfig) {
 
       // ── Pill ──
       Pill: {
-        styles: (theme: MantineTheme) => {
+        styles: () => {
           return {
             root: {
-              backgroundColor: themeColor(theme, 'dark', 7),
-              color: themeColor(theme, 'dark', 0),
+              backgroundColor: token('elevation.surface.raised.hovered'),
+              color: token('color.text'),
               borderRadius: '6px'
             }
           }
@@ -1478,21 +1405,21 @@ export function createAppTheme(fontConfig?: FontConfig) {
 
       // ── Pagination ──
       Pagination: {
-        styles: (theme: MantineTheme) => {
+        styles: () => {
           return {
             control: {
               border: 'none',
-              color: themeColor(theme, 'dark', 0),
+              color: token('color.text'),
               borderRadius: '8px',
               backgroundColor: 'transparent',
               '&:hover': {
-                backgroundColor: themeColor(theme, 'dark', 7)
+                backgroundColor: token('elevation.surface.raised.hovered')
               },
               '&[data-active]': {
-                color: '#ffffff',
-                backgroundColor: themeColor(theme, 'brand', 6),
+                color: token('color.text.inverse'),
+                backgroundColor: token('color.background.brand.bold'),
                 '&:hover': {
-                  backgroundColor: themeColor(theme, 'brand', 5)
+                  backgroundColor: token('color.background.brand.bold.hovered')
                 }
               }
             }
@@ -1502,12 +1429,12 @@ export function createAppTheme(fontConfig?: FontConfig) {
 
       // ── ScrollArea ──
       ScrollArea: {
-        styles: (theme: MantineTheme) => ({
+        styles: () => ({
           scrollbar: {
             backgroundColor: 'transparent'
           },
           thumb: {
-            backgroundColor: themeColor(theme, 'dark', 5),
+            backgroundColor: token('color.border.bold'),
             borderRadius: '4px'
           }
         })
@@ -1517,25 +1444,20 @@ export function createAppTheme(fontConfig?: FontConfig) {
 }
 
 // ═══════════════════════════════════════════════════════
-// useTheme hook — returns merged theme for given colorScheme
+// useTheme hook
 // ═══════════════════════════════════════════════════════
-export type Theme = MantineTheme & {
-  colors: ColorMap
-}
+// No more isLight/colorScheme branching or palette-swapping here — every
+// style above resolves through token(), which returns a `var(--ds-*)`
+// reference. That reference is already dark-mode-safe: tokens.css swaps
+// its value automatically based on the `data-mantine-color-scheme`
+// attribute Mantine sets on <html>. One less place for light/dark to
+// desync. `colorScheme` is accepted for API compatibility / caching keys
+// but no longer drives which palette object gets merged in.
+export type Theme = MantineTheme
 
 export function useTheme(colorScheme: 'light' | 'dark', fontConfig?: FontConfig): Theme {
-  const isLight = colorScheme === 'light'
-  const colors = isLight ? lightPalette : darkPalette
-  const appTheme = createAppTheme(fontConfig)
-
-  const mergedTheme = mergeMantineTheme(DEFAULT_THEME, {
-    ...appTheme,
-    colors,
-    white: '#ffffff',
-    black: '#010102'
-  })
-
+  const appTheme = createAppTheme(colorScheme, fontConfig)
+  const mergedTheme = mergeMantineTheme(DEFAULT_THEME, appTheme)
   return mergedTheme as Theme
 }
-
 export type { MantineThemeOverride }

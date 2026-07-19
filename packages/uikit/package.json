@@ -41,12 +41,15 @@
       "import": "./dist/icons/index.mjs",
       "require": "./dist/icons/index.cjs"
     },
-    "./style.css": "./dist/style.css",
+    "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@mantine/carousel": "7.17.8",
     "@mantine/code-highlight": "7.17.8",
     "@mantine/core": "7.17.8",
@@ -56,29 +59,28 @@
     "@mantine/modals": "7.17.8",
     "@mantine/notifications": "7.17.8",
     "@tabler/icons-react": "^3.26.0",
-    "@hookform/error-message": "^2.0.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.5",
     "embla-carousel-react": "^7.0.5",
     "google-libphonenumber": "^3.2.30",
+    "lodash-es": "^4.17.21",
     "react-phone-input-2": "^2.15.1",
     "react-table": "^7.8.0",
     "react-table-sticky": "^1.1.3",
     "react-textarea-autosize": "8.5.6",
-    "react-window": "^1.8.9",
-    "lodash-es": "^4.17.21"
+    "react-window": "^1.8.9"
   },
-   "peerDependencies": {
-    "react": "^18.x || ^19.x",
-    "react-dom": "^18.x || ^19.x",
+  "peerDependencies": {
+    "@mantine/carousel": "^7.17.8",
+    "@mantine/code-highlight": "^7.17.8",
     "@mantine/core": "^7.17.8",
+    "@mantine/dates": "^7.17.8",
+    "@mantine/dropzone": "^7.17.8",
     "@mantine/hooks": "^7.17.8",
     "@mantine/modals": "^7.17.8",
     "@mantine/notifications": "^7.17.8",
-    "@mantine/carousel": "^7.17.8",
-    "@mantine/dates": "^7.17.8",
-    "@mantine/dropzone": "^7.17.8",
-    "@mantine/code-highlight": "^7.17.8"
+    "react": "^18.x || ^19.x",
+    "react-dom": "^18.x || ^19.x"
   },
   "peerDependenciesMeta": {
     "react-hook-form": {
@@ -97,7 +99,8 @@
     "react-hook-form": "^7.51.5",
     "typescript": "^5.4.2",
     "vite": "^6.1.1",
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "vite-plugin-lib-inject-css": "^2.2.2"
   },
   "files": [
     "dist",

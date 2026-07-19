@@ -1,0 +1,132 @@
+/* src/primitive/typography/index.module.css */
+
+/* ═══════════════════════════════════════════════════════ */
+/* BASE */
+/* ═══════════════════════════════════════════════════════ */
+.base {
+  margin: 0;
+  padding: 0;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* DISPLAY */
+/* ═══════════════════════════════════════════════════════ */
+
+.display_xl {
+  font-size: 5rem;
+  line-height: 1.05;
+  font-weight: 700;
+  color: var(--mantine-color-dark-0);
+  letter-spacing: -0.03em;
+}
+
+.display_lg {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--mantine-color-dark-0);
+  letter-spacing: -0.02em;
+}
+
+.display_md {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--mantine-color-dark-0);
+  letter-spacing: -0.01em;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* HEADLINE */
+/* ═══════════════════════════════════════════════════════ */
+
+.headline {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--mantine-color-dark-0);
+  letter-spacing: -0.01em;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CARD TITLE */
+/* ═══════════════════════════════════════════════════════ */
+
+.card_title {
+  font-size: 1.375rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--mantine-color-dark-0);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* SUBHEAD */
+/* ═══════════════════════════════════════════════════════ */
+
+.subhead {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--mantine-color-dark-0);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* BODY */
+/* ═══════════════════════════════════════════════════════ */
+
+.body_lg {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--mantine-color-dark-1);
+}
+
+.body {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--mantine-color-dark-1);
+}
+
+.body_sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--mantine-color-dark-2);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CAPTION */
+/* ═══════════════════════════════════════════════════════ */
+
+.caption {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--mantine-color-dark-2);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* EYEBROW */
+/* ═══════════════════════════════════════════════════════ */
+
+.eyebrow {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--mantine-color-brand-6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* MONO */
+/* ═══════════════════════════════════════════════════════ */
+
+.mono {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--mantine-color-dark-1);
+  font-family: var(--mantine-font-family-monospace);
+}

@@ -1,38 +1,89 @@
-// src/primitives/button/Button.tsx
 import { Button as MantineButton, Loader, useMantineTheme, type ButtonProps as MantineButtonProps } from '@mantine/core'
-import { forwardRef } from 'react'
+import clsx from 'clsx'
+import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react'
+
+import classes from './index.module.css'
+
+export type ButtonVariant = 'filled' | 'outline' | 'subtle' | 'link'
+export type ButtonSize = 'default' | 'compact'
+export type ButtonColor = 'brand' | 'danger' | 'warning' | 'success' | 'discovery' | 'neutral'
+
+type NativeButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'color' | 'style'>
+
+export interface ButtonProps
+  extends NativeButtonProps,
+    Omit<MantineButtonProps, 'variant' | 'size' | 'color' | 'type' | 'data-loading' | 'data-disabled'> {
+  variant?: ButtonVariant
+  size?: ButtonSize
+  color?: ButtonColor
+  loading?: boolean
+  selected?: boolean
+  fullWidth?: boolean
+  iconOnly?: boolean
+  leftSection?: ReactNode
+  rightSection?: ReactNode
+  'data-loading'?: boolean
+  'data-disabled'?: boolean
+}
 
 type ButtonComponent = typeof MantineButton
 
-export interface ButtonProps extends MantineButtonProps {
-  'data-loading'?: boolean
-}
-
 const _Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const theme = useMantineTheme()
+
   const {
-    leftSection,
+    variant = 'filled',
+    size = 'default',
+    color = 'brand',
+    type = 'button',
     loading,
     disabled,
+    selected = false,
+    fullWidth = false,
+    iconOnly = false,
+    leftSection,
+    rightSection,
     loaderProps,
-    color,
+    className,
+    style,
     ['data-disabled']: dataDisabled,
     ['data-loading']: dataLoading,
     ...rest
   } = props
 
-  const isLoading = loading || dataLoading
-  const isDisabled = disabled || dataDisabled || isLoading
+  const isLoading = Boolean(loading || dataLoading)
+  const isDisabled = Boolean(disabled || dataDisabled || isLoading)
 
-  const loader = <Loader size={16} color={color ? `${color}.6` : `${theme.primaryColor}.6`} {...loaderProps} />
+  const loader = (
+    <Loader
+      size={size === 'compact' ? 12 : 14}
+      color={color ? `${color}.6` : `${theme.primaryColor}.6`}
+      className={classes.loader}
+      {...loaderProps}
+    />
+  )
 
   return (
     <MantineButton
       {...rest}
       ref={ref}
-      leftSection={isLoading ? loader : leftSection}
+      type={type}
+      variant="unstyled"
       disabled={isDisabled}
       data-loading={isLoading || undefined}
+      data-btn-loading={isLoading || undefined}
+      data-btn-variant={variant}
+      data-btn-color={color}
+      data-btn-size={size}
+      data-btn-disabled={isDisabled || undefined}
+      data-btn-selected={selected || undefined}
+      data-btn-full-width={fullWidth || undefined}
+      data-btn-icon-only={iconOnly || undefined}
+      className={clsx(classes.root, className)}
+      classNames={{ inner: classes.inner, label: classes.label, section: classes.section }}
+      style={style}
+      leftSection={isLoading ? loader : leftSection}
+      rightSection={rightSection}
     />
   )
 })

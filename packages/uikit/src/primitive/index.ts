@@ -45,7 +45,6 @@ export type {
   SegmentedControlItem,
   SliderProps,
   RangeSliderProps,
-  SwitchProps,
   TextareaProps,
   AutocompleteProps,
   ComboboxProps,
@@ -160,7 +159,6 @@ export {
   SegmentedControl,
   Slider,
   RangeSlider,
-  Switch,
   Textarea,
   Autocomplete,
   Combobox,
@@ -242,10 +240,34 @@ export {
 } from '@mantine/core'
 
 // Your custom primitives
-export { Button } from './button/index.js'
-export { Typography, TYPOGRAPHY_STYLES_MAP, type TypographyProps } from './typography/index.js'
+export { Button } from './Button/index.js'
+export { Typography, type TypographyProps } from './Typography/index.js'
 
-// Hooks — re-export from sibling folder (TiDBCloud pattern)
-export { useColorScheme } from '../hooks/useColorScheme.js'
+export { Select, type SelectProps } from './Select/index.js'
+export { MultiSelect, type MultiSelectProps } from './Select/index.js'
+
+export { TextInput, type TextInputProps } from './TextInput/index.js'
+
+export { Switch, type SwitchProps } from './Switch/index.js'
+
+// Hooks — re-export from sibling folder
+export { useColorScheme } from '../hooks/index.js'
+
+// Business components — root convenience exports
+export {
+  AppSidenav,
+  DEFAULT_APP_SIDENAV_BRAND,
+  DEFAULT_APP_SIDENAV_NAV_ITEMS,
+  DEFAULT_APP_SIDENAV_NOTIFICATIONS,
+  DEFAULT_APP_SIDENAV_UTILITY_ACTIONS
+} from '../business/AppSidenav/AppSidenav.js'
+export type {
+  AppSidenavBrand,
+  AppSidenavNavChild,
+  AppSidenavNavItem,
+  AppSidenavNotification,
+  AppSidenavProps,
+  AppSidenavUtilityAction
+} from '../business/AppSidenav/AppSidenav.js'
 
 // Types

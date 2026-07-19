@@ -8,7 +8,6 @@ import dts from 'vite-plugin-dts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-// Only React is external — everything else gets bundled
 const external = [
   'react',
   'react-dom',
@@ -24,7 +23,6 @@ const external = [
   '@mantine/code-highlight'
 ]
 
-// Ensure directory exists before writing
 function ensureDir(filePath: string) {
   const dir = dirname(filePath)
   if (!existsSync(dir)) {
@@ -39,20 +37,18 @@ function updateImportExtensions(content: string, targetExt: '.mjs' | '.cjs') {
 export default defineConfig({
   plugins: [
     react(),
+    // REMOVED: libInjectCss() — causes multiple CSS files
     dts({
       copyDtsFiles: false,
       beforeWriteFile: (filePath, content) => {
-        // Skip if no content or not a .d.ts file
         if (!filePath.endsWith('.d.ts') || !content) {
           return { filePath, content }
         }
 
-        // Generate .d.cts for CJS build
         const cjsPath = filePath.replace('.d.ts', '.d.cts')
         ensureDir(cjsPath)
         writeFileSync(cjsPath, updateImportExtensions(content, '.cjs'))
 
-        // Return .d.mts for ESM build
         return {
           filePath: filePath.replace('.d.ts', '.d.mts'),
           content: updateImportExtensions(content, '.mjs')
@@ -60,15 +56,32 @@ export default defineConfig({
       }
     })
   ],
+
+  css: {
+    modules: {
+      generateScopedName: (name, filename) => {
+        const file = filename.split('/').pop()?.replace('.module.css', '') ?? 'unknown'
+        return `flex-${file}_${name}`
+      }
+    }
+  },
+
   build: {
     minify: false,
+    cssCodeSplit: false,
+    emptyOutDir: true,
+
     lib: {
       entry: [
         resolve(__dirname, 'src/primitive/index.ts'),
+        resolve(__dirname, 'src/business/index.ts'),
         resolve(__dirname, 'src/theme/index.ts'),
-        resolve(__dirname, 'src/hooks/index.ts')
+        resolve(__dirname, 'src/hooks/index.ts'),
+        resolve(__dirname, 'src/utils/index.ts'),
+        resolve(__dirname, 'src/icons/index.ts')
       ]
     },
+
     rollupOptions: {
       external,
       output: [
@@ -78,7 +91,12 @@ export default defineConfig({
           preserveModules: true,
           preserveModulesRoot: 'src',
           entryFileNames: '[name].mjs',
-          exports: 'named'
+          exports: 'named',
+          assetFileNames: (assetInfo) => {
+            const info = assetInfo.name as string
+            if (info.endsWith('.css')) return 'styles.css'
+            return 'assets/[name]-[hash][extname]'
+          }
         },
         {
           dir: 'dist',
@@ -86,7 +104,12 @@ export default defineConfig({
           preserveModules: true,
           preserveModulesRoot: 'src',
           entryFileNames: '[name].cjs',
-          exports: 'named'
+          exports: 'named',
+          assetFileNames: (assetInfo) => {
+            const info = assetInfo.name as string
+            if (info.endsWith('.css')) return 'styles.cjs.css'
+            return 'assets/[name]-[hash][extname]'
+          }
         }
       ]
     }

@@ -1,6 +1,6 @@
-// src/hooks/index.ts
-
-// Raw OS detector — Mantine already wrote this, just rename it
+// Raw OS detector from Mantine
 export { useColorScheme as useSystemColorScheme } from '@mantine/hooks'
 
-// Enhanced version — TiDBCloud wrote this themselves
+// UI-kit color-scheme hook with localStorage + auto resolution
+export { useColorScheme } from './useColorScheme.js'
+export type { UseColorSchemeOptions } from './useColorScheme.js'

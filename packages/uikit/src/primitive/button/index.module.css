@@ -1,0 +1,349 @@
+/* Shadcn-aligned button styles (CSS Modules) */
+
+.root {
+  --btn-glint-hi: var(--color-1-400);
+  --btn-glint-low: var(--color-1-700);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-100);
+  font-family: var(--ds-font-family-sans);
+  font-weight: var(--ds-font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--btn-bg, transparent) !important;
+  color: var(--btn-color, var(--ds-color-text)) !important;
+  border-color: var(--btn-border, transparent) !important;
+  opacity: 1;
+  box-shadow:
+    var(--ds-elevation-shadow-overflow),
+    inset var(--btn-glint-hi) 0 6px 0 -5px,
+    var(--btn-glint-low) 0 4px 10px -5px;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease,
+    transform 80ms ease;
+  position: relative;
+}
+
+
+
+.root:focus-visible {
+  outline: 3px solid var(--btn-focus-ring, var(--ds-color-border-focused));
+  outline-offset: 2px;
+}
+
+.root:active:not(:disabled):not([data-btn-disabled]) {
+  transform: translateY(0.5px);
+}
+
+/* ─── SIZES ──────────────────────────────────────────── */
+
+.root[data-btn-size='default'] {
+  min-height: 36px;
+  padding: 8px var(--ds-space-200);
+  font-size: var(--ds-font-size-200);
+}
+
+.root[data-btn-size='compact'] {
+  min-height: 28px;
+  padding: 4px var(--ds-space-100);
+  font-size: var(--ds-font-size-100);
+}
+
+/* ─── VARIANT SHELLS ─────────────────────────────────── */
+
+.root[data-btn-variant='filled'] {
+  background: var(--btn-bg) !important;
+  color: var(--btn-color) !important;
+  border-color: transparent !important;
+}
+
+.root[data-btn-variant='filled']:hover:not(:disabled):not([data-btn-disabled]) {
+  background: var(--btn-bg-hover) !important;
+}
+
+.root[data-btn-variant='filled']:active:not(:disabled):not([data-btn-disabled]) {
+  background: var(--btn-bg-active) !important;
+}
+
+.root[data-btn-variant='outline'] {
+  background: var(--btn-bg, transparent) !important;
+  color: var(--btn-color) !important;
+  border-color: var(--btn-border) !important;
+}
+
+.root[data-btn-variant='outline']:hover:not(:disabled):not([data-btn-disabled]) {
+  background: var(--btn-bg-hover) !important;
+}
+
+.root[data-btn-variant='outline']:active:not(:disabled):not([data-btn-disabled]) {
+  background: var(--btn-bg-active) !important;
+}
+
+.root[data-btn-variant='subtle'] {
+  background: var(--btn-bg, transparent) !important;
+  border-color: transparent !important;
+  color: var(--btn-color) !important;
+}
+
+.root[data-btn-variant='subtle']:hover:not(:disabled):not([data-btn-disabled]) {
+  background: var(--btn-bg-hover) !important;
+}
+
+.root[data-btn-variant='subtle']:active:not(:disabled):not([data-btn-disabled]) {
+  background: var(--btn-bg-active) !important;
+}
+
+/* Link behaves like ghost/text action: no border, no shadow/glint */
+.root[data-btn-variant='link'] {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none;
+  padding: 0;
+  height: auto;
+  color: var(--btn-color, var(--ds-color-link)) !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.root[data-btn-variant='link']:hover:not(:disabled):not([data-btn-disabled]) {
+  text-decoration: none;
+  color: var(--btn-color-hover, var(--ds-color-link-pressed)) !important;
+}
+
+/* ─── FILLED × COLOR ─────────────────────────────────── */
+
+.root[data-btn-variant='filled'][data-btn-color='brand'] {
+  --btn-bg: var(--ds-color-background-brand-bold);
+  --btn-bg-hover: var(--ds-color-background-brand-bold-hovered);
+  --btn-bg-active: var(--ds-color-background-brand-bold-pressed);
+  --btn-color: var(--ds-color-text-inverse);
+  --btn-focus-ring: var(--ds-color-background-brand-subtlest);
+}
+
+.root[data-btn-variant='filled'][data-btn-color='danger'] {
+  --btn-bg: var(--ds-color-background-danger-bold);
+  --btn-bg-hover: var(--ds-color-background-danger-bold-hovered);
+  --btn-bg-active: var(--ds-color-background-danger-bold-pressed);
+  --btn-color: var(--ds-color-text-selected);
+  --btn-focus-ring: var(--ds-color-background-danger-subtle);
+}
+
+.root[data-btn-variant='filled'][data-btn-color='warning'] {
+  --btn-bg: var(--ds-color-background-warning-bold);
+  --btn-bg-hover: var(--ds-color-background-warning-bold-hovered);
+  --btn-bg-active: var(--ds-color-background-warning-bold-pressed);
+  --btn-color: var(--ds-color-text-warning-inverse);
+  --btn-focus-ring: var(--ds-color-background-warning-subtle);
+}
+
+.root[data-btn-variant='filled'][data-btn-color='success'] {
+  --btn-bg: var(--ds-color-background-success-bold);
+  --btn-bg-hover: var(--ds-color-background-success-bold-hovered);
+  --btn-bg-active: var(--ds-color-background-success-bold-pressed);
+  --btn-color: var(--ds-color-text-selected);
+  --btn-focus-ring: var(--ds-color-background-success-subtle);
+}
+
+.root[data-btn-variant='filled'][data-btn-color='discovery'] {
+  --btn-bg: var(--ds-color-background-discovery-bold);
+  --btn-bg-hover: var(--ds-color-background-discovery-bold-hovered);
+  --btn-bg-active: var(--ds-color-background-discovery-bold-pressed);
+  --btn-color: var(--ds-color-text-selected);
+  --btn-focus-ring: var(--ds-color-background-discovery-subtle);
+}
+
+.root[data-btn-variant='filled'][data-btn-color='neutral'] {
+  --btn-bg: var(--ds-color-background-neutral-bold);
+  --btn-bg-hover: var(--ds-color-background-neutral-bold-hovered);
+  --btn-bg-active: var(--ds-color-background-neutral-bold-pressed);
+  --btn-color: var(--ds-color-text-inverse);
+  --btn-focus-ring: var(--ds-color-background-neutral);
+}
+
+/* ─── OUTLINE × COLOR ────────────────────────────────── */
+
+.root[data-btn-variant='outline'][data-btn-color='brand'] {
+  --btn-border: var(--ds-color-border-brand);
+  --btn-color: var(--ds-color-text-brand);
+  --btn-bg-hover: var(--ds-color-background-brand-subtlest);
+  --btn-bg-active: var(--ds-color-background-brand-subtlest-pressed);
+}
+
+.root[data-btn-variant='outline'][data-btn-color='danger'] {
+  --btn-border: var(--ds-color-border-danger);
+  --btn-color: var(--ds-color-text-danger);
+  --btn-bg-hover: var(--ds-color-background-danger-subtle);
+  --btn-bg-active: var(--ds-color-background-danger-pressed);
+}
+
+.root[data-btn-variant='outline'][data-btn-color='warning'] {
+  --btn-border: var(--ds-color-border-warning);
+  --btn-color: var(--ds-color-text-warning);
+  --btn-bg-hover: var(--ds-color-background-warning-subtle);
+  --btn-bg-active: var(--ds-color-background-warning-pressed);
+}
+
+.root[data-btn-variant='outline'][data-btn-color='success'] {
+  --btn-border: var(--ds-color-border-success);
+  --btn-color: var(--ds-color-text-success);
+  --btn-bg-hover: var(--ds-color-background-success-subtle);
+  --btn-bg-active: var(--ds-color-background-success-pressed);
+}
+
+.root[data-btn-variant='outline'][data-btn-color='discovery'] {
+  --btn-border: var(--ds-color-border-discovery);
+  --btn-color: var(--ds-color-text-discovery);
+  --btn-bg-hover: var(--ds-color-background-discovery-subtle);
+  --btn-bg-active: var(--ds-color-background-discovery-pressed);
+}
+
+.root[data-btn-variant='outline'][data-btn-color='neutral'] {
+  --btn-border: var(--ds-color-border-default, var(--ds-color-border));
+  --btn-color: var(--ds-color-text);
+  --btn-bg-hover: var(--ds-color-background-neutral-subtle-hovered);
+  --btn-bg-active: var(--ds-color-background-neutral-subtle-pressed);
+}
+
+/* ─── SUBTLE × COLOR ─────────────────────────────────── */
+
+.root[data-btn-variant='subtle'][data-btn-color='brand'] {
+  --btn-color: var(--ds-color-text-brand);
+  --btn-bg-hover: var(--ds-color-background-brand-subtlest);
+  --btn-bg-active: var(--ds-color-background-brand-subtlest-pressed);
+}
+
+.root[data-btn-variant='subtle'][data-btn-color='danger'] {
+  --btn-color: var(--ds-color-text-danger);
+  --btn-bg-hover: var(--ds-color-background-danger-subtle);
+  --btn-bg-active: var(--ds-color-background-danger-pressed);
+}
+
+.root[data-btn-variant='subtle'][data-btn-color='warning'] {
+  --btn-color: var(--ds-color-text-warning);
+  --btn-bg-hover: var(--ds-color-background-warning-subtle);
+  --btn-bg-active: var(--ds-color-background-warning-pressed);
+}
+
+.root[data-btn-variant='subtle'][data-btn-color='success'] {
+  --btn-color: var(--ds-color-text-success);
+  --btn-bg-hover: var(--ds-color-background-success-subtle);
+  --btn-bg-active: var(--ds-color-background-success-pressed);
+}
+
+.root[data-btn-variant='subtle'][data-btn-color='discovery'] {
+  --btn-color: var(--ds-color-text-discovery);
+  --btn-bg-hover: var(--ds-color-background-discovery-subtle);
+  --btn-bg-active: var(--ds-color-background-discovery-pressed);
+}
+
+.root[data-btn-variant='subtle'][data-btn-color='neutral'] {
+  --btn-color: var(--ds-color-text);
+  --btn-bg-hover: var(--ds-color-background-neutral-subtle-hovered);
+  --btn-bg-active: var(--ds-color-background-neutral-subtle-pressed);
+}
+
+/* ─── LINK ───────────────────────────────────────────── */
+
+.root[data-btn-variant='link'] {
+  --btn-color: var(--ds-color-link);
+}
+
+.root[data-btn-variant='link']:hover:not(:disabled):not([data-btn-disabled]) {
+  --btn-color: var(--ds-color-link-pressed);
+}
+
+
+
+:global([data-mantine-color-scheme='dark']) .root[data-btn-variant='filled'][data-btn-color='brand'] {
+  --btn-bg: var(--ds-color-background-brand-boldest);
+  --btn-bg-hover: var(--ds-color-background-brand-boldest-hovered);
+  --btn-bg-active: var(--ds-color-background-brand-boldest-pressed);
+  --btn-color: var(--ds-color-text-selected);
+}
+
+/* ─── STATES ─────────────────────────────────────────── */
+
+.root:disabled,
+.root[data-btn-disabled] {
+  background: var(--ds-color-background-disabled) !important;
+  color: var(--ds-color-text-subtle) !important;
+  border-color: var(--ds-color-border-default-medium, var(--ds-color-border-bold)) !important;
+  box-shadow: none;
+  opacity: 1;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.root[data-btn-loading] {
+  cursor: wait;
+}
+
+/* ─── INNER LAYOUT ───────────────────────────────────── */
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-100);
+  height: 100%;
+  width: 100%;
+}
+
+.label {
+  font-weight: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--btn-color, inherit) !important;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--btn-color, inherit) !important;
+}
+
+.section svg {
+  display: block;
+  color: currentcolor;
+}
+
+.loader {
+  color: currentcolor;
+}
+
+/* Icon-only sizing */
+.root[data-btn-icon-only='true'] {
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+}
+
+.root[data-btn-icon-only='true'][data-btn-size='compact'] {
+  width: 28px;
+  min-width: 28px;
+  min-height: 28px;
+}
+
+/* Selected state */
+.root[data-btn-selected='true'] {
+  background: var(--ds-color-background-selected) !important;
+  color: var(--ds-color-text-selected) !important;
+}
+
+/* Full width */
+.root[data-btn-full-width='true'] {
+  width: 100%;
+}
