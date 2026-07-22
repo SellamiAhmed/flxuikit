@@ -1,10 +1,11 @@
 import { IconX } from '@tabler/icons-react'
 
-import { ActionIcon, Anchor, Box, Group, MantineText } from '../../../primitive/index.js'
-import classes from '../index.module.css'
-import { type AppSidenavNotification } from '../types.js'
+import { ActionIcon, Anchor, Box, Group, MantineText } from '../../../../primitive/index.js'
+import type { AppSidenavNotification } from '../../types.js'
 
-interface NotificationsProps {
+import classes from './index.module.css'
+
+export interface NotificationsProps {
   notificationsAriaLabel: string
   notifications: AppSidenavNotification[]
   onDismiss: (notification: AppSidenavNotification) => void

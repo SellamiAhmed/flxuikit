@@ -1,0 +1,55 @@
+.appShellRoot {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--ds-elevation-surface);
+  font-family: var(--ds-font-family-sans);
+}
+
+.appShellMain {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+.appShellMain[data-height-flex] {
+  flex: 1;
+}
+
+.appShellBody {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  background-color: var(--ds-elevation-surface);
+}
+
+.appShellBanner {
+  flex-shrink: 0;
+}
+
+.navbarAboveMenu {
+  padding: 8px 12px;
+}
+
+.navbarMenuSection {
+  padding: 8px 12px;
+}
+
+.navbarMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navbarFooterSection {
+  padding: 8px 12px 12px;
+  border-top: 1px solid var(--ds-color-border);
+}
+
+.navbarFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

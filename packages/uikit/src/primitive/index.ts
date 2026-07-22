@@ -55,7 +55,6 @@ export type {
   OptionsFilter,
   TagsInputProps,
   ActionIconProps,
-  ButtonProps,
   CloseButtonProps,
   CopyButtonProps,
   FileButtonProps,
@@ -254,20 +253,3 @@ export { Switch, type SwitchProps } from './Switch/index.js'
 export { useColorScheme } from '../hooks/index.js'
 
 // Business components — root convenience exports
-export {
-  AppSidenav,
-  DEFAULT_APP_SIDENAV_BRAND,
-  DEFAULT_APP_SIDENAV_NAV_ITEMS,
-  DEFAULT_APP_SIDENAV_NOTIFICATIONS,
-  DEFAULT_APP_SIDENAV_UTILITY_ACTIONS
-} from '../business/AppSidenav/AppSidenav.js'
-export type {
-  AppSidenavBrand,
-  AppSidenavNavChild,
-  AppSidenavNavItem,
-  AppSidenavNotification,
-  AppSidenavProps,
-  AppSidenavUtilityAction
-} from '../business/AppSidenav/AppSidenav.js'
-
-// Types

@@ -1,0 +1,388 @@
+/* ── Navbar Wrapper ── */
+.navbarWrapper {
+  flex-shrink: 0;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+  width: var(--app-shell-navbar-width, 240px);
+  transition: width 200ms ease;
+  overflow: hidden;
+}
+
+.navbarWrapper[data-hidden='true'] {
+  width: 0;
+}
+
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  flex-direction: column;
+  width: var(--app-shell-navbar-width, 240px);
+  height: 100%;
+  background-color: var(--ds-elevation-surface);
+  border-right: 1px solid var(--ds-color-border);
+  flex-shrink: 0;
+  transition: transform 200ms ease;
+  overflow: hidden;
+  font-family: var(--ds-font-family-sans);
+}
+
+.navbar[data-hidden='true'] {
+  transform: translateX(-100%);
+}
+
+/* ── Sections ── */
+.navbarSection {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbarSectionGrow {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.navbarSectionScrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ── Header ── */
+.navbarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 12px 10px;
+  gap: var(--ds-space-100);
+}
+
+.navbarHeaderLogo {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ds-color-text);
+  font-family: var(--ds-font-family-sans);
+}
+
+.collapseToggleButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-elevation-surface-raised);
+  color: var(--ds-color-text-subtle);
+  font-family: var(--ds-font-family-sans);
+}
+
+.collapseToggleButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.collapseToggleButton:focus-visible {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 1px;
+}
+
+/* ── Expand Button ── */
+.expandNavbarButtonWrap {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-100);
+}
+
+.expandNavbarButtonLogo {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-text);
+  font-family: var(--ds-font-family-sans);
+}
+
+.expandNavbarButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-elevation-surface-raised);
+  color: var(--ds-color-text-subtle);
+  font-family: var(--ds-font-family-sans);
+}
+
+.expandNavbarButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+/* ── Nav Items ── */
+.navItem {
+  margin-bottom: 2px;
+  list-style: none;
+}
+
+.navItem[data-highlighted='true'] .navButton {
+  background: var(--ds-color-background-brand-subtlest);
+  color: var(--ds-color-text-brand);
+  border-color: var(--ds-color-border-brand);
+}
+
+.navbarMenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ds-color-text-subtle);
+  text-decoration: none;
+  font-family: var(--ds-font-family-sans);
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.navButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.navButton:focus-visible {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 1px;
+}
+
+.navButton.active {
+  background: var(--ds-color-background-selected);
+  color: var(--ds-color-text-selected);
+}
+
+.navButton.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navLeadIcon {
+  display: inline-flex;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.navLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--ds-font-family-sans);
+}
+
+.navTrailingIcon {
+  display: inline-flex;
+  line-height: 1;
+  transition: transform 200ms ease;
+}
+
+.navTrailingIconExpanded {
+  transform: rotate(90deg);
+}
+
+.badge {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--ds-color-background-brand-bold);
+  color: var(--ds-color-text-selected);
+  font-family: var(--ds-font-family-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+
+/* ── Child Items ── */
+.childList {
+  list-style: none;
+  margin: 3px 0 6px;
+  padding-left: 34px;
+}
+
+.childItem {
+  margin: 0;
+  list-style: none;
+}
+
+.childLink {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--ds-color-text-subtle);
+  font-family: var(--ds-font-family-sans);
+  font-size: 13px;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.childLink:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.childLink.active {
+  background: var(--ds-color-background-selected);
+  color: var(--ds-color-text-selected);
+}
+
+/* ── Rail Mode ── */
+.navbarCollapsed {
+  width: 56px;
+  padding: 10px 8px 8px;
+  align-items: center;
+}
+
+.navbarCollapsed .navbarSection {
+  align-items: center;
+}
+
+.navbarCollapsed .navbarMenu {
+  align-items: center;
+  gap: 6px;
+}
+
+/* Rail Header */
+.railHeader {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 2px 0 10px;
+}
+
+.railBrand {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-text);
+  text-decoration: none;
+}
+
+.railBrand:hover {
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.railToggleButton {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: var(--ds-color-text-subtle);
+  background: transparent;
+}
+
+.railToggleButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+/* Rail Nav Items */
+.railItem {
+  position: relative;
+  list-style: none;
+}
+
+.railNavButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: var(--ds-color-text-subtle);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.railNavButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.railNavButtonActive {
+  color: var(--ds-color-text-brand);
+  background: var(--ds-color-background-brand-subtlest);
+  border-color: var(--ds-color-border-brand);
+}
+
+.railNavIcon {
+  display: inline-flex;
+  line-height: 1;
+}
+
+.railBadgeDot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--ds-color-background-danger-bold);
+}
+
+/* Collapse toggle in full mode */
+.collapseToggleButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-elevation-surface-raised);
+  color: var(--ds-color-text-subtle);
+}
+
+.collapseToggleButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+/* Hide sections in rail */
+.navbarCollapsed .navbarNotificationsSection,
+.navbarCollapsed .navbarAboveMenu {
+  display: none;
+}

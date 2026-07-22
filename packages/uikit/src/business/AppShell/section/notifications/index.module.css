@@ -1,0 +1,83 @@
+.notifications {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 2px 8px;
+}
+
+.card {
+  border: 1px solid var(--ds-color-border);
+  border-radius: 8px;
+  background: var(--ds-elevation-surface-raised);
+  box-shadow: var(--ds-elevation-shadow-overflow);
+  padding: 10px;
+}
+
+.cardHeader {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitleWrap {
+  align-items: baseline;
+}
+
+.cardIcon {
+  color: var(--ds-color-text-subtle);
+  line-height: 1;
+}
+
+.cardTitle {
+  margin: 0;
+  font: var(--ds-font-heading-xxsmall);
+  color: var(--ds-color-text);
+}
+
+.dismissButton {
+  width: 24px;
+  height: 24px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ds-color-text-subtle);
+}
+
+.dismissButton:hover {
+  color: var(--ds-color-text);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.dismissButton:focus-visible {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 1px;
+}
+
+.cardDescription {
+  margin: 8px 0;
+  font: var(--ds-font-body-small);
+  color: var(--ds-color-text-subtle);
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font: var(--ds-font-body-small);
+  color: var(--ds-color-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cardLink:hover {
+  color: var(--ds-color-link-pressed);
+  text-decoration: none;
+}
+
+.emptyState {
+  margin: 0;
+  font: var(--ds-font-body-small);
+  color: var(--ds-color-text-subtle);
+}

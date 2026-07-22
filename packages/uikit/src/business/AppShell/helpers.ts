@@ -5,7 +5,6 @@ export function buildInitialExpandedMap(items: AppSidenavNavItem[]) {
     if (item.children?.length) {
       acc[item.id] = !!item.defaultExpanded
     }
-
     return acc
   }, {})
 }

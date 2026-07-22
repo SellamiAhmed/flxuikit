@@ -48,12 +48,14 @@
 /* ─── SIZES ──────────────────────────────────────────── */
 
 .root[data-btn-size='default'] {
+  --btn-section-size: 16px;
   min-height: 36px;
   padding: 8px var(--ds-space-200);
   font-size: var(--ds-font-size-200);
 }
 
 .root[data-btn-size='compact'] {
+  --btn-section-size: 14px;
   min-height: 28px;
   padding: 4px var(--ds-space-100);
   font-size: var(--ds-font-size-100);
@@ -291,15 +293,17 @@
 /* ─── INNER LAYOUT ───────────────────────────────────── */
 
 .inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: center;
-  gap: var(--ds-space-100);
+  column-gap: var(--ds-space-100);
   height: 100%;
   width: 100%;
 }
 
 .label {
+  justify-self: center;
+  text-align: center;
   font-weight: inherit;
   line-height: 1;
   white-space: nowrap;
@@ -307,16 +311,30 @@
 }
 
 .section {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: var(--btn-section-size, 16px);
+  width: var(--btn-section-size, 16px);
+  height: var(--btn-section-size, 16px);
   margin: 0;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   color: var(--btn-color, inherit) !important;
+}
+
+.sectionSpacer {
+  display: inline-flex;
+  width: var(--btn-section-size, 16px);
+  height: var(--btn-section-size, 16px);
 }
 
 .section svg {
   display: block;
   color: currentcolor;
+  background: transparent;
 }
 
 .loader {

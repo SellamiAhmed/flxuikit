@@ -1,4 +1,4 @@
-import { Button as MantineButton, Loader, useMantineTheme, type ButtonProps as MantineButtonProps } from '@mantine/core'
+import { Loader, Button as MantineButton, useMantineTheme, type ButtonProps as MantineButtonProps } from '@mantine/core'
 import clsx from 'clsx'
 import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react'
 
@@ -63,6 +63,18 @@ const _Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     />
   )
 
+  const resolvedLeftSection = isLoading ? loader : leftSection
+  const hasLeftSection = resolvedLeftSection !== undefined && resolvedLeftSection !== null
+  const hasRightSection = rightSection !== undefined && rightSection !== null
+
+  const balancedLeftSection = !iconOnly && !hasLeftSection && hasRightSection
+    ? <span className={classes.sectionSpacer} aria-hidden="true" />
+    : resolvedLeftSection
+
+  const balancedRightSection = !iconOnly && hasLeftSection && !hasRightSection
+    ? <span className={classes.sectionSpacer} aria-hidden="true" />
+    : rightSection
+
   return (
     <MantineButton
       {...rest}
@@ -82,8 +94,8 @@ const _Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       className={clsx(classes.root, className)}
       classNames={{ inner: classes.inner, label: classes.label, section: classes.section }}
       style={style}
-      leftSection={isLoading ? loader : leftSection}
-      rightSection={rightSection}
+      leftSection={balancedLeftSection}
+      rightSection={balancedRightSection}
     />
   )
 })

@@ -1,1 +1,1 @@
-export * from './AppSidenav/AppSidenav.js'
+export * from './AppShell/index.js'
