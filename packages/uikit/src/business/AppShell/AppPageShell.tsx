@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { useEffect, useRef, useState } from 'react'
 
 import { Group } from '../../primitive/index.js'
 import {
@@ -15,13 +16,20 @@ import {
 import classes from './AppPageShell.module.css'
 import { ExpandNavbarButtonPlaceholder } from './navbar/ExpandNavbarButtonPlaceholder.js'
 
-const DEFAULT_PAGE_MAX_WIDTH = 1920
+type CSSWithVars = React.CSSProperties & {
+  [key: `--${string}`]: string | number
+}
 
 export interface AppPageShellProps {
   maxWidth?: string
   withHeader?: boolean
   title?: React.ReactNode
+  subtitle?: React.ReactNode
+  breadcrumbs?: React.ReactNode
   children?: React.ReactNode
+  headerActions?: React.ReactNode
+  secondaryNav?: React.ReactNode
+  footer?: React.ReactNode
   wrapperProps?: PageShellBaseRootProps
   headerProps?: PageShellBaseHeaderProps & {
     withBack?: boolean
@@ -35,9 +43,26 @@ export const AppPageShell = ({
   headerProps,
   bodyProps,
   wrapperProps,
-  maxWidth = `${DEFAULT_PAGE_MAX_WIDTH}px`,
-  ...rest
+  maxWidth = '100%',
+  title,
+  subtitle,
+  breadcrumbs,
+  children,
+  headerActions,
+  secondaryNav,
+  footer,
 }: AppPageShellProps) => {
+  const [scrolled, setScrolled] = useState(false)
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    const onScroll = () => setScrolled(el.scrollTop > 0)
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [])
+
   if (!withHeader) {
     return (
       <PageShellBaseRoot
@@ -46,9 +71,9 @@ export const AppPageShell = ({
         style={{
           ...bodyProps?.style,
           '--app-shell-page-max-width': maxWidth,
-        } as React.CSSProperties}
+        } as CSSWithVars}
       >
-        {rest.children}
+        {children}
       </PageShellBaseRoot>
     )
   }
@@ -62,27 +87,39 @@ export const AppPageShell = ({
       style={{
         ...wrapperProps?.style,
         '--app-shell-page-max-width': maxWidth,
-      } as React.CSSProperties}
+      } as CSSWithVars}
     >
       <PageShellBaseHeader
         {...headerPropsWithoutBack}
-        sticky={headerPropsWithoutBack.sticky}
-        className={clsx(classes.header, headerPropsWithoutBack.className)}
+        sticky
+        className={clsx(
+          classes.header,
+          scrolled && classes.headerScrolled,
+          headerPropsWithoutBack.className
+        )}
         leftSection={
           <Group wrap="nowrap" gap={0}>
             <ExpandNavbarButtonPlaceholder />
             {withBack && <PageShellBaseBackButton onClick={onBackClick} />}
           </Group>
         }
+        rightSection={headerActions}
       >
-        <PageShellBaseTitle>{rest.title}</PageShellBaseTitle>
+        <div className={classes.headerContent}>
+          {breadcrumbs && <div className={classes.breadcrumbs}>{breadcrumbs}</div>}
+          {title && <PageShellBaseTitle className={classes.title}>{title}</PageShellBaseTitle>}
+          {subtitle && <p className={classes.subtitle}>{subtitle}</p>}
+          {secondaryNav && <div className={classes.secondaryNav}>{secondaryNav}</div>}
+        </div>
       </PageShellBaseHeader>
 
       <PageShellBaseBody
         {...bodyProps}
+        ref={bodyRef}
         className={clsx(classes.body, bodyProps?.className)}
       >
-        {rest.children}
+        <div className={classes.content}>{children}</div>
+        {footer && <div className={classes.footer}>{footer}</div>}
       </PageShellBaseBody>
     </PageShellBaseRoot>
   )

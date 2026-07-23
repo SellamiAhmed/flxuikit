@@ -6,6 +6,7 @@ export { NavbarHeader } from './NavbarHeader.js'
 export { NavbarSection } from './NavbarSection.js'
 
 export { NavMenuItem } from './NavMenuItem.js'
-export { NavMenuSubItem } from './NavMenuSubItem.js'
 export type { NavMenuItemProps } from './NavMenuItem.js'
+export { NavMenuSubItem } from './NavMenuSubItem.js'
 export type { NavMenuSubItemProps } from './NavMenuSubItem.js'
+

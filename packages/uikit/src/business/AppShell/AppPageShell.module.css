@@ -1,34 +1,135 @@
 /* ============================================
-   APP PAGE SHELL (BUSINESS LAYER)
+   APP PAGE SHELL — Full Width
    ============================================ */
 
+/* ── Shell ── */
 .shell {
-  --app-shell-page-max-width: 1920px;
+  --app-shell-page-max-width: 100%;
 
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-width: min(100%, var(--app-shell-page-max-width));
-  margin: 0 auto;
-  overflow-x: auto;
+  width: 100%;
+  max-width: var(--app-shell-page-max-width);
+  overflow: hidden; /* body handles scrolling */
 }
 
 .shellNoHeader {
-  --app-shell-page-max-width: 1920px;
+  --app-shell-page-max-width: 100%;
 
+  width: 100%;
   height: 100%;
-  max-width: min(100%, var(--app-shell-page-max-width));
-  margin: 0 auto;
   padding: var(--ds-space-300);
   overflow-x: auto;
 }
 
+/* ── Header ── */
 .header {
-  background-color: var(--ds-color-background-neutral);
+  flex-shrink: 0;
+  background-color: var(--ds-elevation-surface);
+  border-bottom: 1px solid transparent;
+  transition:
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+  padding-left: var(--ds-space-300);
+  padding-right: var(--ds-space-300);
 }
 
+.headerScrolled {
+  border-bottom-color: var(--ds-color-border);
+  box-shadow: var(--ds-elevation-shadow-overflow);
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-050);
+  min-width: 0;
+}
+
+.breadcrumbs {
+  font: var(--ds-font-body-small);
+  color: var(--ds-color-text-subtle);
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-050);
+}
+
+.breadcrumbs > *:not(:last-child)::after {
+  content: '/';
+  margin-left: var(--ds-space-050);
+  color: var(--ds-color-text-subtlest);
+}
+
+.title {
+  font: var(--ds-font-heading-large);
+  color: var(--ds-color-text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font: var(--ds-font-body);
+  color: var(--ds-color-text-subtle);
+  margin: 0;
+}
+
+.secondaryNav {
+  margin-top: var(--ds-space-100);
+  margin-bottom: calc(var(--ds-space-100) * -1);
+}
+
+/* ── Body ── */
 .body {
-  padding-top: 0;
-  padding-bottom: 64px; /* generous bottom breathing room */
   flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--ds-space-300);
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar on the right edge */
+.body::-webkit-scrollbar {
+  width: 10px;
+}
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.body::-webkit-scrollbar-thumb {
+  background: var(--ds-color-border-bold);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.body::-webkit-scrollbar-thumb:hover {
+  background: var(--ds-color-text-subtlest);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Firefox */
+.body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ds-color-border-bold) transparent;
+}
+
+/* ── Content ── */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-300);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ── Footer ── */
+.footer {
+  margin-top: var(--ds-space-400);
+  padding-top: var(--ds-space-200);
+  border-top: 1px solid var(--ds-color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
