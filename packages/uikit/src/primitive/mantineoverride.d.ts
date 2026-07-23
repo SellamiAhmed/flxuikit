@@ -14,4 +14,7 @@ declare module '@mantine/core' {
   interface StylesApiPropsOverride<Payload extends FactoryPayload> {
     styles?: Partial<Record<string, React.CSSProperties>>
   }
+  export interface TextInputProps {
+    classNames?: Partial<Record<'wrapper' | 'input' | 'section' | string, string>>
+  }
 }

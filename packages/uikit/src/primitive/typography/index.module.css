@@ -1,132 +1,84 @@
-/* src/primitive/typography/index.module.css */
-
-/* ═══════════════════════════════════════════════════════ */
-/* BASE */
-/* ═══════════════════════════════════════════════════════ */
-.base {
-  margin: 0;
-  padding: 0;
+.headline-lg {
+  font: 600 1.5rem/2rem var(--ds-font-family-sans);
+  color: var(--ds-color-text);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* DISPLAY */
-/* ═══════════════════════════════════════════════════════ */
-
-.display_xl {
-  font-size: 5rem;
-  line-height: 1.05;
-  font-weight: 700;
-  color: var(--mantine-color-dark-0);
-  letter-spacing: -0.03em;
+.headline-md {
+  font: 600 1.25rem/1.875rem var(--ds-font-family-sans);
+  color: var(--ds-color-text);
 }
 
-.display_lg {
-  font-size: 3.5rem;
-  line-height: 1.1;
-  font-weight: 700;
-  color: var(--mantine-color-dark-0);
-  letter-spacing: -0.02em;
+.headline-sm {
+  font: 600 1.125rem/1.75rem var(--ds-font-family-sans);
+  color: var(--ds-color-text);
 }
 
-.display_md {
-  font-size: 2.5rem;
-  line-height: 1.15;
-  font-weight: 700;
-  color: var(--mantine-color-dark-0);
-  letter-spacing: -0.01em;
+.title-lg {
+  font: 600 1rem/1.5rem var(--ds-font-family-sans);
+  color: var(--ds-color-text);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* HEADLINE */
-/* ═══════════════════════════════════════════════════════ */
-
-.headline {
-  font-size: 1.75rem;
-  line-height: 1.2;
-  font-weight: 600;
-  color: var(--mantine-color-dark-0);
-  letter-spacing: -0.01em;
+.title-md {
+  font: 600 0.875rem/1.25rem var(--ds-font-family-sans);
+  color: var(--ds-color-text);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* CARD TITLE */
-/* ═══════════════════════════════════════════════════════ */
-
-.card_title {
-  font-size: 1.375rem;
-  line-height: 1.25;
-  font-weight: 600;
-  color: var(--mantine-color-dark-0);
+.title-sm {
+  font: 600 0.75rem/1.125rem var(--ds-font-family-sans);
+  color: var(--ds-color-text);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* SUBHEAD */
-/* ═══════════════════════════════════════════════════════ */
-
-.subhead {
-  font-size: 1.25rem;
-  line-height: 1.4;
-  font-weight: 500;
-  color: var(--mantine-color-dark-0);
+.action-lg {
+  font: 600 1rem/1.5rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-brand);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* BODY */
-/* ═══════════════════════════════════════════════════════ */
-
-.body_lg {
-  font-size: 1.125rem;
-  line-height: 1.5;
-  font-weight: 400;
-  color: var(--mantine-color-dark-1);
+.action-md {
+  font: 600 0.875rem/1.25rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-brand);
 }
 
-.body {
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 400;
-  color: var(--mantine-color-dark-1);
+.action-sm {
+  font: 600 0.75rem/1.125rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-brand);
 }
 
-.body_sm {
-  font-size: 0.875rem;
-  line-height: 1.5;
-  font-weight: 400;
-  color: var(--mantine-color-dark-2);
+.label-lg {
+  font: 500 0.875rem/1.25rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* CAPTION */
-/* ═══════════════════════════════════════════════════════ */
-
-.caption {
-  font-size: 0.75rem;
-  line-height: 1.4;
-  font-weight: 400;
-  color: var(--mantine-color-dark-2);
+.label-md {
+  font: 500 0.8125rem/1.125rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* EYEBROW */
-/* ═══════════════════════════════════════════════════════ */
-
-.eyebrow {
-  font-size: 0.8125rem;
-  line-height: 1.3;
-  font-weight: 500;
-  color: var(--mantine-color-brand-6);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.label-sm {
+  font: 500 0.75rem/1.125rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* MONO */
-/* ═══════════════════════════════════════════════════════ */
+.label-xs {
+  font: 500 0.6875rem/1rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
+}
 
-.mono {
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  font-weight: 400;
-  color: var(--mantine-color-dark-1);
-  font-family: var(--mantine-font-family-monospace);
+.body-lg {
+  font: 400 0.875rem/1.25rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
+}
+
+.body-md {
+  font: 400 0.8125rem/1.125rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
+}
+
+.body-sm {
+  font: 400 0.75rem/1.125rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
+}
+
+.body-xs {
+  font: 400 0.6875rem/1rem var(--ds-font-family-sans);
+  color: var(--ds-color-text-subtle);
 }

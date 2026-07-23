@@ -1,35 +1,40 @@
-// src/primitive/typography/index.tsx
-import { Text, createPolymorphicComponent } from '@mantine/core'
-import type { TextProps } from '@mantine/core'
+import { createPolymorphicComponent, Text, TextProps } from '@mantine/core'
 import clsx from 'clsx'
 import { forwardRef } from 'react'
 
 import classes from './index.module.css'
 
-export type TypographyVariant =
-  | 'display-xl'
-  | 'display-lg'
-  | 'display-md'
-  | 'headline'
-  | 'card-title'
-  | 'subhead'
+type TypographyVariants =
+  | 'headline-lg'
+  | 'headline-md'
+  | 'headline-sm'
+  | 'title-lg'
+  | 'title-md'
+  | 'title-sm'
+  | 'action-lg'
+  | 'action-md'
+  | 'action-sm'
+  | 'label-lg'
+  | 'label-md'
+  | 'label-sm'
+  | 'label-xs'
   | 'body-lg'
-  | 'body'
+  | 'body-md'
   | 'body-sm'
-  | 'caption'
-  | 'eyebrow'
-  | 'mono'
+  | 'body-xs'
 
-export interface TypographyProps extends Omit<TextProps, 'size' | 'variant'> {
-  variant?: TypographyVariant
+export interface TypographyProps extends Omit<TextProps, 'variant'> {
+  variant?: TypographyVariants
 }
 
 const _Typography = forwardRef<HTMLDivElement, React.PropsWithChildren<TypographyProps>>(
   ({ children, variant, className, ...rest }, ref) => {
-    const variantClass = variant ? classes[variant.replace('-', '_')] : undefined
-
     return (
-      <Text ref={ref} className={clsx(classes.base, variantClass, className)} {...rest}>
+      <Text
+        ref={ref}
+        className={clsx(variant && classes[variant], className)}
+        {...rest}
+      >
         {children}
       </Text>
     )

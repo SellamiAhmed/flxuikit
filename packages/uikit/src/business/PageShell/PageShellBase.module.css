@@ -1,0 +1,60 @@
+/* ============================================
+   PAGE SHELL BASE PRIMITIVES
+   ============================================ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: auto;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0;
+  padding-left: var(--ds-space-300);
+  padding-right: var(--ds-space-300);
+  height: 64px; /* fixed chrome height */
+  flex-shrink: 0;
+}
+
+.header[data-sticky] {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
+
+.headerCenter {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex: 1;
+  margin-right: var(--ds-space-200);
+}
+
+/* ── Title ── */
+.title {
+  font: var(--ds-font-heading-xxlarge);
+  font-weight: 300; /* add --ds-font-weight-light: 300 to tokens if you want */
+  color: var(--ds-color-text);
+}
+
+/* ── Body ── */
+.body {
+  padding-left: var(--ds-space-300);
+  padding-right: var(--ds-space-300);
+  padding-top: var(--ds-space-200);
+  padding-bottom: var(--ds-space-200);
+  flex: 1;
+}
+
+/* ── Back Button ── */
+.backButton {
+  /* ActionIcon primitive handles its own internals;
+     this class is for page-shell-specific overrides if needed */
+}

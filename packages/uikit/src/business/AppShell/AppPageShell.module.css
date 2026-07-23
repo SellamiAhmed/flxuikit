@@ -1,0 +1,34 @@
+/* ============================================
+   APP PAGE SHELL (BUSINESS LAYER)
+   ============================================ */
+
+.shell {
+  --app-shell-page-max-width: 1920px;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: min(100%, var(--app-shell-page-max-width));
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.shellNoHeader {
+  --app-shell-page-max-width: 1920px;
+
+  height: 100%;
+  max-width: min(100%, var(--app-shell-page-max-width));
+  margin: 0 auto;
+  padding: var(--ds-space-300);
+  overflow-x: auto;
+}
+
+.header {
+  background-color: var(--ds-color-background-neutral);
+}
+
+.body {
+  padding-top: 0;
+  padding-bottom: 64px; /* generous bottom breathing room */
+  flex: 1;
+}
