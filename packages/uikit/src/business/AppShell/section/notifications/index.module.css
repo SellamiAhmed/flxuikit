@@ -4,16 +4,16 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 4px 2px 8px;
+  gap: var(--ds-space-100);
+  padding: var(--ds-space-050) var(--ds-space-025) var(--ds-space-100);
 }
 
 .card {
   border: 1px solid var(--ds-color-border);
-  border-radius: 8px;
+  border-radius: var(--ds-space-100);
   background: var(--ds-elevation-surface-raised);
   box-shadow: var(--ds-elevation-shadow-overflow);
-  padding: 10px;
+  padding: var(--ds-space-150);
 }
 
 .cardHeader {
@@ -37,10 +37,10 @@
 }
 
 .dismissButton {
-  width: 24px;
-  height: 24px;
+  width: var(--ds-space-300);
+  height: var(--ds-space-300);
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: var(--ds-space-075);
   background: transparent;
   color: var(--ds-color-text-subtle);
 }
@@ -56,7 +56,7 @@
 }
 
 .cardDescription {
-  margin: 8px 0;
+  margin: var(--ds-space-100) 0;
   font: var(--ds-font-body-small);
   color: var(--ds-color-text-subtle);
 }
@@ -64,7 +64,7 @@
 .cardLink {
   display: inline-flex;
   align-items: baseline;
-  gap: 4px;
+  gap: var(--ds-space-050);
   font: var(--ds-font-body-small);
   color: var(--ds-color-link);
   text-decoration: underline;

@@ -289,14 +289,15 @@
   background-color: var(--ds-color-background-neutral-pressed);
 }
 
-/* White */
+/* White — uses Canvas (elevated surface), NOT page surface.
+   Use this on colored/contrasting backgrounds only. */
 .root.root[data-variant='white'] {
-  background-color: var(--ds-elevation-surface);
+  background-color: var(--ds-canvas);
   color: var(--ds-color-text);
   border-color: transparent;
 }
 .root.root[data-variant='white']:hover:not(:disabled):not([data-loading]) {
-  background-color: var(--ds-elevation-surface-hovered);
+  background-color: var(--ds-canvas-soft);
 }
 
 /* Transparent */

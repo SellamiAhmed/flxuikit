@@ -12,6 +12,7 @@ import {
     type PageShellBaseHeaderProps,
     type PageShellBaseRootProps
 } from '../PageShell/page-shell-base.js'
+import { PageShellNotificationBell, type PageShellNotificationBellProps } from '../PageShell/PageShellNotificationBell.js'
 
 import classes from './AppPageShell.module.css'
 import { ExpandNavbarButtonPlaceholder } from './navbar/ExpandNavbarButtonPlaceholder.js'
@@ -24,18 +25,29 @@ export interface AppPageShellProps {
   maxWidth?: string
   withHeader?: boolean
   title?: React.ReactNode
-  subtitle?: React.ReactNode
+  /** Fallback breadcrumbs (use `headerProps.breadcrumbs` to group with header config). */
   breadcrumbs?: React.ReactNode
+  /** Fallback subtitle (use `headerProps.subtitle` to group with header config). */
+  subtitle?: React.ReactNode
+  /** Fallback secondary nav (use `headerProps.secondaryNav` to group with header config). */
+  secondaryNav?: React.ReactNode
   children?: React.ReactNode
   headerActions?: React.ReactNode
-  secondaryNav?: React.ReactNode
   footer?: React.ReactNode
   wrapperProps?: PageShellBaseRootProps
+  bodyProps?: PageShellBaseBodyProps
+  /** Optional notification bell — auto-rendered in the right section before `headerActions`. */
+  notificationBell?: PageShellNotificationBellProps
   headerProps?: PageShellBaseHeaderProps & {
     withBack?: boolean
     onBackClick?: () => void
+    /** Optional breadcrumbs — overrides top-level `breadcrumbs`. */
+    breadcrumbs?: React.ReactNode
+    /** Optional subtitle — overrides top-level `subtitle`. */
+    subtitle?: React.ReactNode
+    /** Optional secondary nav (tabs/pills under title) — overrides top-level `secondaryNav`. */
+    secondaryNav?: React.ReactNode
   }
-  bodyProps?: PageShellBaseBodyProps
 }
 
 export const AppPageShell = ({
@@ -45,12 +57,13 @@ export const AppPageShell = ({
   wrapperProps,
   maxWidth = '100%',
   title,
-  subtitle,
   breadcrumbs,
+  subtitle,
+  secondaryNav,
   children,
   headerActions,
-  secondaryNav,
   footer,
+  notificationBell,
 }: AppPageShellProps) => {
   const [scrolled, setScrolled] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -78,7 +91,19 @@ export const AppPageShell = ({
     )
   }
 
-  const { withBack, onBackClick, ...headerPropsWithoutBack } = headerProps ?? {}
+  const { withBack, onBackClick, breadcrumbs: hpBreadcrumbs, subtitle: hpSubtitle, secondaryNav: hpSecondaryNav, ...headerPropsWithoutBack } = headerProps ?? {}
+
+  const activeBreadcrumbs = hpBreadcrumbs ?? breadcrumbs
+  const activeSubtitle = hpSubtitle ?? subtitle
+  const activeSecondaryNav = hpSecondaryNav ?? secondaryNav
+
+  // Compose right section: bell (optional) + custom actions
+  const rightSection = headerPropsWithoutBack.rightSection ?? (
+    <>
+      {notificationBell && <PageShellNotificationBell {...notificationBell} />}
+      {headerActions}
+    </>
+  )
 
   return (
     <PageShellBaseRoot
@@ -98,18 +123,28 @@ export const AppPageShell = ({
           headerPropsWithoutBack.className
         )}
         leftSection={
-          <Group wrap="nowrap" gap={0}>
-            <ExpandNavbarButtonPlaceholder />
-            {withBack && <PageShellBaseBackButton onClick={onBackClick} />}
-          </Group>
+          headerPropsWithoutBack.leftSection ?? (
+            <Group wrap="nowrap" gap={0}>
+              <ExpandNavbarButtonPlaceholder />
+              {withBack && <PageShellBaseBackButton onClick={onBackClick} />}
+            </Group>
+          )
         }
-        rightSection={headerActions}
+        rightSection={rightSection}
       >
         <div className={classes.headerContent}>
-          {breadcrumbs && <div className={classes.breadcrumbs}>{breadcrumbs}</div>}
-          {title && <PageShellBaseTitle className={classes.title}>{title}</PageShellBaseTitle>}
-          {subtitle && <p className={classes.subtitle}>{subtitle}</p>}
-          {secondaryNav && <div className={classes.secondaryNav}>{secondaryNav}</div>}
+          {activeBreadcrumbs && (
+            <div className={classes.breadcrumbs}>{activeBreadcrumbs}</div>
+          )}
+          {title && (
+            <PageShellBaseTitle className={classes.title}>{title}</PageShellBaseTitle>
+          )}
+          {activeSubtitle && (
+            <p className={classes.subtitle}>{activeSubtitle}</p>
+          )}
+          {activeSecondaryNav && (
+            <div className={classes.secondaryNav}>{activeSecondaryNav}</div>
+          )}
         </div>
       </PageShellBaseHeader>
 

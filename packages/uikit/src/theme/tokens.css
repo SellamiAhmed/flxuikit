@@ -113,6 +113,13 @@
   --ds-magenta-900: #a3183e;
 
   /* ============================================
+     CANVAS — Layered Surface System (Light)
+     ============================================ */
+  --ds-canvas: #ffffff;
+  --ds-canvas-soft: #fafafa;
+  --ds-canvas-soft-2: #f5f5f5;
+
+  /* ============================================
      SEMANTIC — TEXT (LIGHT)
      ============================================ */
   --ds-color-text: #09090b;
@@ -164,7 +171,8 @@
   /* ============================================
      TYPOGRAPHY
      ============================================ */
-  --ds-font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ds-font-family-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --ds-font-family-mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
   --ds-font-weight-regular: 400;
@@ -210,32 +218,32 @@
   /* ============================================
      SEMANTIC — BACKGROUND (LIGHT)
      ============================================ */
-  --ds-color-background-disabled: #f4f4f5;
-  --ds-color-background-input: #ffffff;
-  --ds-color-background-input-hovered: #fafafa;
-  --ds-color-background-input-pressed: #f4f4f5;
+  --ds-color-background-disabled: var(--ds-canvas-soft-2);
+  --ds-color-background-input: var(--ds-canvas);
+  --ds-color-background-input-hovered: var(--ds-canvas-soft);
+  --ds-color-background-input-pressed: var(--ds-canvas-soft-2);
   --ds-color-background-inverse-subtle: rgba(0, 0, 0, 0.06);
   --ds-color-background-inverse-subtle-hovered: rgba(0, 0, 0, 0.1);
   --ds-color-background-inverse-subtle-pressed: rgba(0, 0, 0, 0.14);
 
-  --ds-color-background-neutral: #f4f4f5;
-  --ds-color-background-neutral-hovered: #e4e4e7;
+  --ds-color-background-neutral: var(--ds-canvas-soft-2);
+  --ds-color-background-neutral-hovered: #e5e5e5;
   --ds-color-background-neutral-pressed: #d4d4d8;
   --ds-color-background-neutral-subtle: #00000000;
-  --ds-color-background-neutral-subtle-hovered: #fafafa;
-  --ds-color-background-neutral-subtle-pressed: #f4f4f5;
-  --ds-color-background-neutral-bold: #18181b;
+  --ds-color-background-neutral-subtle-hovered: var(--ds-canvas-soft);
+  --ds-color-background-neutral-subtle-pressed: var(--ds-canvas-soft-2);
+  --ds-color-background-neutral-bold: var(--ds-canvas);
   --ds-color-background-neutral-bold-hovered: #09090b;
   --ds-color-background-neutral-bold-pressed: #09090b;
 
-  --ds-color-background-selected: #f5f5f5;
+  --ds-color-background-selected: var(--ds-canvas-soft-2);
   --ds-color-background-selected-hovered: #e5e5e5;
   --ds-color-background-selected-pressed: #d4d4d4;
   --ds-color-background-selected-bold: #2e2e2e;
   --ds-color-background-selected-bold-hovered: #1a1a1a;
   --ds-color-background-selected-bold-pressed: #1a1a1a;
 
-  --ds-color-background-brand-subtlest: #f5f5f5;
+  --ds-color-background-brand-subtlest: var(--ds-canvas-soft-2);
   --ds-color-background-brand-subtlest-hovered: #e5e5e5;
   --ds-color-background-brand-subtlest-pressed: #d4d4d4;
   --ds-color-background-brand-bold: #2e2e2e;
@@ -434,13 +442,13 @@
   /* ============================================
      SEMANTIC — BORDER (LIGHT)
      ============================================ */
-  --ds-color-border: #e4e4e7;
-  --ds-color-border-bold: #d4d4d8;
+  --ds-color-border: #a1a1aa;
+  --ds-color-border-bold: #71717a;
   --ds-color-border-inverse: #ffffff;
-  --ds-color-border-disabled: #e4e4e7;
-  --ds-color-border-focused: #d4d4d4;
+  --ds-color-border-disabled: #d4d4d8;
+  --ds-color-border-focused: #2e2e2e;
   --ds-color-border-selected: #2e2e2e;
-  --ds-color-border-input: #e4e4e7;
+  --ds-color-border-input: #a1a1aa;
   --ds-color-border-brand: #2e2e2e;
 
   --ds-color-border-danger: #dc2626;
@@ -522,8 +530,8 @@
   /* ============================================
      SEMANTIC — SKELETON (LIGHT)
      ============================================ */
-  --ds-color-skeleton: #f4f4f5;
-  --ds-color-skeleton-subtle: #fafafa;
+  --ds-color-skeleton: var(--ds-canvas-soft-2);
+  --ds-color-skeleton-subtle: var(--ds-canvas-soft);
 
   /* ============================================
      SEMANTIC — CHART (LIGHT)
@@ -648,18 +656,18 @@
   /* ============================================
      ELEVATION — SURFACE (LIGHT)
      ============================================ */
-  --ds-elevation-surface: #ffffff;
-  --ds-elevation-surface-hovered: #fafafa;
-  --ds-elevation-surface-pressed: #f4f4f5;
-  --ds-elevation-surface-overlay: #ffffff;
-  --ds-elevation-surface-overlay-hovered: #fafafa;
-  --ds-elevation-surface-overlay-pressed: #f4f4f5;
-  --ds-elevation-surface-raised: #ffffff;
-  --ds-elevation-surface-raised-hovered: #fafafa;
-  --ds-elevation-surface-raised-pressed: #f4f4f5;
-  --ds-elevation-surface-sunken: #f4f4f5;
-  --ds-elevation-surface-container: #f4f4f5;
-  --ds-elevation-surface-container-hovered: #e4e4e7;
+  --ds-elevation-surface: var(--ds-canvas-soft);
+  --ds-elevation-surface-hovered: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-pressed: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-overlay: var(--ds-canvas);
+  --ds-elevation-surface-overlay-hovered: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-overlay-pressed: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-raised: var(--ds-canvas);
+  --ds-elevation-surface-raised-hovered: var(--ds-canvas-soft);
+  --ds-elevation-surface-raised-pressed: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-sunken: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-container: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-container-hovered: #e5e5e5;
   --ds-elevation-surface-container-pressed: #d4d4d8;
 
   /* ============================================
@@ -704,6 +712,13 @@
    DARK MODE
    ============================================ */
 [data-mantine-color-scheme='dark'] {
+  /* ============================================
+     CANVAS — Layered Surface System (Dark)
+     ============================================ */
+  --ds-canvas: #18181b;
+  --ds-canvas-soft: #09090b;
+  --ds-canvas-soft-2: #050508;
+
   --ds-dark-neutral-0: #101214;
   --ds-dark-neutral-100: #161a1d;
   --ds-dark-neutral-200: #1d2125;
@@ -764,32 +779,32 @@
   --color-1-700: rgba(0, 0, 0, 0.06);
 
   /* ── Background (Dark) ── */
-  --ds-color-background-disabled: #18181b;
-  --ds-color-background-input: #09090b;
-  --ds-color-background-input-hovered: #18181b;
-  --ds-color-background-input-pressed: #27272a;
+  --ds-color-background-disabled: var(--ds-canvas-soft-2);
+  --ds-color-background-input: var(--ds-canvas-soft);
+  --ds-color-background-input-hovered: var(--ds-canvas);
+  --ds-color-background-input-pressed: #3f3f46;
   --ds-color-background-inverse-subtle: rgba(255, 255, 255, 0.08);
   --ds-color-background-inverse-subtle-hovered: rgba(255, 255, 255, 0.12);
   --ds-color-background-inverse-subtle-pressed: rgba(255, 255, 255, 0.16);
 
-  --ds-color-background-neutral: #18181b;
+  --ds-color-background-neutral: var(--ds-canvas);
   --ds-color-background-neutral-hovered: #27272a;
   --ds-color-background-neutral-pressed: #3f3f46;
   --ds-color-background-neutral-subtle: #00000000;
-  --ds-color-background-neutral-subtle-hovered: #18181b;
+  --ds-color-background-neutral-subtle-hovered: var(--ds-canvas);
   --ds-color-background-neutral-subtle-pressed: #27272a;
-  --ds-color-background-neutral-bold: #18181b;
+  --ds-color-background-neutral-bold: var(--ds-canvas);
   --ds-color-background-neutral-bold-hovered: #27272a;
   --ds-color-background-neutral-bold-pressed: #3f3f46;
 
-  --ds-color-background-selected: #1a1a1a;
+  --ds-color-background-selected: var(--ds-canvas-soft-2);
   --ds-color-background-selected-hovered: #252525;
   --ds-color-background-selected-pressed: #2e2e2e;
   --ds-color-background-selected-bold: #d4d4d4;
   --ds-color-background-selected-bold-hovered: #e5e5e5;
   --ds-color-background-selected-bold-pressed: #fafafa;
 
-  --ds-color-background-brand-subtlest: #1a1a1a;
+  --ds-color-background-brand-subtlest: var(--ds-canvas-soft-2);
   --ds-color-background-brand-subtlest-hovered: #252525;
   --ds-color-background-brand-subtlest-pressed: #2e2e2e;
   --ds-color-background-brand-bold: #d4d4d4;
@@ -1064,7 +1079,7 @@
   --ds-color-blanket-danger: #e3493514;
 
   /* ── Skeleton (Dark) ── */
-  --ds-color-skeleton: #18181b;
+  --ds-color-skeleton: var(--ds-canvas);
   --ds-color-skeleton-subtle: #27272a;
 
   /* ── Chart (Dark) ── */
@@ -1186,17 +1201,17 @@
   --ds-color-chart-gray-boldest-hovered: #e4e4e7;
 
   /* ── Elevation Surface (Dark) ── */
-  --ds-elevation-surface: #09090b;
-  --ds-elevation-surface-hovered: #18181b;
+  --ds-elevation-surface: var(--ds-canvas-soft);
+  --ds-elevation-surface-hovered: var(--ds-canvas);
   --ds-elevation-surface-pressed: #27272a;
-  --ds-elevation-surface-overlay: #18181b;
+  --ds-elevation-surface-overlay: var(--ds-canvas);
   --ds-elevation-surface-overlay-hovered: #27272a;
   --ds-elevation-surface-overlay-pressed: #3f3f46;
-  --ds-elevation-surface-raised: #18181b;
+  --ds-elevation-surface-raised: var(--ds-canvas);
   --ds-elevation-surface-raised-hovered: #27272a;
   --ds-elevation-surface-raised-pressed: #3f3f46;
-  --ds-elevation-surface-sunken: #09090b;
-  --ds-elevation-surface-container: #18181b;
+  --ds-elevation-surface-sunken: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-container: var(--ds-canvas);
   --ds-elevation-surface-container-hovered: #27272a;
   --ds-elevation-surface-container-pressed: #3f3f46;
 

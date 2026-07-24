@@ -1,135 +1,215 @@
 /* ============================================
-   APP PAGE SHELL — Full Width
+   APP PAGE SHELL — Vercel Dashboard Style
    ============================================ */
 
-/* ── Shell ── */
 .shell {
   --app-shell-page-max-width: 100%;
 
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
-  max-width: var(--app-shell-page-max-width);
-  overflow: hidden; /* body handles scrolling */
+  max-width: min(100%, var(--app-shell-page-max-width));
+  margin: 0 auto;
+  overflow-x: auto;
+  background: var(--ds-elevation-surface);
 }
 
 .shellNoHeader {
   --app-shell-page-max-width: 100%;
 
-  width: 100%;
   height: 100%;
+  max-width: min(100%, var(--app-shell-page-max-width));
+  margin: 0 auto;
   padding: var(--ds-space-300);
   overflow-x: auto;
+  background: var(--ds-elevation-surface);
 }
 
-/* ── Header ── */
+/* ── Header: 56px grid, true centering ── */
 .header {
-  flex-shrink: 0;
-  background-color: var(--ds-elevation-surface);
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--ds-space-200);
+  height: 56px;
+  padding: 0 var(--ds-space-300);
+  background: var(--ds-elevation-surface);
   border-bottom: 1px solid transparent;
+  flex-shrink: 0;
   transition:
     box-shadow 200ms ease,
     border-color 200ms ease;
-  padding-left: var(--ds-space-300);
-  padding-right: var(--ds-space-300);
 }
 
-.headerScrolled {
-  border-bottom-color: var(--ds-color-border);
-  box-shadow: var(--ds-elevation-shadow-overflow);
-}
-
-.headerContent {
+/* Left column: flush left */
+.header > :first-child {
+  justify-self: start;
   display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-050);
+  align-items: center;
+}
+
+/* Center column: dead center */
+.header > :nth-child(2) {
+  justify-self: center;
+  display: flex;
+  align-items: center;
   min-width: 0;
 }
 
+/* Right column: flush right */
+.header > :last-child {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+
+/* Scrolled: hairline border + subtle shadow */
+.headerScrolled {
+  border-bottom-color: var(--ds-color-border);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+}
+
+/* ── Center Content ── */
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 0;
+  gap: 0;
+}
+
+/* ── Breadcrumbs ── */
 .breadcrumbs {
   font: var(--ds-font-body-small);
   color: var(--ds-color-text-subtle);
   display: flex;
   align-items: center;
   gap: var(--ds-space-050);
+  margin-bottom: 2px;
+  line-height: 1;
 }
 
-.breadcrumbs > *:not(:last-child)::after {
-  content: '/';
-  margin-left: var(--ds-space-050);
-  color: var(--ds-color-text-subtlest);
-}
-
+/* ── Title: Vercel 14px medium, tight ── */
 .title {
-  font: var(--ds-font-heading-large);
+  font: var(--ds-font-weight-medium) var(--ds-font-size-200) / var(--ds-line-height-200) var(--ds-font-family-sans);
   color: var(--ds-color-text);
-  margin: 0;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.subtitle {
-  font: var(--ds-font-body);
-  color: var(--ds-color-text-subtle);
+  max-width: 100%;
   margin: 0;
 }
 
+/* ── Subtitle ── */
+.subtitle {
+  font: var(--ds-font-body-small);
+  color: var(--ds-color-text-subtle);
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+
+/* ── Secondary Nav (tabs/pills) ── */
 .secondaryNav {
   margin-top: var(--ds-space-100);
-  margin-bottom: calc(var(--ds-space-100) * -1);
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-050);
 }
 
 /* ── Body ── */
 .body {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
-  padding: var(--ds-space-300);
   scroll-behavior: smooth;
 }
 
-/* Scrollbar on the right edge */
-.body::-webkit-scrollbar {
-  width: 10px;
-}
-.body::-webkit-scrollbar-track {
-  background: transparent;
-}
-.body::-webkit-scrollbar-thumb {
-  background: var(--ds-color-border-bold);
-  border-radius: 5px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-.body::-webkit-scrollbar-thumb:hover {
-  background: var(--ds-color-text-subtlest);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-
-/* Firefox */
-.body {
-  scrollbar-width: thin;
-  scrollbar-color: var(--ds-color-border-bold) transparent;
-}
-
-/* ── Content ── */
 .content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-300);
-  width: 100%;
-  max-width: 100%;
+  padding: var(--ds-space-300);
+  max-width: var(--app-shell-page-max-width, 100%);
+  margin: 0 auto;
 }
 
 /* ── Footer ── */
 .footer {
-  margin-top: var(--ds-space-400);
-  padding-top: var(--ds-space-200);
+  padding: var(--ds-space-300);
   border-top: 1px solid var(--ds-color-border);
-  display: flex;
+  margin-top: auto;
+}
+
+/* ── Context Switcher (All Projects ▼) ── */
+.contextSwitcher {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--ds-space-075);
+  padding: var(--ds-space-075) var(--ds-space-150);
+  border-radius: var(--ds-space-075);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ds-color-text);
+  font: var(--ds-font-weight-medium) var(--ds-font-size-200) / var(--ds-line-height-200) var(--ds-font-family-sans);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.contextSwitcher:hover {
+  background: var(--ds-color-background-neutral-subtle-hovered);
+  border-color: var(--ds-color-border);
+}
+
+/* ── Header Action Icon Button (notifications, etc.) ── */
+.actionIcon {
+  width: var(--ds-space-300);
+  height: var(--ds-space-300);
+  border-radius: var(--ds-space-075);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ds-color-text-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+  position: relative;
+}
+
+.actionIcon:hover {
+  background: var(--ds-color-background-neutral-subtle-hovered);
+  color: var(--ds-color-text);
+}
+
+/* ── Badge Dot (notification indicator) ── */
+.badgeDot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ds-color-background-danger-bold);
+  border: 2px solid var(--ds-elevation-surface);
+}
+
+/* ── Badge Count (number pill) ── */
+.badgeCount {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--ds-color-background-danger-bold);
+  color: var(--ds-color-text-selected);
+  font: var(--ds-font-weight-bold) 10px / 1 var(--ds-font-family-sans);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid var(--ds-elevation-surface);
 }

@@ -1,23 +1,26 @@
+/* ── Bottom Utilities ──
+   Hairline top separator — same tight line as navbar edge.
+   Uses interaction-hovered token for 6% opacity (light) / 8% (dark). */
 .bottomUtilities {
   margin-top: auto;
-  padding-top: 8px;
-  border-top: 1px solid var(--ds-color-border);
+  padding-top: var(--ds-space-100);
+  box-shadow: inset 0 1px 0 var(--ds-color-interaction-hovered);
 }
 
 .bottomUtilitiesCollapsed {
-  border-top: 0;
-  padding-top: 4px;
+  box-shadow: none;
+  padding-top: var(--ds-space-050);
 }
 
 .utilitiesGroupCollapsed {
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: var(--ds-space-075);
 }
 
 .iconButton {
-  width: 30px;
-  height: 30px;
+  width: var(--ds-space-300);
+  height: var(--ds-space-300);
   border: 1px solid var(--ds-color-border);
   border-radius: 9999px;
   background: var(--ds-elevation-surface-raised);
@@ -26,7 +29,7 @@
 
 .railIconButton {
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: var(--ds-space-100);
   background: transparent;
 }
 

@@ -1,0 +1,47 @@
+/* ============================================
+   PROPERTY CARD — Canvas Surface Mapping
+   ============================================ */
+
+.card {
+  padding: var(--ds-space-300); /* xl = 24px */
+  background-color: var(--ds-canvas); /* Canvas — lifted card surface */
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-space-075); /* 6px */
+}
+
+.title {
+  margin-bottom: var(--ds-space-200); /* 16px */
+  color: var(--ds-color-text);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-200); /* 16px */
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-200); /* md = 16px */
+  flex-wrap: nowrap;
+}
+
+.label {
+  min-width: 128px;
+  flex-shrink: 0;
+  color: var(--ds-color-text-subtle);
+}
+
+.value {
+  word-break: break-all;
+  flex: 1;
+  min-width: 0;
+  color: var(--ds-color-text);
+}
+
+.divider {
+  border-color: var(--ds-color-border) !important;
+  margin-top: var(--ds-space-100) !important; /* xs = 8px */
+  margin-bottom: var(--ds-space-100) !important;
+}

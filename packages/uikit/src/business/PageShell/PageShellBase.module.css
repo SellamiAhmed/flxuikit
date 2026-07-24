@@ -16,15 +16,12 @@
   justify-content: space-between;
   flex-wrap: nowrap;
   gap: 0;
-  padding-left: var(--ds-space-300);
-  padding-right: var(--ds-space-300);
-  height: 64px; /* fixed chrome height */
   flex-shrink: 0;
 }
 
 .header[data-sticky] {
   position: sticky;
-  z-index: 2;
+  z-index: 50;
   top: 0;
   left: 0;
 }
@@ -34,14 +31,13 @@
   align-items: center;
   flex-wrap: nowrap;
   flex: 1;
-  margin-right: var(--ds-space-200);
+  min-width: 0;
 }
 
 /* ── Title ── */
 .title {
-  font: var(--ds-font-heading-xxlarge);
-  font-weight: 300; /* add --ds-font-weight-light: 300 to tokens if you want */
   color: var(--ds-color-text);
+  margin: 0;
 }
 
 /* ── Body ── */
@@ -55,12 +51,12 @@
 
 /* ── Back Button ── */
 .backButton {
-  /* ActionIcon primitive handles its own internals;
-     this class is for page-shell-specific overrides if needed */
+  background-color: transparent !important;
+  border-color: var(--ds-color-border) !important;
+  color: var(--ds-color-text-subtle) !important;
 }
-.body {
-  padding-left: var(--ds-space-300);
-  padding-right: var(--ds-space-300);
-  padding-top: var(--ds-space-200);
-  padding-bottom: var(--ds-space-200);
+
+.backButton:hover {
+  background-color: var(--ds-color-background-neutral-subtle-hovered) !important;
+  color: var(--ds-color-text) !important;
 }

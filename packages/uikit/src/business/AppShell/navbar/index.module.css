@@ -13,14 +13,18 @@
   width: 0;
 }
 
-/* ── Navbar ── */
+/* ── Navbar ──
+   Hairline right edge — uses interaction-hovered token
+   (rgba(0,0,0,0.06) light / rgba(255,255,255,0.08) dark).
+   Tight, modern, no visual weight. */
 .navbar {
   display: flex;
   flex-direction: column;
   width: var(--app-shell-navbar-width, 240px);
   height: 100%;
-  background-color: var(--ds-elevation-surface);
-  border-right: 1px solid var(--ds-color-border);
+  background-color: var(--ds-canvas);
+  border-right: none;
+  box-shadow: inset -1px 0 0 var(--ds-color-interaction-hovered);
   flex-shrink: 0;
   transition: transform 200ms ease;
   overflow: hidden;
