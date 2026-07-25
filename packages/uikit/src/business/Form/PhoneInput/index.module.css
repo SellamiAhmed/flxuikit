@@ -1,0 +1,56 @@
+/* ── V2 Combo Layout ── */
+.comboRoot {
+  display: flex;
+  flex-direction: column;
+}
+
+.comboRow {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Country select wrapper — handles z-index on hover/focus/error */
+.countryWrapper {
+  position: relative;
+}
+
+.countryWrapper:hover,
+.countryWrapper:focus-within {
+  z-index: 1;
+}
+
+.countryWrapper[data-error='true'] {
+  z-index: 1;
+}
+
+/* Phone input fills remaining space */
+.phoneWrapper {
+  flex: 1;
+  position: relative;
+}
+
+/* ── Input group chrome ── */
+/* First child (country): remove right radius */
+.countryInput {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Second child (phone): remove left radius and overlap border */
+.phoneInput {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  margin-left: -1px;
+}
+
+/* ── Error ── */
+.hiddenError {
+  display: none;
+}
+
+.errorText {
+  color: var(--ds-color-text-danger);
+  font: var(--ds-font-body-small);
+  line-height: 1.2;
+  margin-top: var(--ds-space-050);
+}

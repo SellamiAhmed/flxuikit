@@ -1,0 +1,4 @@
+.root {
+  margin-top: var(--ds-space-300);
+  gap: var(--ds-space-200);
+}

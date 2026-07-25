@@ -1,0 +1,15 @@
+.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-200);
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: var(--ds-space-200);
+}
+
+.root {
+  gap: var(--ds-space-200);
+}
