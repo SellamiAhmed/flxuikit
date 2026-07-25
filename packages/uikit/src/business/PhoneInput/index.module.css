@@ -1,0 +1,72 @@
+/* ── Input.Wrapper overrides ── */
+.label {
+  color: var(--ds-color-text);
+  margin-bottom: var(--ds-space-075);
+  font: var(--ds-font-body);
+  line-height: var(--ds-line-height-200);
+}
+
+.description {
+  color: var(--ds-color-text-subtle);
+}
+
+.error {
+  color: var(--ds-color-text-danger);
+  font: var(--ds-font-body-small);
+  line-height: 1.2;
+  margin-top: var(--ds-space-050);
+}
+
+/* ── Hide react-phone-input-2 dropdown button ── */
+.dropdownButton {
+  display: none !important;
+}
+
+/* ── Base container + form-control ── */
+.container:global(.react-tel-input) {
+  display: block;
+}
+
+.container:global(.react-tel-input) :global(.form-control) {
+  font-family: var(--ds-font-family-sans);
+  font-size: var(--ds-font-size-200);
+  color: var(--ds-color-text);
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  line-height: 38px;
+  border-radius: var(--ds-space-075);
+  padding: 0 var(--ds-space-150);
+  border: 1px solid var(--ds-color-border);
+  outline: none;
+  transition: border-color 100ms ease;
+  background-color: var(--ds-elevation-surface);
+}
+
+.container:global(.react-tel-input) :global(.form-control):hover {
+  border-color: var(--ds-color-border-bold);
+}
+
+.container:global(.react-tel-input) :global(.form-control):focus,
+.container:global(.react-tel-input) :global(.form-control):focus-within {
+  border-color: var(--ds-color-border-focused);
+}
+
+.container:global(.react-tel-input) :global(.form-control)::placeholder {
+  user-select: none;
+  color: var(--ds-color-text-subtle);
+  opacity: 1;
+}
+
+/* ── Error state ── */
+.containerError:global(.react-tel-input) :global(.form-control) {
+  border-color: var(--ds-color-border-danger);
+  color: var(--ds-color-text-danger);
+  margin-bottom: var(--ds-space-050);
+}
+
+.containerError:global(.react-tel-input) :global(.form-control):hover,
+.containerError:global(.react-tel-input) :global(.form-control):focus,
+.containerError:global(.react-tel-input) :global(.form-control):focus-within {
+  border-color: var(--ds-color-border-danger);
+}
