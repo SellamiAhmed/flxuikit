@@ -1,14 +1,18 @@
 /* ============================================
-   WRAPPER & ADDONS
+   WRAPPER
    ============================================ */
 .wrapper {
   display: flex;
+  width: 100%;
 }
 
 .withLeftAddon {
   --input-padding-inline-start: var(--input-padding);
 }
 
+/* ============================================
+   SECTION — only for addon chips (bordered)
+   ============================================ */
 .section {
   position: initial;
   width: fit-content;
@@ -30,6 +34,31 @@
   border-left-width: 0;
   border-top-right-radius: var(--ds-space-050);
   border-bottom-right-radius: var(--ds-space-050);
+}
+
+/* ============================================
+   SECTION — state icons (floating inside input)
+   ============================================ */
+.sectionError,
+.sectionSuccess {
+  background: transparent;
+  border: none;
+  padding: 0 var(--ds-space-150) 0 0; /* ← 16px right padding */
+  width: auto;
+  display: flex;
+  align-items: center;
+}
+
+.iconError {
+  color: var(--ds-color-icon-danger);
+  width: 16px;
+  height: 16px;
+}
+
+.iconSuccess {
+  color: var(--ds-color-icon-success);
+  width: 16px;
+  height: 16px;
 }
 
 /* ============================================
@@ -70,15 +99,27 @@
   border-color: var(--ds-color-border-danger);
 }
 
-.sectionError {
-  color: var(--ds-color-icon-danger);
-}
-
 .input.inputSuccess,
 .input.inputSuccess:focus {
   border-color: var(--ds-color-border-success);
 }
 
-.sectionSuccess {
-  color: var(--ds-color-icon-success);
+/* ============================================
+   OPTIONAL: subtle shake on error
+   ============================================ */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+.inputError {
+  animation: shake 300ms ease;
 }

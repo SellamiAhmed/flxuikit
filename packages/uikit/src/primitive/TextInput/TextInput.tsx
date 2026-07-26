@@ -8,35 +8,20 @@ import { Typography, TypographyProps } from '../Typography/index.js'
 import classes from './index.module.css'
 
 export interface TextInputProps extends MantineTextInputProps {
-  /** @deprecated use leftAddon */
-  leftLabel?: React.ReactNode
-  /** @deprecated use leftAddonProps */
-  leftLabelProps?: TypographyProps
-  /** @deprecated use rightAddon */
-  rightLabel?: React.ReactNode
-  /** @deprecated use rightAddonProps */
-  rightLabelProps?: TypographyProps
-
   leftAddon?: React.ReactNode
   rightAddon?: React.ReactNode
   leftAddonProps?: TypographyProps
   rightAddonProps?: TypographyProps
-
-  /** Show success state with green border and checkmark icon */
   success?: boolean
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, ref) => {
   const {
-    leftLabel,
-    leftLabelProps,
     leftAddon,
     rightAddon,
     leftAddonProps,
     rightAddonProps,
     leftSection,
-    rightLabel,
-    rightLabelProps,
     rightSection,
     error,
     success,
@@ -44,16 +29,19 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, re
     ...rest
   } = props
 
-  const withLeftAddon = !!(leftLabel || leftAddon)
-  const withRightAddon = !!(rightLabel || rightAddon)
+  const withLeftAddon = !!leftAddon
+  const withRightAddon = !!rightAddon
   const isError = !!error
   const isSuccess = success && !isError
 
   const stateRightSection = isError ? (
-    <IconAlertTriangle size={16} />
+    <IconAlertTriangle size={16} className={classes.iconError} />
   ) : isSuccess ? (
-    <IconCheck size={16} />
+    <IconCheck size={16} className={classes.iconSuccess} />
   ) : undefined
+
+  // Only apply addon section styles when there's an actual addon
+  const isAddonSection = withLeftAddon || withRightAddon
 
   return (
     <MantineTextInput
@@ -61,13 +49,9 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, re
       error={error}
       classNames={
         {
-          wrapper: clsx(
-            classes.wrapper,
-            withLeftAddon && classes.withLeftAddon,
-            externalClassNames?.wrapper
-          ),
+          wrapper: clsx(classes.wrapper, withLeftAddon && classes.withLeftAddon, externalClassNames?.wrapper),
           section: clsx(
-            classes.section,
+            isAddonSection && classes.section,
             isError && classes.sectionError,
             isSuccess && classes.sectionSuccess,
             externalClassNames?.section
@@ -79,13 +63,13 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, re
             isError && classes.inputError,
             isSuccess && classes.inputSuccess,
             externalClassNames?.input
-          ),
-        }  /* Mantine accepts these keys at runtime but omits them from the TextInput classNames type */
+          )
+        } as any
       }
       leftSection={
         withLeftAddon ? (
-          <Typography variant="label-lg" {...(leftLabelProps || leftAddonProps)}>
-            {leftLabel || leftAddon}
+          <Typography variant="label-lg" {...leftAddonProps}>
+            {leftAddon}
           </Typography>
         ) : (
           leftSection
@@ -93,11 +77,11 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, re
       }
       rightSection={
         withRightAddon ? (
-          <Typography variant="label-lg" {...(rightLabelProps || rightAddonProps)}>
-            {rightLabel || rightAddon}
+          <Typography variant="label-lg" {...rightAddonProps}>
+            {rightAddon}
           </Typography>
         ) : (
-          rightSection ?? stateRightSection
+          (rightSection ?? stateRightSection)
         )
       }
       ref={ref}
