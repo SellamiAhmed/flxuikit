@@ -19,7 +19,6 @@
     border-color 150ms linear;
 }
 
-/* Checked track */
 .track[data-checked] {
   background: var(--ds-color-background-selected);
   border-color: var(--ds-color-background-selected);
@@ -29,16 +28,18 @@
 .thumb {
   background: var(--ds-elevation-surface);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  border: 1px solid transparent;
   transition:
     transform 150ms linear,
     background-color 150ms linear,
     left 150ms linear,
-    inset-inline-start 150ms linear;
+    inset-inline-start 150ms linear,
+    border-color 150ms linear;
 }
 
-/* Checked thumb */
 .track[data-checked] .thumb {
   background: var(--ds-color-text-inverse);
+  border-color: transparent;
 }
 
 /* ── Hover ── */
@@ -75,6 +76,22 @@
 .root[data-disabled] .thumb {
   background: var(--ds-color-background-neutral);
   box-shadow: none;
+  border-color: transparent;
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE: thumb must contrast with track
+   ═══════════════════════════════════════ */
+[data-mantine-color-scheme='dark'] .thumb:not([data-checked]) {
+  /* Lighten thumb so it pops off the dark track */
+  background: var(--ds-color-background-neutral);
+  border-color: var(--ds-color-border);
+}
+
+[data-mantine-color-scheme='dark'] .track:not([data-checked]) {
+  /* Slightly darker track for more separation */
+  background: var(--ds-color-background-neutral-bold);
+  border-color: var(--ds-color-border);
 }
 
 /* ── Label ── */
