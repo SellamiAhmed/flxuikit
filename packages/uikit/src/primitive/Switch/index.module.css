@@ -1,149 +1,91 @@
-@layer flex-switch {
-  .root {
-    --switch-transition-duration: 150ms;
-    --switch-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
-    --switch-press-scale: 1.15;
+/* ── Root ── */
+.root {
+  --switch-color: var(--ds-color-background-selected);
+  --switch-bg: var(--ds-color-background-neutral-subtle);
+  --switch-bd-color: var(--ds-color-border-subtle);
+  --switch-thumb-bg: var(--ds-elevation-surface);
+  --switch-off-thumb-bg: var(--ds-elevation-surface);
+  --switch-label-color: var(--ds-color-text);
 
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
+  -webkit-tap-highlight-color: transparent;
+}
 
-  .root[data-disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
+/* ── Track ── */
+.track {
+  border: 1px solid var(--ds-color-border-subtle);
+  background: var(--ds-color-background-neutral-subtle);
+  transition:
+    background-color 150ms linear,
+    border-color 150ms linear;
+}
 
-  .root[data-loading] {
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
+/* Checked track */
+.track[data-checked] {
+  background: var(--ds-color-background-selected);
+  border-color: var(--ds-color-background-selected);
+}
 
-  /* Track */
-  .track {
-    position: relative;
-    border-radius: 9999px;
-    background-color: var(--mantine-color-gray-3);
-    border: 1px solid var(--mantine-color-gray-4);
-    transition:
-      background-color var(--switch-transition-duration) var(--switch-transition-timing),
-      border-color var(--switch-transition-duration) var(--switch-transition-timing),
-      box-shadow var(--switch-transition-duration) var(--switch-transition-timing);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-    overflow: visible;
-  }
+/* ── Thumb ── */
+.thumb {
+  background: var(--ds-elevation-surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 150ms linear,
+    background-color 150ms linear,
+    left 150ms linear,
+    inset-inline-start 150ms linear;
+}
 
-  [data-mantine-color-scheme='dark'] .track {
-    background-color: var(--mantine-color-dark-4);
-    border-color: var(--mantine-color-dark-5);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-  }
+/* Checked thumb */
+.track[data-checked] .thumb {
+  background: var(--ds-color-text-inverse);
+}
 
-  .root[data-checked] .track {
-    background-color: var(--mantine-primary-color-filled);
-    border-color: var(--mantine-primary-color-filled);
-    box-shadow:
-      inset 0 1px 2px rgba(0, 0, 0, 0.1),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  }
+/* ── Hover ── */
+.root:hover .track:not([data-checked]) {
+  border-color: var(--ds-color-border);
+}
 
-  [data-mantine-color-scheme='dark'] .root[data-checked] .track {
-    box-shadow:
-      inset 0 1px 2px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-  }
+.root:hover .track[data-checked] {
+  filter: brightness(0.92);
+}
 
-  /* Thumb */
-  .thumb {
-    border-radius: 50%;
-    background-color: var(--mantine-color-white);
-    transition:
-      transform var(--switch-transition-duration) var(--switch-transition-timing),
-      width var(--switch-transition-duration) var(--switch-transition-timing),
-      box-shadow var(--switch-transition-duration) var(--switch-transition-timing);
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.15),
-      0 0 1px rgba(0, 0, 0, 0.1);
-  }
+/* ── Pressed ── */
+.root:active .thumb {
+  transform: translateY(-50%) scale(1.1);
+}
 
-  [data-mantine-color-scheme='dark'] .thumb {
-    background-color: var(--mantine-color-dark-0);
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.3),
-      0 0 1px rgba(0, 0, 0, 0.2);
-  }
+/* ── Focus ── */
+.root input:focus-visible + .track {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 2px;
+}
 
-  .root[data-checked] .thumb {
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.2),
-      0 0 1px rgba(0, 0, 0, 0.1);
-  }
+/* ── Disabled ── */
+.root[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
 
-  /* Press squish */
-  .root:active .thumb {
-    width: calc(var(--thumb-width, 16px) * var(--switch-press-scale)) !important;
-  }
+.root[data-disabled] .track {
+  background: var(--ds-color-background-neutral-subtle);
+  border-color: var(--ds-color-border-subtle);
+}
 
-  /* Focus ring */
-  .root:focus-within .track {
-    outline: 2px solid var(--mantine-primary-color-filled);
-    outline-offset: 2px;
-  }
+.root[data-disabled] .thumb {
+  background: var(--ds-color-background-neutral);
+  box-shadow: none;
+}
 
-  /* Label */
-  .label {
-    font-size: var(--mantine-font-size-sm);
-    font-weight: 500;
-    color: var(--mantine-color-text);
-    line-height: 1.3;
-  }
+/* ── Label ── */
+.label {
+  font: var(--ds-font-body);
+  color: var(--ds-color-text);
+  padding-left: var(--ds-space-100);
+  user-select: none;
+}
 
-  .description {
-    font-size: var(--mantine-font-size-xs);
-    color: var(--mantine-color-dimmed);
-    line-height: 1.4;
-  }
-
-  .body {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  /* Loading spinner overlay */
-  .track::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
-    border: 2px solid transparent;
-    border-top-color: var(--mantine-color-white);
-    border-radius: 50%;
-    animation: switch-spin 0.6s linear infinite;
-    opacity: 0;
-    transition: opacity var(--switch-transition-duration) var(--switch-transition-timing);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .root[data-loading] .track::after {
-    opacity: 1;
-  }
-
-  @keyframes switch-spin {
-    to {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
-  }
-
-  /* Error state */
-  .error {
-    font-size: var(--mantine-font-size-xs);
-    color: var(--mantine-color-red-6);
-    line-height: 1.4;
-    margin-top: 4px;
-  }
+.body {
+  display: flex;
+  align-items: center;
 }
