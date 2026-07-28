@@ -1,0 +1,36 @@
+.root {
+  padding: var(--ds-space-150) 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ds-space-150);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-100);
+}
+
+.filterItem {
+  min-width: 160px;
+}
+
+.clearButton {
+  color: var(--ds-color-text-subtle);
+}
+
+.clearButton:hover {
+  color: var(--ds-color-text);
+}
+
+.refreshButton {
+  color: var(--ds-color-text-subtle);
+}
+
+.refreshButton:hover {
+  color: var(--ds-color-text);
+}
