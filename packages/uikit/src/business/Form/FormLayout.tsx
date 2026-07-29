@@ -13,7 +13,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({ layout = 'vertical', chi
     return <>{children}</>
   }
   return (
-    <Flex direction={layout === 'vertical' ? 'column' : 'row'} className={classes.root} {...rest}>
+    <Flex direction={layout === 'vertical' ? 'column' : 'row'} className={classes.root} data-layout={layout} {...rest}>
       {children}
     </Flex>
   )

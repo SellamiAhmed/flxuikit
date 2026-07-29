@@ -1,14 +1,20 @@
+import { ErrorMessage } from '@hookform/error-message'
+import React from 'react'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
-import { TimeRangePicker, TimeRangePickerProps } from '../TimeRangePicker/index.js'
+import { DatePicker, DatePickerProps } from '../../primitive/index.js'
 
-export type FormTimeRangePickerProps = TimeRangePickerProps & {
+export interface FormDatePickerProps extends DatePickerProps {
   name: string
   rules?: RegisterOptions
+  placeholder?: string
+  clearable?: boolean
+  label?: React.ReactNode
 }
 
-export const FormTimeRangePicker = ({ name, rules, onChange, ...rest }: FormTimeRangePickerProps) => {
-  const { control } = useFormContext()
+export const FormDatePicker: React.FC<FormDatePickerProps> = ({ name, rules, onChange, ...rest }) => {
+  const { control, formState, getFieldState } = useFormContext()
+  const { error } = getFieldState(name, formState)
 
   return (
     <Controller
@@ -16,16 +22,30 @@ export const FormTimeRangePicker = ({ name, rules, onChange, ...rest }: FormTime
       name={name}
       rules={rules}
       render={({ field }) => {
-        const { onChange: handleChange, ...restField } = field
+        const { onChange: handleChange, value, ...restField } = field
         return (
-          <TimeRangePicker
-            onChange={(e) => {
-              handleChange(e)
-              onChange?.(e)
-            }}
-            {...restField}
-            {...rest}
-          />
+          <>
+            <DatePicker
+              {...restField}
+              {...rest}
+              value={value}
+              onChange={(date: any) => {
+                handleChange(date)
+                onChange?.(date)
+              }}
+            />
+            {error && (
+              <div
+                style={{
+                  color: 'var(--ds-color-text-danger)',
+                  fontSize: 'var(--ds-font-size-100)',
+                  marginTop: 'var(--ds-space-050)'
+                }}
+              >
+                <ErrorMessage errors={formState.errors} name={name} />
+              </div>
+            )}
+          </>
         )
       }}
     />

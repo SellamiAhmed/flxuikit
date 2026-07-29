@@ -1,15 +1,21 @@
-.vertical {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-200);
+.root {
+  /* base */
 }
 
-.horizontal {
+.root[data-layout='horizontal'] {
   display: flex;
   flex-direction: row;
   gap: var(--ds-space-200);
+  align-items: flex-start;
 }
 
-.root {
+.root[data-layout='horizontal'] > * {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.root[data-layout='vertical'] {
+  display: flex;
+  flex-direction: column;
   gap: var(--ds-space-200);
 }

@@ -1,8 +1,34 @@
 .group {
-  margin-top: var(--ds-space-100);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-100);
   align-items: center;
+  margin-top: var(--ds-space-100);
 }
 
+/* ── Checked radio — force visible in both modes ── */
+:global(.mantine-Radio-root[data-checked] .mantine-Radio-radio) {
+  background-color: var(--ds-color-background-brand-bold) !important;
+  border-color: var(--ds-color-background-brand-bold) !important;
+}
+
+:global(.mantine-Radio-root[data-checked] .mantine-Radio-icon) {
+  color: var(--ds-color-text-inverse) !important;
+}
+
+/* ── Error ── */
+:global(.mantine-Radio-root[data-error] .mantine-Radio-radio) {
+  border-color: var(--ds-color-border-danger) !important;
+}
+
+/* ── Label ── */
+:global(.mantine-Radio-label) {
+  font: var(--ds-font-body);
+  color: var(--ds-color-text);
+  padding-left: var(--ds-space-050);
+}
+
+/* ── Tooltip dropdown ── */
 .dropdown {
   max-width: 400px;
   background: var(--ds-elevation-surface-raised);

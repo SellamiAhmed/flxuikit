@@ -1,7 +1,7 @@
+import { IconAlertCircle } from '@tabler/icons-react'
 import DOMPurify from 'dompurify'
 import { useEffect, useRef, useState } from 'react'
 
-import { IconAlertCircle } from '../../icons/index.js'
 import { Alert, AlertProps } from '../../primitive/index.js'
 
 import classes from './FormErrorMessage.module.css'

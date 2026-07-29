@@ -1,0 +1,31 @@
+/* ── Alert container ── */
+.alert {
+  background: var(--ds-color-background-danger-bold);
+  color: var(--ds-color-text-inverse);
+  border: 1px solid var(--ds-color-border-danger);
+}
+
+/* ── Sanitized message content ── */
+.message {
+  font: var(--ds-font-body);
+  line-height: var(--ds-line-height-200);
+  color: inherit; /* Inherits contrast color from Alert's danger scheme */
+}
+
+/* Links inside error message (DOMPurify allows <a> tags) */
+.message :global(a) {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: var(--ds-font-weight-medium);
+}
+
+.message :global(a:hover) {
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+/* ── Scroll anchor (invisible) ── */
+.scrollAnchor {
+  height: 0;
+  line-height: 0;
+}

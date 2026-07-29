@@ -1,0 +1,11 @@
+.group,
+.groupWithLabel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-100);
+  align-items: center;
+}
+
+.groupWithLabel {
+  margin-top: var(--ds-space-100);
+}

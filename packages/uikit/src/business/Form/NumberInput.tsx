@@ -2,16 +2,14 @@ import { ErrorMessage } from '@hookform/error-message'
 import React from 'react'
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
-import { Switch, SwitchProps } from '../../primitive/index.js'
+import { NumberInput, NumberInputProps } from '../../primitive/index.js'
 
-export interface FormSwitchProps extends Omit<SwitchProps, 'onChange' | 'label'> {
+export interface FormNumberInputProps extends NumberInputProps {
   name: string
   rules?: RegisterOptions
-  label?: React.ReactNode
-  onChange?: (checked: boolean) => void
 }
 
-export const FormSwitch: React.FC<FormSwitchProps> = ({ name, rules, onChange, label, ...rest }) => {
+export const FormNumberInput: React.FC<FormNumberInputProps> = ({ name, rules, onChange, ...rest }) => {
   const { control, formState, getFieldState } = useFormContext()
   const { error } = getFieldState(name, formState)
 
@@ -21,16 +19,14 @@ export const FormSwitch: React.FC<FormSwitchProps> = ({ name, rules, onChange, l
       name={name}
       rules={rules}
       render={({ field }) => {
-        const { onChange: handleChange, value, ...restField } = field
+        const { onChange: handleChange, ...restField } = field
         return (
-          <Switch
-            label={label}
-            checked={value}
+          <NumberInput
             {...restField}
             {...rest}
-            onChange={(checked: boolean) => {
-              handleChange(checked)
-              onChange?.(checked)
+            onChange={(value) => {
+              handleChange(value)
+              onChange?.(value)
             }}
             error={error ? <ErrorMessage errors={formState.errors} name={name} /> : undefined}
           />

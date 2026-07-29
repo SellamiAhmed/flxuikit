@@ -1,0 +1,7 @@
+.wrapper {
+  margin-bottom: var(--ds-space-100);
+}
+
+.wrapper > *:last-child {
+  margin-top: var(--ds-space-075);
+}

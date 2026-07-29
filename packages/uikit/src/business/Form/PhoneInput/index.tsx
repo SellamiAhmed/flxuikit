@@ -7,6 +7,7 @@ import { PhoneInput, PhoneInputProps } from '../../PhoneInput/index.js'
 import { FormSelect } from '../Select.js'
 
 import classes from './index.module.css'
+import { phoneMasks } from './masks.js' // ← import masks
 import rawCountries from './rawCountries.js'
 
 /* ──────────────────────────────────────────
@@ -46,6 +47,7 @@ export const FormPhoneInput: React.FC<FormPhoneInputProps> = ({
 
         return (
           <PhoneInput
+            masks={phoneMasks} // ← rawCountries drives formatting
             error={error ? <ErrorMessage errors={formState.errors} name={name} /> : undefined}
             value={value}
             label={label}
@@ -125,6 +127,7 @@ export const FormPhoneInputV2: React.FC<FormPhoneInputV2Props> = ({
             rules={rules}
             inputClass={classes.phoneInput}
             error={undefined} /* suppress individual error — consolidated below */
+            masks={phoneMasks} // ← rawCountries drives formatting
             showContryCodeAfterFocus={false}
             name={phoneKey}
             {...rest}

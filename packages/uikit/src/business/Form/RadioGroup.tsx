@@ -15,15 +15,11 @@ import {
   Tooltip
 } from '../../primitive/index.js'
 
-import classes from './FormRadioGroup.module.css'
+import classes from './RadioGroup.module.css'
 
 interface RadioGroupItemData extends RadioProps {
   tooltip?: React.ReactNode
   tooltipProps?: {
-    /**
-     * By default it will use HoverCard component to render tooltips.
-     * Set this to `true` to use Tooltip component instead.
-     */
     useTooltip?: boolean
   } & HoverCardProps
 }
@@ -82,7 +78,6 @@ export const FormRadioGroup = ({
                               <Radio {...radioProps} />
                             </Box>
                           </HoverCard.Target>
-
                           <HoverCard.Dropdown className={classes.dropdown}>{i.tooltip}</HoverCard.Dropdown>
                         </HoverCard>
                       )

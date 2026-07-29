@@ -1,4 +1,7 @@
 .root {
   margin-top: var(--ds-space-300);
   gap: var(--ds-space-200);
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
 }
