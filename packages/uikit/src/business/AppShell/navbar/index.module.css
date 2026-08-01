@@ -22,7 +22,7 @@
   flex-direction: column;
   width: var(--app-shell-navbar-width, 240px);
   height: 100%;
-  background-color: var(--ds-canvas);
+  background-color: var(--ds-elevation-surface);
   border-right: none;
   box-shadow: inset -1px 0 0 var(--ds-color-interaction-hovered);
   flex-shrink: 0;
