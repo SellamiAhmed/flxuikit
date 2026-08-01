@@ -1,0 +1,80 @@
+.container {
+  width: 280px;
+  padding: var(--ds-space-100) var(--ds-space-100) var(--ds-space-200);
+  margin: calc(-1 * var(--ds-space-050));
+}
+
+.backRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-050);
+  padding-bottom: var(--ds-space-100);
+  cursor: pointer;
+  color: var(--ds-color-text);
+  transition: color 150ms ease;
+}
+
+.backRow:hover {
+  color: var(--ds-color-text-subtle);
+}
+
+.backLabel {
+  font: var(--ds-font-body);
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-100);
+  padding-top: var(--ds-space-100);
+}
+
+.fieldLabel {
+  font: var(--ds-font-body-small);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text);
+  flex-shrink: 0;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-100);
+}
+
+.dateInput {
+  width: 116px;
+}
+
+.timeInput {
+  width: 110px;
+}
+
+.calendar {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--ds-space-100);
+}
+
+.errorAlert {
+  margin-top: var(--ds-space-100);
+}
+
+.errorText {
+  color: var(--ds-color-text-danger);
+  font: var(--ds-font-body-small);
+  margin: 0;
+}
+
+.errorText + .errorText {
+  margin-top: var(--ds-space-050);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--ds-space-100);
+  padding-top: var(--ds-space-100);
+}
