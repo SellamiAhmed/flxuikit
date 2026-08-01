@@ -1,31 +1,41 @@
-.trigger {
-  /* Let Button primitive handle hover/focus; we just anchor the badge */
-  position: relative;
-}
-
 .inner {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--mantine-color-text);
 }
 
 .badgeCount {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  /* Standard positioning — no transform */
+  top: -5px;
+  right: -5px;
+
   min-width: 16px;
   height: 16px;
+  padding: 0 4px;
+
   border-radius: 999px;
   background: var(--ds-color-background-danger-bold);
   color: var(--ds-color-text-selected);
-  font: var(--ds-font-weight-bold) 10px / 1 var(--ds-font-family-sans);
+
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--ds-font-family-sans);
+  line-height: 1;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
+
   border: 2px solid var(--ds-elevation-surface);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+
   pointer-events: none;
+  z-index: 1;
 }
 
 .dropdown {

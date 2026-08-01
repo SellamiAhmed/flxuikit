@@ -7,16 +7,8 @@ import classes from './PageShellBase.module.css'
 
 export interface PageShellBaseBodyProps extends React.PropsWithChildren<BoxComponentProps> {}
 
-export const PageShellBaseBody = forwardRef<HTMLDivElement, PageShellBaseBodyProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <Box
-        ref={ref}
-        {...props}
-        className={clsx(classes.body, className)}
-      />
-    )
-  }
-)
+export const PageShellBaseBody = forwardRef<HTMLDivElement, PageShellBaseBodyProps>(({ className, ...props }, ref) => {
+  return <Box ref={ref} {...props} className={clsx(classes.body, className)} />
+})
 
 PageShellBaseBody.displayName = 'PageShellBaseBody'
