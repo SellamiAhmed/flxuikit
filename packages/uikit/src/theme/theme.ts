@@ -115,22 +115,10 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
     }
   }
 
-  const passwordInnerInputSize = size
-    ? {
-        height: size - 2,
-        minHeight: size - 2,
-        lineHeight: `${size - 2}px`,
-        fontSize: inputFontSize
-      }
-    : {}
-
   if (props.variant === 'unstyled') {
     return {
       input: {
         ...withInputSize,
-        '& .mantine-PasswordInput-innerInput': {
-          ...passwordInnerInputSize
-        },
         '&::placeholder': {
           color: `${token('color.text.subtlest')} !important`
         }
@@ -144,9 +132,6 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
         '--input-bg': token('color.background.input'),
         '--input-bd-focus': token('color.border.brand'),
         ...withInputSize,
-        '& .mantine-PasswordInput-innerInput': {
-          ...passwordInnerInputSize
-        },
         '&::placeholder': {
           color: `${token('color.text.subtlest')} !important`
         }
@@ -167,13 +152,12 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       fontSize: 12
     },
     input: {
+      width: '100%',
       color: token('color.text'),
       border: `1px solid ${token('color.border.input')}`,
       backgroundColor: token('color.background.input'),
       borderRadius: '8px',
-
       ...withInputSize,
-
       '&:hover': {
         borderColor: token('color.border.bold')
       },
@@ -190,27 +174,17 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       },
       '&::placeholder': {
         color: `${token('color.text.subtlest')} !important`
-      },
-
-      '& .mantine-PasswordInput-innerInput': {
-        ...passwordInnerInputSize,
-        '&::placeholder': {
-          color: `${token('color.text.subtlest')} !important`
-        }
       }
     },
     error: {
       color: token('color.text.danger')
     },
     wrapper: {
+      width: '100%',
       '&[data-error]': {
-        '.mantine-Input-input, .mantine-TextInput-input, .mantine-PasswordInput-innerInput': {
+        '.mantine-Input-input, .mantine-TextInput-input': {
           color: token('color.text.danger'),
           borderColor: token('color.border.danger'),
-
-          '& .mantine-PasswordInput-innerInput': {
-            borderColor: 'transparent'
-          },
           '&:hover': {
             borderColor: token('color.border.danger')
           },
@@ -224,10 +198,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       }
     },
     section: {
-      overflow: 'hidden',
-      '& .mantine-PasswordInput-visibilityToggle svg': {
-        color: token('color.text.subtlest')
-      }
+      overflow: 'hidden'
     }
   }
 }
@@ -865,35 +836,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
           }
         }
       },
-
-      // ── Checkbox ──
-      Checkbox: {
-        styles: (theme: MantineTheme, props: CheckboxProps) => {
-          return {
-            input: {
-              borderRadius: 4,
-              borderColor: token('color.border.input'),
-              backgroundColor: token('color.background.input'),
-
-              '&:checked:not(:disabled)': {
-                backgroundColor: token('color.background.brand.bold'),
-                borderColor: token('color.background.brand.bold')
-              },
-              '&:disabled:checked': {
-                backgroundColor: token('color.background.disabled'),
-                borderColor: token('color.border.disabled')
-              }
-            },
-            label: {
-              color: token('color.text'),
-              '&[data-disabled]': {
-                color: token('color.text.disabled')
-              }
-            }
-          }
-        }
-      },
-
       // ── Divider ──
       Divider: {
         defaultProps: {
@@ -1100,25 +1042,74 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         }
       },
 
-      // ── Radio ──
+      Checkbox: {
+        vars: (theme: MantineTheme, props: CheckboxProps) => {
+          const sizes = { xs: 14, sm: 16, md: 20, lg: 24, xl: 30 }
+          const iconSizes = { xs: 6, sm: 8, md: 10, lg: 12, xl: 14 }
+
+          const sizeKey = (props.size ?? 'sm') as keyof typeof sizes
+          const size = sizes[sizeKey]
+          const iconSize = iconSizes[sizeKey]
+
+          return {
+            root: {
+              '--checkbox-size': rem(size),
+              '--checkbox-icon-size': rem(iconSize),
+              '--checkbox-color': token('color.background.brand.bold'),
+              '--checkbox-icon-color':
+                props.variant === 'outline' ? token('color.text.brand') : token('color.text.inverse'),
+              '--checkbox-error-color': token('color.border.danger')
+            }
+          }
+        },
+        styles: (theme: MantineTheme, props: CheckboxProps) => ({
+          label: {
+            color: token('color.text'),
+            '&[data-disabled]': {
+              color: token('color.text.disabled')
+            }
+          },
+          input: {
+            borderColor: token('color.border.input'),
+            '&:disabled:not(:checked)': {
+              background: token('color.background.disabled'),
+              borderColor: token('color.border.disabled'),
+              cursor: 'not-allowed'
+            },
+            '&:disabled:checked': {
+              color: token('color.text.disabled'),
+              background: token('color.background.disabled'),
+              borderColor: token('color.border.disabled'),
+              cursor: 'not-allowed'
+            }
+          }
+        })
+      },
       Radio: {
-        styles: (theme: MantineTheme, props: RadioProps) => {
+        vars: (theme: MantineTheme, props: RadioProps) => {
           const sizes = { xs: 14, sm: 16, md: 20, lg: 24, xl: 30 }
           const iconSizes = { xs: 5, sm: 6, md: 8, lg: 10, xl: 12 }
 
-          // @ts-ignore
-          const size = sizes[props.size ?? 'sm']
-          // @ts-ignore
-          const iconSize = iconSizes[props.size ?? 'sm']
+          const sizeKey = (props.size ?? 'sm') as keyof typeof sizes
+          const size = sizes[sizeKey]
+          const iconSize = iconSizes[sizeKey]
 
           return {
             root: {
               '--radio-size': rem(size),
               '--radio-icon-size': rem(iconSize),
-              '--radio-color': token('color.background.brand.bold') + ' !important',
+              '--radio-color': token('color.background.brand.bold'),
               '--radio-icon-color':
-                props.variant === 'outline' ? token('color.text.brand') : token('color.text.inverse') + ' !important'
-            },
+                props.variant === 'outline' ? token('color.text.brand') : token('color.text.inverse')
+            }
+          }
+        },
+        styles: (theme: MantineTheme, props: RadioProps) => {
+          const sizes = { xs: 14, sm: 16, md: 20, lg: 24, xl: 30 }
+          const sizeKey = (props.size ?? 'sm') as keyof typeof sizes
+          const size = sizes[sizeKey]
+
+          return {
             label: {
               lineHeight: `${size}px`,
               color: token('color.text'),
@@ -1131,7 +1122,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             },
             radio: {
               borderColor: token('color.border.input'),
-              backgroundColor: token('color.background.input'),
               '&:disabled:not(:checked)': {
                 background: token('color.background.disabled'),
                 borderColor: token('color.border.disabled'),

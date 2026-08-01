@@ -1,3 +1,6 @@
+/* ═══════════════════════════════════════════════════════
+   Layout
+   ═══════════════════════════════════════════════════════ */
 .group,
 .groupWithLabel {
   display: flex;
@@ -8,4 +11,46 @@
 
 .groupWithLabel {
   margin-top: var(--ds-space-100);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Root — structural only, colors come from theme.ts
+   ═══════════════════════════════════════════════════════ */
+.checkboxRoot {
+  --checkbox-radius: var(--ds-space-025);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Body
+   ═══════════════════════════════════════════════════════ */
+.checkboxBody {
+  gap: var(--ds-space-100);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Icon
+   ═══════════════════════════════════════════════════════ */
+.checkboxIcon {
+  width: 12px;
+  height: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Label
+   ═══════════════════════════════════════════════════════ */
+.checkboxLabel {
+  padding-left: 0;
+  color: var(--ds-color-text);
+  font: var(--ds-font-body);
+  font-size: var(--ds-font-size-200);
+  line-height: 1;
+  user-select: none;
+}
+
+.checkboxRoot[data-error] .checkboxLabel {
+  color: var(--ds-color-text-danger);
+}
+
+.checkboxRoot[data-disabled] .checkboxLabel {
+  color: var(--ds-color-text-disabled);
 }

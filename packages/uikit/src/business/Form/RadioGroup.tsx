@@ -32,6 +32,10 @@ export interface FormRadioGroupProps extends Omit<RadioGroupProps, 'children'> {
   gap?: FlexProps['gap']
 }
 
+const radioClassNames = {
+  label: classes.radioLabel
+}
+
 export const FormRadioGroup = ({
   name,
   rules,
@@ -69,20 +73,20 @@ export const FormRadioGroup = ({
                     {i.tooltip ? (
                       i.tooltipProps?.useTooltip ? (
                         <Tooltip label={i.tooltip} withArrow refProp="rootRef">
-                          <Radio {...radioProps} />
+                          <Radio {...radioProps} classNames={radioClassNames} />
                         </Tooltip>
                       ) : (
                         <HoverCard withArrow withinPortal {...i.tooltipProps}>
                           <HoverCard.Target>
                             <Box>
-                              <Radio {...radioProps} />
+                              <Radio {...radioProps} classNames={radioClassNames} />
                             </Box>
                           </HoverCard.Target>
                           <HoverCard.Dropdown className={classes.dropdown}>{i.tooltip}</HoverCard.Dropdown>
                         </HoverCard>
                       )
                     ) : (
-                      <Radio {...radioProps} />
+                      <Radio {...radioProps} classNames={radioClassNames} />
                     )}
                   </Fragment>
                 )

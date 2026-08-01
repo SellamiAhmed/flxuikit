@@ -1,8 +1,12 @@
 /* ============================================
    BASE & CUSTOM PROPERTIES
+   Scoped under .root — but since .root itself is
+   still fairly generic, everything nested below
+   uses Button-specific class names (btn-*) so this
+   file can never leak into another primitive, even
+   if `classes` gets spread or reused by mistake.
    ============================================ */
-.root.root {
-  /* Default = brand/neutral filled */
+.root {
   --btn-bg: var(--ds-color-background-brand-bold);
   --btn-bg-hover: var(--ds-color-background-brand-bold-hovered);
   --btn-bg-active: var(--ds-color-background-brand-bold-pressed);
@@ -39,7 +43,7 @@
    ============================================ */
 
 /* --- Danger --- */
-.root.root[data-color='red'] {
+.root[data-color='red'] {
   --btn-bg: var(--ds-color-background-danger-bold);
   --btn-bg-hover: var(--ds-color-background-danger-bold-hovered);
   --btn-bg-active: var(--ds-color-background-danger-bold-pressed);
@@ -61,8 +65,8 @@
 }
 
 /* --- Warning --- */
-.root.root[data-color='orange'],
-.root.root[data-color='yellow'] {
+.root[data-color='orange'],
+.root[data-color='yellow'] {
   --btn-bg: var(--ds-color-background-warning-bold);
   --btn-bg-hover: var(--ds-color-background-warning-bold-hovered);
   --btn-bg-active: var(--ds-color-background-warning-bold-pressed);
@@ -84,8 +88,8 @@
 }
 
 /* --- Success --- */
-.root.root[data-color='green'],
-.root.root[data-color='lime'] {
+.root[data-color='green'],
+.root[data-color='lime'] {
   --btn-bg: var(--ds-color-background-success-bold);
   --btn-bg-hover: var(--ds-color-background-success-bold-hovered);
   --btn-bg-active: var(--ds-color-background-success-bold-pressed);
@@ -107,8 +111,8 @@
 }
 
 /* --- Information --- */
-.root.root[data-color='blue'],
-.root.root[data-color='cyan'] {
+.root[data-color='blue'],
+.root[data-color='cyan'] {
   --btn-bg: var(--ds-color-background-information-bold);
   --btn-bg-hover: var(--ds-color-background-information-bold-hovered);
   --btn-bg-active: var(--ds-color-background-information-bold-pressed);
@@ -130,9 +134,9 @@
 }
 
 /* --- Discovery --- */
-.root.root[data-color='purple'],
-.root.root[data-color='violet'],
-.root.root[data-color='grape'] {
+.root[data-color='purple'],
+.root[data-color='violet'],
+.root[data-color='grape'] {
   --btn-bg: var(--ds-color-background-discovery-bold);
   --btn-bg-hover: var(--ds-color-background-discovery-bold-hovered);
   --btn-bg-active: var(--ds-color-background-discovery-bold-pressed);
@@ -154,7 +158,7 @@
 }
 
 /* --- Teal --- */
-.root.root[data-color='teal'] {
+.root[data-color='teal'] {
   --btn-bg: var(--ds-color-background-accent-teal-bolder);
   --btn-bg-hover: var(--ds-color-background-accent-teal-bolder-hovered);
   --btn-bg-active: var(--ds-color-background-accent-teal-bolder-pressed);
@@ -176,7 +180,7 @@
 }
 
 /* --- Magenta / Pink --- */
-.root.root[data-color='pink'] {
+.root[data-color='pink'] {
   --btn-bg: var(--ds-color-background-accent-magenta-bolder);
   --btn-bg-hover: var(--ds-color-background-accent-magenta-bolder-hovered);
   --btn-bg-active: var(--ds-color-background-accent-magenta-bolder-pressed);
@@ -198,8 +202,8 @@
 }
 
 /* --- Gray / Neutral --- */
-.root.root[data-color='gray'],
-.root.root[data-color='dark'] {
+.root[data-color='gray'],
+.root[data-color='dark'] {
   --btn-bg: var(--ds-color-background-neutral-bold);
   --btn-bg-hover: var(--ds-color-background-neutral-bold-hovered);
   --btn-bg-active: var(--ds-color-background-neutral-bold-pressed);
@@ -225,116 +229,120 @@
    ============================================ */
 
 /* Filled */
-.root.root[data-variant='filled'] {
+.root[data-variant='filled'] {
   background-color: var(--btn-bg);
   color: var(--btn-color);
   border-color: transparent;
 }
-.root.root[data-variant='filled']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='filled']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--btn-bg-hover);
 }
-.root.root[data-variant='filled']:active:not(:disabled):not([data-loading]) {
+.root[data-variant='filled']:active:not(:disabled):not([data-loading]) {
   background-color: var(--btn-bg-active);
 }
 
 /* Light */
-.root.root[data-variant='light'] {
+.root[data-variant='light'] {
   background-color: var(--btn-light-bg);
   color: var(--btn-light-color);
   border-color: transparent;
 }
-.root.root[data-variant='light']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='light']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--btn-light-bg-hover);
 }
-.root.root[data-variant='light']:active:not(:disabled):not([data-loading]) {
+.root[data-variant='light']:active:not(:disabled):not([data-loading]) {
   background-color: var(--btn-light-bg-active);
 }
 
 /* Outline */
-.root.root[data-variant='outline'] {
+.root[data-variant='outline'] {
   background-color: transparent;
   color: var(--btn-outline-color);
   border-color: var(--btn-outline-border);
 }
-.root.root[data-variant='outline']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='outline']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--btn-outline-bg-hover);
 }
-.root.root[data-variant='outline']:active:not(:disabled):not([data-loading]) {
+.root[data-variant='outline']:active:not(:disabled):not([data-loading]) {
   background-color: var(--btn-outline-bg-active);
 }
 
 /* Subtle */
-.root.root[data-variant='subtle'] {
+.root[data-variant='subtle'] {
   background-color: transparent;
   color: var(--btn-subtle-color);
   border-color: transparent;
 }
-.root.root[data-variant='subtle']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='subtle']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--btn-subtle-bg-hover);
 }
-.root.root[data-variant='subtle']:active:not(:disabled):not([data-loading]) {
+.root[data-variant='subtle']:active:not(:disabled):not([data-loading]) {
   background-color: var(--btn-subtle-bg-active);
 }
 
 /* Default (Mantine gray) */
-.root.root[data-variant='default'] {
+.root[data-variant='default'] {
   background-color: var(--ds-color-background-neutral);
   color: var(--ds-color-text);
   border-color: var(--ds-color-border);
 }
-.root.root[data-variant='default']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='default']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--ds-color-background-neutral-hovered);
 }
-.root.root[data-variant='default']:active:not(:disabled):not([data-loading]) {
+.root[data-variant='default']:active:not(:disabled):not([data-loading]) {
   background-color: var(--ds-color-background-neutral-pressed);
 }
 
-/* White — uses Canvas (elevated surface), NOT page surface.
-   Use this on colored/contrasting backgrounds only. */
-.root.root[data-variant='white'] {
+/* White */
+.root[data-variant='white'] {
   background-color: var(--ds-canvas);
   color: var(--ds-color-text);
   border-color: transparent;
 }
-.root.root[data-variant='white']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='white']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--ds-canvas-soft);
 }
 
 /* Transparent */
-.root.root[data-variant='transparent'] {
+.root[data-variant='transparent'] {
   background-color: transparent;
   color: var(--ds-color-text);
   border-color: transparent;
 }
-.root.root[data-variant='transparent']:hover:not(:disabled):not([data-loading]) {
+.root[data-variant='transparent']:hover:not(:disabled):not([data-loading]) {
   background-color: var(--ds-color-background-neutral-subtle-hovered);
 }
 
 /* ============================================
    SIZES
    ============================================ */
-.root.root[data-size='xs'] {
-  padding: var(--ds-space-050) var(--ds-space-100);
+button.root[data-size='xs'] {
+  padding-inline: var(--ds-space-100);
+  padding-block: var(--ds-space-050);
   font-size: var(--ds-font-size-100);
   line-height: var(--ds-line-height-100);
 }
-.root.root[data-size='sm'] {
-  padding: var(--ds-space-075) var(--ds-space-150);
+button.root[data-size='sm'] {
+  padding-inline: var(--ds-space-150);
+  padding-block: var(--ds-space-075);
   font-size: var(--ds-font-size-100);
   line-height: var(--ds-line-height-100);
 }
-.root.root[data-size='md'] {
-  padding: var(--ds-space-100) var(--ds-space-200);
+button.root[data-size='md'] {
+  padding-inline: var(--ds-space-200);
+  padding-block: var(--ds-space-100);
   font-size: var(--ds-font-size-200);
   line-height: var(--ds-line-height-200);
 }
-.root.root[data-size='lg'] {
-  padding: var(--ds-space-150) var(--ds-space-250);
+button.root[data-size='lg'] {
+  padding-inline: var(--ds-space-250);
+  padding-block: var(--ds-space-150);
   font-size: var(--ds-font-size-300);
   line-height: var(--ds-line-height-300);
 }
-.root.root[data-size='xl'] {
-  padding: var(--ds-space-200) var(--ds-space-300);
+button.root[data-size='xl'] {
+  padding-inline: var(--ds-space-300);
+  padding-block: var(--ds-space-200);
   font-size: var(--ds-font-size-300);
   line-height: var(--ds-line-height-300);
 }
@@ -342,8 +350,8 @@
 /* ============================================
    STATES
    ============================================ */
-.root.root:disabled,
-.root.root[data-disabled] {
+.root:disabled,
+.root[data-disabled] {
   background-color: var(--ds-color-background-disabled) !important;
   color: var(--ds-color-text-disabled) !important;
   border-color: var(--ds-color-border-disabled) !important;
@@ -351,11 +359,109 @@
   opacity: 0.6;
 }
 
-.root.root[data-loading] {
+.root[data-loading] {
   cursor: wait;
 }
 
-.root.root:focus-visible {
+.root:focus-visible {
   outline: 2px solid var(--ds-color-border-focused);
   outline-offset: 2px;
+}
+
+/* ============================================
+   BTN-INNER — flex row, icon + label as one group
+   This is the pattern used by production design
+   systems (Atlassian ADS, GitHub Primer, Material,
+   Radix, Chakra): icon and label are laid out as a
+   single flex row with a fixed gap, and the *group*
+   is centered — not the label independently. This
+   matches Mantine's own layout model exactly, so
+   there's nothing left to fight: no grid track math,
+   no absolute positioning, no intrinsic-sizing edge
+   cases, no clipping.
+   ============================================ */
+.root .btn-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-075);
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+   BTN-SECTION — icon containers
+   In-flow flex children now (not absolute). Order
+   in the DOM (Mantine renders leftSection before
+   label, rightSection after) is all that's needed
+   to place them correctly — no positioning rules.
+   ============================================ */
+.root .btn-section {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0; /* remove font line-box height so the container's height == icon's height */
+  flex-shrink: 0;
+}
+
+/* SVG icons default to vertical-align: baseline, which reserves a
+   few px of descender space beneath the glyph and can throw off
+   flex align-items: center by a pixel or two. display: block
+   removes that reserved space entirely. */
+.root .btn-section svg {
+  display: block;
+}
+
+/* ============================================
+   BTN-LABEL — renamed from generic `.label`
+   ============================================ */
+.root .btn-label {
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1;
+}
+
+/* Filled */
+.root[data-variant='filled'] .btn-label,
+.root:not([data-variant]) .btn-label {
+  color: var(--btn-color);
+}
+
+/* Default */
+.root[data-variant='default'] .btn-label {
+  color: var(--ds-color-text);
+}
+
+/* Light */
+.root[data-variant='light'] .btn-label {
+  color: var(--btn-light-color);
+}
+
+/* Outline */
+.root[data-variant='outline'] .btn-label {
+  color: var(--btn-outline-color);
+}
+
+/* Subtle */
+.root[data-variant='subtle'] .btn-label {
+  color: var(--btn-subtle-color);
+}
+
+/* White */
+.root[data-variant='white'] .btn-label {
+  color: var(--ds-color-text);
+}
+
+/* Transparent */
+.root[data-variant='transparent'] .btn-label {
+  color: var(--ds-color-text);
+}
+
+/* Disabled */
+.root:disabled .btn-label,
+.root[data-disabled] .btn-label {
+  color: var(--ds-color-text-disabled);
 }

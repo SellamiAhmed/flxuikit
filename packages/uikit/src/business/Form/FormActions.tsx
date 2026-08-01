@@ -1,5 +1,4 @@
 import { Button, ButtonProps, ElementProps, Flex, FlexProps } from '../../primitive/index.js'
-import typographyClasses from '../../primitive/Typography/index.module.css'
 
 import classes from './FormActions.module.css'
 
@@ -33,7 +32,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
   return (
     <Flex justify="flex-end" className={classes.root} {...rest}>
       {cancelText && (
-        <Button onClick={onCancel} variant="default" className={typographyClasses['action-md']} {...cancelProps}>
+        <Button onClick={onCancel} variant="default" {...cancelProps}>
           {cancelText}
         </Button>
       )}

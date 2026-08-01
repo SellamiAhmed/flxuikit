@@ -3,7 +3,7 @@ import ReactPhoneInput2, { PhoneInputProps as ReactPhoneInputProps } from 'react
 
 import { Box, BoxProps, Input, useInputProps, InputWrapperProps } from '../../primitive/index.js'
 
-import classes from './PhoneInput.module.css'
+import classes from './index.module.css'
 
 // fuck esm/cjs interop https://github.com/evanw/esbuild/issues/1719#issuecomment-953470495
 // @ts-ignore

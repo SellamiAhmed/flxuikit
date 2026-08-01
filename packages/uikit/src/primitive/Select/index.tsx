@@ -1,127 +1,93 @@
-import { Select as MantineSelect, MultiSelect as MantineMultiSelect, getParsedComboboxData } from '@mantine/core'
+import { getParsedComboboxData, MultiSelect as MantineMultiSelect, Select as MantineSelect } from '@mantine/core'
 import type {
-  SelectProps as MantineSelectProps,
+  ComboboxItem,
+  ComboboxData,
   MultiSelectProps as MantineMultiSelectProps,
-  ComboboxItem
+  SelectProps as MantineSelectProps
 } from '@mantine/core'
 import { useUncontrolled } from '@mantine/hooks'
-import clsx from 'clsx'
 import { useMemo } from 'react'
 
 import classes from './index.module.css'
 
-/* ═══════════════════════════════════════════════════════ */
-/* TYPES                                                  */
-/* ═══════════════════════════════════════════════════════ */
-
-export interface CreatableProps {
+export interface SelectProps extends MantineSelectProps {
   creatable?: boolean
   getCreateLabel?: (query: string) => string
   onCreate?: (query: string) => ComboboxItem | null | undefined
 }
 
-export interface SelectProps extends MantineSelectProps, CreatableProps {}
-export interface MultiSelectProps extends MantineMultiSelectProps, CreatableProps {}
+export interface MultiSelectProps extends MantineMultiSelectProps {
+  creatable?: boolean
+  getCreateLabel?: (query: string) => string
+  onCreate?: (query: string) => ComboboxItem | null | undefined
+}
 
-/* ═══════════════════════════════════════════════════════ */
-/* CONSTANTS                                              */
-/* ═══════════════════════════════════════════════════════ */
-
-const DEFAULT_GET_CREATE_LABEL = (query: string) => `+ Create ${query}`
+const defaultGetCreateLabel = (query: string) => `+ Create ${query}`
 const CREATE_VALUE_PREFIX = '$create:'
-const DEFAULT_GET_CREATE_VALUE = (query: string) => `${CREATE_VALUE_PREFIX}${query}`
+const defaultGetCreateValue = (query: string) => `${CREATE_VALUE_PREFIX}${query}`
 
-/* ═══════════════════════════════════════════════════════ */
-/* HOOK                                                   */
-/* ═══════════════════════════════════════════════════════ */
-
-type CreatableInput = {
-  creatable?: boolean
-  getCreateLabel?: (query: string) => string
-  onCreate?: (query: string) => ComboboxItem | null | undefined
-  data?: any
-  searchable?: boolean
-  searchValue?: string
-  onSearchChange?: (value: string) => void
-  value?: any
-  defaultValue?: any
-  onChange?: (...args: any[]) => any
-}
-
-function useCreateableSelect<T extends CreatableInput>(props: T): T {
-  const {
-    creatable = false,
-    getCreateLabel = DEFAULT_GET_CREATE_LABEL,
-    onCreate,
-    searchable,
-    data,
-    searchValue: searchValueProp,
-    onSearchChange: onSearchChangeProp,
-    value: valueProp,
-    defaultValue,
-    onChange,
-    ...rest
-  } = props
+/* ── Internal hook — untyped, logic only ── */
+function useCreateableSelect(props: any): any {
+  const { creatable = false, getCreateLabel = defaultGetCreateLabel, onCreate, searchable, ...rest } = props
 
   if (creatable && typeof onCreate !== 'function') {
-    throw new Error('[@flex/uikit] `onCreate` is required when `creatable` is true')
+    throw new Error('`onCreate` is required when `creatable` is true')
   }
 
-  const [value, setValue] = useUncontrolled({
-    value: valueProp,
-    onChange,
-    defaultValue
+  const [value, setValue] = useUncontrolled<any>({
+    value: props.value,
+    onChange: props.onChange,
+    defaultValue: props.defaultValue
   })
 
   const [searchValue, setSearchValue] = useUncontrolled<string | undefined>({
-    value: searchValueProp,
-    onChange: (val: string | undefined) => {
-      if (val !== undefined && onSearchChangeProp) {
-        onSearchChangeProp(val)
-      }
-    },
+    value: props.searchValue,
+    onChange: (val: string | undefined) => props.onSearchChange?.(val ?? ''),
     defaultValue: ''
   })
 
   const parsedData = useMemo(() => {
-    const items = getParsedComboboxData(data)
+    const parsedData = getParsedComboboxData(props.data)
     if (!creatable || !searchValue) {
-      return items
+      return parsedData
     }
     const placeholder = {
       label: getCreateLabel(searchValue),
-      value: DEFAULT_GET_CREATE_VALUE(searchValue)
+      value: defaultGetCreateValue(searchValue)
     }
     if (
-      items.findIndex((item: any) => {
+      parsedData.findIndex((item: any) => {
         if ('value' in item) {
-          return item.value === searchValue
+          return item.value === placeholder.value.slice(CREATE_VALUE_PREFIX.length)
         }
         return false
       }) === -1
     ) {
-      items.push(placeholder)
+      parsedData.push(placeholder)
     }
-    return items
-  }, [data, searchValue, creatable, getCreateLabel])
+    return parsedData
+  }, [props.data, searchValue])
 
-  const handleChange = (nextValue: any, option?: any) => {
-    const isMultiSelect = Array.isArray(nextValue)
+  const handleChange = (value: any, option: ComboboxItem) => {
+    const isMultiSelect = Array.isArray(value)
     if (creatable) {
-      const values = Array.isArray(nextValue) ? nextValue : [nextValue]
+      const values = Array.isArray(value) ? value : [value]
       const clickedCreateItem = values.some((i: any) => typeof i === 'string' && i.startsWith(CREATE_VALUE_PREFIX))
 
       if (clickedCreateItem) {
         const newItemValue = isMultiSelect
           ? values.find((i: any) => typeof i === 'string' && i.startsWith(CREATE_VALUE_PREFIX))
-          : nextValue
+          : value
         if (newItemValue) {
-          const createdItem = onCreate!(newItemValue?.slice(CREATE_VALUE_PREFIX.length))
+          const createdItem = onCreate!((newItemValue as string).slice(CREATE_VALUE_PREFIX.length))
           if (createdItem) {
-            const nextVal = isMultiSelect
-              ? ([...values.filter((i: any) => !i?.startsWith(CREATE_VALUE_PREFIX)), createdItem.value] as string[])
+            const nextValue = isMultiSelect
+              ? ([
+                  ...values.filter((i: any) => !(typeof i === 'string' && i.startsWith(CREATE_VALUE_PREFIX))),
+                  createdItem.value
+                ] as string[])
               : createdItem.value
-            setValue(nextVal, isMultiSelect ? undefined : option)
+            setValue(nextValue, isMultiSelect ? undefined : option)
             setSearchValue('')
             return
           }
@@ -129,7 +95,7 @@ function useCreateableSelect<T extends CreatableInput>(props: T): T {
       }
     }
 
-    setValue(nextValue, isMultiSelect ? undefined : option)
+    setValue(value, isMultiSelect ? undefined : option)
   }
 
   return {
@@ -138,75 +104,49 @@ function useCreateableSelect<T extends CreatableInput>(props: T): T {
     value,
     onChange: handleChange,
     searchable: searchable || creatable,
-    searchValue: searchValue || '',
+    searchValue,
     onSearchChange: setSearchValue
-  } as T
+  }
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* SELECT                                                 */
-/* ═══════════════════════════════════════════════════════ */
+/* ── Select (single) ── */
 
 export function Select(props: SelectProps) {
-  const { size = 'md', ...rest } = props
-  const allProps = useCreateableSelect(rest)
+  const allProps = useCreateableSelect(props)
 
   return (
     <MantineSelect
       {...allProps}
-      size={size}
-      value={allProps.value || null}
-      checkIconPosition="right"
+      value={typeof allProps.value === 'string' ? allProps.value : null}
       classNames={{
-        wrapper: classes.wrapper,
-        input: clsx(classes.input, classes[`size-${size}`]),
-        dropdown: clsx(classes.dropdown, classes[`dropdown-${size}`]),
-        options: classes.options,
-        option: clsx(classes.option, classes[`option-${size}`]),
-        empty: classes.empty,
-        groupLabel: classes.groupLabel,
-        label: classes.label,
+        input: classes.input,
         error: classes.error,
-        description: classes.description
-      }}
-      comboboxProps={{
-        transitionProps: { transition: 'pop', duration: 120 },
-        shadow: 'md',
-        ...props.comboboxProps
+        dropdown: classes.dropdown,
+        option: classes.option,
+        empty: classes.empty,
+        groupLabel: classes.groupLabel
       }}
     />
   )
 }
-/* ═══════════════════════════════════════════════════════ */
-/* MULTISELECT                                            */
-/* ═══════════════════════════════════════════════════════ */
+
+/* ── MultiSelect ── */
 
 export function MultiSelect(props: MultiSelectProps) {
-  const { size = 'md', ...rest } = props
-  const allProps = useCreateableSelect(rest)
+  const allProps = useCreateableSelect(props)
 
   return (
     <MantineMultiSelect
       {...allProps}
-      size={size}
-      checkIconPosition="right"
+      value={Array.isArray(allProps.value) ? allProps.value : allProps.value ? [allProps.value] : []}
+      onChange={allProps.onChange as (value: string[]) => void}
       classNames={{
-        wrapper: classes.wrapper,
-        input: clsx(classes.input, classes[`size-${size}`]),
-        dropdown: clsx(classes.dropdown, classes[`dropdown-${size}`]),
-        options: classes.options,
-        option: clsx(classes.option, classes[`option-${size}`]),
-        empty: classes.empty,
-        groupLabel: classes.groupLabel,
-        pill: classes.pill,
-        label: classes.label,
+        input: classes.input,
         error: classes.error,
-        description: classes.description
-      }}
-      comboboxProps={{
-        transitionProps: { transition: 'pop', duration: 120 },
-        shadow: 'md',
-        ...props.comboboxProps
+        dropdown: classes.dropdown,
+        option: classes.option,
+        empty: classes.empty,
+        groupLabel: classes.groupLabel
       }}
     />
   )

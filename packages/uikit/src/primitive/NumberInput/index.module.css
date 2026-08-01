@@ -1,0 +1,86 @@
+/* ── Section (add-on chip) ── */
+.section {
+  position: initial;
+  width: fit-content;
+  border: 1px solid var(--ds-color-border);
+  background-color: var(--ds-color-background-neutral-subtle);
+  padding: 0 var(--ds-space-150);
+  display: flex;
+  align-items: center;
+}
+
+.section[data-position='left'] {
+  border-right-width: 0;
+  border-top-left-radius: var(--ds-space-075);
+  border-bottom-left-radius: var(--ds-space-075);
+}
+
+.section[data-position='right'] {
+  border-left-width: 0;
+  border-top-right-radius: var(--ds-space-075);
+  border-bottom-right-radius: var(--ds-space-075);
+}
+
+/* When the right section is hosting the stepper (not a text/icon addon),
+   drop its box styling entirely — the outer .wrapper/.input border is
+   the ONLY border, matching Mantine's own default look */
+.section[data-position='right']:has(.controls) {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  align-self: stretch;
+}
+
+/* ── Controls ── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  height: 100%;
+  width: var(--ds-space-400, 1.75rem);
+  border-left: 1px solid var(--ds-color-border); /* the ONLY divider, input↔controls */
+}
+
+.controls[data-disabled] {
+  opacity: 0.6;
+}
+
+/* ── Control (up/down button) ── */
+.control {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  color: var(--ds-color-text-subtle);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.control[data-direction='up'] {
+  border-bottom: 1px solid var(--ds-color-border); /* divider between ▲ / ▼ */
+}
+
+.control:hover:not(:disabled) {
+  background-color: var(--ds-color-background-neutral-hover, var(--ds-color-background-neutral-subtle));
+  color: var(--ds-color-text);
+}
+
+.control:active:not(:disabled) {
+  background-color: var(--ds-color-background-neutral-active, var(--ds-color-border));
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--ds-color-border-focus, var(--ds-color-primary));
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.control:disabled {
+  cursor: not-allowed;
+  color: var(--ds-color-text-disabled, var(--ds-color-text-subtle));
+  opacity: 0.5;
+}

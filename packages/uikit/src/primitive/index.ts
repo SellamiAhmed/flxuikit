@@ -50,6 +50,7 @@ export type {
   ComboboxProps,
   ComboboxItem,
   ComboboxData,
+  ButtonProps,
   PillProps,
   PillsInputProps,
   OptionsFilter,
@@ -106,6 +107,7 @@ export type {
   MarkProps,
   TableProps,
   TextProps,
+  SwitchProps,
   TitleProps,
   TypographyStylesProviderProps,
   BoxProps,
@@ -141,6 +143,7 @@ export {
   Chip,
   ColorInput,
   ColorPicker,
+  CopyButton,
   Fieldset,
   HueSlider,
   AlphaSlider,
@@ -159,6 +162,7 @@ export {
   Slider,
   RangeSlider,
   Textarea,
+  Text,
   Autocomplete,
   Combobox,
   Pill,
@@ -238,6 +242,57 @@ export {
   useProps
 } from '@mantine/core'
 
+// Re-export @mantine/dropzone
+export {
+  Dropzone,
+  MIME_TYPES,
+  MS_EXCEL_MIME_TYPE,
+  MS_POWERPOINT_MIME_TYPE,
+  MS_WORD_MIME_TYPE,
+  EXE_MIME_TYPE,
+  PDF_MIME_TYPE,
+  IMAGE_MIME_TYPE
+} from '@mantine/dropzone'
+export type {
+  DropzoneAcceptProps,
+  DropzoneFullScreenProps,
+  DropzoneFullScreenStylesNames,
+  DropzoneIdleProps,
+  DropzoneProps,
+  DropzoneRejectProps,
+  DropzoneStylesNames
+} from '@mantine/dropzone'
+
+// Re-export @mantine/carousel
+export { Carousel, useAnimationOffsetEffect } from '@mantine/carousel'
+export type { CarouselProps, CarouselStylesNames, Embla } from '@mantine/carousel'
+
+// Re-export @mantine/modals
+export {
+  ModalsProvider,
+  useModals,
+  openModal,
+  openConfirmModal,
+  openContextModal,
+  closeModal,
+  closeAllModals
+} from '@mantine/modals'
+export type { ModalsProviderProps, ContextModalProps } from '@mantine/modals'
+
+// Re-export @mantine/dates
+export { DatePicker, DatePickerInput, Calendar, Month, TimeInput } from '@mantine/dates'
+export type {
+  CalendarProps,
+  CalendarBaseProps,
+  DatePickerType,
+  DatePickerProps,
+  DatePickerInputProps,
+  DatePickerStylesNames,
+  MonthProps,
+  TimeInputProps,
+  MonthSettings
+} from '@mantine/dates'
+
 // Your custom primitives
 export { Button } from './Button/index.js'
 export { Typography, type TypographyProps } from './Typography/index.js'
@@ -245,9 +300,11 @@ export { Typography, type TypographyProps } from './Typography/index.js'
 export { Select, type SelectProps } from './Select/index.js'
 export { MultiSelect, type MultiSelectProps } from './Select/index.js'
 
+export { Switch } from './Switch/index.js'
+
 export { TextInput, type TextInputProps } from './TextInput/index.js'
 
-export { Switch, type SwitchProps } from './Switch/index.js'
+export { NumberInput, type NumberInputProps } from './NumberInput/index.js'
 
 // Hooks — re-export from sibling folder
 export { useColorScheme } from '../hooks/index.js'

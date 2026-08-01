@@ -1,256 +1,82 @@
-/* ═══════════════════════════════════════════════════════ */
-/* SIZES — input                                          */
-/* ═══════════════════════════════════════════════════════ */
-
-.size-sm {
-  height: 28px;
-  min-height: 28px;
-  padding: 0 28px 0 10px;
-  font-size: 13px;
-}
-
-.size-md {
-  height: 36px;
-  min-height: 36px;
-  padding: 0 32px 0 14px;
-  font-size: 14px;
-}
-
-.size-lg {
-  height: 44px;
-  min-height: 44px;
-  padding: 0 36px 0 16px;
-  font-size: 15px;
-}
-
-/* ═══════════════════════════════════════════════════════ */
-/* SIZES — dropdown/options (density follows the trigger) */
-/* ═══════════════════════════════════════════════════════ */
-
-.dropdown-sm {
-  padding: 2px;
-}
-.dropdown-md {
-  padding: 4px;
-}
-.dropdown-lg {
-  padding: 6px;
-}
-
-.option-sm {
-  padding: 4px 8px;
-  font-size: 13px;
-  border-radius: 4px;
-}
-
-.option-md {
-  padding: 6px 10px;
-  font-size: 14px;
-  border-radius: 6px;
-}
-
-.option-lg {
-  padding: 8px 12px;
-  font-size: 15px;
-  border-radius: 6px;
-}
-
-/* ═══════════════════════════════════════════════════════ */
-/* INPUT BASE                                             */
-/* ═══════════════════════════════════════════════════════ */
-
+/* ── Input ── */
 .input {
-  color: var(--mantine-color-dark-2);
-  background-color: var(--mantine-color-dark-9);
-  border: 1px solid var(--mantine-color-dark-6);
-  border-radius: 8px;
-  width: auto;
-  min-width: 120px;
-  max-width: 280px;
-  transition:
-    border-color 120ms ease,
-    box-shadow 120ms ease,
-    background-color 120ms ease;
-}
-
-.input:hover {
-  border-color: var(--mantine-color-dark-5);
-}
-
-.input:focus,
-.input[data-focus] {
-  border-color: var(--mantine-color-brand-6);
-  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.08);
-  outline: none;
-}
-
-.input[data-expanded] {
-  border-color: var(--mantine-color-brand-6);
-  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.08);
-}
-
-.input[data-disabled] {
-  background-color: var(--mantine-color-dark-8);
-  border-color: var(--mantine-color-dark-7);
-  color: var(--mantine-color-dark-4);
-  cursor: not-allowed;
-  opacity: 1; /* override Mantine's default dimming — we want explicit disabled tokens instead */
+  font-family: var(--ds-font-family-sans);
+  font-size: var(--ds-font-size-200);
+  color: var(--ds-color-text);
+  background: var(--ds-elevation-surface);
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-space-075);
+  min-height: 40px;
+  padding: 0 var(--ds-space-150);
+  display: flex; /* ← add */
+  align-items: center;
+  transition: border-color 100ms ease;
 }
 
 .input::placeholder {
-  color: var(--mantine-color-dark-4);
+  color: var(--ds-color-text-subtle);
+  opacity: 1;
 }
 
-/* wrapper carries error state down to input border — real DS pattern:
-   error styling should not require duplicating every state (:hover/:focus) under an error variant */
-.wrapper[data-error] .input {
-  border-color: var(--mantine-color-danger-5);
+.input:hover {
+  border-color: var(--ds-color-border-bold);
 }
 
-.wrapper[data-error] .input:focus,
-.wrapper[data-error] .input[data-focus] {
-  border-color: var(--mantine-color-danger-5);
-  box-shadow: 0 0 0 3px rgba(227, 73, 53, 0.1);
+.input:focus,
+.input:focus-within {
+  border-color: var(--ds-color-border-focused);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* CHEVRON / SECTION ICON                                 */
-/* ═══════════════════════════════════════════════════════ */
-
-.section svg {
-  color: var(--mantine-color-dark-4);
-  transition:
-    transform 120ms ease,
-    color 120ms ease;
-}
-
-.input[data-expanded] ~ .section svg,
-.wrapper[data-expanded] .section svg {
-  color: var(--mantine-color-dark-2);
-}
-
-/* ═══════════════════════════════════════════════════════ */
-/* DROPDOWN                                               */
-/* ═══════════════════════════════════════════════════════ */
-
-.dropdown {
-  background-color: var(--mantine-color-dark-8);
-  border: 1px solid var(--mantine-color-dark-6);
-  border-radius: 8px;
-  box-shadow: var(--flex-shadow-md, 0 4px 16px rgba(0, 0, 0, 0.35));
-  margin-top: 4px;
-  min-width: 120px;
-  width: max-content;
-  max-width: 280px;
-}
-
-/* ═══════════════════════════════════════════════════════ */
-/* OPTIONS                                                */
-/* ═══════════════════════════════════════════════════════ */
-
-.options {
-  padding: 0;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 400;
-  color: var(--mantine-color-dark-1);
-  cursor: pointer;
-  transition:
-    background-color 60ms ease,
-    color 60ms ease;
-  white-space: nowrap;
-}
-
-.option:hover,
-.option[data-hovered] {
-  background-color: var(--mantine-color-dark-7);
-}
-
-.option[data-checked] {
-  background-color: var(--mantine-color-dark-7);
-  color: var(--mantine-color-dark-0);
-  font-weight: 500;
-}
-
-.option[data-checked] svg {
-  color: var(--mantine-color-brand-4);
-}
-
-.option[data-disabled] {
-  color: var(--mantine-color-dark-4);
-  cursor: not-allowed;
-}
-
-.option[data-disabled]:hover {
-  background-color: transparent;
-}
-
-.option[data-create] {
-  color: var(--mantine-color-brand-5);
-  font-weight: 500;
-  border-top: 1px solid var(--mantine-color-dark-6);
-  margin-top: 2px;
-  padding-top: 8px;
-}
-
-.option[data-create]:hover {
-  background-color: rgba(94, 106, 210, 0.1);
-}
-
-/* ═══════════════════════════════════════════════════════ */
-/* EMPTY / GROUP / LABEL / ERROR                          */
-/* ═══════════════════════════════════════════════════════ */
-
-.empty {
-  padding: 12px;
-  text-align: center;
-  font-size: 13px;
-  color: var(--mantine-color-dark-3);
-}
-
-.groupLabel {
-  padding: 6px 8px 4px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--mantine-color-dark-3);
-}
-
-.label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--mantine-color-dark-1);
-  margin-bottom: 4px;
-  line-height: 1.4;
-}
-
-.description {
-  font-size: 12px;
-  color: var(--mantine-color-dark-3);
-  margin-top: 2px;
-  line-height: 1.4;
-}
-
+/* ── Error ── */
 .error {
-  font-size: 12px;
-  color: var(--mantine-color-danger-5);
-  margin-top: 4px;
-  line-height: 1.4;
+  color: var(--ds-color-text-danger);
+  font: var(--ds-font-body-small);
+  line-height: 1.2;
+  margin-top: var(--ds-space-050);
 }
 
-/* ═══════════════════════════════════════════════════════ */
-/* MULTISELECT PILL — sized with the trigger              */
-/* ═══════════════════════════════════════════════════════ */
+/* ── Dropdown ── */
+.dropdown {
+  background: var(--ds-elevation-surface-raised);
+  border: 1px solid var(--ds-color-border);
+  box-shadow: var(--ds-elevation-shadow-raised);
+  border-radius: var(--ds-space-075);
+  padding: var(--ds-space-050) 0;
+}
 
-.pill {
-  background-color: rgba(94, 106, 210, 0.12);
-  color: var(--mantine-color-brand-4);
-  border: 1px solid rgba(94, 106, 210, 0.2);
-  border-radius: 4px;
-  font-weight: 500;
+/* ── Option ── */
+.option {
+  font: var(--ds-font-body);
+  color: var(--ds-color-text);
+  padding: var(--ds-space-075) var(--ds-space-150);
+  border-radius: var(--ds-space-050);
+  margin: 0 var(--ds-space-050);
+}
+
+.option:hover {
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.option[data-combobox-selected] {
+  background: var(--ds-color-background-selected);
+  color: var(--ds-color-text-selected);
+}
+
+.option[data-combobox-active] {
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+/* ── Empty state ── */
+.empty {
+  color: var(--ds-color-text-subtle);
+  font: var(--ds-font-body-small);
+  padding: var(--ds-space-100) var(--ds-space-150);
+}
+
+/* ── Group label ── */
+.groupLabel {
+  font: var(--ds-font-body-small);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-subtle);
+  padding: var(--ds-space-075) var(--ds-space-150);
 }

@@ -6,23 +6,8 @@
   margin-top: var(--ds-space-100);
 }
 
-/* ── Checked radio — force visible in both modes ── */
-:global(.mantine-Radio-root[data-checked] .mantine-Radio-radio) {
-  background-color: var(--ds-color-background-brand-bold) !important;
-  border-color: var(--ds-color-background-brand-bold) !important;
-}
-
-:global(.mantine-Radio-root[data-checked] .mantine-Radio-icon) {
-  color: var(--ds-color-text-inverse) !important;
-}
-
-/* ── Error ── */
-:global(.mantine-Radio-root[data-error] .mantine-Radio-radio) {
-  border-color: var(--ds-color-border-danger) !important;
-}
-
 /* ── Label ── */
-:global(.mantine-Radio-label) {
+.radioLabel {
   font: var(--ds-font-body);
   color: var(--ds-color-text);
   padding-left: var(--ds-space-050);

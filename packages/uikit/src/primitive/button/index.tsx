@@ -1,41 +1,48 @@
-import {
-  Loader,
-  Button as MantineButton,
-  ButtonProps as MantineButtonProps,
-} from '@mantine/core'
+import { Loader, Button as MantineButton, ButtonProps as MantineButtonProps, ButtonStylesNames } from '@mantine/core'
 import { forwardRef } from 'react'
 
 import classes from './index.module.css'
 
 type Button = typeof MantineButton
 
-const _Button = forwardRef<
-  HTMLButtonElement,
-  MantineButtonProps & { 'data-loading'?: boolean }
->((props, ref) => {
+type ButtonClassNames = Partial<Record<ButtonStylesNames, string>>
+
+type ButtonWrapperProps = Omit<MantineButtonProps, 'classNames'> & {
+  'data-loading'?: boolean
+  classNames?: ButtonClassNames
+}
+
+const _Button = forwardRef<HTMLButtonElement, ButtonWrapperProps>((props, ref) => {
   const {
     leftSection,
     loading,
     disabled,
     loaderProps,
     className,
+    classNames,
+    variant = 'filled',
     ['data-disabled']: dataDisabled,
     ['data-loading']: dataLoading,
     ...rest
   } = props
 
-  // Loader inherits the button text color automatically
-  const loader = (
-    <Loader size={16} color="currentColor" {...loaderProps} />
-  )
+  const loader = <Loader size={16} color="currentColor" {...loaderProps} />
   const isLoading = loading || dataLoading
   const isDisabled = disabled || dataDisabled || isLoading
+
+  const mergedClassNames: ButtonClassNames = {
+    root: `${classes.root}${className ? ` ${className}` : ''}`,
+    inner: [classes['btn-inner'], classNames?.inner].filter(Boolean).join(' '),
+    label: [classes['btn-label'], classNames?.label].filter(Boolean).join(' '),
+    section: [classes['btn-section'], classNames?.section].filter(Boolean).join(' ')
+  }
 
   return (
     <MantineButton
       {...rest}
       ref={ref}
-      className={`${classes.root}${className ? ` ${className}` : ''}`}
+      variant={variant}
+      classNames={mergedClassNames}
       leftSection={isLoading ? loader : leftSection}
       disabled={isDisabled}
       data-loading={isLoading || undefined}

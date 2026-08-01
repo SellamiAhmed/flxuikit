@@ -44,13 +44,8 @@ export default defineConfig({
         if (!filePath.endsWith('.d.ts') || !content) {
           return { filePath, content }
         }
-
-        const cjsPath = filePath.replace('.d.ts', '.d.cts')
-        ensureDir(cjsPath)
-        writeFileSync(cjsPath, updateImportExtensions(content, '.cjs'))
-
         return {
-          filePath: filePath.replace('.d.ts', '.d.mts'),
+          filePath,
           content: updateImportExtensions(content, '.mjs')
         }
       }
@@ -60,8 +55,8 @@ export default defineConfig({
   css: {
     modules: {
       generateScopedName: (name, filename) => {
-        const file = filename.split('/').pop()?.replace('.module.css', '') ?? 'unknown'
-        return `flex-${file}_${name}`
+        const relative = filename.split('/src/')[1]?.replace('.module.css', '').replace(/\//g, '_') ?? 'unknown'
+        return `flex-${relative}_${name}`
       }
     }
   },
