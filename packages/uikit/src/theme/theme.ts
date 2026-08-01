@@ -1001,45 +1001,30 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         }
       },
 
-      // ── Switch ──
       Switch: {
-        styles: (theme: MantineTheme, props: SwitchProps) => {
+        vars: (theme: MantineTheme, props: SwitchProps) => {
           return {
             root: {
-              '& input:checked+.mantine-Switch-track': {
-                backgroundColor: token('color.background.brand.bold'),
-                borderColor: token('color.background.brand.bold')
-              },
-              '& input:disabled+.mantine-Switch-track': {
-                backgroundColor: token('color.background.disabled'),
-                borderColor: token('color.border.disabled')
-              },
-              '& input:disabled:checked+.mantine-Switch-track': {
-                backgroundColor: token('color.background.disabled'),
-                borderColor: token('color.border.disabled')
-              },
-              '& input+*>.mantine-Switch-trackLabel': {
-                color: token('color.text')
-              },
-              '& input:checked+*>.mantine-Switch-trackLabel': {
-                color: token('color.text.inverse')
-              }
-            },
-            label: {
-              color: token('color.text'),
-              '&[data-disabled]': {
-                color: token('color.text.disabled')
-              }
-            },
-            track: {
-              backgroundColor: token('color.border.bold'),
-              borderColor: token('color.border.bold')
-            },
-            trackLabel: {
-              color: token('color.text.subtlest')
+              '--switch-color': token('color.background.brand.bold'),
+              '--switch-bg': token('color.border.bold'),
+              '--switch-bd-color': token('color.border.bold'),
+              '--switch-thumb-bg': token('color.text.inverse'),
+              '--switch-off-thumb-bg': token('elevation.surface'), // ← fixed, no 'color.' prefix
+              '--switch-label-color': token('color.text')
             }
           }
-        }
+        },
+        styles: (theme: MantineTheme, props: SwitchProps) => ({
+          label: {
+            color: token('color.text'),
+            '&[data-disabled]': {
+              color: token('color.text.disabled')
+            }
+          },
+          trackLabel: {
+            color: token('color.text.subtlest')
+          }
+        })
       },
 
       Checkbox: {

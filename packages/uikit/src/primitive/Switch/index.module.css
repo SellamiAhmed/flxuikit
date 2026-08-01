@@ -1,65 +1,114 @@
 /* ── Root ── */
 .root {
-  --switch-color: var(--ds-color-background-selected);
-  --switch-bg: var(--ds-color-background-neutral-subtle);
-  --switch-bd-color: var(--ds-color-border-subtle);
-  --switch-thumb-bg: var(--ds-elevation-surface);
-  --switch-off-thumb-bg: var(--ds-elevation-surface);
-  --switch-label-color: var(--ds-color-text);
+  /* --switch-color, --switch-bg, --switch-bd-color, --switch-thumb-bg,
+     --switch-off-thumb-bg, --switch-label-color are set by
+     theme.ts's Switch `vars` function. */
+
+  /* Motion tokens */
+  --switch-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --switch-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --switch-duration: 220ms;
+  --switch-duration-fast: 120ms;
 
   -webkit-tap-highlight-color: transparent;
 }
 
 /* ── Track ── */
 .track {
-  border: 1px solid var(--ds-color-border-subtle);
-  background: var(--ds-color-background-neutral-subtle);
-  transition:
-    background-color 150ms linear,
-    border-color 150ms linear;
+  border: none;
+  background: var(--switch-bg);
+  transition: background-color var(--switch-duration) var(--switch-ease-out);
 }
 
 .track[data-checked] {
-  background: var(--ds-color-background-selected);
-  border-color: var(--ds-color-background-selected);
+  background: var(--switch-color);
 }
 
 /* ── Thumb ── */
 .thumb {
-  background: var(--ds-elevation-surface);
+  background: var(--switch-off-thumb-bg);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-  border: 1px solid transparent;
+  border: none;
+  will-change: transform, left, inset-inline-start;
   transition:
-    transform 150ms linear,
-    background-color 150ms linear,
-    left 150ms linear,
-    inset-inline-start 150ms linear,
-    border-color 150ms linear;
+    transform var(--switch-duration) var(--switch-ease-spring),
+    background-color var(--switch-duration-fast) var(--switch-ease-out),
+    left var(--switch-duration) var(--switch-ease-spring),
+    inset-inline-start var(--switch-duration) var(--switch-ease-spring),
+    box-shadow var(--switch-duration-fast) var(--switch-ease-out);
 }
 
 .track[data-checked] .thumb {
-  background: var(--ds-color-text-inverse);
-  border-color: transparent;
+  background: var(--switch-thumb-bg);
+}
+
+/* Overshoot pop on toggle */
+.track[data-checked] .thumb,
+.track:not([data-checked]) .thumb {
+  animation: switch-thumb-pop var(--switch-duration) var(--switch-ease-spring);
+}
+
+@keyframes switch-thumb-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.16);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Track gets a subtle scale-breathe alongside the thumb pop, so the
+   whole control feels like one connected motion rather than two
+   separate animations running in parallel */
+.root {
+  transition: transform var(--switch-duration-fast) var(--switch-ease-spring);
+}
+
+.root:has(input:checked),
+.root:has(input:not(:checked)) {
+  animation: switch-root-pop var(--switch-duration) var(--switch-ease-spring);
+}
+
+@keyframes switch-root-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* ── Hover ── */
-.root:hover .track:not([data-checked]) {
-  border-color: var(--ds-color-border);
+.root:hover .track {
+  filter: brightness(0.94);
 }
 
-.root:hover .track[data-checked] {
-  filter: brightness(0.92);
+.root:hover .thumb {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  transform: scale(1.08);
 }
 
 /* ── Pressed ── */
 .root:active .thumb {
-  transform: translateY(-50%) scale(1.1);
+  transform: scale(0.88);
+  transition-duration: var(--switch-duration-fast);
+}
+
+.root:active {
+  transform: scale(0.98);
 }
 
 /* ── Focus ── */
 .root input:focus-visible + .track {
   outline: 2px solid var(--ds-color-border-focused);
   outline-offset: 2px;
+  transition: outline-offset var(--switch-duration-fast) var(--switch-ease-spring);
 }
 
 /* ── Disabled ── */
@@ -69,35 +118,23 @@
 }
 
 .root[data-disabled] .track {
-  background: var(--ds-color-background-neutral-subtle);
-  border-color: var(--ds-color-border-subtle);
+  background: var(--switch-bg);
 }
 
 .root[data-disabled] .thumb {
-  background: var(--ds-color-background-neutral);
+  background: var(--switch-off-thumb-bg);
   box-shadow: none;
-  border-color: transparent;
+  animation: none;
 }
 
-/* ═══════════════════════════════════════
-   DARK MODE: thumb must contrast with track
-   ═══════════════════════════════════════ */
-[data-mantine-color-scheme='dark'] .thumb:not([data-checked]) {
-  /* Lighten thumb so it pops off the dark track */
-  background: var(--ds-color-background-neutral);
-  border-color: var(--ds-color-border);
-}
-
-[data-mantine-color-scheme='dark'] .track:not([data-checked]) {
-  /* Slightly darker track for more separation */
-  background: var(--ds-color-background-neutral-bold);
-  border-color: var(--ds-color-border);
+.root[data-disabled]:active {
+  transform: none;
 }
 
 /* ── Label ── */
 .label {
   font: var(--ds-font-body);
-  color: var(--ds-color-text);
+  color: var(--switch-label-color);
   padding-left: var(--ds-space-100);
   user-select: none;
 }
@@ -105,4 +142,14 @@
 .body {
   display: flex;
   align-items: center;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .thumb,
+  .root {
+    transition-duration: 1ms !important;
+    animation: none !important;
+  }
 }
