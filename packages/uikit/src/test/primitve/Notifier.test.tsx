@@ -1,10 +1,7 @@
 import { cleanNotifications, showNotification } from '@mantine/notifications'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-// Adjust this import path to match where notifier actually lives in your
-// source tree (e.g. '../../primitive/notifier/index.js' or
-// '../../utils/notifier.js') — placeholder based on the code you shared.
-import { notifier } from '../../utils/notifier.js'
+import { notifier } from '../../primitive/notifier/index.js'
 
 vi.mock('@mantine/notifications', () => ({
   showNotification: vi.fn(),

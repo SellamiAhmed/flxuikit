@@ -1,6 +1,6 @@
 {
   "name": "@flex/uikit",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "system UI kit built on Mantine v7",
   "type": "module",
   "main": "dist/primitive/index.cjs",

@@ -96,7 +96,7 @@ const InputFontSizes = {
 // ═══════════════════════════════════════════════════════
 // Input styles helper
 // ═══════════════════════════════════════════════════════
-function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'variant'>) {
+function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'variant'>, component?: string) {
   const size = InputSizes[(props.size as keyof typeof InputSizes) ?? 'md']
   const inputFontSize = InputFontSizes[(props.size as keyof typeof InputFontSizes) ?? 'md']
 
@@ -114,6 +114,10 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       ...inputSize
     }
   }
+
+  // Components whose sections (steppers, chevrons, toggles) sit flush
+  // inside a single bounding box — border/bg live on the wrapper, not the input
+  const wrapperOwnsBorder = ['NumberInput', 'PasswordInput'].includes(component ?? '')
 
   if (props.variant === 'unstyled') {
     return {
@@ -151,52 +155,94 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       color: token('color.text.subtlest'),
       fontSize: 12
     },
-    input: {
-      width: '100%',
-      color: token('color.text'),
-      border: `1px solid ${token('color.border.input')}`,
-      backgroundColor: token('color.background.input'),
-      borderRadius: '8px',
-      ...withInputSize,
-      '&:hover': {
-        borderColor: token('color.border.bold')
-      },
-      '&:focus, &:focus-within': {
-        borderColor: token('color.border.brand'),
-        outline: `2px solid ${token('color.border.focused')}`,
-        outlineOffset: '-1px'
-      },
-      '&:disabled': {
-        borderColor: token('color.border.disabled'),
-        backgroundColor: token('color.background.disabled'),
-        color: token('color.text.disabled'),
-        opacity: 1
-      },
-      '&::placeholder': {
-        color: `${token('color.text.subtlest')} !important`
-      }
-    },
-    error: {
-      color: token('color.text.danger')
-    },
-    wrapper: {
-      width: '100%',
-      '&[data-error]': {
-        '.mantine-Input-input, .mantine-TextInput-input': {
-          color: token('color.text.danger'),
-          borderColor: token('color.border.danger'),
-          '&:hover': {
-            borderColor: token('color.border.danger')
-          },
-          '&:focus, &:focus-within': {
-            borderColor: token('color.border.danger')
-          },
+    input: wrapperOwnsBorder
+      ? {
+          width: '100%',
+          color: token('color.text'),
+          border: 'none',
+          backgroundColor: 'transparent',
+          ...withInputSize,
           '&::placeholder': {
             color: `${token('color.text.subtlest')} !important`
           }
         }
-      }
+      : {
+          width: '100%',
+          color: token('color.text'),
+          border: `1px solid ${token('color.border.input')}`,
+          backgroundColor: token('color.background.input'),
+          borderRadius: '8px',
+          ...withInputSize,
+          '&:hover': {
+            borderColor: token('color.border.bold')
+          },
+
+          '&:disabled': {
+            borderColor: token('color.border.disabled'),
+            backgroundColor: token('color.background.disabled'),
+            color: token('color.text.disabled'),
+            opacity: 1
+          },
+          '&::placeholder': {
+            color: `${token('color.text.subtlest')} !important`
+          }
+        },
+    error: {
+      color: token('color.text.danger')
     },
+    wrapper: wrapperOwnsBorder
+      ? {
+          width: '100%',
+          display: 'flex',
+          alignItems: 'stretch',
+          position: 'relative',
+          border: `1px solid ${token('color.border.input')}`,
+          borderRadius: '8px',
+          backgroundColor: token('color.background.input'),
+          overflow: 'hidden',
+          '&:hover': {
+            borderColor: token('color.border.bold')
+          },
+          '&:focus-within': {
+            borderColor: token('color.border.brand'),
+            outline: `2px solid ${token('color.border.focused')}`,
+            outlineOffset: '-1px'
+          },
+          '&[data-disabled]': {
+            borderColor: token('color.border.disabled'),
+            backgroundColor: token('color.background.disabled'),
+            '.mantine-Input-input, .mantine-Select-input': {
+              color: token('color.text.disabled')
+            }
+          },
+          '&[data-error]': {
+            borderColor: token('color.border.danger'),
+            '.mantine-Input-input, .mantine-Select-input': {
+              color: token('color.text.danger'),
+              '&::placeholder': {
+                color: `${token('color.text.subtlest')} !important`
+              }
+            }
+          }
+        }
+      : {
+          width: '100%',
+          '&[data-error]': {
+            '.mantine-Input-input, .mantine-TextInput-input': {
+              color: token('color.text.danger'),
+              borderColor: token('color.border.danger'),
+              '&:hover': {
+                borderColor: token('color.border.danger')
+              },
+              '&:focus, &:focus-within': {
+                borderColor: token('color.border.danger')
+              },
+              '&::placeholder': {
+                color: `${token('color.text.subtlest')} !important`
+              }
+            }
+          }
+        },
     section: {
       overflow: 'hidden'
     }

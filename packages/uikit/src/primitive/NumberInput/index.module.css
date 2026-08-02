@@ -1,8 +1,46 @@
+/* ── Wrapper: owns the border, holds input + sections ── */
+.wrapper {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  width: 100%;
+  height: var(--input-height); /* ← lock wrapper to the same height as other inputs */
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-space-075, 8px);
+  background-color: var(--ds-color-background-input, #fff);
+  overflow: hidden; /* clips children to the rounded corners */
+}
+
+.wrapper:focus-within {
+  outline-offset: -1px;
+}
+
+.wrapper[data-error] {
+  border-color: var(--ds-color-border-danger);
+}
+
+/* ── Input: no border/radius/bg of its own anymore, wrapper owns it ── */
+.input {
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  padding-inline-start: var(--ds-space-150) !important;
+  padding-inline-end: var(--ds-space-150) !important;
+  flex: 1;
+  height: 100%; /* ← fill wrapper exactly, don't rely on its own --input-height */
+  min-width: 0;
+}
+
+.input:focus,
+.input:focus-within {
+  outline: none !important; /* focus ring now shown on .wrapper instead */
+}
+
 /* ── Section (add-on chip) ── */
 .section {
   position: initial;
   width: fit-content;
-  border: 1px solid var(--ds-color-border);
+  border: none;
   background-color: var(--ds-color-background-neutral-subtle);
   padding: 0 var(--ds-space-150);
   display: flex;
@@ -10,20 +48,14 @@
 }
 
 .section[data-position='left'] {
-  border-right-width: 0;
-  border-top-left-radius: var(--ds-space-075);
-  border-bottom-left-radius: var(--ds-space-075);
+  border-right: 1px solid var(--ds-color-border);
 }
 
 .section[data-position='right'] {
-  border-left-width: 0;
-  border-top-right-radius: var(--ds-space-075);
-  border-bottom-right-radius: var(--ds-space-075);
+  border-left: 1px solid var(--ds-color-border);
 }
 
-/* When the right section is hosting the stepper (not a text/icon addon),
-   drop its box styling entirely — the outer .wrapper/.input border is
-   the ONLY border, matching Mantine's own default look */
+/* Stepper section: no chip styling, just houses .controls flush */
 .section[data-position='right']:has(.controls) {
   border: none;
   background-color: transparent;
@@ -61,7 +93,7 @@
 }
 
 .control[data-direction='up'] {
-  border-bottom: 1px solid var(--ds-color-border); /* divider between ▲ / ▼ */
+  border-bottom: 1px solid var(--ds-color-border);
 }
 
 .control:hover:not(:disabled) {
