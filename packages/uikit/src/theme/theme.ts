@@ -4,7 +4,9 @@ import {
   DEFAULT_THEME,
   MantineTheme,
   MantineThemeOverride,
+  NumberInputProps,
   PaginationProps,
+  PasswordInputProps,
   createTheme,
   mergeMantineTheme
 } from '@mantine/core'
@@ -173,10 +175,6 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           backgroundColor: token('color.background.input'),
           borderRadius: '8px',
           ...withInputSize,
-          '&:hover': {
-            borderColor: token('color.border.bold')
-          },
-
           '&:disabled': {
             borderColor: token('color.border.disabled'),
             backgroundColor: token('color.background.disabled'),
@@ -196,6 +194,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           display: 'flex',
           alignItems: 'stretch',
           position: 'relative',
+          ...inputSize, // ← define --input-height/--input-fz on wrapper itself
           border: `1px solid ${token('color.border.input')}`,
           borderRadius: '8px',
           backgroundColor: token('color.background.input'),
@@ -618,7 +617,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         }
       },
 
-      // ── Select ──
       Select: {
         defaultProps: {
           size: 'md',
@@ -637,66 +635,12 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             description: {
               color: token('color.text.subtlest')
             },
-            input: {
-              color: token('color.text'),
-              backgroundColor: token('color.background.input'),
-              border: `1px solid ${token('color.border.input')}`,
-              borderRadius: '8px',
-
-              ...(props.variant === 'unstyled' && {
-                border: 'none',
-                '&:disabled': {
-                  color: token('color.text.disabled')
-                }
-              }),
-              ...(props.variant === 'filled' && {
-                backgroundColor: token('color.background.input.hovered'),
-                borderColor: 'transparent',
-                '&:disabled': {
-                  color: token('color.text.disabled'),
-                  cursor: 'not-allowed'
-                }
-              }),
-
-              '&:hover': {
-                borderColor: token('color.border.bold')
-              },
-              '&:focus, &:focus-within': {
-                borderColor: token('color.border.brand'),
-                outline: `2px solid ${token('color.border.focused')}`
-              }
-            },
-            option: {
-              transition: 'background 150ms ease-in-out',
-              color: token('color.text'),
-              fontSize: 14,
-              '&:hover': {
-                color: token('color.text'),
-                backgroundColor: token('elevation.surface.raised.hovered')
-              },
-              '&[data-checked]': {
-                color: token('color.text'),
-                fontWeight: 600,
-                backgroundColor: 'transparent',
-                '&:hover': {
-                  backgroundColor: token('elevation.surface.raised.hovered')
-                },
-                '& > svg': {
-                  color: token('color.text.brand'),
-                  opacity: 1
-                }
-              }
-            },
             section: {
               '& > svg': {
                 color: `${token('color.text.subtlest')} !important`
               }
-            },
-            dropdown: {
-              backgroundColor: token('elevation.surface.overlay'),
-              border: `1px solid ${token('color.border')}`,
-              boxShadow: theme.shadows.md
             }
+            // input, option, dropdown removed — module owns these fully now
           }
         }
       },
@@ -705,18 +649,22 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
       MultiSelect: {
         defaultProps: {
           size: 'md',
-          withCheckIcon: false
+          withCheckIcon: true,
+          checkIconPosition: 'right'
         },
         styles: (theme: MantineTheme, props: MultiSelectProps) => {
           return {
             label: {
-              fontSize: 14,
+              lineHeight: '20px',
               marginBottom: 6,
               color: token('color.text.subtle'),
               fontWeight: 500
             },
-            inputField: {
-              '&::placeholder': {
+            description: {
+              color: token('color.text.subtlest')
+            },
+            section: {
+              '& > svg': {
                 color: `${token('color.text.subtlest')} !important`
               }
             },
@@ -725,14 +673,9 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
               backgroundColor: token('elevation.surface.raised.hovered'),
               color: token('color.text')
             },
-            section: {
-              '& > svg': {
+            inputField: {
+              '&::placeholder': {
                 color: `${token('color.text.subtlest')} !important`
-              }
-            },
-            option: {
-              '&[data-checked]': {
-                fontWeight: 600
               }
             }
           }
@@ -751,13 +694,13 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         },
         styles: getInputStyles
       },
-      PasswordInput: {
-        defaultProps: { size: 'md' },
-        styles: getInputStyles
-      },
       NumberInput: {
         defaultProps: { size: 'md' },
-        styles: getInputStyles
+        styles: (theme: MantineTheme, props: NumberInputProps) => getInputStyles(theme, props, 'NumberInput')
+      },
+      PasswordInput: {
+        defaultProps: { size: 'md' },
+        styles: (theme: MantineTheme, props: PasswordInputProps) => getInputStyles(theme, props, 'PasswordInput')
       },
       Textarea: {
         styles: getInputStyles
@@ -1053,7 +996,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             root: {
               '--switch-color': token('color.background.brand.bold'),
               '--switch-bg': token('color.border.bold'),
-              '--switch-bd-color': token('color.border.bold'),
               '--switch-thumb-bg': token('color.text.inverse'),
               '--switch-off-thumb-bg': token('elevation.surface'), // ← fixed, no 'color.' prefix
               '--switch-label-color': token('color.text')
@@ -1061,12 +1003,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
           }
         },
         styles: (theme: MantineTheme, props: SwitchProps) => ({
-          label: {
-            color: token('color.text'),
-            '&[data-disabled]': {
-              color: token('color.text.disabled')
-            }
-          },
           trackLabel: {
             color: token('color.text.subtlest')
           }

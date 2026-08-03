@@ -7,7 +7,7 @@
 }
 
 .withLeftAddon {
-  --input-padding-inline-start: var(--input-padding);
+  --input-padding-inline-start: var(--ds-space-150, 12px);
 }
 
 /* ============================================

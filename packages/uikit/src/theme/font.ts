@@ -15,12 +15,13 @@ export interface FontConfig {
  */
 const defaultSans = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 const defaultMono = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace'
-const defaultDisplay = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+const defaultDisplay =
+  'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 
 export const createFontFamily = (overrides?: FontConfig) => ({
-  sans: overrides?.sans ?? `var(--font-sans, ${defaultSans})`,
-  mono: overrides?.mono ?? `var(--font-mono, ${defaultMono})`,
-  display: overrides?.display ?? `var(--font-display, ${defaultDisplay})`
+  sans: overrides?.sans ?? `var(--ds-font-family-sans, ${defaultSans})`,
+  mono: overrides?.mono ?? `var(--ds-font-family-mono, ${defaultMono})`,
+  display: overrides?.display ?? `var(--ds-font-family-display, ${defaultDisplay})`
 })
 
 export const FONT_SIZE = {

@@ -6,11 +6,27 @@
   background: var(--ds-elevation-surface);
   border: 1px solid var(--ds-color-border);
   border-radius: var(--ds-space-075);
-  min-height: 40px;
   padding: 0 var(--ds-space-150);
-  display: flex; /* ← add */
+  display: flex;
   align-items: center;
   transition: border-color 100ms ease;
+}
+
+/* size scaling — mirrors InputSizes used by getInputStyles for other primitives */
+.input[data-size='xs'] {
+  min-height: 30px;
+}
+.input[data-size='sm'] {
+  min-height: 34px;
+}
+.input[data-size='md'] {
+  min-height: 40px;
+}
+.input[data-size='lg'] {
+  min-height: 46px;
+}
+.input[data-size='xl'] {
+  min-height: 54px;
 }
 
 .input::placeholder {
@@ -18,16 +34,38 @@
   opacity: 1;
 }
 
-.input:hover {
+.input:hover:not([data-disabled]) {
   border-color: var(--ds-color-border-bold);
 }
 
 .input:focus,
 .input:focus-within {
-  border-color: var(--ds-color-border-focused);
+  border-color: var(--ds-color-border);
+  outline: none;
 }
 
-/* ── Error ── */
+.input[data-disabled] {
+  border-color: var(--ds-color-border-disabled);
+  background: var(--ds-color-background-disabled);
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.input[data-error] {
+  border-color: var(--ds-color-border-danger);
+  color: var(--ds-color-text-danger);
+}
+
+.input[data-error]:hover:not([data-disabled]) {
+  border-color: var(--ds-color-border-danger);
+}
+
+.input[data-error]:focus,
+.input[data-error]:focus-within {
+  border-color: var(--ds-color-border-danger);
+}
+/* ── Error message ── */
 .error {
   color: var(--ds-color-text-danger);
   font: var(--ds-font-body-small);
@@ -51,6 +89,7 @@
   padding: var(--ds-space-075) var(--ds-space-150);
   border-radius: var(--ds-space-050);
   margin: 0 var(--ds-space-050);
+  cursor: pointer;
 }
 
 .option:hover {
@@ -64,6 +103,12 @@
 
 .option[data-combobox-active] {
   background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.option[data-combobox-disabled] {
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+  background: transparent;
 }
 
 /* ── Empty state ── */

@@ -11,14 +11,18 @@
   overflow: hidden; /* clips children to the rounded corners */
 }
 
-.wrapper:focus-within {
-  outline-offset: -1px;
-}
-
 .wrapper[data-error] {
   border-color: var(--ds-color-border-danger);
 }
+.wrapper[data-disabled] {
+  border-color: var(--ds-color-border-disabled);
+  background-color: var(--ds-color-background-disabled);
+}
 
+.wrapper[data-disabled] .input {
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+}
 /* ── Input: no border/radius/bg of its own anymore, wrapper owns it ── */
 .input {
   border: none !important;

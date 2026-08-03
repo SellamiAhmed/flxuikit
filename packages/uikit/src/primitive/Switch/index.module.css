@@ -138,6 +138,9 @@
   padding-left: var(--ds-space-100);
   user-select: none;
 }
+.label[data-disabled] {
+  color: var(--ds-color-text-disabled);
+}
 
 .body {
   display: flex;
