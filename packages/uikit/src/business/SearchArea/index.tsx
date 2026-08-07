@@ -1,5 +1,5 @@
 import { IconEraser, IconRefresh, IconX } from '@tabler/icons-react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { DefaultValues, FieldValues, FormProvider, useForm, UseFormReturn } from 'react-hook-form'
 
 import { useDebouncedValue, useURLQueryState } from '../../hooks/index.js'
@@ -74,6 +74,7 @@ function FormItemRender<T extends FieldValues>({
   const { name, placeholder, type } = data
   const [keyword, setKeyword] = useState<TSearchAreaValue>(defaultValue)
   const [debouncedKeyword] = useDebouncedValue(keyword, 800)
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
     if (resetSeed > 0) {
@@ -82,6 +83,10 @@ function FormItemRender<T extends FieldValues>({
   }, [resetSeed, defaultValue])
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
     if (type === 'text') {
       triggerSubmit()
     }

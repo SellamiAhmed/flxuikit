@@ -81,12 +81,13 @@ export const toURLTimeRange = (timeRange: TimeRange): URLTimeRange => {
 }
 
 export const urlToTimeRange = (urlTimeRange: URLTimeRange): TimeRange => {
-  if (urlTimeRange.to === 'now' || urlTimeRange.from === 'now') {
-    return { type: 'relative', value: Number(urlTimeRange.from), isFuture: urlTimeRange.from === 'now' }
+  const isFuture = urlTimeRange.from === 'now'
+  if (urlTimeRange.to === 'now' || isFuture) {
+    const numericValue = isFuture ? urlTimeRange.to : urlTimeRange.from
+    return { type: 'relative', value: Number(numericValue), isFuture }
   }
   return { type: 'absolute', value: [Number(urlTimeRange.from), Number(urlTimeRange.to)] }
 }
-
 export const urlToTimeRangeValue = (urlTimeRange: URLTimeRange): TimeRangeValue => {
   return toTimeRangeValue(urlToTimeRange(urlTimeRange))
 }

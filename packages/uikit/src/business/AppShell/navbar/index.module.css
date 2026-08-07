@@ -178,7 +178,8 @@
   outline-offset: 1px;
 }
 
-.navButton.active {
+.navButton.active,
+.navButton[data-active=''] .navButton[data-active='true'] {
   background: var(--ds-color-background-selected);
   color: var(--ds-color-text-selected);
 }
@@ -186,7 +187,6 @@
 .navButton.disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
 .navLeadIcon {
@@ -262,11 +262,16 @@
   background: var(--ds-color-background-neutral-subtle-hovered);
 }
 
-.childLink.active {
+.childLink.active,
+.childLink[data-active='true'] {
   background: var(--ds-color-background-selected);
   color: var(--ds-color-text-selected);
 }
 
+.childLink.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 /* ── Rail Mode ── */
 .navbarCollapsed {
   width: 56px;
@@ -354,7 +359,8 @@
   background: var(--ds-color-background-neutral-subtle-hovered);
 }
 
-.railNavButtonActive {
+.railNavButtonActive,
+.railNavButton[data-active='true'] {
   color: var(--ds-color-text-brand);
   background: var(--ds-color-background-brand-subtlest);
   border-color: var(--ds-color-border-brand);
