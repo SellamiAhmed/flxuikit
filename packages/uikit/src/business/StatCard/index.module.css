@@ -1,0 +1,61 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-150, 12px);
+}
+
+.header {
+  width: 100%;
+}
+
+.title {
+  color: var(--ds-color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--ds-color-background-brand-subtlest);
+  color: var(--ds-color-text-brand);
+  flex-shrink: 0;
+}
+
+.body {
+  align-items: flex-start;
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-color-text);
+}
+
+.trend {
+  margin-top: 2px;
+}
+
+.trendIcon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.trendValue {
+  font-weight: 600;
+}
+
+.trendPositive {
+  color: var(--ds-color-text-success, #1a7f37);
+}
+
+.trendNegative {
+  color: var(--ds-color-text-danger, #cf222e);
+}
+
+.trendDescription {
+  margin-left: 2px;
+}
