@@ -101,16 +101,16 @@
 }
 
 .control:hover:not(:disabled) {
-  background-color: var(--ds-color-background-neutral-hover, var(--ds-color-background-neutral-subtle));
+  background-color: var(--ds-color-background-neutral-hovered, var(--ds-color-background-neutral-subtle));
   color: var(--ds-color-text);
 }
 
 .control:active:not(:disabled) {
-  background-color: var(--ds-color-background-neutral-active, var(--ds-color-border));
+  background-color: var(--ds-color-background-neutral-pressed, var(--ds-color-border));
 }
 
 .control:focus-visible {
-  outline: 2px solid var(--ds-color-border-focus, var(--ds-color-primary));
+  outline: 2px solid var(--ds-color-border-focused);
   outline-offset: -2px;
   z-index: 1;
 }

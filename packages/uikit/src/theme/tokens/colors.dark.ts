@@ -12,7 +12,7 @@ export const textColorsDark = {
 
   // Interactive / Brand
   'color.text.selected': '#FFFFFF',
-  'color.text.brand': '#D4D4D4',
+  'color.text.brand': '#61AFEF',
 
   // Status
   'color.text.danger': '#EF4444',
@@ -49,3 +49,5 @@ export const textColorsDark = {
   'color.text.accent.gray': '#A1A1AA',
   'color.text.accent.gray.bolder': '#D4D4D8'
 } as const
+
+export type TextColorToken = keyof typeof textColorsDark

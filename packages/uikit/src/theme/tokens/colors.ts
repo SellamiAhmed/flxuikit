@@ -12,7 +12,7 @@ export const textColors = {
 
   // Interactive / Brand
   'color.text.selected': '#FFFFFF',
-  'color.text.brand': '#2E2E2E',
+  'color.text.brand': '#1163A6',
 
   // Status
   'color.text.danger': '#DC2626',

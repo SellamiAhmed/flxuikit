@@ -5,6 +5,8 @@
   "description": "uikit system monorepo",
   "scripts": {
     "build": "pnpm -r run build",
+    "changeset": "tsx scripts/customChangeset.ts",
+    "check:tokens": "tsx scripts/checkTokenContract.ts",
     "type-check": "pnpm -r run type-check",
     "test": "pnpm -r run test",
     "lint": "eslint .",
@@ -19,12 +21,20 @@
   "dependencies": {
     "@flex/uikit": "workspace:*"
   },
+
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/SellamiAhmed/flex-uikit.git"
+  },
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
+    "@changesets/write": "0.3.2",
     "@eslint/js": "^10.0.1",
     "@storybook/addon-essentials": "^8.5.8",
     "@storybook/react": "^8.5.8",
     "@storybook/react-vite": "^8.5.8",
     "@types/node": "^26.1.1",
+    "@types/prompts": "2.4.9",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
@@ -33,6 +43,7 @@
     "eslint-plugin-file-extension-in-import-ts": "^2.1.0",
     "eslint-plugin-import": "2.29.1",
     "prettier": "^3.9.4",
+    "prompts": "^2.4.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "storybook": "^8.5.8",
