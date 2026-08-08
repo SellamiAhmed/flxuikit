@@ -7,13 +7,14 @@
     "build": "pnpm -r run build",
     "changeset": "tsx scripts/customChangeset.ts",
     "check:tokens": "tsx scripts/checkTokenContract.ts",
+    "check:tokens:dist": "tsx scripts/checkTokenContract.ts --dir packages/uikit/dist",
     "type-check": "pnpm -r run type-check",
     "test": "pnpm -r run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "storybook": "storybook dev -p 6006",
+    "gen:storybook": "tsx ./.storybook/genStories.ts",
     "build-storybook": "storybook build",
     "dev:test-app": "pnpm --filter @flex/uikit-test dev",
     "build:test-app": "pnpm --filter @flex/uikit-test build"
@@ -21,8 +22,7 @@
   "dependencies": {
     "@flex/uikit": "workspace:*"
   },
-
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/SellamiAhmed/flex-uikit.git"
   },
@@ -30,9 +30,14 @@
     "@changesets/cli": "^2.31.1",
     "@changesets/write": "0.3.2",
     "@eslint/js": "^10.0.1",
-    "@storybook/addon-essentials": "^8.5.8",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/addon-interactions": "^8.6.18",
+    "@storybook/addon-links": "^8.6.18",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/preview-api": "^8.6.14",
     "@storybook/react": "^8.5.8",
     "@storybook/react-vite": "^8.5.8",
+    "@storybook/theming": "^8.6.14",
     "@types/node": "^26.1.1",
     "@types/prompts": "2.4.9",
     "@types/react": "^18.3.18",
@@ -42,11 +47,12 @@
     "eslint": "^8.57.0",
     "eslint-plugin-file-extension-in-import-ts": "^2.1.0",
     "eslint-plugin-import": "2.29.1",
+    "glob": "^13.0.6",
     "prettier": "^3.9.4",
     "prompts": "^2.4.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "storybook": "^8.5.8",
+    "storybook": "8.6.18",
     "storybook-dark-mode": "^4.0.2",
     "tsx": "^4.16.3",
     "typescript": "^5.4.2",

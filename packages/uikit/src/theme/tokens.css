@@ -442,13 +442,13 @@
   /* ============================================
      SEMANTIC — BORDER (LIGHT)
      ============================================ */
-  --ds-color-border: #a1a1aa;
+  --ds-color-border: #e4e4e7;
   --ds-color-border-bold: #71717a;
   --ds-color-border-inverse: #ffffff;
   --ds-color-border-disabled: #d4d4d8;
   --ds-color-border-focused: #1163a6;
   --ds-color-border-selected: #1163a6;
-  --ds-color-border-input: #a1a1aa;
+  --ds-color-border-input: #e4e4e7;
   --ds-color-border-brand: #1163a6;
 
   --ds-color-border-danger: #dc2626;
@@ -1001,13 +1001,13 @@
   --ds-color-background-accent-gray-bolder-pressed: #e4e4e7;
 
   /* ── Border (Dark) ── */
-  --ds-color-border: #27272a;
+  --ds-color-border: #3f3f46;
   --ds-color-border-bold: #52525b;
   --ds-color-border-inverse: #09090b;
   --ds-color-border-disabled: #27272a;
   --ds-color-border-focused: #61afef;
   --ds-color-border-selected: #61afef;
-  --ds-color-border-input: #27272a;
+  --ds-color-border-input: #3f3f46;
   --ds-color-border-brand: #61afef;
 
   --ds-color-border-danger: #dc2626;

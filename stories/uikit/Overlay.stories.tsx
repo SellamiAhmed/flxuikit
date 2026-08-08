@@ -1,0 +1,28 @@
+
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+import { Overlay } from '@flex/uikit'
+
+type Story = StoryObj<typeof Overlay>
+
+const decorator = (Story: StoryFn) => {
+  return (
+    <div style={{ margin: '3em' }}>
+      <Story />
+    </div>
+  )
+}
+
+const meta: Meta<typeof Overlay> = {
+  title: 'Primitive/Overlay',
+  component: Overlay,
+  decorators: [decorator],
+  tags: ['autodocs'],
+  parameters: {},
+}
+export default meta
+
+// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+export const Primary: Story = {
+  render: () => (<Overlay></Overlay>),
+  args: {}
+}

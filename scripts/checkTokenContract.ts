@@ -1,11 +1,14 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, extname } from 'node:path'
 
-const SRC_DIR = 'packages/uikit/src'
-const TOKENS_FILE = 'packages/uikit/src/theme/tokens.css'
+const args = process.argv.slice(2)
+const dirFlagIndex = args.indexOf('--dir')
+const SRC_DIR = dirFlagIndex !== -1 ? args[dirFlagIndex + 1] : 'packages/uikit/src'
+const TOKENS_FILE = 'packages/uikit/src/theme/tokens.css' // definitions always come from source
 
 function walk(dir: string, files: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
+    if (entry === 'node_modules') continue
     const fullPath = join(dir, entry)
     const stat = statSync(fullPath)
     if (stat.isDirectory()) {

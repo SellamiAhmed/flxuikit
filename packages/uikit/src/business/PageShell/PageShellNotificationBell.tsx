@@ -26,7 +26,7 @@ export const PageShellNotificationBell = ({
 
   const bellContent = (
     <span className={classes.inner}>
-      {icon ?? <IconBell size={18} stroke={1} aria-hidden="true" />}
+      {icon ?? <IconBell size={16} stroke={1} aria-hidden="true" />}
       {hasBadge && (
         <span className={classes.badgeCount} aria-hidden="true">
           {count > 99 ? '99+' : count}

@@ -49,5 +49,3 @@ export const textColorsDark = {
   'color.text.accent.gray': '#A1A1AA',
   'color.text.accent.gray.bolder': '#D4D4D8'
 } as const
-
-export type TextColorToken = keyof typeof textColorsDark

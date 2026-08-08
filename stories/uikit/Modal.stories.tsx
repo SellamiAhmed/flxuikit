@@ -1,0 +1,28 @@
+
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+import { Modal } from '@flex/uikit'
+
+type Story = StoryObj<typeof Modal>
+
+const decorator = (Story: StoryFn) => {
+  return (
+    <div style={{ margin: '3em' }}>
+      <Story />
+    </div>
+  )
+}
+
+const meta: Meta<typeof Modal> = {
+  title: 'Primitive/Modal',
+  component: Modal,
+  decorators: [decorator],
+  tags: ['autodocs'],
+  parameters: {},
+}
+export default meta
+
+// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+export const Primary: Story = {
+  render: () => (<Modal></Modal>),
+  args: {}
+}

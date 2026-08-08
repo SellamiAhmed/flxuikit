@@ -40,6 +40,7 @@ export default defineConfig({
     // REMOVED: libInjectCss() — causes multiple CSS files
     dts({
       copyDtsFiles: false,
+      entryRoot: 'src',
       beforeWriteFile: (filePath, content) => {
         if (!filePath.endsWith('.d.ts') || !content) {
           return { filePath, content }
