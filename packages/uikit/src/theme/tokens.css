@@ -715,9 +715,9 @@
   /* ============================================
      CANVAS — Layered Surface System (Dark)
      ============================================ */
-  --ds-canvas: #18181b;
-  --ds-canvas-soft: #09090b;
-  --ds-canvas-soft-2: #050508;
+  --ds-canvas: #000000;
+  --ds-canvas-soft: #0a0a0a;
+  --ds-canvas-soft-2: #111111;
 
   --ds-dark-neutral-0: #101214;
   --ds-dark-neutral-100: #161a1d;
@@ -1001,13 +1001,13 @@
   --ds-color-background-accent-gray-bolder-pressed: #e4e4e7;
 
   /* ── Border (Dark) ── */
-  --ds-color-border: #3f3f46;
-  --ds-color-border-bold: #52525b;
-  --ds-color-border-inverse: #09090b;
-  --ds-color-border-disabled: #27272a;
+  --ds-color-border: #262626;
+  --ds-color-border-bold: #3f3f46;
+  --ds-color-border-inverse: #ffffff;
+  --ds-color-border-disabled: #262626;
   --ds-color-border-focused: #61afef;
   --ds-color-border-selected: #61afef;
-  --ds-color-border-input: #3f3f46;
+  --ds-color-border-input: #262626;
   --ds-color-border-brand: #61afef;
 
   --ds-color-border-danger: #dc2626;
@@ -1201,24 +1201,34 @@
   --ds-color-chart-gray-boldest-hovered: #e4e4e7;
 
   /* ── Elevation Surface (Dark) ── */
+  /* ── Elevation Surface (Dark) ── */
+
   --ds-elevation-surface: var(--ds-canvas-soft);
-  --ds-elevation-surface-hovered: var(--ds-canvas);
-  --ds-elevation-surface-pressed: #27272a;
-  --ds-elevation-surface-overlay: var(--ds-canvas);
-  --ds-elevation-surface-overlay-hovered: #27272a;
-  --ds-elevation-surface-overlay-pressed: #3f3f46;
-  --ds-elevation-surface-raised: var(--ds-canvas);
-  --ds-elevation-surface-raised-hovered: #27272a;
-  --ds-elevation-surface-raised-pressed: #3f3f46;
-  --ds-elevation-surface-sunken: var(--ds-canvas-soft-2);
-  --ds-elevation-surface-container: var(--ds-canvas);
-  --ds-elevation-surface-container-hovered: #27272a;
-  --ds-elevation-surface-container-pressed: #3f3f46;
+  --ds-elevation-surface-hovered: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-pressed: #18181b;
+
+  --ds-elevation-surface-overlay: var(--ds-canvas-soft);
+  --ds-elevation-surface-overlay-hovered: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-overlay-pressed: #18181b;
+
+  --ds-elevation-surface-raised: var(--ds-canvas-soft);
+  --ds-elevation-surface-raised-hovered: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-raised-pressed: #18181b;
+
+  --ds-elevation-surface-sunken: var(--ds-canvas);
+  --ds-elevation-surface-container: var(--ds-canvas-soft);
+  --ds-elevation-surface-container-hovered: var(--ds-canvas-soft-2);
+  --ds-elevation-surface-container-pressed: #18181b;
 
   /* ── Elevation Shadow (Dark) ── */
+
   --ds-elevation-shadow-overflow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
   --ds-elevation-shadow-overflow-perimeter: rgb(0 0 0 / 0.05);
+
   --ds-elevation-shadow-overflow-spread: rgb(0 0 0 / 0.08);
+
   --ds-elevation-shadow-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+
   --ds-elevation-shadow-raised: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
 }
