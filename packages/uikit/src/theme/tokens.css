@@ -808,11 +808,11 @@
   --ds-color-background-brand-subtlest-hovered: #123f61;
   --ds-color-background-brand-subtlest-pressed: #184f78;
   --ds-color-background-brand-bold: #61afef;
-  --ds-color-background-brand-bold-hovered: #82aaff;
-  --ds-color-background-brand-bold-pressed: #93b8ff;
-  --ds-color-background-brand-boldest: #38bdf8;
-  --ds-color-background-brand-boldest-hovered: #7dd3fc;
-  --ds-color-background-brand-boldest-pressed: #bae6fd;
+  --ds-color-background-brand-bold-hovered: #86c2f3;
+  --ds-color-background-brand-bold-pressed: #a2d0f6;
+  --ds-color-background-brand-boldest: #3398ea;
+  --ds-color-background-brand-boldest-hovered: #1684de;
+  --ds-color-background-brand-boldest-pressed: #1684de;
 
   --ds-color-background-danger: #450a0a;
   --ds-color-background-danger-hovered: #7f1d1d;
@@ -1065,7 +1065,7 @@
 
   /* ── Link (Dark) ── */
   --ds-color-link: #61afef;
-  --ds-color-link-pressed: #82aaff;
+  --ds-color-link-pressed: #86c2f3;
   --ds-color-link-visited: #c4b5fd;
   --ds-color-link-visited-pressed: #ddd6fe;
 
@@ -1103,8 +1103,7 @@
   --ds-color-chart-neutral: #a1a1aa;
   --ds-color-chart-neutral-hovered: #d4d4d8;
   --ds-color-chart-brand: #61afef;
-  --ds-color-chart-brand-hovered: #82aaff;
-
+  --ds-color-chart-brand-hovered: #86c2f3;
   --ds-color-chart-danger: #ef4444;
   --ds-color-chart-danger-hovered: #f87171;
   --ds-color-chart-danger-bold: #fca5a5;

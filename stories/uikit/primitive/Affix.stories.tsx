@@ -1,4 +1,4 @@
-import { Affix } from '@flex/uikit'
+import { Affix, Button } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Affix>
@@ -18,10 +18,23 @@ const meta: Meta<typeof Affix> = {
   tags: ['autodocs'],
   parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => <Affix></Affix>,
-  args: {}
+  render: ({ ...rest }) => (
+    <div>
+      <p>
+        Affix renders a div element with fixed position inside a Portal component. Use it to display elements fixed at
+        any position on screen, for example a scroll-to-top button:
+      </p>
+      <Affix position={{ top: 200, left: 50 }} {...rest}>
+        <Button onClick={() => alert('Scroll to top!')}>Scroll to top</Button>
+      </Affix>
+    </div>
+  ),
+  args: {
+    withinPortal: false,
+    zIndex: 0
+  }
 }

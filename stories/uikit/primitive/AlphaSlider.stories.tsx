@@ -1,5 +1,6 @@
-import { AlphaSlider } from '@flex/uikit'
+import { AlphaSlider, Text } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+import { useState } from 'react'
 
 type Story = StoryObj<typeof AlphaSlider>
 
@@ -18,10 +19,20 @@ const meta: Meta<typeof AlphaSlider> = {
   tags: ['autodocs'],
   parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function Demo() {
+  const [value, onChange] = useState(0.55)
+  return (
+    <>
+      <Text>Alpha value: {value}</Text>
+      <AlphaSlider color="#1c7ed6" value={value} onChange={onChange} />
+    </>
+  )
+}
+
 export const Primary: Story = {
-  render: () => <AlphaSlider></AlphaSlider>,
+  render: () => <Demo />,
   args: {}
 }
