@@ -51,6 +51,9 @@ importers:
       '@storybook/theming':
         specifier: ^8.6.14
         version: 8.6.14(storybook@8.6.18(prettier@3.9.4))
+      '@tabler/icons-react':
+        specifier: 3.26.0
+        version: 3.26.0(react@18.3.1)
       '@types/node':
         specifier: ^26.1.1
         version: 26.1.1
@@ -69,6 +72,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.3.1
         version: 7.3.1(eslint@8.57.0)(typescript@5.9.3)
+      dayjs:
+        specifier: ^1.11.21
+        version: 1.11.21
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -1479,10 +1485,18 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
+  '@tabler/icons-react@3.26.0':
+    resolution: {integrity: sha512-t18Zmu1ROktB7M8hWQ6vJw+mNpI/LPk5PPxLuE+kNB+4Zzf38GfETL8VF98inhzcfHohsggdROzMzwSAfjcAxw==}
+    peerDependencies:
+      react: 18.3.1
+
   '@tabler/icons-react@3.44.0':
     resolution: {integrity: sha512-8+rvzBbVm/1Z3sG3x7GUNAaxIKxwgz8xaMhRs23nrCnMTKRFAhEC+82zAIFeAA0seXdrAGX5HFCkaLpGK2rVHg==}
     peerDependencies:
       react: 18.3.1
+
+  '@tabler/icons@3.26.0':
+    resolution: {integrity: sha512-oO3D4ss+DxzxqU1aDy0f1HmToyrO0gcQWIMpzHAfV1quPUx0BZYvNm5xz1DQb4DxNm/+xNvbBGLJy4pzTLYWag==}
 
   '@tabler/icons@3.44.0':
     resolution: {integrity: sha512-Wn0AOZG9sg0L+bjfMqq4eNhC6pQjIrk94LvvWYNYkY8KH8wC3YILRzQlrnVJc4FUeMxH/AK97QsYCX35H3LndA==}
@@ -5066,10 +5080,17 @@ snapshots:
     dependencies:
       storybook: 8.6.18(prettier@3.9.4)
 
+  '@tabler/icons-react@3.26.0(react@18.3.1)':
+    dependencies:
+      '@tabler/icons': 3.26.0
+      react: 18.3.1
+
   '@tabler/icons-react@3.44.0(react@18.3.1)':
     dependencies:
       '@tabler/icons': 3.44.0
       react: 18.3.1
+
+  '@tabler/icons@3.26.0': {}
 
   '@tabler/icons@3.44.0': {}
 

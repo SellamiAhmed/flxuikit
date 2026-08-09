@@ -1,8 +1,7 @@
-
+import { Alert } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { FormNumberInput } from '@flex/uikit/business'
 
-type Story = StoryObj<typeof FormNumberInput>
+type Story = StoryObj<typeof Alert>
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -12,17 +11,17 @@ const decorator = (Story: StoryFn) => {
   )
 }
 
-const meta: Meta<typeof FormNumberInput> = {
-  title: 'Business/FormNumberInput',
-  component: FormNumberInput,
+const meta: Meta<typeof Alert> = {
+  title: 'Primitive/Alert',
+  component: Alert,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<FormNumberInput></FormNumberInput>),
+  render: () => <Alert></Alert>,
   args: {}
 }

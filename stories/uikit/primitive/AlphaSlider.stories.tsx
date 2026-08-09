@@ -1,8 +1,7 @@
-
+import { AlphaSlider } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { AngleSlider } from '@flex/uikit'
 
-type Story = StoryObj<typeof AngleSlider>
+type Story = StoryObj<typeof AlphaSlider>
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -12,17 +11,17 @@ const decorator = (Story: StoryFn) => {
   )
 }
 
-const meta: Meta<typeof AngleSlider> = {
-  title: 'Primitive/AngleSlider',
-  component: AngleSlider,
+const meta: Meta<typeof AlphaSlider> = {
+  title: 'Primitive/AlphaSlider',
+  component: AlphaSlider,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<AngleSlider></AngleSlider>),
+  render: () => <AlphaSlider></AlphaSlider>,
   args: {}
 }

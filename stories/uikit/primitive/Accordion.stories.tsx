@@ -1,8 +1,7 @@
-
+import { Accordion } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { HookFormContext } from '@flex/uikit/business'
 
-type Story = StoryObj<typeof HookFormContext>
+type Story = StoryObj<typeof Accordion>
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -12,17 +11,17 @@ const decorator = (Story: StoryFn) => {
   )
 }
 
-const meta: Meta<typeof HookFormContext> = {
-  title: 'Business/HookFormContext',
-  component: HookFormContext,
+const meta: Meta<typeof Accordion> = {
+  title: 'Primitive/Accordion',
+  component: Accordion,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<HookFormContext></HookFormContext>),
+  render: () => <Accordion></Accordion>,
   args: {}
 }

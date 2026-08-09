@@ -1,8 +1,7 @@
-
+import { ActionIcon } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { FormActions } from '@flex/uikit/business'
 
-type Story = StoryObj<typeof FormActions>
+type Story = StoryObj<typeof ActionIcon>
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -12,17 +11,17 @@ const decorator = (Story: StoryFn) => {
   )
 }
 
-const meta: Meta<typeof FormActions> = {
-  title: 'Business/FormActions',
-  component: FormActions,
+const meta: Meta<typeof ActionIcon> = {
+  title: 'Primitive/ActionIcon',
+  component: ActionIcon,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<FormActions></FormActions>),
+  render: () => <ActionIcon></ActionIcon>,
   args: {}
 }

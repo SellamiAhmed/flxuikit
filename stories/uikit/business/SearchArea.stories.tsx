@@ -1,0 +1,73 @@
+import { SearchArea } from '@flex/uikit/business'
+import type { FormItem } from '@flex/uikit/business'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+
+type Story = StoryObj<typeof SearchArea>
+
+const decorator = (Story: StoryFn) => {
+  return (
+    <div style={{ margin: '3em' }}>
+      <Story />
+    </div>
+  )
+}
+
+const meta: Meta<typeof SearchArea> = {
+  title: 'Business/SearchArea',
+  component: SearchArea,
+  tags: ['autodocs'],
+  decorators: [decorator],
+  parameters: {}
+}
+
+export default meta
+
+const formData: FormItem[] = [
+  { type: 'text', name: 'category', placeholder: 'Category' },
+  { type: 'text', name: 'customerId', placeholder: 'Customer ID' },
+  { type: 'text', name: 'operator', placeholder: 'Operator' },
+  { type: 'datepicker', name: 'date', placeholder: 'Date' },
+  { type: 'timerangepicker', name: 'timerange', placeholder: 'Time Range' },
+  {
+    type: 'select',
+    name: 'plan',
+    placeholder: 'Plan Select',
+    data: [
+      { label: 'Basic', value: 'basic' },
+      { label: 'Pro', value: 'pro' },
+      { label: 'Enterprise', value: 'enterprise' }
+    ]
+  },
+  {
+    type: 'multiselect',
+    name: 'roles',
+    placeholder: 'Roles Select',
+    data: [
+      { label: 'Admin', value: 'admin' },
+      { label: 'R&W', value: 'r_and_w' },
+      { label: 'R', value: 'r_only' }
+    ]
+  }
+]
+
+export const Primary: Story = {
+  parameters: {
+    controls: { expanded: true }
+  },
+  args: {
+    recoverFromURLEnabled: true,
+    data: formData,
+    defaultValues: {
+      category: '',
+      customerId: '',
+      operator: '',
+      date: null,
+      plan: '',
+      timerange: undefined,
+      roles: ['admin', 'r_and_w']
+    },
+    debugEnabled: true,
+    onSubmit: (data) => console.log(data),
+    onRefresh: () => console.log('refresh')
+  }
+}

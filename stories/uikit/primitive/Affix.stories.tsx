@@ -1,8 +1,7 @@
-
+import { Affix } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Anchor } from '@flex/uikit'
 
-type Story = StoryObj<typeof Anchor>
+type Story = StoryObj<typeof Affix>
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -12,17 +11,17 @@ const decorator = (Story: StoryFn) => {
   )
 }
 
-const meta: Meta<typeof Anchor> = {
-  title: 'Primitive/Anchor',
-  component: Anchor,
+const meta: Meta<typeof Affix> = {
+  title: 'Primitive/Affix',
+  component: Affix,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Anchor></Anchor>),
+  render: () => <Affix></Affix>,
   args: {}
 }
