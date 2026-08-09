@@ -1,6 +1,8 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Burger } from '@flex/uikit'
+import { useDisclosure } from '@flex/uikit/hooks'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+
+import { SIZE_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof Burger>
 
@@ -18,11 +20,24 @@ const meta: Meta<typeof Burger> = {
   decorators: [decorator],
   tags: ['autodocs'],
   parameters: {},
+  argTypes: {
+    size: {
+      options: SIZE_LIST,
+      control: 'inline-radio'
+    }
+  }
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function DemoBase(props: Omit<React.ComponentPropsWithoutRef<typeof Burger>, 'opened' | 'onChange'>) {
+  const [opened, { toggle }] = useDisclosure(false)
+  return <Burger opened={opened} onClick={toggle} {...props} />
+}
+
 export const Primary: Story = {
-  render: () => (<Burger></Burger>),
-  args: {}
+  render: DemoBase,
+  args: {
+    size: 'md'
+  }
 }

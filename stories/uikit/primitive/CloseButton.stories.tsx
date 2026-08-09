@@ -1,6 +1,7 @@
-
+import { CloseButton, Stack } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { CloseButton } from '@flex/uikit'
+
+import { COLOR_LIST, VARIANT_LIST, SIZE_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof CloseButton>
 
@@ -17,12 +18,44 @@ const meta: Meta<typeof CloseButton> = {
   component: CloseButton,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<CloseButton></CloseButton>),
-  args: {}
+  render: ({ ...rest }) => (
+    <Stack
+      align="flex-start"
+      style={{
+        backgroundColor: (rest as any).variant === 'white' ? '#ddd' : 'transparent',
+        padding: 16
+      }}
+    >
+      <CloseButton {...rest} />
+    </Stack>
+  ),
+  parameters: {
+    controls: { expanded: true }
+  },
+  args: {},
+  argTypes: {
+    color: {
+      options: COLOR_LIST,
+      control: { type: 'select' }
+    },
+    variant: {
+      options: VARIANT_LIST,
+      control: { type: 'select' }
+    },
+    radius: {
+      options: SIZE_LIST,
+      control: { type: 'select' }
+    },
+    size: {
+      options: SIZE_LIST,
+      control: { type: 'select' }
+    },
+    disabled: { control: 'boolean' }
+  }
 }

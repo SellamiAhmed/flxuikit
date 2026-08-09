@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Center } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Center>
 
@@ -17,12 +16,16 @@ const meta: Meta<typeof Center> = {
   component: Center,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Center></Center>),
+  render: () => (
+    <Center style={{ width: 400, height: 200 }} bg="brand">
+      <div>All elements inside Center are centered</div>
+    </Center>
+  ),
   args: {}
 }

@@ -1,4 +1,4 @@
-import { IconEraser, IconRefresh, IconX } from '@tabler/icons-react'
+import { IconEraser, IconRefresh, IconSearch, IconX } from '@tabler/icons-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { DefaultValues, FieldValues, FormProvider, useForm, UseFormReturn } from 'react-hook-form'
 
@@ -111,6 +111,7 @@ function FormItemRender<T extends FieldValues>({
           onChange={(e) => setKeyword(e.target.value)}
           placeholder={placeholder ?? ''}
           onKeyDown={onKeyDown}
+          leftSection={<IconSearch size={14} />}
           rightSection={
             !!keyword && (
               <IconX

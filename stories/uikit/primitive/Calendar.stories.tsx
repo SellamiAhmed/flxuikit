@@ -1,6 +1,6 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Calendar } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+import { useState } from 'react'
 
 type Story = StoryObj<typeof Calendar>
 
@@ -17,12 +17,19 @@ const meta: Meta<typeof Calendar> = {
   component: Calendar,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function Demo() {
+  // `date`/`onDateChange` control which month/year is displayed (navigation),
+  // not date selection — Calendar has no built-in selection logic on its own.
+  const [date, setDate] = useState<Date>(new Date())
+  return <Calendar date={date} onDateChange={setDate} minDate={new Date()} />
+}
+
 export const Primary: Story = {
-  render: () => (<Calendar></Calendar>),
+  render: () => <Demo />,
   args: {}
 }

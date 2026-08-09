@@ -1,6 +1,5 @@
-
+import { Code, Group } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Code } from '@flex/uikit'
 
 type Story = StoryObj<typeof Code>
 
@@ -17,12 +16,22 @@ const meta: Meta<typeof Code> = {
   component: Code,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo() {
+  return (
+    <Group>
+      <Code color="danger">React.createElement()</Code>
+      <Code color="success">React.createElement()</Code>
+      <Code color="brand">React.createElement()</Code>
+    </Group>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Code></Code>),
+  render: () => <PrimaryDemo />,
   args: {}
 }

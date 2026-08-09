@@ -1,6 +1,8 @@
-
+import { Badge, BadgeProps, Group } from '@flex/uikit'
+import { Colors } from '@flex/uikit/theme'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Badge } from '@flex/uikit'
+
+import { SIZE_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof Badge>
 
@@ -18,11 +20,79 @@ const meta: Meta<typeof Badge> = {
   decorators: [decorator],
   tags: ['autodocs'],
   parameters: {},
+  argTypes: {
+    size: {
+      options: SIZE_LIST,
+      control: 'inline-radio'
+    },
+    radius: {
+      options: SIZE_LIST,
+      control: 'inline-radio'
+    }
+  }
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function Variants({ size, radius }: BadgeProps) {
+  return (
+    <Group p={40}>
+      <Badge variant="light" size={size} radius={radius}>
+        Light
+      </Badge>
+      <Badge variant="filled" size={size} radius={radius}>
+        Filled
+      </Badge>
+      <Badge variant="outline" size={size} radius={radius}>
+        Outline
+      </Badge>
+      <Badge variant="dot" size={size} radius={radius}>
+        Dot
+      </Badge>
+    </Group>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Badge></Badge>),
-  args: {}
+  render: Variants
+}
+
+const AllColors = ({ variant }: { variant: BadgeProps['variant'] }) => {
+  return (
+    <Group>
+      {Colors.map((color) => (
+        <Badge key={color} variant={variant} color={color}>
+          {color}
+        </Badge>
+      ))}
+    </Group>
+  )
+}
+
+export const AllOutlineColors: Story = {
+  render: () => <AllColors variant="outline" />
+}
+
+export const AllDotColors: Story = {
+  render: () => <AllColors variant="dot" />
+}
+
+export const AllFilledColors: Story = {
+  render: () => <AllColors variant="filled" />
+}
+
+export const AllLightColors: Story = {
+  render: () => <AllColors variant="light" />
+}
+
+export const AllSizes: Story = {
+  render: () => (
+    <Group>
+      {SIZE_LIST.map((size) => (
+        <Badge key={size} variant="dot" color="success" size={size}>
+          Available
+        </Badge>
+      ))}
+    </Group>
+  )
 }

@@ -1,6 +1,5 @@
-
+import { Anchor, Breadcrumbs } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Breadcrumbs } from '@flex/uikit'
 
 type Story = StoryObj<typeof Breadcrumbs>
 
@@ -17,12 +16,33 @@ const meta: Meta<typeof Breadcrumbs> = {
   component: Breadcrumbs,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+const items = [
+  { title: 'Flex UI', href: '#' },
+  { title: 'Flex UI hooks', href: '#' },
+  { title: 'use-id', href: '#' }
+].map((item, index) => (
+  <Anchor href={item.href} key={index}>
+    {item.title}
+  </Anchor>
+))
+
+function Demo() {
+  return (
+    <>
+      <Breadcrumbs>{items}</Breadcrumbs>
+      <Breadcrumbs separator="→" mt="xs">
+        {items}
+      </Breadcrumbs>
+    </>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Breadcrumbs></Breadcrumbs>),
+  render: () => <Demo />,
   args: {}
 }

@@ -1,6 +1,7 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Chip } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+
+import { COLOR_LIST, SIZE_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof Chip>
 
@@ -17,12 +18,25 @@ const meta: Meta<typeof Chip> = {
   component: Chip,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Chip></Chip>),
-  args: {}
+  render: ({ ...rest }) => (
+    <Chip defaultChecked {...rest}>
+      {rest.children || 'Flex UI'}
+    </Chip>
+  ),
+  args: {},
+  argTypes: {
+    checked: { control: 'boolean' },
+    children: { control: 'text' },
+    color: { control: 'select', options: COLOR_LIST },
+    defaultChecked: { control: 'boolean' },
+    radius: { control: 'select', options: SIZE_LIST },
+    type: { control: 'select', options: ['checkbox', 'radio'] },
+    variant: { control: 'select', options: ['outline', 'light', 'filled'] }
+  }
 }
