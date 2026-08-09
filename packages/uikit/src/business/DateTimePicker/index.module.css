@@ -1,0 +1,79 @@
+/* ── Scroller cells ── */
+.cell {
+  text-align: center;
+  cursor: pointer;
+  scroll-snap-align: start;
+  user-select: none;
+  border-radius: 8px;
+  color: var(--ds-color-text);
+}
+
+.cell:hover {
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.cellBold {
+  font-weight: 600;
+}
+
+.cellDisabled {
+  text-align: center;
+  scroll-snap-align: start;
+  user-select: none;
+  cursor: not-allowed;
+  color: var(--ds-color-text-subtle);
+  opacity: 0.5;
+}
+
+.cellPlaceholder {
+  visibility: hidden;
+}
+
+/* ── Highlight row behind the 3 active-cell slots ── */
+.highlightRow {
+  position: relative;
+  height: 32px;
+}
+
+.highlightCell {
+  position: absolute;
+  top: 0;
+  height: 32px;
+  width: 32px;
+  border-radius: 8px;
+  background: var(--ds-color-background-neutral-subtle, var(--ds-color-background-brand-subtlest));
+  z-index: -1;
+  pointer-events: none;
+}
+
+.highlightCell:nth-child(1) {
+  left: 0;
+}
+.highlightCell:nth-child(2) {
+  left: 40px;
+}
+.highlightCell:nth-child(3) {
+  left: 80px;
+}
+
+/* ── Scroller wrapper ── */
+.scrollerWrap {
+  position: relative;
+  height: 224px;
+  overflow: hidden;
+  color: var(--ds-color-text);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* ── DateTimePicker time input ── */
+.timeInput input {
+  height: 32px;
+  line-height: 30px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeInput input::-webkit-datetime-edit-fields-wrapper {
+  display: flex;
+  justify-content: space-between;
+}

@@ -11,8 +11,8 @@ export const iconColors = {
   'color.icon.disabled': '#A1A1AA',
 
   /* ── Interactive / Brand ── */
-  'color.icon.selected': '#2E2E2E',
-  'color.icon.brand': '#2E2E2E',
+  'color.icon.selected': '#1163A6',
+  'color.icon.brand': '#1163A6',
 
   /* ── Semantic status ── */
   'color.icon.danger': '#DC2626',

@@ -8,10 +8,10 @@ export const borderColors = {
   'color.border.bold': '#D4D4D8',
   'color.border.inverse': '#FFFFFF',
   'color.border.disabled': '#E4E4E7',
-  'color.border.focused': '#D4D4D4',
-  'color.border.selected': '#2E2E2E',
+  'color.border.focused': '#1163A6',
+  'color.border.selected': '#1163A6',
   'color.border.input': '#E4E4E7',
-  'color.border.brand': '#2E2E2E',
+  'color.border.brand': '#1163A6',
 
   /* ── Semantic ── */
   'color.border.danger': '#DC2626',

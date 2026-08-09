@@ -3,8 +3,8 @@
  */
 
 export const linkColorsDark = {
-  'color.link': '#D4D4D4',
-  'color.link.pressed': '#E5E5E5',
+  'color.link': '#61AFEF',
+  'color.link.pressed': '#86C2F3',
   'color.link.visited': '#C4B5FD',
   'color.link.visited.pressed': '#DDD6FE'
 } as const

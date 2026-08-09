@@ -9,8 +9,8 @@ export const iconColorsDark = {
   'color.icon.inverse': '#09090B',
   'color.icon.disabled': '#52525B',
 
-  'color.icon.selected': '#D4D4D4',
-  'color.icon.brand': '#D4D4D4',
+  'color.icon.selected': '#61AFEF',
+  'color.icon.brand': '#61AFEF',
 
   'color.icon.danger': '#EF4444',
   'color.icon.warning': '#F59E0B',

@@ -9,3 +9,4 @@ export { Colors } from './theme.js'
 // ── Semantic token API ──
 export { getToken, tokenToCssVar } from './tokens/index.js'
 export type { TokenName } from './tokens/index.js'
+export { tokenMap } from './tokens/index.js'

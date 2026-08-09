@@ -26,7 +26,7 @@ export const chartColors = {
   'color.chart.neutral.hovered': '#52525B',
 
   /* ── Brand / Primary ── */
-  'color.chart.brand': '#0EA5E9',
+  'color.chart.brand': '#1163A6',
   'color.chart.brand.hovered': '#0284C7',
 
   /* ── Danger ── */
