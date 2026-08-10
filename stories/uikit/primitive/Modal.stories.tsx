@@ -1,6 +1,6 @@
-
+import { Group, Modal, Button } from '@flex/uikit'
+import { useDisclosure } from '@flex/uikit/hooks'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Modal } from '@flex/uikit'
 
 type Story = StoryObj<typeof Modal>
 
@@ -17,12 +17,26 @@ const meta: Meta<typeof Modal> = {
   component: Modal,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo() {
+  const [opened, { open, close }] = useDisclosure(false)
+  return (
+    <>
+      <Modal opened={opened} onClose={close} title="Authentication">
+        Modal with header, press escape or click on overlay to close
+      </Modal>
+      <Group justify="center">
+        <Button onClick={open}>Open modal</Button>
+      </Group>
+    </>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Modal></Modal>),
+  render: () => <PrimaryDemo />,
   args: {}
 }

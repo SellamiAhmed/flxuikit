@@ -1,6 +1,5 @@
-
+import { Button, Group, HoverCard } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { HoverCard } from '@flex/uikit'
 
 type Story = StoryObj<typeof HoverCard>
 
@@ -17,12 +16,64 @@ const meta: Meta<typeof HoverCard> = {
   component: HoverCard,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo({ ...props }) {
+  return (
+    <Group justify="center">
+      <HoverCard width={280} shadow="md" {...props}>
+        <HoverCard.Target>
+          <Button>Hover to reveal the card</Button>
+        </HoverCard.Target>
+        <HoverCard.Dropdown>
+          Hover card is revealed when the user hovers over the target element, and hidden once the mouse leaves both the
+          target and dropdown.
+        </HoverCard.Dropdown>
+      </HoverCard>
+    </Group>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<HoverCard></HoverCard>),
-  args: {}
+  render: PrimaryDemo,
+  args: {
+    withArrow: false
+  },
+  argTypes: {
+    withArrow: { control: 'boolean' },
+    position: {
+      control: 'select',
+      options: [
+        'bottom',
+        'left',
+        'right',
+        'top',
+        'bottom-end',
+        'bottom-start',
+        'left-end',
+        'left-start',
+        'right-end',
+        'right-start',
+        'top-end',
+        'top-start'
+      ]
+    }
+  }
+}
+
+export function DefaultProps() {
+  return (
+    <HoverCard>
+      <HoverCard.Target>
+        <Button>Hover to reveal the card</Button>
+      </HoverCard.Target>
+      <HoverCard.Dropdown>
+        Hover card is revealed when the user hovers over the target element, and hidden once the mouse leaves both the
+        target and dropdown.
+      </HoverCard.Dropdown>
+    </HoverCard>
+  )
 }

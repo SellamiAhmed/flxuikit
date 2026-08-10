@@ -1,8 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { PillsInput } from '@flex/uikit'
-
-type Story = StoryObj<typeof PillsInput>
+import { PillsInput, Pill } from '@flex/uikit'
+import type { Meta, StoryFn } from '@storybook/react'
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -17,12 +14,20 @@ const meta: Meta<typeof PillsInput> = {
   component: PillsInput,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
-export const Primary: Story = {
-  render: () => (<PillsInput></PillsInput>),
-  args: {}
+export function Primary() {
+  return (
+    <PillsInput label="PillsInput">
+      <Pill.Group>
+        <Pill>React</Pill>
+        <Pill>Vue</Pill>
+        <Pill>Svelte</Pill>
+        <PillsInput.Field placeholder="Enter tags" />
+      </Pill.Group>
+    </PillsInput>
+  )
 }

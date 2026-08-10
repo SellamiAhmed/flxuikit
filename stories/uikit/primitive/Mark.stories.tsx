@@ -1,6 +1,7 @@
-
+import { Text, Mark } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Mark } from '@flex/uikit'
+
+import { COLOR_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof Mark>
 
@@ -17,12 +18,26 @@ const meta: Meta<typeof Mark> = {
   component: Mark,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo({ ...rest }) {
+  return (
+    <Text>
+      Thanks for stopping by and checking out <Mark {...rest}>Flex UI</Mark>, you are awesome!
+    </Text>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Mark></Mark>),
-  args: {}
+  render: ({ ...rest }) => <PrimaryDemo {...rest} />,
+  args: {},
+  argTypes: {
+    color: {
+      options: COLOR_LIST,
+      control: { type: 'select' }
+    }
+  }
 }

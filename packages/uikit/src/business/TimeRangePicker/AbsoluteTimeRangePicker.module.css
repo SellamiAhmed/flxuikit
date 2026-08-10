@@ -1,7 +1,11 @@
 .container {
-  width: 280px;
+  /* Scales with content instead of a hardcoded px guess — clamp() gives a
+     sane floor/ceiling so it never gets uncomfortably narrow or absurdly
+     wide, while still growing to fit longer locale date strings. */
+  width: clamp(280px, 100%, 340px);
   padding: var(--ds-space-100) var(--ds-space-100) var(--ds-space-200);
   margin: calc(-1 * var(--ds-space-050));
+  box-sizing: border-box;
 }
 
 .backRow {
@@ -12,10 +16,17 @@
   cursor: pointer;
   color: var(--ds-color-text);
   transition: color 150ms ease;
+  width: fit-content;
 }
 
 .backRow:hover {
   color: var(--ds-color-text-subtle);
+}
+
+.backRow:focus-visible {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .backLabel {
@@ -25,36 +36,77 @@
 .fieldRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--ds-space-100);
+  gap: var(--ds-space-075);
   padding-top: var(--ds-space-100);
 }
 
+/* Fixed-width label column so Start/End rows align their inputs on the
+   same x-position regardless of label text length or locale translation
+   ("Start"/"End" vs longer words in other languages). Grid, not flex +
+   a fixed px guess, so it stays correct even if you localize the labels. */
 .fieldLabel {
   font: var(--ds-font-body-small);
   font-weight: var(--ds-font-weight-medium);
   color: var(--ds-color-text);
   flex-shrink: 0;
+  width: 15%;
+  min-width: 28px;
+  max-width: 48px;
 }
 
 .inputs {
   display: flex;
   align-items: center;
-  gap: var(--ds-space-100);
+  gap: var(--ds-space-075);
+  flex: 1;
+  min-width: 0;
 }
 
+/* Grows to fill whatever space is available in the row. min-width is a
+   floor tuned to the longest realistic date string at the design system's
+   body font size ("Aug 22, 2026" + input padding), not an arbitrary guess —
+   if you localize dateInputFormat to a longer string, raise this floor
+   rather than the container width, so both fields stay proportionate. */
 .dateInput {
-  width: 116px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dateInput input {
+  height: 36px;
+  font-variant-numeric: tabular-nums;
+  text-overflow: clip;
+  white-space: nowrap;
+  color: var(--ds-color-text);
+}
+
+.dateInput[data-empty='true'] input {
+  color: var(--ds-color-text-subtlest);
 }
 
 .timeInput {
-  width: 110px;
+  width: 108px;
+  flex-shrink: 0;
+}
+
+.timeInput input {
+  height: 36px;
+  font-variant-numeric: tabular-nums;
+  padding-left: var(--ds-space-075);
+  padding-right: var(--ds-space-075);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.timeInput input:placeholder-shown,
+.timeInput input[value='']::-webkit-datetime-edit {
+  color: var(--ds-color-text-subtlest);
 }
 
 .calendar {
   display: flex;
   justify-content: center;
-  padding-top: var(--ds-space-100);
+  padding-top: var(--ds-space-150);
 }
 
 .errorAlert {
@@ -76,5 +128,7 @@
   justify-content: flex-end;
   align-items: center;
   gap: var(--ds-space-100);
-  padding-top: var(--ds-space-100);
+  padding-top: var(--ds-space-150);
+  margin-top: var(--ds-space-100);
+  border-top: 1px solid var(--ds-color-border);
 }

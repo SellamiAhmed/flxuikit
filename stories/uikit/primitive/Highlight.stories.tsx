@@ -1,4 +1,4 @@
-import { Highlight } from '@flex/uikit'
+import { Highlight, HighlightProps } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Highlight>
@@ -18,10 +18,35 @@ const meta: Meta<typeof Highlight> = {
   tags: ['autodocs'],
   parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => <Highlight></Highlight>,
-  args: {}
+  render: ({ color, highlight, children }: Partial<HighlightProps>) => (
+    <Highlight color={color} highlight={highlight}>
+      {children ?? ''}
+    </Highlight>
+  ),
+  args: {
+    highlight: 'this',
+    children: 'Highlight This, definitely THIS and also this!'
+  },
+  argTypes: {
+    color: { control: 'text' },
+    highlight: { control: 'text' },
+    children: { control: 'text' }
+  }
+}
+
+export const MultipleHighlightColors: Story = {
+  render: () => (
+    <>
+      <Highlight highlight={['this']} color="danger">
+        Highlight This word in danger color.
+      </Highlight>
+      <Highlight highlight={['that']} color="success" mt="xs">
+        Highlight That word in success color.
+      </Highlight>
+    </>
+  )
 }

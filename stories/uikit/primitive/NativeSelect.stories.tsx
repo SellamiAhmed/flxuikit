@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { NativeSelect } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof NativeSelect>
 
@@ -17,12 +16,25 @@ const meta: Meta<typeof NativeSelect> = {
   component: NativeSelect,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<NativeSelect></NativeSelect>),
-  args: {}
+  render: ({ ...props }) => (
+    <NativeSelect
+      data={['React', 'Vue', 'Angular', 'Svelte']}
+      label="Select your favorite framework/library"
+      description="This is anonymous"
+      withAsterisk
+      {...props}
+    />
+  ),
+  args: {
+    disabled: false
+  },
+  argTypes: {
+    disabled: { control: 'boolean' }
+  }
 }

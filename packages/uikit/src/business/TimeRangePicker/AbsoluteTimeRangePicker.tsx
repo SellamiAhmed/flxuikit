@@ -53,10 +53,10 @@ const AbsoluteTimeRangePicker = ({
 
   const [displayRangeDate, setDisplayRangeDate] = useState<[Date | null, Date | null]>([start, end])
 
-  const startDate = start ? dateInputFormat?.(start) || dayjs(start).format('MMM D, YYYY') : '-'
-  const endDate = end ? dateInputFormat?.(end) || dayjs(end).format('MMM D, YYYY') : '-'
-  const startTime = start ? dayjs(start).format('HH:mm:ss') : '-'
-  const endTime = end ? dayjs(end).format('HH:mm:ss') : '-'
+  const startDate = start ? dateInputFormat?.(start) || dayjs(start).format('MMM D, YYYY') : 'Select date'
+  const endDate = end ? dateInputFormat?.(end) || dayjs(end).format('MMM D, YYYY') : 'Select date'
+  const startTime = start ? dayjs(start).format('HH:mm:ss') : 'Select time'
+  const endTime = end ? dayjs(end).format('HH:mm:ss') : 'Select time'
 
   // Validation
   const isRangeComplete = !!start && !!end
@@ -114,16 +114,15 @@ const AbsoluteTimeRangePicker = ({
         <IconChevronLeft size={16} />
         <span className={classes.backLabel}>{localization?.back || 'Back'}</span>
       </div>
-
       {/* Start */}
       <div className={classes.fieldRow}>
         <span className={classes.fieldLabel}>{localization?.start || 'Start'}</span>
         <div className={classes.inputs}>
           <Input
             className={classes.dateInput}
+            data-empty={!start || undefined}
             value={startDate}
             error={beyondMin || startAfterEnd || beyondDuration}
-            readOnly
           />
           <TimeInput
             className={classes.timeInput}
@@ -141,9 +140,9 @@ const AbsoluteTimeRangePicker = ({
         <div className={classes.inputs}>
           <Input
             className={classes.dateInput}
+            data-empty={!end || undefined}
             value={endDate}
             error={beyondMax || startAfterEnd || beyondDuration}
-            readOnly
           />
           <TimeInput
             className={classes.timeInput}
@@ -154,7 +153,6 @@ const AbsoluteTimeRangePicker = ({
           />
         </div>
       </div>
-
       {/* Calendar */}
       <div className={classes.calendar}>
         <DatePicker

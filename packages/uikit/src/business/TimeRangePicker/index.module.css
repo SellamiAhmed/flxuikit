@@ -26,14 +26,6 @@
 /* ═══════════════════════════════════════════════════════
    Override Button's shared centering — scoped to .trigger
    only, so no other Button instance is affected.
-
-   These target the Button primitive's own stable classes
-   (btn-inner / btn-label), not Mantine's internal
-   mantine-Button-* classes. Styling Mantine's internals
-   directly is what caused this row to fight the Button's
-   own centering rule and shift/collapse instead of sitting
-   flush left — this composes with the Button's public
-   class contract instead of reaching around it.
    ═══════════════════════════════════════════════════════ */
 .trigger :global(.btn-inner) {
   justify-content: flex-start;
@@ -121,11 +113,17 @@
 
 /* ═══════════════════════════════════════════════════════
    Dropdown / Menu / Footer
-   ═══════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════
+   No fixed width here by design — AbsoluteTimeRangePicker
+   now sizes itself via clamp(), and the quick-range list
+   sizes via TimeRangePicker's own `width` prop (`'auto'`
+   in custom mode). This dropdown just needs to not clip
+   whatever its child decides it needs. */
 .dropdown {
   background: var(--ds-elevation-surface-raised);
   border: 1px solid var(--ds-color-border);
   box-shadow: var(--ds-elevation-shadow-raised);
+  max-width: min(90vw, 360px);
 }
 
 .menuItem {

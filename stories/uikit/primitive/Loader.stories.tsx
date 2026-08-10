@@ -1,6 +1,7 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Loader } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
+
+import { COLOR_LIST, SIZE_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof Loader>
 
@@ -17,12 +18,30 @@ const meta: Meta<typeof Loader> = {
   component: Loader,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo({ ...rest }) {
+  return <Loader {...rest} />
+}
+
 export const Primary: Story = {
-  render: () => (<Loader></Loader>),
-  args: {}
+  render: ({ ...rest }) => <PrimaryDemo {...rest} />,
+  args: {},
+  argTypes: {
+    color: {
+      options: COLOR_LIST,
+      control: { type: 'select' }
+    },
+    size: {
+      options: SIZE_LIST,
+      control: { type: 'select' }
+    },
+    type: {
+      options: ['oval', 'dots', 'bars'],
+      control: { type: 'select' }
+    }
+  }
 }

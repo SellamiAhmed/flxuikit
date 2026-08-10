@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { InputBase } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof InputBase>
 
@@ -17,12 +16,15 @@ const meta: Meta<typeof InputBase> = {
   component: InputBase,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<InputBase></InputBase>),
-  args: {}
+  render: ({ ...props }) => <InputBase {...props} />,
+  args: {
+    label: 'Label',
+    placeholder: 'Type something'
+  }
 }

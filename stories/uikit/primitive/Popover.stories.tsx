@@ -1,6 +1,5 @@
-
+import { Button, Text, Popover } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Popover } from '@flex/uikit'
 
 type Story = StoryObj<typeof Popover>
 
@@ -17,12 +16,55 @@ const meta: Meta<typeof Popover> = {
   component: Popover,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo({ ...props }) {
+  return (
+    <Popover width={200} shadow="md" {...props}>
+      <Popover.Target>
+        <Button>Toggle popover</Button>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text size="sm">This is an uncontrolled popover, it opens when the button is clicked</Text>
+      </Popover.Dropdown>
+    </Popover>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Popover></Popover>),
-  args: {}
+  render: PrimaryDemo,
+  args: {
+    position: 'bottom',
+    offset: 5,
+    withArrow: true,
+    arrowPosition: 'side'
+  },
+  argTypes: {
+    withArrow: { control: 'boolean' },
+    position: {
+      control: 'select',
+      options: [
+        'bottom',
+        'left',
+        'right',
+        'top',
+        'bottom-end',
+        'bottom-start',
+        'left-end',
+        'left-start',
+        'right-end',
+        'right-start',
+        'top-end',
+        'top-start'
+      ]
+    },
+    arrowPosition: {
+      control: 'select',
+      options: ['center', 'side']
+    },
+    offset: { control: 'number' }
+  }
 }

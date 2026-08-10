@@ -1,6 +1,7 @@
-
+import { Avatar, Group, Indicator } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Indicator } from '@flex/uikit'
+
+import { COLOR_LIST, SIZE_LIST } from '../../constants.js'
 
 type Story = StoryObj<typeof Indicator>
 
@@ -17,12 +18,33 @@ const meta: Meta<typeof Indicator> = {
   component: Indicator,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Indicator></Indicator>),
-  args: {}
+  render: ({ ...rest }) => (
+    <Group justify="center">
+      <Indicator {...rest}>
+        <Avatar size="lg" />
+      </Indicator>
+    </Group>
+  ),
+  args: {
+    size: 12,
+    inline: false,
+    label: '',
+    processing: false
+  },
+  argTypes: {
+    color: {
+      options: COLOR_LIST,
+      control: { type: 'select' }
+    },
+    radius: {
+      options: SIZE_LIST,
+      control: { type: 'select' }
+    }
+  }
 }

@@ -1,6 +1,6 @@
-
+import { HueSlider, Text } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { HueSlider } from '@flex/uikit'
+import { useState } from 'react'
 
 type Story = StoryObj<typeof HueSlider>
 
@@ -17,12 +17,22 @@ const meta: Meta<typeof HueSlider> = {
   component: HueSlider,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function Demo() {
+  const [value, onChange] = useState(250)
+  return (
+    <>
+      <Text>Hue value: {value}</Text>
+      <HueSlider value={value} onChange={onChange} />
+    </>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<HueSlider></HueSlider>),
+  render: () => <Demo />,
   args: {}
 }
