@@ -1,6 +1,6 @@
-
+import { Box, FocusTrap, Button, TextInput } from '@flex/uikit'
+import { useDisclosure } from '@flex/uikit/hooks'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { FocusTrap } from '@flex/uikit'
 
 type Story = StoryObj<typeof FocusTrap>
 
@@ -17,12 +17,28 @@ const meta: Meta<typeof FocusTrap> = {
   component: FocusTrap,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo() {
+  const [active, { toggle }] = useDisclosure(false)
+  return (
+    <Box maw={400} mx="auto">
+      <Button onClick={toggle}>{active ? 'Deactivate' : 'Activate'} focus trap</Button>
+      <FocusTrap active={active}>
+        <div>
+          <TextInput mt="sm" label="First input" placeholder="First input" />
+          <TextInput mt="sm" label="Second input" placeholder="Second input" />
+          <TextInput mt="sm" label="Third input" placeholder="Third input" />
+        </div>
+      </FocusTrap>
+    </Box>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<FocusTrap></FocusTrap>),
+  render: () => <PrimaryDemo />,
   args: {}
 }

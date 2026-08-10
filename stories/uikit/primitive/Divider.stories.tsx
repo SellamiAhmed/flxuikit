@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Divider } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Divider>
 
@@ -17,12 +16,22 @@ const meta: Meta<typeof Divider> = {
   component: Divider,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function Demo() {
+  return (
+    <>
+      <Divider my="sm" />
+      <Divider my="sm" variant="dashed" />
+      <Divider my="sm" variant="dotted" />
+    </>
+  )
+}
+
 export const Primary: Story = {
-  render: () => (<Divider></Divider>),
+  render: () => <Demo />,
   args: {}
 }

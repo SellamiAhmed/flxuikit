@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Highlight } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Highlight>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof Highlight> = {
   component: Highlight,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Highlight></Highlight>),
+  render: () => <Highlight></Highlight>,
   args: {}
 }

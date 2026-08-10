@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { Container } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Container>
 
@@ -17,12 +16,39 @@ const meta: Meta<typeof Container> = {
   component: Container,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+const blockStyle = {
+  background: 'var(--ds-color-background-neutral)',
+  padding: 16,
+  borderRadius: 8
+}
+
 export const Primary: Story = {
-  render: () => (<Container></Container>),
-  args: {}
+  render: (args) => (
+    <Container {...args}>
+      <div style={blockStyle}>This content is centered and constrained by Container.</div>
+    </Container>
+  ),
+  args: {
+    size: 'md'
+  },
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['xs', 'sm', 'md', 'lg', 'xl']
+    },
+    fluid: { control: 'boolean' }
+  }
+}
+
+export const Fluid: Story = {
+  render: () => (
+    <Container fluid>
+      <div style={blockStyle}>Fluid container takes full available width, no max-width constraint.</div>
+    </Container>
+  )
 }

@@ -6,6 +6,12 @@ import classes from './PageShellNotificationBell.module.css'
 
 export interface PageShellNotificationBellProps {
   count?: number
+  /**
+   * Show a small presence dot instead of the numeric count badge.
+   * Useful when you know there's something unread but don't want to
+   * (or can't) surface an exact number.
+   */
+  dot?: boolean
   icon?: React.ReactNode
   ariaLabel?: string
   onClick?: () => void
@@ -15,23 +21,29 @@ export interface PageShellNotificationBellProps {
 
 export const PageShellNotificationBell = ({
   count,
+  dot = false,
   icon,
   ariaLabel = 'Notifications',
   onClick,
   menuItems,
   menuWidth = 280
 }: PageShellNotificationBellProps) => {
-  const hasBadge = count !== undefined && count > 0
-  const label = hasBadge ? `${ariaLabel} (${count})` : ariaLabel
+  const hasCount = count !== undefined && count > 0
+  const hasIndicator = dot || hasCount
+
+  const label = hasCount ? `${ariaLabel} (${count})` : hasIndicator ? `${ariaLabel} (unread)` : ariaLabel
 
   const bellContent = (
     <span className={classes.inner}>
       {icon ?? <IconBell size={16} stroke={1} aria-hidden="true" />}
-      {hasBadge && (
-        <span className={classes.badgeCount} aria-hidden="true">
-          {count > 99 ? '99+' : count}
-        </span>
-      )}
+      {hasIndicator &&
+        (dot ? (
+          <span className={classes.badgeDot} aria-hidden="true" />
+        ) : (
+          <span className={classes.badgeCount} aria-hidden="true">
+            {count! > 99 ? '99+' : count}
+          </span>
+        ))}
     </span>
   )
 

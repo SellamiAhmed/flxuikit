@@ -1,4 +1,6 @@
-import { ColorSwatch } from '@flex/uikit'
+import { ColorSwatch, Group, Stack } from '@flex/uikit'
+import { tokenMap } from '@flex/uikit/theme'
+import { rgba } from '@flex/uikit/utils'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof ColorSwatch>
@@ -18,10 +20,31 @@ const meta: Meta<typeof ColorSwatch> = {
   tags: ['autodocs'],
   parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function PrimaryDemo() {
+  const tokens = tokenMap.light
+  const entries = Object.entries(tokens)
+
+  const swatches = entries.map(([name, value]) => <ColorSwatch key={name} color={value as string} />)
+  const swatchesWithOpacity = entries.map(([name, value]) => (
+    <ColorSwatch key={name} color={rgba(value as string, 0.5)} />
+  ))
+
+  return (
+    <Stack align="center">
+      <Group justify="center" gap={4}>
+        {swatches}
+      </Group>
+      <Group justify="center" gap={4}>
+        {swatchesWithOpacity}
+      </Group>
+    </Stack>
+  )
+}
+
 export const Primary: Story = {
-  render: () => <ColorSwatch></ColorSwatch>,
+  render: () => <PrimaryDemo />,
   args: {}
 }

@@ -1,8 +1,6 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Combobox } from '@flex/uikit'
-
-type Story = StoryObj<typeof Combobox>
+import { Combobox, useCombobox, InputBase, Input } from '@flex/uikit'
+import type { Meta, StoryFn } from '@storybook/react'
+import { useState } from 'react'
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -17,12 +15,48 @@ const meta: Meta<typeof Combobox> = {
   component: Combobox,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
-export const Primary: Story = {
-  render: () => (<Combobox></Combobox>),
-  args: {}
+const groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate']
+
+export function Primary() {
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption()
+  })
+  const [value, setValue] = useState<string | null>(null)
+
+  const options = groceries.map((item) => (
+    <Combobox.Option value={item} key={item}>
+      {item}
+    </Combobox.Option>
+  ))
+
+  return (
+    <Combobox
+      store={combobox}
+      onOptionSubmit={(val) => {
+        setValue(val)
+        combobox.closeDropdown()
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          component="button"
+          type="button"
+          pointer
+          rightSection={<Combobox.Chevron />}
+          rightSectionPointerEvents="none"
+          onClick={() => combobox.toggleDropdown()}
+        >
+          {value || <Input.Placeholder>Pick value</Input.Placeholder>}
+        </InputBase>
+      </Combobox.Target>
+      <Combobox.Dropdown>
+        <Combobox.Options>{options}</Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
+  )
 }

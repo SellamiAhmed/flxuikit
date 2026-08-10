@@ -1,6 +1,5 @@
-
+import { CopyButton, Button } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { CopyButton } from '@flex/uikit'
 
 type Story = StoryObj<typeof CopyButton>
 
@@ -17,12 +16,22 @@ const meta: Meta<typeof CopyButton> = {
   component: CopyButton,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<CopyButton></CopyButton>),
-  args: {}
+  render: () => (
+    <CopyButton value="https://flex-uikit.dev">
+      {({ copied, copy }) => (
+        <Button color={copied ? 'success' : 'brand'} onClick={copy}>
+          {copied ? 'Copied' : 'Copy URL'}
+        </Button>
+      )}
+    </CopyButton>
+  ),
+  args: {
+    timeout: 2000
+  }
 }
