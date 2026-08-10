@@ -272,6 +272,7 @@ function TimePickerScrollerColumn({
       role="listbox"
       aria-label={label}
       tabIndex={0}
+      className={classes.scrollerColumn}
       onKeyDown={handleKeyDown}
       styles={{
         viewport: {

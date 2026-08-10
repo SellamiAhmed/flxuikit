@@ -168,9 +168,28 @@
     color 150ms ease;
 }
 
+/* IMPORTANT: Mantine's Anchor applies `color: var(--ds-color-link)` from
+   its own core stylesheet, which loads with the same effective specificity
+   as a single class and can win the cascade by source order regardless of
+   how many times we double our own class. !important is used deliberately
+   here — this is a confirmed, understood conflict with a specific known
+   source (Mantine core), not a blind guess. */
+.navButton.navButton {
+  color: var(--ds-color-text-subtle) !important;
+}
+
+/* Hover stays neutral, intentionally NOT brand-colored — reserving
+   brand/text-brand exclusively for the active state keeps "where am I"
+   (active) visually distinct from "what am I pointing at" (hover).
+   A small brand accent on the icon only is a safe middle ground if you
+   want a touch more personality on hover without the ambiguity. */
 .navButton:hover {
-  color: var(--ds-color-text);
+  color: var(--ds-color-text) !important;
   background: var(--ds-color-background-neutral-subtle-hovered);
+}
+
+.navButton:hover .navLeadIcon {
+  color: var(--ds-color-icon-brand);
 }
 
 .navButton:focus-visible {
@@ -178,13 +197,14 @@
   outline-offset: 1px;
 }
 
-.navButton.active,
-.navButton[data-active=''] .navButton[data-active='true'] {
-  background: var(--ds-color-background-selected);
-  color: var(--ds-color-text-selected);
+.navButton.navButton.active,
+.navButton.navButton[data-active=''],
+.navButton.navButton[data-active='true'] {
+  background: var(--ds-color-background-brand-subtlest);
+  color: var(--ds-color-text-brand) !important;
 }
 
-.navButton.disabled {
+.navButton.navButton.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -193,6 +213,7 @@
   display: inline-flex;
   line-height: 1;
   flex-shrink: 0;
+  transition: color 150ms ease;
 }
 
 .navLabel {
@@ -219,7 +240,7 @@
   height: 18px;
   border-radius: 9999px;
   background: var(--ds-color-background-brand-bold);
-  color: var(--ds-color-text-inverse); /* ← was --ds-color-text-selected */
+  color: var(--ds-color-text-inverse);
   font-family: var(--ds-font-family-sans);
   font-size: 11px;
   font-weight: 600;
@@ -257,21 +278,27 @@
     color 150ms ease;
 }
 
+/* Same Mantine Anchor override as .navButton — see comment above. */
+.childLink.childLink {
+  color: var(--ds-color-text-subtle) !important;
+}
+
 .childLink:hover {
-  color: var(--ds-color-text);
+  color: var(--ds-color-text) !important;
   background: var(--ds-color-background-neutral-subtle-hovered);
 }
 
-.childLink.active,
-.childLink[data-active='true'] {
-  background: var(--ds-color-background-selected);
-  color: var(--ds-color-text-selected);
+.childLink.childLink.active,
+.childLink.childLink[data-active='true'] {
+  background: var(--ds-color-background-brand-subtlest);
+  color: var(--ds-color-text-brand) !important;
 }
 
-.childLink.disabled {
+.childLink.childLink.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 /* ── Rail Mode ── */
 .navbarCollapsed {
   width: 56px;
@@ -354,14 +381,20 @@
     color 150ms ease;
 }
 
+/* Same Mantine Anchor/ActionIcon-as-link override — rail leaf items are
+   also rendered via <Anchor>/<ActionIcon as="a">, equally exposed. */
+.railNavButton.railNavButton {
+  color: var(--ds-color-text-subtle) !important;
+}
+
 .railNavButton:hover {
-  color: var(--ds-color-text);
+  color: var(--ds-color-text) !important;
   background: var(--ds-color-background-neutral-subtle-hovered);
 }
 
-.railNavButtonActive,
-.railNavButton[data-active='true'] {
-  color: var(--ds-color-text-brand);
+.railNavButton.railNavButton.railNavButtonActive,
+.railNavButton.railNavButton[data-active='true'] {
+  color: var(--ds-color-text-brand) !important;
   background: var(--ds-color-background-brand-subtlest);
   border-color: var(--ds-color-border-brand);
 }

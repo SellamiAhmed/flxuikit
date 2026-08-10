@@ -5,14 +5,24 @@
   scroll-snap-align: start;
   user-select: none;
   border-radius: 8px;
-  color: var(--ds-color-text);
+  border: 1px solid transparent;
+  color: var(--ds-color-text-subtle);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
 }
 
 .cell:hover {
   background: var(--ds-color-background-neutral-subtle-hovered);
+  color: var(--ds-color-text);
 }
 
+/* Selected cell — the one currently aligned to the picker's active row. */
 .cellBold {
+  border-color: var(--ds-color-border-brand);
+  background: var(--ds-color-background-brand-subtlest);
+  color: var(--ds-color-text-brand);
   font-weight: 600;
 }
 
@@ -21,7 +31,8 @@
   scroll-snap-align: start;
   user-select: none;
   cursor: not-allowed;
-  color: var(--ds-color-text-subtle);
+  border: 1px solid transparent;
+  color: var(--ds-color-text-subtlest);
   opacity: 0.5;
 }
 
@@ -41,7 +52,8 @@
   height: 32px;
   width: 32px;
   border-radius: 8px;
-  background: var(--ds-color-background-neutral-subtle, var(--ds-color-background-brand-subtlest));
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-color-background-neutral-subtle);
   z-index: -1;
   pointer-events: none;
 }
@@ -64,6 +76,14 @@
   color: var(--ds-color-text);
   font-size: 14px;
   font-weight: 400;
+}
+
+/* Focus-visible ring on the scrollable listbox column itself —
+   needed now that each column is tabIndex={0} with arrow-key nav. */
+.scrollerColumn:focus-visible {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 
 /* ── DateTimePicker time input ── */
