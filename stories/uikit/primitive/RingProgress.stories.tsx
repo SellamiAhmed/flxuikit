@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { RingProgress } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof RingProgress>
 
@@ -17,12 +16,63 @@ const meta: Meta<typeof RingProgress> = {
   component: RingProgress,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<RingProgress></RingProgress>),
+  render: () => (
+    <RingProgress
+      sections={[
+        { value: 40, color: 'brand', tooltip: 'Hello' },
+        { value: 20, color: 'discovery', tooltip: 'There' },
+        { value: 15, color: 'success', tooltip: 'You' }
+      ]}
+    />
+  ),
   args: {}
+}
+
+export function WithTooltips() {
+  return (
+    <div style={{ padding: 40 }}>
+      <RingProgress
+        sections={[
+          { value: 40, color: 'brand', tooltip: 'Hello' },
+          { value: 20, color: 'discovery', tooltip: 'There' },
+          { value: 15, color: 'success', tooltip: 'You' }
+        ]}
+      />
+    </div>
+  )
+}
+
+export function WithSectionProps() {
+  return (
+    <div style={{ padding: 40 }}>
+      <RingProgress
+        sections={[
+          { value: 40, color: 'brand', onClick: () => console.log('1') },
+          { value: 20, color: 'discovery', onClick: () => console.log('2') },
+          { value: 15, color: 'success', onClick: () => console.log('3') }
+        ]}
+      />
+    </div>
+  )
+}
+
+export function WithRootColor() {
+  return (
+    <div style={{ padding: 40 }}>
+      <RingProgress
+        sections={[
+          { value: 40, color: 'brand' },
+          { value: 20, color: 'discovery' },
+          { value: 15, color: 'success' }
+        ]}
+        rootColor="danger"
+      />
+    </div>
+  )
 }

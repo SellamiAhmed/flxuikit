@@ -1,6 +1,5 @@
-
+import { SimpleGrid, Box } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { SimpleGrid } from '@flex/uikit'
 
 type Story = StoryObj<typeof SimpleGrid>
 
@@ -17,12 +16,34 @@ const meta: Meta<typeof SimpleGrid> = {
   component: SimpleGrid,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<SimpleGrid></SimpleGrid>),
-  args: {}
+  render: ({ ...rest }) => (
+    <SimpleGrid cols={3} {...rest}>
+      <Box bg="#EFEFEF">1</Box>
+      <Box bg="#EFEFEF">2</Box>
+      <Box bg="#EFEFEF">3</Box>
+      <Box bg="#EFEFEF">4</Box>
+      <Box bg="#EFEFEF">5</Box>
+    </SimpleGrid>
+  ),
+  args: {},
+  argTypes: {
+    cols: {
+      options: [1, 2, 3, 4, 5],
+      control: { type: 'select' }
+    },
+    spacing: {
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      control: { type: 'select' }
+    },
+    verticalSpacing: {
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      control: { type: 'select' }
+    }
+  }
 }

@@ -1,8 +1,6 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { VisuallyHidden } from '@flex/uikit'
-
-type Story = StoryObj<typeof VisuallyHidden>
+import { ActionIcon, VisuallyHidden } from '@flex/uikit'
+import type { Meta, StoryFn } from '@storybook/react'
+import { IconHeart } from '@tabler/icons-react'
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -17,12 +15,16 @@ const meta: Meta<typeof VisuallyHidden> = {
   component: VisuallyHidden,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
-export const Primary: Story = {
-  render: () => (<VisuallyHidden></VisuallyHidden>),
-  args: {}
+export function Primary() {
+  return (
+    <ActionIcon>
+      <IconHeart />
+      <VisuallyHidden>Like post</VisuallyHidden>
+    </ActionIcon>
+  )
 }

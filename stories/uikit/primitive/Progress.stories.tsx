@@ -1,6 +1,5 @@
-
+import { Progress, Stack, Tooltip } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Progress } from '@flex/uikit'
 
 type Story = StoryObj<typeof Progress>
 
@@ -17,12 +16,38 @@ const meta: Meta<typeof Progress> = {
   component: Progress,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Progress></Progress>),
+  render: () => (
+    <Stack>
+      <div>with value</div>
+      <Progress value={50} />
+
+      <div>multiple sections</div>
+      <Progress.Root size={40}>
+        <Tooltip label="Documents – 33Gb">
+          <Progress.Section value={33} color="brand">
+            <Progress.Label>Documents</Progress.Label>
+          </Progress.Section>
+        </Tooltip>
+
+        <Tooltip label="Photos – 28Gb">
+          <Progress.Section value={28} color="discovery">
+            <Progress.Label>Photos</Progress.Label>
+          </Progress.Section>
+        </Tooltip>
+
+        <Tooltip label="Other – 15Gb">
+          <Progress.Section value={15} color="warning">
+            <Progress.Label>Other</Progress.Label>
+          </Progress.Section>
+        </Tooltip>
+      </Progress.Root>
+    </Stack>
+  ),
   args: {}
 }

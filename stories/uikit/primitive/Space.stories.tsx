@@ -1,6 +1,5 @@
-
+import { Space, Text } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Space } from '@flex/uikit'
 
 type Story = StoryObj<typeof Space>
 
@@ -17,12 +16,24 @@ const meta: Meta<typeof Space> = {
   component: Space,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Space></Space>),
-  args: {}
+  render: ({ ...rest }) => (
+    <>
+      <Text>First line</Text>
+      <Space h="md" {...rest} />
+      <Text>Second line</Text>
+    </>
+  ),
+  args: {},
+  argTypes: {
+    h: {
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      control: { type: 'select' }
+    }
+  }
 }

@@ -1,6 +1,5 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { TimeInput } from '@flex/uikit'
+import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof TimeInput>
 
@@ -17,12 +16,16 @@ const meta: Meta<typeof TimeInput> = {
   component: TimeInput,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<TimeInput></TimeInput>),
+  render: (props) => <TimeInput label="Pick a time" {...props} />,
   args: {}
+}
+
+export const WithSeconds: Story = {
+  render: () => <TimeInput label="Pick a time (with seconds)" withSeconds />
 }

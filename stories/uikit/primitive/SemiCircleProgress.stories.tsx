@@ -1,8 +1,6 @@
-
-import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { SemiCircleProgress } from '@flex/uikit'
-
-type Story = StoryObj<typeof SemiCircleProgress>
+import { Button, SemiCircleProgress } from '@flex/uikit'
+import type { Meta, StoryFn } from '@storybook/react'
+import { useState } from 'react'
 
 const decorator = (Story: StoryFn) => {
   return (
@@ -17,12 +15,46 @@ const meta: Meta<typeof SemiCircleProgress> = {
   component: SemiCircleProgress,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
-export const Primary: Story = {
-  render: () => (<SemiCircleProgress></SemiCircleProgress>),
-  args: {}
+export function Basic() {
+  return (
+    <SemiCircleProgress
+      fillDirection="left-to-right"
+      orientation="up"
+      filledSegmentColor="var(--ds-color-background-brand-bold)"
+      size={200}
+      thickness={12}
+      value={40}
+      label="Label"
+    />
+  )
+}
+
+export function ChangeEmptySegmentColor() {
+  return <SemiCircleProgress value={30} emptySegmentColor="var(--ds-color-text-subtle)" />
+}
+
+export function ChangeLabelPosition() {
+  return (
+    <>
+      <SemiCircleProgress value={30} label="Bottom" mb="xl" />
+      <SemiCircleProgress value={30} label="Center" labelPosition="center" />
+    </>
+  )
+}
+
+export function FilledSegmentTransition() {
+  const [value, setValue] = useState(30)
+  return (
+    <>
+      <SemiCircleProgress value={value} transitionDuration={250} label={`${value}%`} />
+      <Button onClick={() => setValue(Math.floor(Math.random() * 100))} mt="xl" fullWidth>
+        Set random value
+      </Button>
+    </>
+  )
 }

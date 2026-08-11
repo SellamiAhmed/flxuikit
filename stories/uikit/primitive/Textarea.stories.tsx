@@ -1,6 +1,8 @@
 import { Textarea } from '@flex/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
+import { SIZE_LIST } from '../../constants.js'
+
 type Story = StoryObj<typeof Textarea>
 
 const decorator = (Story: StoryFn) => {
@@ -18,10 +20,31 @@ const meta: Meta<typeof Textarea> = {
   tags: ['autodocs'],
   parameters: {}
 }
+
 export default meta
 
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+function Asterisk() {
+  return (
+    <div style={{ width: 300, padding: 20 }}>
+      <Textarea label="With required asterisk" withAsterisk />
+      <Textarea label="Just required" required />
+      <Textarea label="Required asterisk off" required withAsterisk={false} />
+      <Textarea label="Required false asterisk on" required={false} withAsterisk />
+    </div>
+  )
+}
+
 export const Primary: Story = {
-  render: () => <Textarea></Textarea>,
+  render: () => <Asterisk />,
   args: {}
+}
+
+export const AllSizes: Story = {
+  render: () => (
+    <div>
+      {SIZE_LIST.map((size: (typeof SIZE_LIST)[number]) => (
+        <Textarea key={size} size={size} placeholder="this is a placeholder" mb="md" />
+      ))}
+    </div>
+  )
 }

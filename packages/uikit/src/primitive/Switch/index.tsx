@@ -8,7 +8,7 @@ export interface SwitchProps extends Omit<MantineSwitchProps, 'onChange'> {
   label?: React.ReactNode
 }
 
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ onChange, label, ...props }, ref) => {
+const _Switch = forwardRef<HTMLInputElement, SwitchProps>(({ onChange, label, ...props }, ref) => {
   return (
     <MantineSwitch
       ref={ref}
@@ -26,4 +26,11 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ onChange, lab
   )
 })
 
-Switch.displayName = 'Switch'
+_Switch.displayName = 'Switch'
+
+type SwitchType = typeof _Switch & {
+  Group: typeof MantineSwitch.Group
+}
+
+export const Switch = _Switch as SwitchType
+Switch.Group = MantineSwitch.Group
