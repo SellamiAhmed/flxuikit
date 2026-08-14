@@ -1,4 +1,4 @@
-import { Group, Button } from '@flex/uikit'
+import { Group, Button } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Group>

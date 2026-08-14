@@ -1,4 +1,4 @@
-import { TextInput, Stack } from '@flex/uikit'
+import { TextInput, Stack } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { SIZE_LIST } from '../../constants.js'

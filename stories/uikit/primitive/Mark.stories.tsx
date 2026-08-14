@@ -1,4 +1,4 @@
-import { Text, Mark } from '@flex/uikit'
+import { Text, Mark } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST } from '../../constants.js'

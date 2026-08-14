@@ -1,4 +1,4 @@
-import { Select, Stack, Group } from '@flex/uikit'
+import { Select, Stack, Group } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

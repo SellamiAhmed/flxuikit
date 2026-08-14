@@ -1,5 +1,5 @@
-import { Button, Group, Badge } from '@flex/uikit'
-import { AppPageShell } from '@flex/uikit/business'
+import { Button, Group, Badge } from '@flxui/uikit'
+import { AppPageShell } from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { IconArrowLeft } from '@tabler/icons-react'
 

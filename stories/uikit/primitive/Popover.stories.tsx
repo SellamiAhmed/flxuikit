@@ -1,4 +1,4 @@
-import { Button, Text, Popover } from '@flex/uikit'
+import { Button, Text, Popover } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Popover>

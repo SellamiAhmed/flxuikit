@@ -1,4 +1,4 @@
-import { Avatar, Box, UnstyledButton, Group, Text, Kbd } from '@flex/uikit'
+import { Avatar, Box, UnstyledButton, Group, Text, Kbd } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof UnstyledButton>

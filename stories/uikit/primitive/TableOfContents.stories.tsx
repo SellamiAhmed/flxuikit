@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { TableOfContents } from '@flex/uikit'
+import { TableOfContents } from '@flxui/uikit'
 
 type Story = StoryObj<typeof TableOfContents>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof TableOfContents> = {
   component: TableOfContents,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<TableOfContents></TableOfContents>),
+  render: () => <TableOfContents></TableOfContents>,
   args: {}
 }

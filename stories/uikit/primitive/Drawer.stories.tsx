@@ -1,4 +1,4 @@
-import { Drawer, Group, Button, Stack, TextInput, PasswordInput } from '@flex/uikit'
+import { Drawer, Group, Button, Stack, TextInput, PasswordInput } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

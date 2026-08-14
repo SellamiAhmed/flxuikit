@@ -1,6 +1,6 @@
-import { ColorSwatch, Group, Stack } from '@flex/uikit'
-import { tokenMap } from '@flex/uikit/theme'
-import { rgba } from '@flex/uikit/utils'
+import { ColorSwatch, Group, Stack } from '@flxui/uikit'
+import { tokenMap } from '@flxui/uikit/theme'
+import { rgba } from '@flxui/uikit/utils'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof ColorSwatch>

@@ -1,4 +1,4 @@
-import { Button, FileButton, Group } from '@flex/uikit'
+import { Button, FileButton, Group } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof FileButton>

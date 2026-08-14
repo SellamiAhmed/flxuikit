@@ -1,4 +1,4 @@
-import { FileInput } from '@flex/uikit'
+import { FileInput } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof FileInput>

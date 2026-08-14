@@ -1,4 +1,4 @@
-import { Affix, Button } from '@flex/uikit'
+import { Affix, Button } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Affix>

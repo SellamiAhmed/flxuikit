@@ -1,4 +1,4 @@
-import { FloatingIndicator, UnstyledButton } from '@flex/uikit'
+import { FloatingIndicator, UnstyledButton } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import {
   IconArrowDown,

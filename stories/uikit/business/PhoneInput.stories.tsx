@@ -1,4 +1,4 @@
-import { PhoneInput } from '@flex/uikit/business'
+import { PhoneInput } from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof PhoneInput>

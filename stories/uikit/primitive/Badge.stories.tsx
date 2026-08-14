@@ -1,5 +1,5 @@
-import { Badge, BadgeProps, Group } from '@flex/uikit'
-import { Colors } from '@flex/uikit/theme'
+import { Badge, BadgeProps, Group } from '@flxui/uikit'
+import { Colors } from '@flxui/uikit/theme'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { SIZE_LIST } from '../../constants.js'

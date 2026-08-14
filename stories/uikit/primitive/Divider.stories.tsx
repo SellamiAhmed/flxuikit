@@ -1,4 +1,4 @@
-import { Divider } from '@flex/uikit'
+import { Divider } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Divider>

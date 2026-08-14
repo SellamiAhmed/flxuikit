@@ -1,4 +1,4 @@
-import { PasswordInput } from '@flex/uikit'
+import { PasswordInput } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof PasswordInput>

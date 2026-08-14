@@ -1,6 +1,6 @@
 import 'dayjs/locale/zh'
 
-import { Typography } from '@flex/uikit'
+import { Typography } from '@flxui/uikit'
 import {
   AbsoluteTimeRange,
   RelativeTimeRange,
@@ -8,8 +8,8 @@ import {
   TimeRangePicker,
   TimeRangePickerProps,
   useTimeRangePicker
-} from '@flex/uikit/business'
-import { dayjs } from '@flex/uikit/utils'
+} from '@flxui/uikit/business'
+import { dayjs } from '@flxui/uikit/utils'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'

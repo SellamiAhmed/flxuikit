@@ -1,4 +1,4 @@
-import { Box, Rating, Stack } from '@flex/uikit'
+import { Box, Rating, Stack } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

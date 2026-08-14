@@ -1,4 +1,4 @@
-import { MultiSelect } from '@flex/uikit'
+import { MultiSelect } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

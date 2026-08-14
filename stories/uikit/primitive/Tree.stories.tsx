@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Tree } from '@flex/uikit'
+import { Tree } from '@flxui/uikit'
 
 type Story = StoryObj<typeof Tree>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof Tree> = {
   component: Tree,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Tree></Tree>),
+  render: () => <Tree></Tree>,
   args: {}
 }

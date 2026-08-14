@@ -17,11 +17,16 @@ function generateChangelogFromTags() {
   }
 
   const repoUrl = packageJson.repository?.url?.replace(/\.git$/, '') ?? ''
-  const changelog = execSync(
-    `git log ${lastTag}..HEAD --pretty=format:"- %s"${
-      repoUrl ? ` | sed -E 's|#([0-9]+)|[#\\1](${repoUrl}/pull/\\1)|g'` : ''
-    }`
-  ).toString()
+
+  // Get the raw log first — no shell piping to `sed`, which doesn't exist
+  // on Windows' cmd.exe even inside a Git Bash terminal (execSync always
+  // shells out through cmd.exe on Windows, not the visible terminal).
+  const rawLog = execSync(`git log ${lastTag}..HEAD --pretty=format:"- %s"`).toString()
+
+  // Do the same "#123 -> [#123](repoUrl/pull/123)" replacement in JS instead.
+  const changelog = repoUrl
+    ? rawLog.replace(/#(\d+)/g, (_match, prNumber) => `[#${prNumber}](${repoUrl}/pull/${prNumber})`)
+    : rawLog
 
   return changelog
 }
@@ -36,7 +41,7 @@ async function main() {
     type: 'select',
     name: 'selectedPackages',
     message: 'Which packages would you like to include?',
-    choices: [{ title: '@tidbcloud/uikit', value: '@tidbcloud/uikit' }]
+    choices: [{ title: '@flxui/uikit', value: '@flxui/uikit' }]
   })
   if (!selectedPackages) {
     console.log('Cancelled...')

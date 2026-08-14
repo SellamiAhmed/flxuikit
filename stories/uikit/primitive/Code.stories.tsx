@@ -1,4 +1,4 @@
-import { Code, Group } from '@flex/uikit'
+import { Code, Group } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Code>

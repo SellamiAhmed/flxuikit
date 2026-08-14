@@ -1,4 +1,4 @@
-import { Anchor, Breadcrumbs } from '@flex/uikit'
+import { Anchor, Breadcrumbs } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Breadcrumbs>

@@ -1,4 +1,4 @@
-import { AppShell, NavMenuItem, NavMenuSubItem } from '@flex/uikit/business'
+import { AppShell, NavMenuItem, NavMenuSubItem } from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { IconHome, IconUsers, IconSettings, IconLogout, IconBell } from '@tabler/icons-react'
 

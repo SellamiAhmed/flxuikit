@@ -1,4 +1,4 @@
-import { Avatar, Group, Indicator } from '@flex/uikit'
+import { Avatar, Group, Indicator } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST, SIZE_LIST } from '../../constants.js'

@@ -1,4 +1,4 @@
-import { ActionIcon, VisuallyHidden } from '@flex/uikit'
+import { ActionIcon, VisuallyHidden } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import { IconHeart } from '@tabler/icons-react'
 

@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack } from '@flex/uikit'
+import { ActionIcon, Group, Stack } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { IconMenu2, IconRefresh } from '@tabler/icons-react'
 

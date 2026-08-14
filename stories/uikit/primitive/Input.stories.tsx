@@ -1,4 +1,4 @@
-import { Input, SegmentedControl } from '@flex/uikit'
+import { Input, SegmentedControl } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

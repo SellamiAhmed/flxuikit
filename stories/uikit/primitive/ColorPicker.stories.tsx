@@ -1,4 +1,4 @@
-import { ColorPicker } from '@flex/uikit'
+import { ColorPicker } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_FORMAT, SIZE_LIST } from '../../constants.js'

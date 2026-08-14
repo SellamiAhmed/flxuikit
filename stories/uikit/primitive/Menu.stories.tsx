@@ -1,4 +1,4 @@
-import { Menu, Button, Text, Group } from '@flex/uikit'
+import { Menu, Button, Text, Group } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Menu>

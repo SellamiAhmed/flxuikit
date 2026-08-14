@@ -4,18 +4,18 @@
 
 The PageShell system provides a complete page layout primitive with a sticky header, scrollable body, and optional footer. It is built in two layers:
 
-| Layer                         | Purpose                                                                             | Import                  |
-| ----------------------------- | ----------------------------------------------------------------------------------- | ----------------------- |
-| **PageShellBase**             | Layout primitives (header, body, root)                                              | `@flex/uikit/primitive` |
-| **AppPageShell**              | Business-ready shell with scroll shadow, notification bell, and Vercel-style header | `@flex/uikit/business`  |
-| **PageShellNotificationBell** | Self-contained notification trigger + dropdown                                      | `@flex/uikit/business`  |
+| Layer                         | Purpose                                                                             | Import                   |
+| ----------------------------- | ----------------------------------------------------------------------------------- | ------------------------ |
+| **PageShellBase**             | Layout primitives (header, body, root)                                              | `@flxui/uikit/primitive` |
+| **AppPageShell**              | Business-ready shell with scroll shadow, notification bell, and Vercel-style header | `@flxui/uikit/business`  |
+| **PageShellNotificationBell** | Self-contained notification trigger + dropdown                                      | `@flxui/uikit/business`  |
 
 ---
 
 ## Quick Start
 
 ```tsx
-import { AppPageShell } from '@flex/uikit/business'
+import { AppPageShell } from '@flxui/uikit/business'
 
 ;<AppPageShell title="Overview">{/* your page content */}</AppPageShell>
 ```
@@ -161,7 +161,7 @@ The header gains a subtle shadow when the body scrolls. No setup required — it
 
 ```tsx
 import { IconChevronDown, IconSparkles, IconUser } from '@tabler/icons-react'
-import pageClasses from '@flex/uikit/business/AppPageShell/AppPageShell.module.css'
+import pageClasses from '@flxui/uikit/business/AppPageShell/AppPageShell.module.css'
 
 ;<AppPageShell
   title="Overview"
@@ -234,7 +234,7 @@ import pageClasses from '@flex/uikit/business/AppPageShell/AppPageShell.module.c
 Use these when you need full control over the layout.
 
 ```tsx
-import { PageShellBaseRoot, PageShellBaseHeader, PageShellBaseBody, PageShellBaseTitle } from '@flex/uikit/primitive'
+import { PageShellBaseRoot, PageShellBaseHeader, PageShellBaseBody, PageShellBaseTitle } from '@flxui/uikit/primitive'
 
 ;<PageShellBaseRoot>
   <PageShellBaseHeader sticky leftSection={<Logo />} rightSection={<Actions />}>

@@ -1,4 +1,4 @@
-import { Accordion, AccordionProps } from '@flex/uikit'
+import { Accordion, AccordionProps } from '@flxui/uikit'
 import type { Meta, StoryFn, StoryObj } from '@storybook/react'
 
 type Story = StoryObj<typeof Accordion>

@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { RangeSlider } from '@flex/uikit'
+import { RangeSlider } from '@flxui/uikit'
 
 type Story = StoryObj<typeof RangeSlider>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof RangeSlider> = {
   component: RangeSlider,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<RangeSlider></RangeSlider>),
+  render: () => <RangeSlider></RangeSlider>,
   args: {}
 }

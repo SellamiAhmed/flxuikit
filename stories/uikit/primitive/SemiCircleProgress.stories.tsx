@@ -1,4 +1,4 @@
-import { Button, SemiCircleProgress } from '@flex/uikit'
+import { Button, SemiCircleProgress } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

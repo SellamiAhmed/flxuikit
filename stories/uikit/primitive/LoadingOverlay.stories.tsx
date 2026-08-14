@@ -1,4 +1,4 @@
-import { Button, LoadingOverlay } from '@flex/uikit'
+import { Button, LoadingOverlay } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

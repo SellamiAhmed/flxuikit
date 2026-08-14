@@ -56,7 +56,7 @@ export const Primary: Story = {
 }
 
 const resolveImportPath = (file: string): [string, string] => {
-  const defaultPath = '@flex/uikit'
+  const defaultPath = '@flxui/uikit'
   if (/primitive/.test(file)) {
     return [defaultPath, 'Primitive']
   }

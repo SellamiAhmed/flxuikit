@@ -1,4 +1,4 @@
-import { Anchor } from '@flex/uikit'
+import { Anchor } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Anchor>

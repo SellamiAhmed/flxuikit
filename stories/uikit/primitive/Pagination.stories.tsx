@@ -1,4 +1,4 @@
-import { Pagination } from '@flex/uikit'
+import { Pagination } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

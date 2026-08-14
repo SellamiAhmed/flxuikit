@@ -1,6 +1,6 @@
 {
   "name": "uikit",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "private": true,
   "description": "uikit system monorepo",
   "scripts": {
@@ -9,6 +9,7 @@
     "check:tokens": "tsx scripts/checkTokenContract.ts",
     "check:tokens:dist": "tsx scripts/checkTokenContract.ts --dir packages/uikit/dist",
     "type-check": "pnpm -r run type-check",
+    "release": "changeset publish",
     "test": "pnpm -r run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -16,17 +17,18 @@
     "format:check": "prettier --check .",
     "gen:storybook": "tsx ./.storybook/genStories.ts",
     "build-storybook": "storybook build",
-    "dev:test-app": "pnpm --filter @flex/uikit-test dev",
-    "build:test-app": "pnpm --filter @flex/uikit-test build"
+    "dev:test-app": "pnpm --filter @flxui/uikit-test dev",
+    "build:test-app": "pnpm --filter @flxui/uikit-test build"
   },
   "dependencies": {
-    "@flex/uikit": "workspace:*"
+    "@flxui/uikit": "workspace:*"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/SellamiAhmed/flex-uikit.git"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^1.0.0",
     "@changesets/cli": "^2.31.1",
     "@changesets/write": "0.3.2",
     "@eslint/js": "^10.0.1",

@@ -1,5 +1,5 @@
-import { Stack } from '@flex/uikit'
-import { DateTimePicker, TimePicker } from '@flex/uikit/business'
+import { Stack } from '@flxui/uikit'
+import { DateTimePicker, TimePicker } from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

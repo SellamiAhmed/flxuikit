@@ -1,4 +1,4 @@
-import { Anchor, Box, Portal, Text } from '@flex/uikit'
+import { Anchor, Box, Portal, Text } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Portal>

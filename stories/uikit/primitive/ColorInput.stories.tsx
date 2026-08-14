@@ -1,4 +1,4 @@
-import { ColorInput } from '@flex/uikit'
+import { ColorInput } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_FORMAT } from '../../constants.js'

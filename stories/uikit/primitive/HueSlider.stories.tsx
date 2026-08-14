@@ -1,4 +1,4 @@
-import { HueSlider, Text } from '@flex/uikit'
+import { HueSlider, Text } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

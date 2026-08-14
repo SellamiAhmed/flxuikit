@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode'
 import { addons } from '@storybook/preview-api'
-import { ThemeProvider } from '@flex/uikit/theme'
+import { ThemeProvider } from '@flxui/uikit/theme'
 import { Preview } from '@storybook/react'
 import { Title, Subtitle, Description, Primary, Controls, Stories, DocsContainer } from '@storybook/blocks'
 import { themes } from '@storybook/theming'
-import '@flex/uikit/styles.css'
+import '@flxui/uikit/styles.css'
 
 export const parameters = {
   layout: 'fullscreen'

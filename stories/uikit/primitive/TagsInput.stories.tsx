@@ -1,4 +1,4 @@
-import { Stack, TagsInput } from '@flex/uikit'
+import { Stack, TagsInput } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

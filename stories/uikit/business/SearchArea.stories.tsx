@@ -1,5 +1,5 @@
-import { SearchArea } from '@flex/uikit/business'
-import type { FormItem } from '@flex/uikit/business'
+import { SearchArea } from '@flxui/uikit/business'
+import type { FormItem } from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof SearchArea>

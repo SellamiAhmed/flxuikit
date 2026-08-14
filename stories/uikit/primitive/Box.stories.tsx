@@ -1,4 +1,4 @@
-import { Box } from '@flex/uikit'
+import { Box } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Box>

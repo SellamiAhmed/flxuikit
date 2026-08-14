@@ -77,7 +77,7 @@ module.exports = {
               {
                 name: '@mantine/core',
                 message:
-                  'Direct imports from @mantine/core are not allowed outside primitive/ folder. Import from @flex/uikit instead.'
+                  'Direct imports from @mantine/core are not allowed outside primitive/ folder. Import from @flxui/uikit instead.'
               }
             ]
           }

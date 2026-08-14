@@ -1,4 +1,4 @@
-# @flex/uikit AppShell
+# @flxui/uikit AppShell
 
 A composable, accessible application shell for React — inspired by the TiDB Cloud UIKit pattern, built with CSS modules and design tokens.
 
@@ -57,16 +57,16 @@ AppShellRoot  (flex column, 100vh)
 
 ## Installation
 
-AppShell is part of `@flex/uikit/business`.
+AppShell is part of `@flxui/uikit/business`.
 
 ```tsx
-import { AppShell, NavMenuItem, NavMenuSubItem } from '@flex/uikit/business'
+import { AppShell, NavMenuItem, NavMenuSubItem } from '@flxui/uikit/business'
 ```
 
 Ensure your app entry imports the design tokens:
 
 ```css
-@import '@flex/uikit/styles/tokens.css';
+@import '@flxui/uikit/styles/tokens.css';
 ```
 
 ---
@@ -75,7 +75,7 @@ Ensure your app entry imports the design tokens:
 
 ```tsx
 import { useState } from 'react'
-import { AppShell, NavMenuItem, NavMenuSubItem } from '@flex/uikit/business'
+import { AppShell, NavMenuItem, NavMenuSubItem } from '@flxui/uikit/business'
 import { IconHome, IconSettings, IconUser, IconWorkspace } from '@tabler/icons-react'
 
 function App() {
@@ -449,7 +449,7 @@ Dark mode is automatic via `[data-mantine-color-scheme='dark']` in your tokens C
 ### Before (config array)
 
 ```tsx
-import { AppSidenav } from '@flex/uikit/business'
+import { AppSidenav } from '@flxui/uikit/business'
 
 <AppSidenav
   isOpen={mobileOpen}
@@ -463,7 +463,7 @@ import { AppSidenav } from '@flex/uikit/business'
 ### After (AppShell + portals)
 
 ```tsx
-import { AppShell, NavMenuItem, NavMenuSubItem } from '@flex/uikit/business'
+import { AppShell, NavMenuItem, NavMenuSubItem } from '@flxui/uikit/business'
 
 <AppShell
   navbar={{

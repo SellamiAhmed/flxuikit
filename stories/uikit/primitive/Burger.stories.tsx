@@ -1,5 +1,5 @@
-import { Burger } from '@flex/uikit'
-import { useDisclosure } from '@flex/uikit/hooks'
+import { Burger } from '@flxui/uikit'
+import { useDisclosure } from '@flxui/uikit/hooks'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { SIZE_LIST } from '../../constants.js'

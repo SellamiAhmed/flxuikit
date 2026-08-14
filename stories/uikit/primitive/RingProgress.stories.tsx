@@ -1,4 +1,4 @@
-import { RingProgress } from '@flex/uikit'
+import { RingProgress } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof RingProgress>

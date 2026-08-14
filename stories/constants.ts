@@ -1,5 +1,5 @@
-import type { MantineSize } from '@flex/uikit'
-import { Colors } from '@flex/uikit/theme'
+import type { MantineSize } from '@flxui/uikit'
+import { Colors } from '@flxui/uikit/theme'
 
 export const COLOR_LIST = Colors
 export const VARIANT_LIST = ['filled', 'light', 'outline', 'subtle', 'default', 'transparent', 'white'] as const

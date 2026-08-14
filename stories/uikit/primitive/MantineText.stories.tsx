@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { MantineText } from '@flex/uikit'
+import { MantineText } from '@flxui/uikit'
 
 type Story = StoryObj<typeof MantineText>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof MantineText> = {
   component: MantineText,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<MantineText></MantineText>),
+  render: () => <MantineText></MantineText>,
   args: {}
 }

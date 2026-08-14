@@ -1,4 +1,4 @@
-import { Blockquote } from '@flex/uikit'
+import { Blockquote } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Blockquote>

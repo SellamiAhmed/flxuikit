@@ -1,4 +1,4 @@
-import { Group, Stack, Switch } from '@flex/uikit'
+import { Group, Stack, Switch } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST, SIZE_LIST } from '../../constants.js'

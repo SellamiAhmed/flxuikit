@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Timeline } from '@flex/uikit'
+import { Timeline } from '@flxui/uikit'
 
 type Story = StoryObj<typeof Timeline>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof Timeline> = {
   component: Timeline,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Timeline></Timeline>),
+  render: () => <Timeline></Timeline>,
   args: {}
 }

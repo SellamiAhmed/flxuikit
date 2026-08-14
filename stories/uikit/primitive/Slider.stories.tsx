@@ -1,4 +1,4 @@
-import { RangeSlider, Slider } from '@flex/uikit'
+import { RangeSlider, Slider } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

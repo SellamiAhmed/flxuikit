@@ -1,4 +1,4 @@
-import { AspectRatio, Image } from '@flex/uikit'
+import { AspectRatio, Image } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 const decorator = (Story: StoryFn) => {

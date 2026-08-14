@@ -1,4 +1,4 @@
-import { PillsInput, Pill } from '@flex/uikit'
+import { PillsInput, Pill } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 
 const decorator = (Story: StoryFn) => {

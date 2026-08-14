@@ -1,4 +1,4 @@
-import { Image } from '@flex/uikit'
+import { Image } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { SIZE_LIST } from '../../constants.js'

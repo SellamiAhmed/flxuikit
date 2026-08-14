@@ -1,4 +1,4 @@
-import { Typography } from '@flex/uikit'
+import { Typography } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Typography>

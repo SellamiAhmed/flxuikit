@@ -1,4 +1,4 @@
-import { Box, Tabs, TabsProps } from '@flex/uikit'
+import { Box, Tabs, TabsProps } from '@flxui/uikit'
 import type { Meta, StoryFn, StoryObj } from '@storybook/react'
 
 type Story = StoryObj<typeof Tabs>

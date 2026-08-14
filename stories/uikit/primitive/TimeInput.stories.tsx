@@ -1,4 +1,4 @@
-import { TimeInput } from '@flex/uikit'
+import { TimeInput } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof TimeInput>

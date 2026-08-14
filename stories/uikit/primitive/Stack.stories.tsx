@@ -1,4 +1,4 @@
-import { Stack, Button } from '@flex/uikit'
+import { Stack, Button } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Stack>

@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { DatePickerInput } from '@flex/uikit'
+import { DatePickerInput } from '@flxui/uikit'
 
 type Story = StoryObj<typeof DatePickerInput>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof DatePickerInput> = {
   component: DatePickerInput,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<DatePickerInput></DatePickerInput>),
+  render: () => <DatePickerInput></DatePickerInput>,
   args: {}
 }

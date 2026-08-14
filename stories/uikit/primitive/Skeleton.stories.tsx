@@ -1,4 +1,4 @@
-import { Button, Group, Skeleton, Typography } from '@flex/uikit'
+import { Button, Group, Skeleton, Typography } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

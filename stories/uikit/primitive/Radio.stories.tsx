@@ -1,4 +1,4 @@
-import { Card, Group, Radio, Stack, Typography } from '@flex/uikit'
+import { Card, Group, Radio, Stack, Typography } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

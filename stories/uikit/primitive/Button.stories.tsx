@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Switch } from '@flex/uikit'
+import { Button, Group, Stack, Switch } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

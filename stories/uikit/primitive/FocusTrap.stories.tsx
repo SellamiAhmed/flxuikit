@@ -1,5 +1,5 @@
-import { Box, FocusTrap, Button, TextInput } from '@flex/uikit'
-import { useDisclosure } from '@flex/uikit/hooks'
+import { Box, FocusTrap, Button, TextInput } from '@flxui/uikit'
+import { useDisclosure } from '@flxui/uikit/hooks'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof FocusTrap>

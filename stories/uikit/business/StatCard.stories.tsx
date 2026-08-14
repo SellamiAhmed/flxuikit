@@ -1,5 +1,5 @@
-import { SimpleGrid } from '@flex/uikit'
-import { StatCard } from '@flex/uikit/business'
+import { SimpleGrid } from '@flxui/uikit'
+import { StatCard } from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { IconUsers, IconCurrencyDollar, IconTrendingUp } from '@tabler/icons-react'
 

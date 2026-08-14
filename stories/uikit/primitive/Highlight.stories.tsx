@@ -1,4 +1,4 @@
-import { Highlight, HighlightProps } from '@flex/uikit'
+import { Highlight, HighlightProps } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Highlight>

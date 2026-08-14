@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
+import { readFileSync, existsSync, mkdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -8,20 +8,24 @@ import dts from 'vite-plugin-dts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const external = [
-  'react',
-  'react-dom',
-  'react/jsx-runtime',
-  'react/jsx-dev-runtime',
-  '@mantine/core',
-  '@mantine/hooks',
-  '@mantine/modals',
-  '@mantine/notifications',
-  '@mantine/carousel',
-  '@mantine/dates',
-  '@mantine/dropzone',
-  '@mantine/code-highlight'
-]
+// Always-external, regardless of how they're declared in package.json
+// (React must be external even if someone accidentally moves it to devDependencies)
+const alwaysExternal = ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime']
+
+const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
+
+const declaredDeps = Object.keys({
+  ...(packageJson.dependencies ?? {}),
+  ...(packageJson.peerDependencies ?? {})
+})
+
+const externalDeps = [...new Set([...alwaysExternal, ...declaredDeps])]
+
+const external = (id: string) => {
+  // exact match, or subpath match (e.g. 'dayjs/plugin/utc' matches 'dayjs',
+  // 'lodash-es/debounce' matches 'lodash-es')
+  return externalDeps.some((dep) => id === dep || id.startsWith(`${dep}/`))
+}
 
 function ensureDir(filePath: string) {
   const dir = dirname(filePath)
@@ -41,6 +45,7 @@ export default defineConfig({
     dts({
       copyDtsFiles: false,
       entryRoot: 'src',
+      exclude: ['src/test/**'],
       beforeWriteFile: (filePath, content) => {
         if (!filePath.endsWith('.d.ts') || !content) {
           return { filePath, content }

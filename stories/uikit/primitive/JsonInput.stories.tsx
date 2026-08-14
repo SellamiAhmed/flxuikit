@@ -1,4 +1,4 @@
-import { JsonInput } from '@flex/uikit'
+import { JsonInput } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof JsonInput>

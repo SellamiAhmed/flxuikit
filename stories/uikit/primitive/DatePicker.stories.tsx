@@ -1,4 +1,4 @@
-import { DatePicker } from '@flex/uikit'
+import { DatePicker } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof DatePicker>

@@ -1,4 +1,4 @@
-import { Textarea } from '@flex/uikit'
+import { Textarea } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { SIZE_LIST } from '../../constants.js'

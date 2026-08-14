@@ -1,4 +1,4 @@
-import { NumberFormatter } from '@flex/uikit'
+import { NumberFormatter } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 
 const decorator = (Story: StoryFn) => {

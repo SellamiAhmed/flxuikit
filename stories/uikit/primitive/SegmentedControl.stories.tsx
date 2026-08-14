@@ -1,4 +1,4 @@
-import { Button, Modal, SegmentedControl, Stack } from '@flex/uikit'
+import { Button, Modal, SegmentedControl, Stack } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

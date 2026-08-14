@@ -1,5 +1,5 @@
 {
-  "name": "@flex/uikit",
+  "name": "@flxui/uikit",
   "version": "0.7.2",
   "description": "system UI kit built on Mantine v7",
   "type": "module",
@@ -7,7 +7,7 @@
   "module": "dist/primitive/index.mjs",
   "types": "dist/primitive/index.d.ts",
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && tsx scripts/verify-dist.ts",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -48,18 +48,14 @@
   },
   "license": "MIT",
   "sideEffects": [
-    "*.css"
+    "**/*.css",
+    "dist/styles.css",
+    "dist/styles.cjs.css",
+    "**/utils/dayjs.mjs",
+    "**/utils/dayjs.cjs"
   ],
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
-    "@mantine/carousel": "7.17.8",
-    "@mantine/code-highlight": "7.17.8",
-    "@mantine/core": "7.17.8",
-    "@mantine/dates": "7.17.8",
-    "@mantine/dropzone": "7.17.8",
-    "@mantine/hooks": "7.17.8",
-    "@mantine/modals": "7.17.8",
-    "@mantine/notifications": "7.17.8",
     "@tabler/icons-react": "^3.26.0",
     "ahooks": "^3.9.7",
     "clsx": "^2.1.1",
@@ -85,7 +81,8 @@
     "@mantine/modals": "^7.17.8",
     "@mantine/notifications": "^7.17.8",
     "react": "^18.x || ^19.x",
-    "react-dom": "^18.x || ^19.x"
+    "react-dom": "^18.x || ^19.x",
+    "react-hook-form": "^7.51.5"
   },
   "peerDependenciesMeta": {
     "react-hook-form": {
@@ -93,6 +90,14 @@
     }
   },
   "devDependencies": {
+    "@mantine/carousel": "7.17.8",
+    "@mantine/code-highlight": "7.17.8",
+    "@mantine/core": "7.17.8",
+    "@mantine/dates": "7.17.8",
+    "@mantine/dropzone": "7.17.8",
+    "@mantine/hooks": "7.17.8",
+    "@mantine/modals": "7.17.8",
+    "@mantine/notifications": "7.17.8",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -108,6 +113,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.51.5",
+    "tsx": "^4.23.0",
     "typescript": "^5.4.2",
     "vite": "^6.1.1",
     "vite-plugin-dts": "^4.3.0",

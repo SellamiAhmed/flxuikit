@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { Fieldset } from '@flex/uikit'
+import { Fieldset } from '@flxui/uikit'
 
 type Story = StoryObj<typeof Fieldset>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof Fieldset> = {
   component: Fieldset,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<Fieldset></Fieldset>),
+  render: () => <Fieldset></Fieldset>,
   args: {}
 }

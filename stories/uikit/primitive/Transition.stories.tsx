@@ -1,5 +1,5 @@
-import { Transition, Button, Paper } from '@flex/uikit'
-import { useClickOutside } from '@flex/uikit/hooks'
+import { Transition, Button, Paper } from '@flxui/uikit'
+import { useClickOutside } from '@flxui/uikit/hooks'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

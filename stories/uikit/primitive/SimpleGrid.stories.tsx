@@ -1,4 +1,4 @@
-import { SimpleGrid, Box } from '@flex/uikit'
+import { SimpleGrid, Box } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof SimpleGrid>

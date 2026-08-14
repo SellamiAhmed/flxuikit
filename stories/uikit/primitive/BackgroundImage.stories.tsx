@@ -1,4 +1,4 @@
-import { BackgroundImage, Box, Center, Text } from '@flex/uikit'
+import { BackgroundImage, Box, Center, Text } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof BackgroundImage>

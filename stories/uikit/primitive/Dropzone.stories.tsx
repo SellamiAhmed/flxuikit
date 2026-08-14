@@ -1,5 +1,5 @@
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE, Group, Text } from '@flex/uikit'
-import { rem } from '@flex/uikit/utils'
+import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE, Group, Text } from '@flxui/uikit'
+import { rem } from '@flxui/uikit/utils'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react'
 

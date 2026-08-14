@@ -1,4 +1,4 @@
-import { InputBase } from '@flex/uikit'
+import { InputBase } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof InputBase>

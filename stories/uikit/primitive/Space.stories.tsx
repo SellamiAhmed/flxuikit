@@ -1,4 +1,4 @@
-import { Space, Text } from '@flex/uikit'
+import { Space, Text } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof Space>

@@ -1,4 +1,4 @@
-import { TypographyStylesProvider, Box } from '@flex/uikit'
+import { TypographyStylesProvider, Box } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof TypographyStylesProvider>

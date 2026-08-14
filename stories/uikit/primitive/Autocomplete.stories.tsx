@@ -1,4 +1,4 @@
-import { Autocomplete } from '@flex/uikit'
+import { Autocomplete } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { SIZE_LIST } from '../../constants.js'

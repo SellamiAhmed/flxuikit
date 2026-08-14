@@ -1,4 +1,4 @@
-import { Chip } from '@flex/uikit'
+import { Chip } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST, SIZE_LIST } from '../../constants.js'

@@ -1,4 +1,4 @@
-import { CloseButton, Stack } from '@flex/uikit'
+import { CloseButton, Stack } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST, VARIANT_LIST, SIZE_LIST } from '../../constants.js'

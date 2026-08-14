@@ -1,4 +1,4 @@
-import { Calendar } from '@flex/uikit'
+import { Calendar } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

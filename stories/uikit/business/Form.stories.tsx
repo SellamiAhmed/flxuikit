@@ -1,4 +1,4 @@
-import { Group, Center, Divider } from '@flex/uikit'
+import { Group, Center, Divider } from '@flxui/uikit'
 import {
   Form,
   FormTextInput,
@@ -16,7 +16,7 @@ import {
   FormCheckboxGroup,
   FormCheckbox,
   FormDatePicker
-} from '@flex/uikit/business'
+} from '@flxui/uikit/business'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { IconAt, IconLock } from '@tabler/icons-react'
 

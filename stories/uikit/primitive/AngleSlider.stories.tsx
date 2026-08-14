@@ -1,4 +1,4 @@
-import { AngleSlider } from '@flex/uikit'
+import { AngleSlider } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof AngleSlider>

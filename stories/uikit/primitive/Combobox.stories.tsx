@@ -1,4 +1,4 @@
-import { Combobox, useCombobox, InputBase, Input } from '@flex/uikit'
+import { Combobox, useCombobox, InputBase, Input } from '@flxui/uikit'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

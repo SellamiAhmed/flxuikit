@@ -1,4 +1,4 @@
-import { Button, Collapse } from '@flex/uikit'
+import { Button, Collapse } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

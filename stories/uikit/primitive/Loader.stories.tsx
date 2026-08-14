@@ -1,4 +1,4 @@
-import { Loader } from '@flex/uikit'
+import { Loader } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST, SIZE_LIST } from '../../constants.js'

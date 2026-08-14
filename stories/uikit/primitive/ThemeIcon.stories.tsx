@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { ThemeIcon } from '@flex/uikit'
+import { ThemeIcon } from '@flxui/uikit'
 
 type Story = StoryObj<typeof ThemeIcon>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof ThemeIcon> = {
   component: ThemeIcon,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<ThemeIcon></ThemeIcon>),
+  render: () => <ThemeIcon></ThemeIcon>,
   args: {}
 }

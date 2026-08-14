@@ -1,4 +1,4 @@
-import { Badge, Box, NavLink, Stack } from '@flex/uikit'
+import { Badge, Box, NavLink, Stack } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof NavLink>

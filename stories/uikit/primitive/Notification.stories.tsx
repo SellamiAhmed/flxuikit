@@ -1,4 +1,4 @@
-import { Notification, Stack } from '@flex/uikit'
+import { Notification, Stack } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 import { COLOR_LIST, SIZE_LIST } from '../../constants.js'

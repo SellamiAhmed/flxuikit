@@ -1,1 +1,1 @@
-declare module '@flex/uikit/styles.css'
+declare module '@flxui/uikit/styles.css'

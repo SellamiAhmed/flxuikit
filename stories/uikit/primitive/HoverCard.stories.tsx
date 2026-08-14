@@ -1,4 +1,4 @@
-import { Button, Group, HoverCard } from '@flex/uikit'
+import { Button, Group, HoverCard } from '@flxui/uikit'
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
 
 type Story = StoryObj<typeof HoverCard>

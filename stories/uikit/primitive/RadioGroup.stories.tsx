@@ -1,6 +1,5 @@
-
 import type { Meta, StoryObj, StoryFn } from '@storybook/react'
-import { RadioGroup } from '@flex/uikit'
+import { RadioGroup } from '@flxui/uikit'
 
 type Story = StoryObj<typeof RadioGroup>
 
@@ -17,12 +16,12 @@ const meta: Meta<typeof RadioGroup> = {
   component: RadioGroup,
   decorators: [decorator],
   tags: ['autodocs'],
-  parameters: {},
+  parameters: {}
 }
 export default meta
 
 // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
 export const Primary: Story = {
-  render: () => (<RadioGroup></RadioGroup>),
+  render: () => <RadioGroup></RadioGroup>,
   args: {}
 }
