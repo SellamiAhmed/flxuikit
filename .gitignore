@@ -4,3 +4,4 @@ dist
 *.log
 .typeui-design-system.json
 .agents
+*.tgz
