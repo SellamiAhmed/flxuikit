@@ -18,7 +18,6 @@
     "noUnusedLocals": false,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@flxui/uikit": ["packages/uikit/src/primitive"],
