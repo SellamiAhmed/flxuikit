@@ -98,6 +98,8 @@ const InputFontSizes = {
 // ═══════════════════════════════════════════════════════
 // Input styles helper
 // ═══════════════════════════════════════════════════════
+// Input styles helper
+// ═══════════════════════════════════════════════════════
 function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'variant'>, component?: string) {
   const size = InputSizes[(props.size as keyof typeof InputSizes) ?? 'md']
   const inputFontSize = InputFontSizes[(props.size as keyof typeof InputFontSizes) ?? 'md']
@@ -126,7 +128,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       input: {
         ...withInputSize,
         '&::placeholder': {
-          color: `${token('color.text.subtlest')} !important`
+          color: 'var(--ds-color-text-subtlest) !important'
         }
       }
     }
@@ -139,7 +141,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
         '--input-bd-focus': token('color.border.brand'),
         ...withInputSize,
         '&::placeholder': {
-          color: `${token('color.text.subtlest')} !important`
+          color: 'var(--ds-color-text-subtlest) !important'
         }
       }
     }
@@ -157,6 +159,16 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       color: token('color.text.subtlest'),
       fontSize: 12
     },
+    // ────────────────────────────────────────────────
+    // INPUT
+    // TextInput: CSS module (.input) already defines
+    //   :hover -> var(--ds-color-border-bold)
+    //   :focus -> var(--ds-color-border-brand)
+    // so we only need to supply the DEFAULT state here
+    // (border, background, radius, placeholder).
+    // PasswordInput/NumberInput: input itself is borderless/
+    // transparent — the wrapper (below) owns all chrome.
+    // ────────────────────────────────────────────────
     input: wrapperOwnsBorder
       ? {
           width: '100%',
@@ -165,15 +177,15 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           backgroundColor: 'transparent',
           ...withInputSize,
           '&::placeholder': {
-            color: `${token('color.text.subtlest')} !important`
+            color: 'var(--ds-color-text-subtlest) !important'
           }
         }
       : {
           width: '100%',
           color: token('color.text'),
-          border: `1px solid ${token('color.border.input')}`,
-          backgroundColor: token('color.background.input'),
-          borderRadius: '8px',
+          border: '1px solid var(--ds-color-border)',
+          backgroundColor: 'var(--ds-color-background-neutral)',
+          borderRadius: 'var(--ds-space-050, 8px)',
           ...withInputSize,
           '&:disabled': {
             borderColor: token('color.border.disabled'),
@@ -182,12 +194,20 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
             opacity: 1
           },
           '&::placeholder': {
-            color: `${token('color.text.subtlest')} !important`
+            color: 'var(--ds-color-text-subtlest) !important'
           }
         },
     error: {
       color: token('color.text.danger')
     },
+    // ────────────────────────────────────────────────
+    // WRAPPER
+    // PasswordInput's CSS module (.root) defines no border/
+    // background/hover/focus at all, so the FULL set is
+    // supplied here — matching Phone Number's .section /
+    // .input default + hover + focus rules 1:1 via the
+    // same --ds-color-* variables.
+    // ────────────────────────────────────────────────
     wrapper: wrapperOwnsBorder
       ? {
           width: '100%',
@@ -195,16 +215,16 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           alignItems: 'stretch',
           position: 'relative',
           ...inputSize, // ← define --input-height/--input-fz on wrapper itself
-          border: `1px solid ${token('color.border.input')}`,
-          borderRadius: '8px',
-          backgroundColor: token('color.background.input'),
+          border: '1px solid var(--ds-color-border)',
+          borderRadius: 'var(--ds-space-050, 8px)',
+          backgroundColor: 'var(--ds-color-background-neutral)',
           overflow: 'hidden',
           '&:hover': {
-            borderColor: token('color.border.bold')
+            borderColor: 'var(--ds-color-border-bold)'
           },
           '&:focus-within': {
-            borderColor: token('color.border.brand'),
-            outline: `2px solid ${token('color.border.focused')}`,
+            borderColor: 'var(--ds-color-border-brand)',
+            outline: '2px solid var(--ds-color-border-focused)',
             outlineOffset: '-1px'
           },
           '&[data-disabled]': {
@@ -219,7 +239,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
             '.mantine-Input-input, .mantine-Select-input': {
               color: token('color.text.danger'),
               '&::placeholder': {
-                color: `${token('color.text.subtlest')} !important`
+                color: 'var(--ds-color-text-subtlest) !important'
               }
             }
           }
@@ -237,7 +257,7 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
                 borderColor: token('color.border.danger')
               },
               '&::placeholder': {
-                color: `${token('color.text.subtlest')} !important`
+                color: 'var(--ds-color-text-subtlest) !important'
               }
             }
           }
