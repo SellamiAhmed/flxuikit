@@ -20,10 +20,12 @@ export { BottomUtilities } from './section/utilities/BottomUtilities.js'
 
 // Types
 export type {
-  AppSidenavBrand, AppSidenavNavChild,
+  AppSidenavBrand,
+  AppSidenavNavChild,
   AppSidenavNavItem,
   AppSidenavNotification,
-  AppSidenavUtilityAction, NavMenuItemProps,
+  AppSidenavUtilityAction,
+  NavMenuItemProps,
   NavMenuSubItemProps
 } from './types.js'
 
