@@ -1,4 +1,4 @@
-import { readFileSync, existsSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -50,8 +50,21 @@ export default defineConfig({
         if (!filePath.endsWith('.d.ts') || !content) {
           return { filePath, content }
         }
+
+        // Also emit a matching .d.cts file for the CJS build,
+        // so './something.cjs' imports resolve to './something.d.cts'
+        ensureDir(filePath)
+        writeFileSync(filePath.replace('.d.ts', '.d.cts'), updateImportExtensions(content, '.cjs'))
+
+        // Rename this file to .d.mts (not just rewrite its content),
+        // so it correctly matches the '.mjs' imports/extensions used at runtime.
+        // Previously only the *content* was rewritten to reference '.mjs' files
+        // while the *filename* stayed '.d.ts' — TypeScript requires an '.mjs'
+        // import to resolve against a '.d.mts' declaration file, not '.d.ts',
+        // which caused "has no exported member" / implicit-any errors for any
+        // nested barrel (e.g. business/AppShell/index.mjs).
         return {
-          filePath,
+          filePath: filePath.replace('.d.ts', '.d.mts'),
           content: updateImportExtensions(content, '.mjs')
         }
       }
