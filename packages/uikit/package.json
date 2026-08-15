@@ -2,6 +2,11 @@
   "name": "@flxui/uikit",
   "version": "0.7.3",
   "description": "system UI kit built on Mantine v7",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/SellamiAhmed/flxuikit.git",
+  "directory": "packages/uikit"
+},
   "type": "module",
   "main": "dist/primitive/index.cjs",
   "module": "dist/primitive/index.mjs",
