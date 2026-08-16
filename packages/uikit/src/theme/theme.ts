@@ -98,8 +98,6 @@ const InputFontSizes = {
 // ═══════════════════════════════════════════════════════
 // Input styles helper
 // ═══════════════════════════════════════════════════════
-// Input styles helper
-// ═══════════════════════════════════════════════════════
 function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'variant'>, component?: string) {
   const size = InputSizes[(props.size as keyof typeof InputSizes) ?? 'md']
   const inputFontSize = InputFontSizes[(props.size as keyof typeof InputFontSizes) ?? 'md']
@@ -160,14 +158,10 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       fontSize: 12
     },
     // ────────────────────────────────────────────────
-    // INPUT
-    // TextInput: CSS module (.input) already defines
-    //   :hover -> var(--ds-color-border-bold)
-    //   :focus -> var(--ds-color-border-brand)
-    // so we only need to supply the DEFAULT state here
-    // (border, background, radius, placeholder).
-    // PasswordInput/NumberInput: input itself is borderless/
-    // transparent — the wrapper (below) owns all chrome.
+    // INPUT (TextInput)
+    // Background/border/radius/placeholder + hover/focus
+    // all supplied directly here — matches Phone Number's
+    // computed styles 1:1 via the same --ds-* variables.
     // ────────────────────────────────────────────────
     input: wrapperOwnsBorder
       ? {
@@ -184,9 +178,15 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           width: '100%',
           color: token('color.text'),
           border: '1px solid var(--ds-color-border)',
-          backgroundColor: 'var(--ds-color-background-neutral)',
-          borderRadius: 'var(--ds-space-050, 8px)',
+          backgroundColor: 'var(--ds-elevation-surface)',
+          borderRadius: 'var(--ds-space-075)',
           ...withInputSize,
+          '&:hover:not(:disabled):not([data-disabled])': {
+            borderColor: 'var(--ds-color-border-bold)'
+          },
+          '&:focus': {
+            borderColor: 'var(--ds-color-border-brand)'
+          },
           '&:disabled': {
             borderColor: token('color.border.disabled'),
             backgroundColor: token('color.background.disabled'),
@@ -201,12 +201,9 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
       color: token('color.text.danger')
     },
     // ────────────────────────────────────────────────
-    // WRAPPER
-    // PasswordInput's CSS module (.root) defines no border/
-    // background/hover/focus at all, so the FULL set is
-    // supplied here — matching Phone Number's .section /
-    // .input default + hover + focus rules 1:1 via the
-    // same --ds-color-* variables.
+    // WRAPPER (PasswordInput/NumberInput)
+    // Same background/border/radius/hover/focus values,
+    // since the wrapper owns the chrome for these components.
     // ────────────────────────────────────────────────
     wrapper: wrapperOwnsBorder
       ? {
@@ -216,8 +213,8 @@ function getInputStyles(theme: MantineTheme, props: Pick<InputProps, 'size' | 'v
           position: 'relative',
           ...inputSize, // ← define --input-height/--input-fz on wrapper itself
           border: '1px solid var(--ds-color-border)',
-          borderRadius: 'var(--ds-space-050, 8px)',
-          backgroundColor: 'var(--ds-color-background-neutral)',
+          borderRadius: 'var(--ds-space-075)',
+          backgroundColor: 'var(--ds-elevation-surface)',
           overflow: 'hidden',
           '&:hover': {
             borderColor: 'var(--ds-color-border-bold)'
