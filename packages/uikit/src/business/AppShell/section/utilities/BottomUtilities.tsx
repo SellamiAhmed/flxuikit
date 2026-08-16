@@ -18,14 +18,28 @@ export const BottomUtilities = ({ utilitiesAriaLabel, utilityActions, collapsed 
       aria-label={utilitiesAriaLabel}
     >
       <Group gap={8} wrap="nowrap" justify="center" className={clsx(collapsed && classes.utilitiesGroupCollapsed)}>
-        {utilityActions.map((action) =>
-          action.href ? (
+        {utilityActions.map((action) => {
+          const iconButtonClassName = clsx(classes.iconButton, collapsed && classes.railIconButton)
+
+          if (action.renderLink) {
+            return (
+              <span key={action.id}>
+                {action.renderLink({
+                  className: iconButtonClassName,
+                  'aria-label': action.ariaLabel,
+                  onClick: () => action.onClick?.()
+                })}
+              </span>
+            )
+          }
+
+          return action.href ? (
             <ActionIcon
               key={action.id}
               component="a"
               href={action.href}
               aria-label={action.ariaLabel}
-              className={clsx(classes.iconButton, collapsed && classes.railIconButton)}
+              className={iconButtonClassName}
               variant="subtle"
             >
               {action.icon}
@@ -35,14 +49,14 @@ export const BottomUtilities = ({ utilitiesAriaLabel, utilityActions, collapsed 
               key={action.id}
               type="button"
               aria-label={action.ariaLabel}
-              className={clsx(classes.iconButton, collapsed && classes.railIconButton)}
+              className={iconButtonClassName}
               variant="subtle"
               onClick={action.onClick}
             >
               {action.icon}
             </ActionIcon>
           )
-        )}
+        })}
       </Group>
     </Stack>
   )

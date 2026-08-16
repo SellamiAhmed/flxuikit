@@ -36,6 +36,11 @@ export interface AppSidenavUtilityAction {
   icon: ReactNode
   href?: string
   onClick?: () => void
+  renderLink?: (linkProps: {
+    className: string
+    'aria-label': string
+    onClick: (event: React.MouseEvent) => void
+  }) => ReactNode
 }
 
 export interface AppSidenavBrand {
