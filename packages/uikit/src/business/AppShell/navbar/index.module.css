@@ -132,9 +132,9 @@
 }
 
 .navItem[data-highlighted='true'] .navButton {
-  background: var(--ds-color-background-brand-subtlest);
+  background: transparent;
   color: var(--ds-color-text-brand);
-  border-color: var(--ds-color-border-brand);
+  border-color: transparent;
 }
 
 .navbarMenu {
@@ -200,7 +200,7 @@
 .navButton.navButton.active,
 .navButton.navButton[data-active=''],
 .navButton.navButton[data-active='true'] {
-  background: var(--ds-color-background-brand-subtlest);
+  background: transparent;
   color: var(--ds-color-text-brand) !important;
 }
 

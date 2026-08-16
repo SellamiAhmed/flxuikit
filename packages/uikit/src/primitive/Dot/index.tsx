@@ -25,11 +25,12 @@ export interface DotProps extends BoxProps {
 export const Dot: React.FC<DotProps> = ({ color, size = 8, pulse, className, style, ...rest }) => {
   return (
     <Box
-      className={clsx(pulse && classes.pulse, className)}
+      className={clsx(classes.dot, pulse && classes.pulse, className)}
       style={{
         backgroundColor: token(DOT_BG_TOKEN[color] ?? DOT_BG_TOKEN.neutral),
         height: size,
         width: size,
+        minWidth: size,
         borderRadius: '50%',
         flexShrink: 0,
         ...style

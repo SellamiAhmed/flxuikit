@@ -730,18 +730,28 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         },
         styles: (theme: MantineTheme, props: BadgeProps) => {
           const color = (props.color ?? theme.primaryColor) as string
-          const sizes = { xs: 11, sm: 12, md: 13, lg: 14, xl: 16 }
-          // @ts-ignore
-          const fontSize = sizes[props.size]
+          const size = props.size ?? 'md'
 
+          const fontSizes = { xs: 11, sm: 12, md: 13, lg: 14, xl: 16 }
           const dotSizes = { xs: 6, sm: 7, md: 8, lg: 9, xl: 10 }
+          const heights = { xs: 22, sm: 26, md: 30, lg: 34, xl: 38 }
+          const paddingX = { xs: 8, sm: 10, md: 14, lg: 16, xl: 18 }
+          const iconSizes = { xs: 12, sm: 13, md: 14, lg: 16, xl: 18 }
+
           // @ts-ignore
-          const dotSize = dotSizes[props.size] ?? 8
+          const fontSize = fontSizes[size]
+          // @ts-ignore
+          const dotSize = dotSizes[size] ?? 8
+          // @ts-ignore
+          const height = heights[size]
+          // @ts-ignore
+          const padX = paddingX[size]
+          // @ts-ignore
+          const iconSize = iconSizes[size]
 
           // Explicit per-color token lookup — background/border/text token
-          // suffixes aren't uniform across families (only brand/selected/
-          // information/discovery have a `.subtlest` bg, for example), so
-          // this avoids guessing a token name that may not exist.
+          // suffixes aren't uniform across families, so this avoids guessing
+          // a token name that may not exist.
           type BadgeTokens = {
             bold: TokenName
             boldText: TokenName
@@ -806,7 +816,7 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             dot: {
               border: 'none',
               textTransform: 'capitalize',
-              fontWeight: 400,
+              fontWeight: 600,
               fontSize,
               backgroundColor: 'transparent',
               color: token(t.text),
@@ -820,32 +830,88 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             outline: {
               color: token(t.text),
               borderColor: token(t.border),
-              backgroundColor: 'transparent'
+              borderWidth: 1,
+              borderStyle: 'solid',
+              backgroundColor: 'transparent',
+              '&:hover': {
+                backgroundColor: token(t.lightBg)
+              }
             },
             light: {
               backgroundColor: token(t.lightBg),
               color: token(t.text),
-              border: 'none'
+              borderColor: token(t.border),
+              borderWidth: 1,
+              borderStyle: 'solid',
+              '&:hover': {
+                backgroundColor: token(t.lightBgHover)
+              }
             },
             filled: {
               backgroundColor: token(t.bold),
-              color: token(t.boldText)
+              color: token(t.boldText),
+              border: 'none'
+            },
+            // neutral white "chip" style — Alex / Anna / country badges in the reference image
+            chip: {
+              backgroundColor: token(byColor.neutral.lightBg),
+              color: token(byColor.neutral.text),
+              borderColor: token(byColor.neutral.border),
+              borderWidth: 1,
+              borderStyle: 'solid',
+              '&:hover': {
+                backgroundColor: token(byColor.neutral.lightBgHover)
+              }
             }
           }
 
           return {
             root: {
+              height,
               borderRadius: '9999px',
-              padding: '2px 8px',
+              padding: `0 ${padX}px`,
               letterSpacing: '0',
               textTransform: 'none',
+              fontWeight: 700,
               // @ts-ignore
-              ...styles[props.variant]
+              ...(styles[props.variant] ?? styles.light)
+            },
+            inner: {
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6
+            },
+            leftSection: {
+              display: 'flex',
+              alignItems: 'center',
+              marginRight: 0,
+              '& svg, & img': {
+                width: iconSize,
+                height: iconSize
+              },
+              '& img': {
+                borderRadius: '50%',
+                objectFit: 'cover'
+              }
+            },
+            rightSection: {
+              display: 'flex',
+              alignItems: 'center',
+              marginLeft: 0,
+              opacity: 0.6,
+              cursor: 'pointer',
+              pointerEvents: 'auto',
+              '&:hover': {
+                opacity: 1
+              },
+              '& svg': {
+                width: iconSize - 2,
+                height: iconSize - 2
+              }
             }
           }
         }
-      },
-      // ── Divider ──
+      },      // ── Divider ──
       Divider: {
         defaultProps: {
           color: undefined // let default CSS var (--ds-color-border) apply

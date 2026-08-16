@@ -1,0 +1,32 @@
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconWrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
+.iconXs {
+  width: 12px;
+  height: 12px;
+}
+.iconSm {
+  width: 13px;
+  height: 13px;
+}
+.iconMd {
+  width: 14px;
+  height: 14px;
+}
+.iconLg {
+  width: 16px;
+  height: 16px;
+}
+.iconXl {
+  width: 18px;
+  height: 18px;
+}
