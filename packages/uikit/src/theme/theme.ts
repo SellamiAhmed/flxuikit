@@ -1,37 +1,33 @@
 // eslint-disable-next-line no-restricted-imports
 import {
-  AccordionProps,
-  DEFAULT_THEME,
-  MantineTheme,
-  MantineThemeOverride,
-  NumberInputProps,
-  PaginationProps,
-  PasswordInputProps,
-  createTheme,
-  mergeMantineTheme
-} from '@mantine/core'
-import {
-  ActionIconProps,
-  AlertProps,
-  BadgeProps,
-  ButtonProps,
-  CheckboxProps,
-  InputProps,
-  MultiSelectProps,
-  NavLinkProps,
-  PaperProps,
-  RadioProps,
-  SelectProps,
-  SkeletonProps,
-  StepperProps,
-  SwitchProps,
-  TableProps,
-  TabsProps
+    AccordionProps,
+    ActionIconProps,
+    AlertProps,
+    BadgeProps,
+    CheckboxProps,
+    createTheme,
+    DEFAULT_THEME,
+    InputProps,
+    MantineTheme,
+    MantineThemeOverride,
+    mergeMantineTheme,
+    MultiSelectProps,
+    NavLinkProps,
+    NumberInputProps,
+    PaperProps,
+    PasswordInputProps,
+    RadioProps,
+    SelectProps,
+    SkeletonProps,
+    StepperProps,
+    SwitchProps,
+    TableProps,
+    TabsProps
 } from '@mantine/core'
 
-import { token, tokenHex, rem, type TokenName } from './fns.js'
-import { createFontFamily, FONT_SIZE, LINE_HEIGHT, LETTER_SPACING } from './font.js'
+import { rem, token, tokenHex, type TokenName } from './fns.js'
 import type { FontConfig } from './font.js'
+import { createFontFamily, FONT_SIZE, LINE_HEIGHT } from './font.js'
 
 // ═══════════════════════════════════════════════════════
 // COLOR NAMES
@@ -524,15 +520,17 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
               }
             }
           }
-
           // @ts-ignore
           const matchedStyle = rootStyles[props.variant] || {}
-
           return {
             root: {
               ...matchedStyle,
               borderRadius: '8px',
-              transition: 'background 150ms ease-in-out'
+              transition: 'background 150ms ease-in-out',
+              outline: 'none',
+              '&:focus-visible': {
+                boxShadow: `0 0 0 2px ${token('color.border.brand')}`
+              }
             },
             label: {
               lineHeight: '24px',
@@ -736,6 +734,10 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
           // @ts-ignore
           const fontSize = sizes[props.size]
 
+          const dotSizes = { xs: 6, sm: 7, md: 8, lg: 9, xl: 10 }
+          // @ts-ignore
+          const dotSize = dotSizes[props.size] ?? 8
+
           // Explicit per-color token lookup — background/border/text token
           // suffixes aren't uniform across families (only brand/selected/
           // information/discovery have a `.subtlest` bg, for example), so
@@ -807,9 +809,10 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
               fontWeight: 400,
               fontSize,
               backgroundColor: 'transparent',
-              color: token('color.text.subtle'),
+              color: token(t.text),
               padding: 0,
               borderRadius: 0,
+              '--badge-dot-size': `${dotSize}px`,
               '&:before': {
                 backgroundColor: token(t.bold)
               }
