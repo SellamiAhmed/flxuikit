@@ -1,0 +1,57 @@
+# Button
+
+A clickable element used to trigger an action.
+
+## Import
+
+```tsx
+import { Button } from '@yourscope/uikit'
+```
+
+## Basic Usage
+
+```tsx
+function Demo() {
+  return <Button>Click me</Button>
+}
+```
+
+## Variants
+
+```tsx
+function Demo() {
+  return (
+    <>
+      <Button variant="filled">Filled</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="subtle">Subtle</Button>
+    </>
+  )
+}
+```
+
+## Sizes
+
+```tsx
+function Demo() {
+  return (
+    <>
+      <Button size="xs">Extra small</Button>
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+    </>
+  )
+}
+```
+
+## Props
+
+| Prop      | Type                                    | Default    | Description               |
+| --------- | ---------------------------------------- | ---------- | -------------------------- |
+| `variant` | `'filled' \| 'outline' \| 'subtle'`      | `'filled'` | Visual style                |
+| `size`    | `'xs' \| 'sm' \| 'md' \| 'lg'`           | `'md'`     | Button size                 |
+| `disabled`| `boolean`                                | `false`    | Disables the button         |
+| `onClick` | `(event: MouseEvent) => void`            | -          | Click handler                |
+
+Button also accepts all native `<button>` HTML attributes.
