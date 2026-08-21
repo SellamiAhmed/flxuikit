@@ -1,0 +1,525 @@
+import { Callout } from 'nextra/components'
+
+# Form
+
+A form component built on `react-hook-form`, with validation, error handling, and layout support.
+
+## Import
+
+```tsx
+import { Form, FormTextInput, FormSelect } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { Form, FormTextInput, FormSelect } from '@flxui/uikit/business'
+
+function Demo() {
+  const handleSubmit = (data) => {
+    console.log(data)
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <FormTextInput name="username" label="Username" required />
+      <FormTextInput name="email" label="Email" type="email" required />
+      <FormSelect name="role" label="Role" data={['Admin', 'User', 'Guest']} />
+    </Form>
+  )
+}
+```
+
+## With Validation
+
+Pass `rules` (a standard react-hook-form `RegisterOptions` object) to any `Form*` field:
+
+```tsx
+<Form onSubmit={(data) => console.log(data)} defaultValues={{ email: '' }}>
+  <FormTextInput
+    name="email"
+    label="Email"
+    rules={{
+      required: 'Email is required',
+      pattern: {
+        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+        message: 'Invalid email address'
+      }
+    }}
+  />
+</Form>
+```
+
+## Horizontal Layout
+
+```tsx
+<Form layout="horizontal" onSubmit={(data) => console.log(data)}>
+  <FormTextInput name="firstName" label="First Name" />
+  <FormTextInput name="lastName" label="Last Name" />
+</Form>
+```
+
+`layout` also accepts `'none'`, which skips the `Flex` wrapper entirely and renders children as-is — useful when you're composing your own layout around the fields.
+
+## Without Actions
+
+```tsx
+import { Form, FormTextInput } from '@flxui/uikit/business'
+import { Button } from '@flxui/uikit'
+
+function Demo() {
+  return (
+    <Form withActions={false} onSubmit={(data) => console.log(data)}>
+      <FormTextInput name="search" label="Search" />
+      <Button type="submit">Search</Button>
+    </Form>
+  )
+}
+```
+
+## Custom Actions
+
+```tsx
+<Form
+  onSubmit={(data) => console.log(data)}
+  onCancel={() => console.log('cancelled')}
+  actionsProps={{
+    cancelText: 'Reset',
+    confirmText: 'Save Changes'
+  }}
+>
+  <FormTextInput name="name" label="Name" />
+</Form>
+```
+
+<Callout type="info">
+  The cancel button only renders when `cancelText` is truthy. Passing `actionsProps={{ cancelText: null }}` (or `''`)
+  hides it, leaving just the confirm button.
+</Callout>
+
+## With Error Message
+
+`errorMessage` isn't just a plain string prop for display — passing it is equivalent to what `Form` sets internally when your `onSubmit` handler throws. It's rendered through an `Alert` and run through `DOMPurify.sanitize`, so basic HTML is allowed:
+
+```tsx
+<Form errorMessage="Failed to submit form. Please try again." onSubmit={(data) => console.log(data)}>
+  <FormTextInput name="name" label="Name" />
+</Form>
+```
+
+<Callout type="info">
+  If `onSubmit` throws (or rejects), `Form` catches it and displays the thrown error's `.message` in the same error
+  banner automatically — you don't need to catch it yourself just to show a message. Provide `onError` to customize how
+  the thrown value is turned into a display string.
+</Callout>
+
+## Compound API
+
+`Form` also exposes its building blocks as static properties, in case you want to assemble a custom layout instead of using `Form`'s built-in `layout`/`withActions` props:
+
+```tsx
+<Form.Layout layout="horizontal">
+  <FormTextInput name="firstName" label="First Name" />
+</Form.Layout>
+
+<Form.Actions cancelText="Reset" confirmText="Save" />
+
+<Form.ErrorMessage message="Something went wrong" />
+```
+
+| Property            | Component          |
+| ------------------- | ------------------ |
+| `Form.Actions`      | `FormActions`      |
+| `Form.ErrorMessage` | `FormErrorMessage` |
+| `Form.Layout`       | `FormLayout`       |
+
+## Form Props
+
+| Prop                | Type                                     | Default      | Description                                                                             |
+| ------------------- | ---------------------------------------- | ------------ | --------------------------------------------------------------------------------------- |
+| `errorMessage`      | `string`                                 | -            | Error message to display (also set automatically if `onSubmit` throws)                  |
+| `formMode`          | `'onChange' \| 'onBlur' \| 'onSubmit'`   | -            | react-hook-form validation `mode`, passed to the internal `useForm`                     |
+| `reValidateMode`    | `'onChange' \| 'onBlur' \| 'onSubmit'`   | `'onChange'` | react-hook-form re-validation mode                                                      |
+| `defaultValues`     | `DefaultValues<T>`                       | -            | Default form values                                                                     |
+| `form`              | `UseFormReturn<T>`                       | -            | Bring your own `useForm()` instance instead of letting `Form` create one internally     |
+| `withActions`       | `boolean`                                | `true`       | Show the built-in `FormActions` (Cancel/Confirm buttons)                                |
+| `actionsProps`      | `FormActionsProps`                       | -            | Props forwarded to the built-in `FormActions`                                           |
+| `errorMessageProps` | `Omit<FormErrorMessageProps, 'message'>` | -            | Props forwarded to the built-in `FormErrorMessage`                                      |
+| `layout`            | `'horizontal' \| 'vertical' \| 'none'`   | `'vertical'` | Layout direction for the field wrapper                                                  |
+| `layoutProps`       | `Omit<FormLayoutProps, 'layout'>`        | -            | Props forwarded to the built-in `FormLayout` (it's a `Flex`, so accepts `FlexProps`)    |
+| `stopPropagation`   | `boolean`                                | -            | Calls `e.stopPropagation()` on submit                                                   |
+| `preventDefault`    | `boolean`                                | -            | Calls `e.preventDefault()` on submit                                                    |
+| `onSubmit`          | `SubmitHandler<T>`                       | -            | **Required.** Submit handler; may be async                                              |
+| `onError`           | `() => any`                              | -            | Turns a thrown/rejected error from `onSubmit` into the string shown in the error banner |
+| `onCancel`          | `() => void`                             | -            | Called when the built-in Cancel button is clicked                                       |
+
+<Callout type="warning">
+  Two props are declared on `FormProps` but aren't actually wired up in the current implementation, so passing them has
+  no effect: **`onRefresh`** and **`onUnmount`** (the real prop is named **`onFormUnMount`**, and it also isn't read
+  anywhere internally). Don't rely on either for cleanup logic yet.
+</Callout>
+
+## FormActions Props
+
+| Prop           | Type                                   | Default     | Description                                                         |
+| -------------- | -------------------------------------- | ----------- | ------------------------------------------------------------------- |
+| `loading`      | `boolean`                              | -           | Shows a loading state on the confirm button                         |
+| `disabled`     | `boolean`                              | -           | Disables the confirm button                                         |
+| `onCancel`     | `MouseEventHandler`                    | -           | Cancel button click handler                                         |
+| `onConfirm`    | `MouseEventHandler`                    | -           | Confirm button click handler (button is `type="submit"` regardless) |
+| `cancelText`   | `ReactNode`                            | `'Cancel'`  | Cancel button text — falsy hides the button entirely                |
+| `confirmText`  | `ReactNode`                            | `'Confirm'` | Confirm button text                                                 |
+| `cancelProps`  | `ButtonProps & ElementProps<'button'>` | -           | Extra props for the Cancel `Button`                                 |
+| `confirmProps` | `ButtonProps & ElementProps<'button'>` | -           | Extra props for the Confirm `Button`                                |
+
+Also accepts all `FlexProps` (the actions row is a `Flex` with `justify="flex-end"`).
+
+## FormErrorMessage Props
+
+| Prop         | Type         | Default | Description                                                                                             |
+| ------------ | ------------ | ------- | ------------------------------------------------------------------------------------------------------- |
+| `message`    | `string`     | -       | **Required.** Rendered via `dangerouslySetInnerHTML` after `DOMPurify.sanitize` — basic HTML is allowed |
+| `onDismiss`  | `() => void` | -       | Shows a close button and is called when it's clicked                                                    |
+| `autoScroll` | `boolean`    | -       | Scrolls the message into view whenever `message` changes                                                |
+| `closable`   | `boolean`    | `false` | Shows a close button even without `onDismiss`                                                           |
+
+Also accepts all `AlertProps` except `children`.
+
+## Form Field Components
+
+The fields below all follow the same shape: a `name` prop that maps to a react-hook-form field, an optional `rules` prop for validation, and — for most of them — an automatically-rendered error message wired up via `getFieldState`. They must be used inside a `Form` (or any `FormProvider`), since they call `useFormContext()` internally.
+
+<Callout type="warning">
+  A few exported names differ from the tidbcloud reference table above: it's **`FormTextareaInput`** (not
+  `FormTextArea`), **`FormRatingInput`** (not `FormRating`), and **`FormSegmentedControl`** (not `FormSegmentControl` —
+  note the "ed"). Import using the names below.
+</Callout>
+
+<Callout type="warning">
+  Not every field renders errors automatically. `FormTimeRangePicker` does not call `getFieldState`/`ErrorMessage` at
+  all, so validation errors on it won't display unless you surface them yourself. `FormDatePicker` renders its error
+  manually with inline styles rather than through a shared error component, so it may look slightly different from the
+  rest.
+</Callout>
+
+### FormCheckbox
+
+```tsx
+import { FormCheckbox } from '@flxui/uikit/business'
+
+;<FormCheckbox name="agree" label="I agree to the terms" />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+Also accepts all `CheckboxProps`.
+
+### FormCheckboxGroup
+
+Renders a set of checkboxes from a `data` array, with a single validation state for the group:
+
+```tsx
+<FormCheckboxGroup
+  name="fruits"
+  label="Favorite fruits"
+  data={[
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' }
+  ]}
+/>
+```
+
+| Prop        | Type                     | Default | Description                        |
+| ----------- | ------------------------ | ------- | ---------------------------------- |
+| `name`      | `string`                 | -       | Field name                         |
+| `rules`     | `RegisterOptions`        | -       | Validation rules                   |
+| `data`      | `CheckboxProps[]`        | -       | Checkboxes to render               |
+| `direction` | `FlexProps['direction']` | -       | Layout direction of the checkboxes |
+| `gap`       | `FlexProps['gap']`       | `'sm'`  | Gap between checkboxes             |
+
+Also accepts all `CheckboxGroupProps` except `children`.
+
+### FormDatePicker
+
+```tsx
+<FormDatePicker name="startDate" label="Start date" />
+```
+
+| Prop          | Type              | Description              |
+| ------------- | ----------------- | ------------------------ |
+| `name`        | `string`          | Field name               |
+| `rules`       | `RegisterOptions` | Validation rules         |
+| `placeholder` | `string`          | Input placeholder        |
+| `clearable`   | `boolean`         | Allow clearing the value |
+| `label`       | `ReactNode`       | Field label              |
+
+Also accepts all `DatePickerProps`.
+
+### FormMultiSelect
+
+```tsx
+<FormMultiSelect name="tags" label="Tags" data={['React', 'Vue', 'Svelte']} />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+Also accepts all `MultiSelectProps` (including `data`).
+
+### FormNumberInput
+
+```tsx
+<FormNumberInput name="quantity" label="Quantity" min={0} />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+Also accepts all `NumberInputProps`.
+
+### FormTimeRangePicker
+
+```tsx
+<FormTimeRangePicker name="range" label="Time range" clearable />
+```
+
+| Prop        | Type                          | Description                                      |
+| ----------- | ----------------------------- | ------------------------------------------------ |
+| `name`      | `string`                      | Field name                                       |
+| `rules`     | `RegisterOptions`             | Validation rules                                 |
+| `value`     | `TimeRange`                   | Controlled value (rarely needed inside a `Form`) |
+| `onChange`  | `(value?: TimeRange) => void` | Change callback                                  |
+| `clearable` | `boolean`                     | Allow clearing the value                         |
+| `label`     | `ReactNode`                   | Field label                                      |
+
+Also accepts all `TimeRangePickerBaseProps`. No built-in error rendering — see the callout above.
+
+### FormPhoneInput
+
+A single phone number input, formatted using the package's built-in country dial-code masks:
+
+```tsx
+<FormPhoneInput name="phone" label="Phone number" />
+```
+
+| Prop             | Type                                                  | Description                                                    |
+| ---------------- | ----------------------------------------------------- | -------------------------------------------------------------- |
+| `name`           | `string`                                              | Field name                                                     |
+| `rules`          | `RegisterOptions`                                     | Validation rules                                               |
+| `defaultCountry` | `string`                                              | Default country dial code                                      |
+| `onSelect`       | `(value: string, country: CountryData \| {}) => void` | Called (alongside `onChange`) when the formatted value changes |
+
+Also accepts all `PhoneInputProps` except `onSelect`.
+
+### FormPhoneInputV2
+
+Pairs a country `FormSelect` with a `FormPhoneInput`, side by side, with a single consolidated error message for both fields:
+
+```tsx
+<FormPhoneInputV2 countryKey="country" phoneKey="phone" selectProps={{ placeholder: 'Country' }} />
+```
+
+| Prop             | Type                                                                           | Description                                                                  |
+| ---------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| `countryKey`     | `string`                                                                       | Field name for the country select                                            |
+| `phoneKey`       | `string`                                                                       | Field name for the phone input                                               |
+| `defaultCountry` | `string`                                                                       | Default country dial code                                                    |
+| `rules`          | `RegisterOptions`                                                              | Validation rules for the phone field                                         |
+| `countryRules`   | `RegisterOptions`                                                              | Validation rules for the country field                                       |
+| `onSelect`       | `(value: string, country: CountryData \| {}) => void`                          | Called (alongside `onChange`) when the formatted value changes               |
+| `selectProps`    | `Omit<SelectProps, 'data'> & { filterData?: (item, index, array) => boolean }` | Props for the country select; `filterData` filters the built-in country list |
+| `rootProps`      | `BoxProps`                                                                     | Props for the outer wrapper                                                  |
+
+<Callout type="info">
+  The country list is fixed — it's built from the package's bundled country data, not something you pass in. Use
+  `selectProps.filterData` to narrow it down (e.g. to a specific set of supported countries) rather than trying to
+  supply your own list.
+</Callout>
+
+Also accepts all `PhoneInputProps` except `onSelect`.
+
+### FormCopyText
+
+<Callout type="warning">
+  Despite the `Form*` naming convention, `FormCopyText` is **not** a react-hook-form field — it has no `name`/`rules`
+  props and doesn't call `useFormContext`. It's a standalone read-only value display with a copy-to-clipboard button,
+  usable anywhere (inside or outside a `Form`).
+</Callout>
+
+```tsx
+<FormCopyText value="sk-live-abc123..." />
+```
+
+| Prop           | Type              | Default | Description                                               |
+| -------------- | ----------------- | ------- | --------------------------------------------------------- |
+| `value`        | `string`          | -       | **Required.** The text to display and copy                |
+| `timeout`      | `number`          | `3000`  | How long the "Copied" state shows, in ms                  |
+| `onClick`      | `() => void`      | -       | Called when the copy button is clicked, alongside copying |
+| `valueProps`   | `TypographyProps` | -       | Props for the displayed value's `Typography`              |
+| `tooltipProps` | `TooltipProps`    | -       | Props for the copy button's `Tooltip`                     |
+| `size`         | `number`          | `16`    | Icon size                                                 |
+
+Also accepts all `BoxProps`.
+
+### FormTextInput
+
+```tsx
+<FormTextInput name="username" label="Username" />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+Also accepts all `TextInputProps`. The field's `value` defaults to `''` when the underlying react-hook-form value is `undefined`, so `TextInput` stays controlled from the first render even before the field has been touched.
+
+### FormPasswordInput
+
+```tsx
+<FormPasswordInput name="password" label="Password" />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+Also accepts all `PasswordInputProps`. It ships its own default `classNames` (wrapper, input, visibility toggle, etc.); any `classNames` you pass are merged in per-key, so overriding e.g. `classNames.input` won't affect the others.
+
+### FormTextareaInput
+
+<Callout type="warning">
+  The exported name is `FormTextareaInput`, not `FormTextArea` as in the tidbcloud reference table above.
+</Callout>
+
+```tsx
+<FormTextareaInput name="bio" label="Bio" />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+Also accepts all `TextareaProps`.
+
+### FormSelect
+
+```tsx
+<FormSelect name="role" label="Role" data={['Admin', 'User', 'Guest']} />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+
+`onChange` receives `(value, option)` — the selected option object, not just the raw value — if you pass your own handler alongside the field binding. Also accepts all `SelectProps` (including `data`).
+
+### FormSwitch
+
+```tsx
+<FormSwitch name="notifications" label="Enable notifications" />
+```
+
+| Prop       | Type                         | Description                                                          |
+| ---------- | ---------------------------- | -------------------------------------------------------------------- |
+| `name`     | `string`                     | Field name                                                           |
+| `rules`    | `RegisterOptions`            | Validation rules                                                     |
+| `label`    | `ReactNode`                  | Field label                                                          |
+| `onChange` | `(checked: boolean) => void` | Called (alongside the field's own update) with the new checked state |
+
+Also accepts all `SwitchProps` except `onChange` and `label` (both are redeclared above with narrower types).
+
+### FormRatingInput
+
+<Callout type="warning">
+  The exported name is `FormRatingInput`, not `FormRating` as in the tidbcloud reference table above.
+</Callout>
+
+```tsx
+<FormRatingInput name="satisfaction" label="How satisfied were you?" />
+```
+
+| Prop           | Type                                  | Description                                |
+| -------------- | ------------------------------------- | ------------------------------------------ |
+| `name`         | `string`                              | Field name                                 |
+| `rules`        | `RegisterOptions`                     | Validation rules                           |
+| `label`        | `InputWrapperProps['label']`          | Field label                                |
+| `withAsterisk` | `InputWrapperProps['withAsterisk']`   | Show a required asterisk next to the label |
+| `wrapperProps` | `Omit<InputWrapperProps, 'children'>` | Props for the surrounding `Input.Wrapper`  |
+
+Also accepts all `RatingProps`. Unlike the other fields, it's wrapped in `Input.Wrapper` directly rather than relying on the underlying primitive's own `label`/`error` rendering, since `Rating` doesn't support those itself.
+
+### FormSegmentedControl
+
+<Callout type="warning">
+  The exported name is `FormSegmentedControl`, not `FormSegmentControl` as in the tidbcloud reference table above. It
+  also renders its error differently from every other field here — as plain `error.message` text rather than through the
+  shared `<ErrorMessage />` helper — so it won't correctly display errors that come from nested or array-type validation
+  paths the way the others do.
+</Callout>
+
+```tsx
+<FormSegmentedControl name="plan" label="Plan" data={['Monthly', 'Yearly']} />
+```
+
+| Prop    | Type              | Description      |
+| ------- | ----------------- | ---------------- |
+| `name`  | `string`          | Field name       |
+| `rules` | `RegisterOptions` | Validation rules |
+| `label` | `ReactNode`       | Field label      |
+
+Also accepts all `SegmentedControlProps`.
+
+### FormRadioGroup
+
+```tsx
+<FormRadioGroup
+  name="plan"
+  label="Plan"
+  data={[
+    { value: 'free', label: 'Free' },
+    { value: 'pro', label: 'Pro', tooltip: 'Includes priority support' }
+  ]}
+/>
+```
+
+| Prop        | Type                     | Default | Description                                                                      |
+| ----------- | ------------------------ | ------- | -------------------------------------------------------------------------------- |
+| `name`      | `string`                 | -       | Field name                                                                       |
+| `rules`     | `RegisterOptions`        | -       | Validation rules                                                                 |
+| `data`      | `RadioGroupItemData[]`   | -       | Radios to render — each is a `RadioProps` plus optional `tooltip`/`tooltipProps` |
+| `direction` | `FlexProps['direction']` | -       | Layout direction of the radios                                                   |
+| `gap`       | `FlexProps['gap']`       | `'md'`  | Gap between radios                                                               |
+
+Also accepts all `RadioGroupProps` except `children`.
+
+Each item in `data` can optionally carry a `tooltip`. By default the tooltip renders as a `HoverCard` (so it can hold richer content); set `tooltipProps={{ useTooltip: true }}` on that item to render it as a simple `Tooltip` instead:
+
+```tsx
+{
+  value: 'enterprise',
+  label: 'Enterprise',
+  tooltip: 'Contact sales for pricing',
+  tooltipProps: { useTooltip: true }
+}
+```
+
+<Callout type="info">
+  `tooltipProps` doubles as both the `useTooltip` switch and, when using the default `HoverCard` mode, the props
+  forwarded to that `HoverCard` (it extends `HoverCardProps`). It has no effect when `useTooltip: true` is set, since
+  `Tooltip` doesn't receive it.
+</Callout>
+
+### Not yet documented
+
+`FormProMultiSelect` and `FormDateTimePicker` follow the same `name`/`rules` pattern shown throughout this page. Their source wasn't available to verify prop-for-prop, so they're left out for now — send them over whenever you'd like these filled in.

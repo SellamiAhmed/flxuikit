@@ -1,0 +1,68 @@
+import { Callout } from 'nextra/components'
+
+# Switch
+
+A thin wrapper around Mantine's `Switch`, with a simplified `onChange` signature — you get the boolean checked state directly instead of the raw DOM event.
+
+## Import
+
+```tsx
+import { Switch } from '@flxui/uikit'
+```
+
+## Basic Usage
+
+```tsx
+import { Switch } from '@flxui/uikit'
+
+function Demo() {
+  return <Switch label="Enable notifications" />
+}
+```
+
+## Controlled usage
+
+`onChange` receives the boolean checked value directly, not a `ChangeEvent`:
+
+```tsx
+import { useState } from 'react'
+import { Switch } from '@flxui/uikit'
+
+function Demo() {
+  const [checked, setChecked] = useState(false)
+  return <Switch label="Dark mode" checked={checked} onChange={setChecked} />
+}
+```
+
+<Callout type="info">
+  This differs from Mantine's own `Switch`, whose `onChange` receives the raw change event
+  (`event.currentTarget.checked`). Here, `onChange` is already unwrapped to a plain `boolean`.
+</Callout>
+
+## Grouping switches
+
+`Switch.Group` is Mantine's own `Switch.Group`, re-exported unchanged, for managing a set of related switches (e.g. shared label/description, or collecting multiple values):
+
+```tsx
+<Switch.Group label="Notification preferences" description="Choose what you want to be notified about">
+  <Switch label="Email" value="email" />
+  <Switch label="SMS" value="sms" />
+  <Switch label="Push" value="push" />
+</Switch.Group>
+```
+
+## Props
+
+Extends all Mantine `Switch` props except `onChange`, which is redefined below.
+
+| Prop       | Type                         | Default | Description                                                 |
+| ---------- | ---------------------------- | ------- | ----------------------------------------------------------- |
+| `onChange` | `(checked: boolean) => void` | -       | Called with the new checked state directly, not a raw event |
+| `label`    | `ReactNode`                  | -       | Label shown next to the switch                              |
+
+Plus any other Mantine `Switch` prop (`checked`, `defaultChecked`, `disabled`, `size`, `color`, `description`, `error`, etc.) is accepted and forwarded.
+
+<Callout type="info">
+  Styling (track/thumb colors, focus ring, etc.) is applied via the design token system automatically — see the `Switch`
+  entry in the theme's component defaults if you need to understand how the colors are derived.
+</Callout>

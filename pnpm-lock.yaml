@@ -120,6 +120,9 @@ importers:
 
   packages/docs:
     dependencies:
+      '@flxui/uikit':
+        specifier: workspace:*
+        version: link:../uikit
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.3.3(@types/react@18.3.18)(react@18.3.1)

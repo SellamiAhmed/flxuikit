@@ -1,0 +1,98 @@
+import { Callout } from 'nextra/components'
+
+# How to contribute
+
+## Prerequisites
+
+- [Node.js v20+](https://nodejs.org/)
+- [pnpm v8+](https://pnpm.io/) to manage packages and dependencies (this repo is pinned to `pnpm@10.30.0` via `packageManager`)
+- [Storybook](https://storybook.js.org/) for rapid UI component development and testing
+- [changesets](https://github.com/changesets/changesets) for change documentation, changelog generation, and release management
+
+## Scripts
+
+### Root directory
+
+- `pnpm install`: bootstraps the entire monorepo and installs all workspace dependencies.
+- `pnpm build`: runs `build` across all packages (`pnpm -r run build`).
+- `pnpm type-check`: runs `type-check` across all packages.
+- `pnpm test`: runs `test` across all packages.
+- `pnpm lint` / `pnpm lint:fix`: lints the repo with ESLint.
+- `pnpm format` / `pnpm format:check`: formats the repo with Prettier.
+- `pnpm changeset`: creates a changeset for your change (wraps the changesets CLI with a custom prompt flow).
+- `pnpm release`: publishes changed packages (`changeset publish`).
+- `pnpm gen:storybook`: generates Storybook stories.
+- `pnpm build-storybook`: builds the static Storybook site.
+- `pnpm check:tokens`: validates the design token contract.
+- `pnpm dev:test-app` / `pnpm build:test-app`: runs/builds the internal `@flxui/uikit-test` sandbox app used for manual testing against a real consumer.
+
+<Callout type="info">
+  This documentation site doesn't have a root-level filter script yet (no `dev:docs` equivalent). Until that's wired up,
+  run it directly from its own package directory with `pnpm dev`.
+</Callout>
+
+## Developing
+
+Run `pnpm install && pnpm build` to bootstrap the project, then start Storybook to develop components in isolation:
+
+```sh npm2yarn
+pnpm gen:storybook
+pnpm build-storybook
+```
+
+Your working area is `packages/uikit`. Once you finish your coding, write or update the corresponding Storybook stories so the change is covered.
+
+### Making a pull request
+
+#### Commit Convention
+
+Before you create a Pull Request, please check whether your commits comply with the commit conventions used in this repository.
+When you create a commit, you should follow the convention `category(scope or module): message` in your commit message, using one of the following categories:
+
+- `feat`/`feature`: all changes that introduce completely new code or new features
+  - For example: `feat(uikit/components)`, `feat(uikit/hooks)`
+- `fix`: changes that fix a bug (ideally reference an issue if present)
+- `refactor`: any code-related change that is not a fix nor a feature
+- `chore`: all changes to the repository that do not fit into any of the above categories
+
+### Pull Request
+
+Once you've committed your message, you can open your PR:
+
+1. Make a changeset
+
+```bash
+pnpm changeset
+```
+
+2. Follow the interactive prompts, then commit your change
+
+```bash
+git commit -m 'feat(uikit): your message'
+```
+
+3. Push the changes and open a PR. Wait for review before merging into `master`.
+
+### Release Process
+
+Each pull request that includes user-facing changes or API modifications should include a changeset:
+
+1. Generate a changeset file:
+
+```bash
+pnpm changeset
+```
+
+2. Follow the interactive prompts to:
+
+   - Select the packages that have changed
+   - Choose the type of change (major/minor/patch)
+
+3. Commit the generated `.changeset/*.md` file along with your changes.
+
+Once merged, a Release PR bumping versions and updating the changelog is created automatically. Once that Release PR is approved and merged, packages are published to the registry automatically via `pnpm release`.
+
+<Callout type="warning">
+  Release automation details (CI workflow names, snapshot release process) aren't confirmed for this repo yet — check
+  `.github/workflows` before relying on any specific automated release flow.
+</Callout>

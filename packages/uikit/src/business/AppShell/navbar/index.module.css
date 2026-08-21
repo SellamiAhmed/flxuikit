@@ -85,8 +85,7 @@
 }
 
 .collapseToggleButton:focus-visible {
-  outline: 2px solid var(--ds-color-border-focused);
-  outline-offset: 1px;
+  outline: none;
 }
 
 /* ── Expand Button ── */
@@ -193,8 +192,7 @@
 }
 
 .navButton:focus-visible {
-  outline: 2px solid var(--ds-color-border-focused);
-  outline-offset: 1px;
+  outline: none;
 }
 
 .navButton.navButton.active,

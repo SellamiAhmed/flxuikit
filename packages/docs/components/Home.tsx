@@ -57,7 +57,7 @@ const LayersIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-const DatabaseIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const LayoutGridIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
     xmlns="http://www.w3.org/2000/svg"
@@ -70,9 +70,10 @@ const DatabaseIcon = (props: React.SVGProps<SVGSVGElement>) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <ellipse cx="12" cy="5" rx="9" ry="3" />
-    <path d="M3 5V19A9 3 0 0 0 21 19V5" />
-    <path d="M3 12A9 3 0 0 0 21 12" />
+    <rect width="7" height="7" x="3" y="3" rx="1" />
+    <rect width="7" height="7" x="14" y="3" rx="1" />
+    <rect width="7" height="7" x="14" y="14" rx="1" />
+    <rect width="7" height="7" x="3" y="14" rx="1" />
   </svg>
 )
 
@@ -128,7 +129,7 @@ export default function Home() {
         <div className="container relative z-10 px-4 md:px-6 mx-auto flex flex-col items-center text-center">
           <div className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950/30 px-3 py-1 text-sm font-medium text-blue-800 dark:text-blue-300 mb-8 animate-fade-in-up">
             <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
-            v2.0 is now available
+            Built on Mantine
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 animate-fade-in-up [animation-delay:100ms]">
@@ -137,7 +138,7 @@ export default function Home() {
           </h1>
 
           <p className="max-w-[800px] text-lg md:text-xl text-muted-foreground mb-10 animate-fade-in-up [animation-delay:200ms]">
-            The definitive UI library for TiDB Cloud. A comprehensive suite of components, icons, and tools designed to
+            The definitive UI library for FlxUI. A comprehensive suite of components, icons, and tools designed to
             build modern, consistent, and powerful data applications.
           </p>
 
@@ -149,8 +150,9 @@ export default function Home() {
               Get Started
               <ArrowRightIcon className="ml-2 h-4 w-4" />
             </Link>
+            {/* TODO: point this at your real repo once flxui is public/hosted somewhere */}
             <Link
-              href="https://github.com/tidbcloud/tidbcloud-uikit"
+              href="https://github.com/flxui/flxui"
               target="_blank"
               className="inline-flex h-12 items-center justify-center rounded-full border border-input bg-background/50 backdrop-blur-sm px-8 text-base font-medium shadow-sm transition-all hover:bg-accent hover:text-accent-foreground hover:scale-105 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
@@ -167,12 +169,12 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Everything you need</h2>
             <p className="max-w-[700px] text-muted-foreground md:text-xl">
-              From basic primitives to complex business logic, TiUI has you covered.
+              From basic primitives to complex business logic, FlxUI has you covered.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {/* Card 1: Cloud UI (Large) */}
+            {/* Card 1: FlxUI Components (Large) */}
             <div className="md:col-span-2 glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 border-t border-l border-white/50 dark:border-white/10">
               <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:opacity-20 transition-opacity">
                 <LayersIcon className="w-64 h-64" />
@@ -181,7 +183,7 @@ export default function Home() {
                 <div className="h-12 w-12 rounded-2xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
                   <LayersIcon className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Cloud UI Components</h3>
+                <h3 className="text-2xl font-bold mb-2">FlxUI Components</h3>
                 <p className="text-muted-foreground mb-6 max-w-md">
                   A rich set of React components based on Mantine, customized for enterprise-grade data applications.
                   Includes advanced tables, forms, and layout primitives.
@@ -194,21 +196,22 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Card 2: SQL Editor */}
+            {/* Card 2: Business Components */}
             <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 border-t border-l border-white/50 dark:border-white/10">
               <div className="absolute -bottom-10 -right-10 opacity-10 group-hover:opacity-20 transition-opacity">
-                <DatabaseIcon className="w-48 h-48" />
+                <LayoutGridIcon className="w-48 h-48" />
               </div>
               <div className="relative z-10">
                 <div className="h-12 w-12 rounded-2xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400">
                   <CodeIcon className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">SQL Editor</h3>
+                <h3 className="text-2xl font-bold mb-2">Business Components</h3>
                 <p className="text-muted-foreground mb-4">
-                  A powerful, embeddable SQL editor with syntax highlighting, autocomplete, and themes.
+                  Ready-made building blocks like Form, SearchArea, and TimeRangePicker — react-hook-form wired up,
+                  validated, and themed out of the box.
                 </p>
                 <Link
-                  href="/sql-editor"
+                  href="/docs/form"
                   className="text-sm font-medium text-primary hover:underline inline-flex items-center"
                 >
                   Learn more <ArrowRightIcon className="ml-1 w-3 h-3" />
@@ -235,8 +238,8 @@ export default function Home() {
               <div className="flex-1 relative z-10">
                 <h3 className="text-2xl font-bold mb-2">Comprehensive Icon Set</h3>
                 <p className="text-muted-foreground mb-6">
-                  A complete collection of icons designed specifically for TiDB Cloud interfaces. Consistent, scalable,
-                  and easy to use.
+                  A complete collection of icons designed specifically for FlxUI interfaces. Consistent, scalable, and
+                  easy to use.
                 </p>
                 <Link
                   href="/icons"

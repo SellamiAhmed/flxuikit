@@ -1,0 +1,191 @@
+import { Callout } from 'nextra/components'
+
+# SearchArea
+
+A row of filter fields (text, select, multi-select, date, and time-range) that auto-submits as the user interacts
+with it, with optional persistence of filter state to the URL.
+
+## Import
+
+```tsx
+import { SearchArea } from '@flxui/uikit/business'
+```
+
+<Callout type="warning">
+  If you're porting examples from the tidbcloud reference docs, several prop names don't carry over — this
+  package's `SearchArea` uses different names for the same concepts, and drops one prop entirely:
+
+| tidbcloud     | This package                                                                                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `filters`     | `data`                                                                                                                                                                                |
+| `persistUrl`  | `recoverFromURLEnabled`                                                                                                                                                               |
+| `urlStateKey` | `formStateQueryKey`                                                                                                                                                                   |
+| `clearText`   | `clearFiltersText`                                                                                                                                                                    |
+| `debug`       | `debugEnabled` (present in the type, but not wired up — see below)                                                                                                                    |
+| `formProps`   | **not supported** — `SearchArea` builds its own `useForm()`/`FormProvider` directly rather than rendering the `Form` component, so there's nothing to forward extra `Form` props into |
+
+Field-level `label` also isn't supported — `FormItem` only has `name` and `placeholder`, and none of the internal
+field renders pass a `label` through. Use `placeholder` for in-field hint text; there's currently no way to add a
+standalone label above a `SearchArea` field.
+
+</Callout>
+
+## Basic Usage
+
+```tsx
+import { SearchArea } from '@flxui/uikit/business'
+
+interface Filters {
+  keyword: string
+  status: string
+}
+
+function Demo() {
+  const handleSubmit = (values: Filters) => {
+    console.log('search', values)
+  }
+
+  return (
+    <SearchArea<Filters>
+      data={[
+        { name: 'keyword', type: 'text', placeholder: 'Search...' },
+        {
+          name: 'status',
+          type: 'select',
+          placeholder: 'Status',
+          data: [
+            { label: 'Active', value: 'active' },
+            { label: 'Archived', value: 'archived' }
+          ]
+        }
+      ]}
+      onSubmit={handleSubmit}
+    />
+  )
+}
+```
+
+<Callout type="info">
+  There's no explicit "Search" button — `SearchArea` submits automatically. Text fields submit **800ms after you stop
+  typing** (debounced) or immediately on <kbd>Enter</kbd>; every other field type submits immediately on change.
+  `onSubmit` fires on every one of those triggers, not just once at the end.
+</Callout>
+
+## Field Types
+
+`data` accepts a mix of five field shapes, distinguished by `type`:
+
+```tsx
+type FormItem =
+  | { type: 'text'; name: string; placeholder?: string }
+  | { type: 'select'; name: string; placeholder?: string; data: Array<{ label: string; value: string }> }
+  | { type: 'multiselect'; name: string; placeholder?: string; data: Array<{ label: string; value: string }> }
+  | { type: 'datepicker'; name: string; placeholder?: string }
+  | { type: 'timerangepicker'; name: string; placeholder?: string }
+```
+
+```tsx
+<SearchArea
+  data={[
+    { name: 'q', type: 'text', placeholder: 'Search by name' },
+    {
+      name: 'tags',
+      type: 'multiselect',
+      placeholder: 'Tags',
+      data: [
+        { label: 'Urgent', value: 'urgent' },
+        { label: 'Bug', value: 'bug' }
+      ]
+    },
+    { name: 'createdAt', type: 'datepicker', placeholder: 'Created date' },
+    { name: 'activeWindow', type: 'timerangepicker', placeholder: 'Active window' }
+  ]}
+  onSubmit={(values) => console.log(values)}
+/>
+```
+
+<Callout type="warning">
+  `select` and `multiselect` fields are always rendered with `clearable` and `searchable` on — there's no per-field way
+  to turn either off from the `FormItem` config.
+</Callout>
+
+<Callout type="warning">
+  `data` on `select`/`multiselect` items must be an array of `{ label, value }` objects — plain strings like
+  `['Active', 'Inactive', 'Pending']` (as shown in some other libraries' docs) aren't a valid shape here.
+</Callout>
+
+## With Default Values
+
+```tsx
+<SearchArea
+  data={[{ name: 'status', type: 'select', data: [{ label: 'Active', value: 'active' }] }]}
+  defaultValues={{ status: 'active' }}
+  onSubmit={(values) => console.log(values)}
+/>
+```
+
+Clicking **Clear Filters** resets every field back to `defaultValues` and immediately re-submits with those values — it isn't just a visual reset.
+
+## With a Refresh Button
+
+The Refresh button only renders when `onRefresh` is provided:
+
+```tsx
+<SearchArea
+  data={[{ name: 'q', type: 'text' }]}
+  onSubmit={(values) => console.log(values)}
+  onRefresh={() => refetch()}
+/>
+```
+
+<Callout type="info">
+  Unlike the Clear Filters button, the Refresh button's label isn't configurable — it's hardcoded as `"Refresh"`. Only
+  `clearFiltersText` has a text-override prop.
+</Callout>
+
+## With URL Persistence
+
+Set `recoverFromURLEnabled` to sync filter state to and from the URL query string, so filters survive a page refresh or a shared link:
+
+```tsx
+<SearchArea
+  data={[{ name: 'q', type: 'text' }]}
+  onSubmit={(values) => console.log(values)}
+  recoverFromURLEnabled
+  formStateQueryKey="filters" // optional — defaults to "__fs"
+/>
+```
+
+<Callout type="info">
+  When `recoverFromURLEnabled` is on, `SearchArea` calls `onSubmit` once automatically on mount with whatever was
+  recovered from the URL (or `defaultValues`, if nothing was there yet) — so the parent's data-fetching should expect a
+  call on first render, not just on user interaction.
+</Callout>
+
+## Props
+
+| Prop                    | Type                  | Default           | Description                                                                                                                                           |
+| ----------------------- | --------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data`                  | `FormItem[]`          | -                 | **Required.** The filter fields to render, in order                                                                                                   |
+| `onSubmit`              | `(values: T) => void` | -                 | **Required.** Called whenever the filters change (debounced for text, immediate otherwise), on Clear Filters, and on mount if `recoverFromURLEnabled` |
+| `onRefresh`             | `() => void`          | -                 | Shows a Refresh button and calls this when clicked                                                                                                    |
+| `defaultValues`         | `DefaultValues<T>`    | -                 | Initial (and reset-target) values for the form                                                                                                        |
+| `recoverFromURLEnabled` | `boolean`             | -                 | Persist filter values to the URL query string and restore them on load                                                                                |
+| `formStateQueryKey`     | `string`              | `'__fs'`          | URL query param key used when `recoverFromURLEnabled` is on                                                                                           |
+| `clearFiltersText`      | `string`              | `'Clear Filters'` | Label for the Clear Filters button                                                                                                                    |
+
+<Callout type="warning">
+  `debugEnabled` is declared on the props type but isn't read anywhere in the implementation — passing it currently has
+  no effect.
+</Callout>
+
+## Notes
+
+- `SearchArea` wraps its fields in its own internal `FormProvider`/`useForm()` — you don't (and can't) pass in your
+  own `form` instance the way you can with `Form`.
+- Values are keyed by each `FormItem`'s `name`, matching the shape of `T` in `SearchArea<T>` and the object passed to
+  `onSubmit`.
+- Field types map to existing `Form*` components internally: `text` → `FormTextInput`, `select` → `FormSelect`,
+  `multiselect` → `FormMultiSelect`, `datepicker` → `FormDatePicker`, `timerangepicker` → `FormTimeRangePicker`. Any
+  quirks documented for those components elsewhere on this site (e.g. `FormTimeRangePicker` not auto-rendering
+  validation errors) still apply here.

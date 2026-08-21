@@ -1,0 +1,272 @@
+import { Callout } from 'nextra/components'
+
+# PhoneInput
+
+A phone number input built on `react-phone-input-2`, wrapped with FlxUI's `Input.Wrapper` for consistent label/description/error styling. The country dropdown selector is disabled — this component is designed for a fixed-country context (e.g. a form where the country is already known or chosen elsewhere), not a general international phone picker.
+
+## Import
+
+```tsx
+import { PhoneInput } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { PhoneInput } from '@flxui/uikit/business'
+
+function Demo() {
+  return <PhoneInput country="us" placeholder="Phone number" />
+}
+```
+
+<Callout type="info">
+  The country dropdown is always disabled (`disableDropdown` is hardcoded internally) — `country` sets the parsing/mask
+  context, it isn't a selectable dropdown option.
+</Callout>
+
+## With label, description, and error
+
+Since `PhoneInput` wraps `Input.Wrapper`, it accepts the same label/description/error props as any other FlxUI input:
+
+```tsx
+<PhoneInput
+  country="us"
+  label="Phone number"
+  description="We'll only use this for account recovery"
+  error={touched && !isValid ? 'Enter a valid phone number' : undefined}
+/>
+```
+
+## Showing the country code only after focus
+
+By default the dial code isn't shown. Set `showContryCodeAfterFocus` to reveal it once the field is focused for the first time:
+
+```tsx
+<PhoneInput country="us" showContryCodeAfterFocus />
+```
+
+<Callout type="warning">
+  Note the prop name is `showContryCodeAfterFocus` (missing the "u" in "Country") — this matches the actual exported
+  prop name in the current package version, not a typo in this doc.
+</Callout>
+
+## Custom input masks
+
+`PhoneInput` accepts `react-phone-input-2`'s `masks` prop to override the digit mask per country. If you don't pass `masks`, only China (`cn`) gets a hardcoded default mask (`'...........'`, 11 digits) — every other country falls back to `react-phone-input-2`'s own defaults.
+
+For full, real per-country mask coverage, pass the exported `phoneMasks` constant — see [phoneMasks](#phonemasks) below.
+
+```tsx
+import { PhoneInput, phoneMasks } from '@flxui/uikit/business'
+
+;<PhoneInput country="cn" masks={phoneMasks} />
+```
+
+## Styling the underlying react-phone-input-2 elements
+
+`react-phone-input-2`'s own class-name props are forwarded — useful for targeting specific parts of the rendered widget:
+
+```tsx
+<PhoneInput inputClass="my-input-class" buttonClass="my-button-class" containerClass="my-container-class" />
+```
+
+## Wrapping the outer container
+
+`rootProps` forwards to the outermost `Box`, separate from the input wrapper itself — useful for layout concerns like width or margin on the whole component:
+
+```tsx
+<PhoneInput rootProps={{ w: 320, mb: 16 }} />
+```
+
+## Props
+
+`PhoneInput` extends `react-phone-input-2`'s `PhoneInputProps`, plus `Input.Wrapper` props (`label`, `description`, `error`, etc. — excluding `onBlur`, `onChange`, `onClick`, `onFocus`, `onKeyDown`, which come from `react-phone-input-2` instead).
+
+| Prop                                                                              | Type                | Default                 | Description                                                                                                                       |
+| --------------------------------------------------------------------------------- | ------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `country`                                                                         | `string`            | `''`                    | Country code used for parsing/masking (dropdown is disabled, so this isn't user-selectable)                                       |
+| `showContryCodeAfterFocus`                                                        | `boolean`           | -                       | Reveals the dial code once the field has been focused for the first time                                                          |
+| `rootProps`                                                                       | `BoxProps`          | -                       | Props forwarded to the outermost `Box`, separate from the input wrapper itself                                                    |
+| `value`                                                                           | `string`            | -                       | Phone value                                                                                                                       |
+| `placeholder`                                                                     | `string`            | `''`                    | Input placeholder                                                                                                                 |
+| `inputClass` / `buttonClass` / `containerClass` / `dropdownClass` / `searchClass` | `string`            | -                       | Forwarded to `react-phone-input-2` for styling specific internal elements                                                         |
+| `masks`                                                                           | `object`            | `{ cn: '...........' }` | Per-country digit masks. Only `cn` has a built-in default — pass the exported `phoneMasks` constant for full per-country coverage |
+| `onFocus`                                                                         | `(e, data) => void` | -                       | Called after the component's internal focus-tracking state updates (used for `showContryCodeAfterFocus`)                          |
+
+Plus any other `react-phone-input-2` prop (`onChange`, `onBlur`, `disabled`, etc.) and any `Input.Wrapper` prop (`label`, `description`, `error`, `required`, etc.) are accepted and forwarded.
+
+---
+
+# FormPhoneInput
+
+A `react-hook-form`-connected wrapper around `PhoneInput`. Must be used inside a `react-hook-form` `FormProvider` (or FlxUI's `Form` wrapper, if you're using it) — it reads form context via `useFormContext` internally.
+
+## Import
+
+```tsx
+import { FormPhoneInput } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { useForm, FormProvider } from 'react-hook-form'
+import { FormPhoneInput } from '@flxui/uikit/business'
+
+function Demo() {
+  const methods = useForm()
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit((data) => console.log(data))}>
+        <FormPhoneInput name="phone" label="Phone Number" rules={{ required: 'Phone number is required' }} />
+      </form>
+    </FormProvider>
+  )
+}
+```
+
+Full per-country masking via `phoneMasks` is applied automatically — you don't need to pass `masks` yourself.
+
+## Props
+
+Extends `PhoneInput` props (minus `onSelect`, redefined below with a country-data callback), plus:
+
+| Prop             | Type                                                  | Default | Description                                                              |
+| ---------------- | ----------------------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| `name`           | `string`                                              | -       | **Required.** Field name registered with `react-hook-form`               |
+| `defaultCountry` | `string`                                              | -       | Initial country context                                                  |
+| `rules`          | `RegisterOptions`                                     | -       | `react-hook-form` validation rules (e.g. `{ required: '...' }`)          |
+| `onSelect`       | `(value: string, country: CountryData \| {}) => void` | -       | Called alongside the form's own `onChange`, with the parsed country data |
+
+Validation errors are automatically read from form state and rendered via `@hookform/error-message`'s `ErrorMessage` — no manual `error` prop needed.
+
+---
+
+# FormPhoneInputV2
+
+A combined country-select + phone-number pair, for forms where the country needs to be its own selectable field (rather than fixed/known ahead of time, as with `PhoneInput`/`FormPhoneInput`). Renders a `FormSelect` for the country and a `FormPhoneInput` for the number side by side, with a single consolidated error message under both.
+
+## Import
+
+```tsx
+import { FormPhoneInputV2 } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { useForm, FormProvider } from 'react-hook-form'
+import { FormPhoneInputV2 } from '@flxui/uikit/business'
+
+function Demo() {
+  const methods = useForm()
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit((data) => console.log(data))}>
+        <FormPhoneInputV2
+          countryKey="country"
+          phoneKey="phone"
+          rules={{ required: 'Phone number is required' }}
+          countryRules={{ required: 'Country is required' }}
+          selectProps={{ placeholder: 'Select country' }}
+        />
+      </form>
+    </FormProvider>
+  )
+}
+```
+
+The phone field's `country` is driven live by the country field's value (via `watch`) — selecting a country immediately updates the phone input's parsing/mask context.
+
+## Filtering the country list
+
+```tsx
+<FormPhoneInputV2
+  countryKey="country"
+  phoneKey="phone"
+  selectProps={{
+    placeholder: 'Select country',
+    filterData: (option) => ['us', 'ca', 'gb'].includes(option.value)
+  }}
+/>
+```
+
+## Props
+
+| Prop             | Type                                                  | Default | Description                                                                            |
+| ---------------- | ----------------------------------------------------- | ------- | -------------------------------------------------------------------------------------- |
+| `countryKey`     | `string`                                              | -       | **Required.** Form field name for the country select                                   |
+| `phoneKey`       | `string`                                              | -       | **Required.** Form field name for the phone number                                     |
+| `defaultCountry` | `string`                                              | -       | Initial country context                                                                |
+| `rules`          | `RegisterOptions`                                     | -       | Validation rules for the phone field                                                   |
+| `countryRules`   | `RegisterOptions`                                     | -       | Validation rules for the country field                                                 |
+| `onSelect`       | `(value: string, country: CountryData \| {}) => void` | -       | Called on phone change, with parsed country data                                       |
+| `selectProps`    | `object`                                              | -       | Props for the country `FormSelect`, plus an optional `filterData` to restrict the list |
+| `rootProps`      | `BoxProps`                                            | -       | Props forwarded to the outer wrapping `Box`                                            |
+
+<Callout type="info">
+  `showContryCodeAfterFocus` is forced to `false` internally on the phone side — since the country is already visible in
+  its own select field, showing the dial code inside the phone input as well would be redundant.
+</Callout>
+
+---
+
+# phoneMasks
+
+A full per-country digit mask map, generated from real country format data. Includes a forced override for China (`cn`) to match `PhoneInput`'s expected 11-digit format.
+
+## Import
+
+```tsx
+import { phoneMasks } from '@flxui/uikit/business'
+```
+
+## Usage
+
+```tsx
+<PhoneInput masks={phoneMasks} />
+```
+
+`FormPhoneInput` and `FormPhoneInputV2` already apply `phoneMasks` internally — you only need to import it directly when using the plain `PhoneInput` component outside a form context.
+
+---
+
+# validPhoneNumber
+
+An async helper for validating a phone number against a specific country/region, using `google-libphonenumber`. The validation library is lazy-loaded on first call (dynamic `import()`), so it doesn't add to your initial bundle unless you actually validate a number.
+
+## Import
+
+```tsx
+import { validPhoneNumber } from '@flxui/uikit/business'
+```
+
+## Usage
+
+```tsx
+import { validPhoneNumber } from '@flxui/uikit/business'
+
+async function handleSubmit(country: string, phoneNumber: string) {
+  const isValid = await validPhoneNumber(country, phoneNumber)
+  if (!isValid) {
+    // show a validation error
+  }
+}
+```
+
+## Signature
+
+```ts
+function validPhoneNumber(country: string, phoneNum: string): Promise<boolean>
+```
+
+| Param      | Type     | Description                                                                 |
+| ---------- | -------- | --------------------------------------------------------------------------- |
+| `country`  | `string` | Two-letter region code (e.g. `'US'`, `'CN'`) to validate the number against |
+| `phoneNum` | `string` | The raw phone number string to validate                                     |
+
+<Callout type="warning">
+  Throws if the underlying `google-libphonenumber` parse fails unexpectedly (not just "invalid number" — a genuine parse
+  error). Wrap calls in a try/catch if you need to distinguish "invalid" from "couldn't be parsed at all".
+</Callout>

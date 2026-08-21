@@ -1,0 +1,208 @@
+import { Callout } from 'nextra/components'
+
+# DateTimePicker
+
+A combined date + time picker: a calendar for picking the date, paired with a scrollable hour/minute/second picker and a direct time text input, all in one popover.
+
+## Import
+
+```tsx
+import { DateTimePicker } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { DateTimePicker } from '@flxui/uikit/business'
+
+function Demo() {
+  return <DateTimePicker placeholder="Select time" onChange={(date) => console.log(date)} />
+}
+```
+
+`DateTimePicker` is uncontrolled by default — pass `value`/`onChange` to control it, or `defaultValue` to seed an uncontrolled instance.
+
+```tsx
+import { useState } from 'react'
+import { DateTimePicker } from '@flxui/uikit/business'
+
+function Demo() {
+  const [value, setValue] = useState<Date>()
+  return <DateTimePicker value={value} onChange={setValue} />
+}
+```
+
+## Constraining the range
+
+`startDate`/`endDate` clamp both the calendar and the scroller picker. Values outside the range are pulled back to the nearest boundary automatically:
+
+```tsx
+<DateTimePicker startDate={new Date('2026-01-01')} endDate={new Date('2026-12-31')} />
+```
+
+<Callout type="info">Defaults to 10 years before/after today if not provided.</Callout>
+
+## Custom formatting
+
+`format` controls the display string using the package's `dayjs` formatting tokens. For timezone-aware or otherwise custom display logic, use `formatter` instead — it receives the raw `Date` and returns the string to show:
+
+```tsx
+<DateTimePicker format="YYYY-MM-DD HH:mm:ss" />
+
+<DateTimePicker formatter={(date) => date.toLocaleString('en-US', { timeZone: 'America/New_York' })} />
+```
+
+<Callout type="warning">
+  `utcOffset` is deprecated — use `formatter` to render the value in any timezone instead.
+</Callout>
+
+## Loading state
+
+```tsx
+<DateTimePicker loading />
+```
+
+Replaces the clock icon with a spinner while `loading` is `true`.
+
+## Footer content
+
+```tsx
+<DateTimePicker footer={<Button size="xs">Apply</Button>} />
+```
+
+Renders below the calendar/scroller, separated by a divider — useful for an explicit "Apply"/"Cancel" action pair instead of closing on every change.
+
+## Props
+
+`DateTimePicker` extends `TextInput` props (minus `value`, `onChange`, `defaultValue`, which are redefined below with `Date`-based signatures).
+
+| Prop           | Type                    | Default         | Description                                                 |
+| -------------- | ----------------------- | --------------- | ----------------------------------------------------------- |
+| `placeholder`  | `string`                | `'Select time'` | Input placeholder                                           |
+| `format`       | `string`                | package default | `dayjs` format string used to render the input value        |
+| `formatter`    | `(val: Date) => string` | -               | Custom display formatter — overrides `format` when provided |
+| `defaultValue` | `Date`                  | -               | Initial value for uncontrolled usage                        |
+| `value`        | `Date`                  | -               | Controlled value                                            |
+| `startDate`    | `Date`                  | 10 years ago    | Earliest selectable date/time                               |
+| `endDate`      | `Date`                  | 10 years ahead  | Latest selectable date/time                                 |
+| `onChange`     | `(val: Date) => void`   | -               | Called on any change (calendar, time input, or scroller)    |
+| `disable`      | `boolean`               | `false`         | Disables the input                                          |
+| `withinPortal` | `boolean`               | `true`          | Renders the dropdown in a portal                            |
+| `loading`      | `boolean`               | `false`         | Shows a loader instead of the clock icon                    |
+| `size`         | `MantineSize`           | -               | Input size                                                  |
+| `footer`       | `ReactNode`             | -               | Rendered below the picker, separated by a divider           |
+
+<Callout type="warning">
+  `utcOffset` (deprecated) is still accepted but not listed above — use `formatter` instead.
+</Callout>
+
+---
+
+# TimePicker
+
+A time-only picker (no calendar) — a text input with `HH:mm:ss` value, backed by the same scrollable hour/minute/second picker as `DateTimePicker`.
+
+## Import
+
+```tsx
+import { TimePicker } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { TimePicker } from '@flxui/uikit/business'
+
+function Demo() {
+  return <TimePicker onChange={(time) => console.log(time)} />
+}
+```
+
+`value`/`onChange`/`defaultValue` are plain `'HH:mm:ss'` strings, not `Date` objects:
+
+```tsx
+import { useState } from 'react'
+import { TimePicker } from '@flxui/uikit/business'
+
+function Demo() {
+  const [value, setValue] = useState('09:30:00')
+  return <TimePicker value={value} onChange={setValue} />
+}
+```
+
+## Constraining the range
+
+```tsx
+<TimePicker minTime="09:00:00" maxTime="18:00:00" />
+```
+
+`minTime`/`maxTime` come from the underlying `TimeInput` props and are also used to clamp the scroller picker's selectable range.
+
+## Props
+
+`TimePicker` extends `TimeInput` props (minus `value`, `onChange`, `defaultValue`), plus a subset of `Popover` props for dropdown behavior.
+
+| Prop           | Type                       | Default | Description                                            |
+| -------------- | -------------------------- | ------- | ------------------------------------------------------ |
+| `defaultValue` | `string`                   | -       | Initial value, `'HH:mm:ss'` format, uncontrolled       |
+| `value`        | `string`                   | -       | Controlled value, `'HH:mm:ss'` format                  |
+| `onChange`     | `(val: string) => void`    | -       | Called with the new `'HH:mm:ss'` string                |
+| `disable`      | `boolean`                  | `false` | Disables the input                                     |
+| `size`         | `MantineSize`              | -       | Input size                                             |
+| `withinPortal` | `boolean`                  | -       | Renders the dropdown in a portal (from `Popover`)      |
+| `withArrow`    | `boolean`                  | -       | Shows a pointer arrow on the dropdown (from `Popover`) |
+| `position`     | `PopoverProps['position']` | -       | Dropdown position (from `Popover`)                     |
+| `shadow`       | `PopoverProps['shadow']`   | -       | Dropdown shadow (from `Popover`)                       |
+
+Plus any other `TimeInput` prop (e.g. `minTime`, `maxTime`) is forwarded directly.
+
+---
+
+# useDateTimePicker
+
+A helper hook for displaying and editing a `DateTimePicker` value in a specific timezone, independent of the browser's local timezone. Converts the underlying UTC value to the target offset for display, and converts edits back before calling your `onChange`.
+
+## Import
+
+```tsx
+import { useDateTimePicker } from '@flxui/uikit/business'
+```
+
+## Usage
+
+Spread the returned props directly into `DateTimePicker`:
+
+```tsx
+import { DateTimePicker, useDateTimePicker } from '@flxui/uikit/business'
+import { useState } from 'react'
+
+function Demo() {
+  const [value, setValue] = useState<Date>()
+
+  const pickerProps = useDateTimePicker({
+    value,
+    onChange: setValue,
+    utcOffset: -5 // e.g. America/New_York in standard time
+  })
+
+  return <DateTimePicker {...pickerProps} />
+}
+```
+
+Internally, this converts `value` to the target offset for display (`displayValue`), and converts changes back to the picker's native representation before calling your `onChange` — so the value you receive in `onChange` is a real `Date` reflecting the corrected time, not the raw local-timezone `Date` the picker would otherwise produce.
+
+## Parameters
+
+| Param       | Type                    | Default                | Description                                                                 |
+| ----------- | ----------------------- | ---------------------- | --------------------------------------------------------------------------- |
+| `value`     | `Date`                  | -                      | Current value (interpreted as UTC before offset conversion)                 |
+| `onChange`  | `(val: Date) => void`   | -                      | Called with the corrected `Date` after a change                             |
+| `startDate` | `Date`                  | 10 years ago           | Passed through to the returned `startDate`, offset-converted                |
+| `endDate`   | `Date`                  | 10 years ahead         | Passed through to the returned `endDate`, offset-converted                  |
+| `format`    | `string`                | -                      | Format string used by the returned `formatter`                              |
+| `formatter` | `(val: Date) => string` | -                      | Custom formatter — takes precedence over `format` in the returned formatter |
+| `utcOffset` | `number \| string`      | browser's local offset | The target timezone offset to display/edit in                               |
+
+## Return value
+
+Returns `{ value, onChange, startDate, endDate, formatter }` — spread directly into `DateTimePicker`.

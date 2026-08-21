@@ -1,23 +1,130 @@
+import { Tabs, Tab } from 'nextra-theme-docs'
+
 # Getting Started
 
-## Install
+## FlxUI Components
 
-```bash
-pnpm add @yourscope/uikit
+FlxUI has several layers of components: Primitive, Business, Icons, and Hooks — plus a Theme layer that ties them together.
+
+### Primitive
+
+The fundamental UI library for Flx, including layout, typography, color, and so on. Built on [Mantine v7](https://mantine.dev/), with custom styles and components layered on top.
+
+[Read More](/docs/primitive)
+
+### Business
+
+Abstracted business UI components, encapsulating common product logic and interaction patterns on top of the Primitive layer.
+
+[Read More](/docs/business)
+
+### Icons
+
+A complete SVG icon set designed for FlxUI interfaces, usable in any project.
+
+[Read More](/docs/icons)
+
+### Hooks
+
+A collection of reusable React hooks that pair with the component library to handle common product logic out of the box.
+
+[Read More](/docs/hooks)
+
+## Installation
+
+Inside your React project directory, run the following command to install the package:
+
+```sh npm2yarn
+npm install @flxui/uikit@latest
 ```
 
-## Usage
+You'll also need Mantine v7 installed as peer dependencies:
 
-```tsx
-import { ThemeProvider } from '@yourscope/uikit/theme'
-import { Button } from '@yourscope/uikit'
-import '@yourscope/uikit/style.css'
+```sh npm2yarn
+npm install @mantine/core @mantine/hooks @mantine/notifications @mantine/modals
+```
 
-function App() {
+## Quick Start
+
+Wrap your application root component with `ThemeProvider` and import the styles:
+
+```js
+import { ThemeProvider } from '@flxui/uikit/theme'
+import '@flxui/uikit/styles.css'
+
+function Main() {
   return (
-    <ThemeProvider>
-      <Button>Click me</Button>
+    <ThemeProvider colorScheme="auto">
+      <App />
     </ThemeProvider>
   )
 }
 ```
+
+You can now import and use any components anywhere in your application:
+
+```js
+import { Button } from '@flxui/uikit'
+
+function Demo() {
+  return <Button>Click me!</Button>
+}
+```
+
+`ThemeProvider` already includes `Notifications` and `ModalsProvider` internally, so toasts and modals work out of the box without any extra setup.
+
+### Color Scheme
+
+`colorScheme` accepts `'light'`, `'dark'`, or `'auto'`. When set to `'auto'`, FlxUI resolves the OS color scheme preference for you automatically:
+
+```tsx
+import { useState } from 'react'
+import { ThemeProvider } from '@flxui/uikit/theme'
+
+function Main() {
+  const [colorScheme, setColorScheme] = useState<'light' | 'dark' | 'auto'>('auto')
+
+  return (
+    <ThemeProvider colorScheme={colorScheme}>
+      <App />
+    </ThemeProvider>
+  )
+}
+```
+
+### Usage with Next.js Pages Router
+
+Since FlxUI is built on Mantine v7's native CSS variables (no CSS-in-JS runtime), there's no emotion cache or SSR style extraction to set up. In `_app.tsx`:
+
+```tsx
+import '../globals.css'
+
+import { ThemeProvider as UikitThemeProvider } from '@flxui/uikit/theme'
+import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes'
+import type { AppProps } from 'next/app'
+import { useEffect, useState } from 'react'
+
+function UikitSync({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+
+  const colorScheme = !mounted ? 'auto' : theme === 'system' ? 'auto' : (theme as 'light' | 'dark')
+
+  return <UikitThemeProvider colorScheme={colorScheme}>{children}</UikitThemeProvider>
+}
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <NextThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <UikitSync>
+        <Component {...pageProps} />
+      </UikitSync>
+    </NextThemeProvider>
+  )
+}
+```
+
+No custom `_document.tsx` setup is required either — the styles ship as a static `.css` file, so there's nothing to extract server-side.
+
+Done! You can now use any components in your pages.

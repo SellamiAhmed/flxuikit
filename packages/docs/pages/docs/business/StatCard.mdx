@@ -1,0 +1,102 @@
+import { Callout } from 'nextra/components'
+
+# StatCard
+
+<Callout type="warning">The exported component is named `StatCard` (singular), not `StatsCard`.</Callout>
+
+A metric summary card — title, a large value, an optional icon, and an optional trend indicator (`StatCard.Trend`) showing percentage change with a directional arrow.
+
+## Import
+
+```tsx
+import { StatCard } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { StatCard } from '@flxui/uikit/business'
+
+function Demo() {
+  return <StatCard title="Active Users" value="12,483" />
+}
+```
+
+## With an icon
+
+```tsx
+import { IconUsers } from '@tabler/icons-react'
+
+;<StatCard title="Active Users" value="12,483" icon={<IconUsers size={18} />} />
+```
+
+## With a trend indicator
+
+`StatCard.Trend` renders a directional arrow, a percentage, and an optional description — pass it as a child of `StatCard`:
+
+```tsx
+<StatCard title="Monthly Revenue" value="$48,200">
+  <StatCard.Trend value={12.4} direction="up" description="vs. last month" />
+</StatCard>
+```
+
+By default, `direction="up"` is styled as positive (green) and `direction="down"` as negative (red) — matching the usual "up is good" reading for metrics like revenue or active users.
+
+### Inverting the color semantics
+
+For metrics where a decrease is actually the good outcome (churn rate, error rate, costs), set `invertColor` so `direction="down"` renders as positive instead:
+
+```tsx
+<StatCard title="Churn Rate" value="2.1%">
+  <StatCard.Trend value={0.8} direction="down" description="vs. last month" invertColor />
+</StatCard>
+```
+
+<Callout type="info">
+  `invertColor` only affects the color (positive/negative styling) — the arrow icon direction always matches the literal
+  `direction` prop (`up` always shows an up-arrow, `down` always shows a down-arrow), regardless of `invertColor`.
+</Callout>
+
+## Custom title/value styling
+
+`titleProps` and `valueProps` forward directly to the underlying `Typography` components, so you can override size, color, weight, etc. without replacing the whole layout:
+
+```tsx
+<StatCard title="Errors" value={0} valueProps={{ c: 'green' }} />
+```
+
+## Additional content below the value
+
+Anything passed as `children` renders inside the value area, below the value itself — `StatCard.Trend` is just the common case, but you can render arbitrary content there too:
+
+```tsx
+<StatCard title="Storage Used" value="1.2 TB">
+  <Progress value={62} size="sm" />
+</StatCard>
+```
+
+## Props
+
+### `StatCard`
+
+Extends `Card` props.
+
+| Prop         | Type               | Default | Description                                           |
+| ------------ | ------------------ | ------- | ----------------------------------------------------- |
+| `title`      | `string`           | -       | **Required.** Card label, shown above the value       |
+| `value`      | `string \| number` | -       | **Required.** The main metric value                   |
+| `icon`       | `ReactNode`        | -       | Optional icon shown in the top-right of the header    |
+| `titleProps` | `TypographyProps`  | -       | Forwarded to the title's `Typography` component       |
+| `valueProps` | `TypographyProps`  | -       | Forwarded to the value's `Typography` component       |
+| `children`   | `ReactNode`        | -       | Rendered below the value — typically `StatCard.Trend` |
+
+Plus any other `Card` prop (`shadow`, `withBorder`, `padding`, etc.) is accepted and forwarded.
+
+### `StatCard.Trend`
+
+| Prop          | Type             | Default | Description                                                                                |
+| ------------- | ---------------- | ------- | ------------------------------------------------------------------------------------------ |
+| `value`       | `number`         | -       | **Required.** Percentage value shown — a `%` sign is appended automatically                |
+| `direction`   | `'up' \| 'down'` | -       | **Required.** Controls the arrow direction and, by default, the positive/negative color    |
+| `description` | `string`         | -       | Optional trailing text, e.g. `"vs. last month"`                                            |
+| `invertColor` | `boolean`        | -       | Flips which `direction` is styled as positive, without affecting the arrow direction shown |

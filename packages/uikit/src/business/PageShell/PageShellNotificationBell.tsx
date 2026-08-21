@@ -35,7 +35,7 @@ export const PageShellNotificationBell = ({
 
   const bellContent = (
     <span className={classes.inner}>
-      {icon ?? <IconBell size={16} stroke={1} aria-hidden="true" />}
+      {icon ?? <IconBell size={16} aria-hidden="true" />}
       {hasIndicator &&
         (dot ? (
           <span className={classes.badgeDot} aria-hidden="true" />

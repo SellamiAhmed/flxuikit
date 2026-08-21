@@ -1,9 +1,23 @@
 export default {
   index: 'Introduction',
-  'getting-started': { title: 'Getting Started' },
   '-- Components': {
     type: 'separator',
     title: 'Components'
   },
-  components: { title: 'Components' }
+  'getting-started': {
+    title: 'Getting Started'
+  },
+
+  business: {
+    title: 'Business Components'
+  },
+
+  contribution: {
+    title: 'Contribution'
+  },
+  'mantine-link': {
+    title: 'Mantine Docs ↗',
+    href: 'https://mantine.dev/',
+    newWindow: true
+  }
 }

@@ -1,0 +1,367 @@
+import { Callout } from 'nextra/components'
+
+# AppShell
+
+A main application shell component that provides a layout structure with a collapsible sidebar navbar, banner support, and main content area.
+
+## Import
+
+```tsx
+import { AppShell, AppPageShell } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+Nav items are rendered as direct children of `AppShell` — `NavMenuItem` portals itself into the navbar internally, so there's no separate portal wrapper to import or render.
+
+```tsx
+import { AppShell, AppPageShell, NavMenuItem } from '@flxui/uikit/business'
+
+function Demo() {
+  return (
+    <AppShell
+      navbar={{
+        logo: <img src="/logo.svg" alt="Logo" />,
+        footer: {
+          utilityActions: []
+        }
+      }}
+    >
+      <NavMenuItem label="Dashboard" href="/dashboard" />
+      <NavMenuItem label="Settings" href="/settings" />
+
+      <AppPageShell title="Dashboard">
+        <p>Page content here</p>
+      </AppPageShell>
+    </AppShell>
+  )
+}
+```
+
+<Callout type="info">
+  `navbar.footer.utilityActions` is required — pass an empty array if you don't need footer utility icons yet.
+</Callout>
+
+## With Banner
+
+```tsx
+import { AppShell, AppPageShell } from '@flxui/uikit/business'
+import { Alert } from '@flxui/uikit'
+
+function Demo() {
+  return (
+    <AppShell
+      banner={<Alert color="blue">New features available!</Alert>}
+      navbar={{
+        logo: <img src="/logo.svg" alt="Logo" />,
+        footer: { utilityActions: [] }
+      }}
+    >
+      <AppPageShell title="Home">Content</AppPageShell>
+    </AppShell>
+  )
+}
+```
+
+## Navigation Items
+
+`NavMenuItem` supports nested children via `NavMenuSubItem`, an icon, and a numeric badge. When the navbar is collapsed (rail mode), it automatically switches to an icon-only button with a tooltip and a small badge dot — no extra configuration needed.
+
+```tsx
+import { AppShell, AppPageShell, NavMenuItem, NavMenuSubItem } from '@flxui/uikit/business'
+import { IconHome, IconSettings } from '@tabler/icons-react'
+
+function Demo() {
+  return (
+    <AppShell navbar={{ logo: <Logo />, footer: { utilityActions: [] } }}>
+      <NavMenuItem label="Dashboard" href="/dashboard" icon={<IconHome size={16} />} />
+      <NavMenuItem label="Settings" icon={<IconSettings size={16} />}>
+        <NavMenuSubItem label="General" href="/settings/general" />
+        <NavMenuSubItem label="Security" href="/settings/security" />
+      </NavMenuItem>
+
+      <AppPageShell title="Settings">{/* ... */}</AppPageShell>
+    </AppShell>
+  )
+}
+```
+
+### Custom router links
+
+Both `NavMenuItem` and `NavMenuSubItem` accept a `renderLink` escape hatch for router-driven links (TanStack Router, React Router, Next's `Link`) instead of the built-in anchor:
+
+```tsx
+<NavMenuItem
+  label="Dashboard"
+  icon={<IconHome size={16} />}
+  renderLink={(linkProps) => (
+    <Link to="/dashboard" preload="intent" activeProps={{ 'data-active': true }} {...linkProps} />
+  )}
+/>
+```
+
+`href` is ignored when `renderLink` is provided.
+
+## Notifications and utility actions
+
+The navbar footer area supports two independent, data-driven config objects — not JSX slots.
+
+```tsx
+<AppShell
+  navbar={{
+    logo: <Logo />,
+    notifications: {
+      notifications: [
+        {
+          id: 'update-1',
+          title: 'New version available',
+          description: 'v0.9.0 adds dark mode improvements.',
+          linkLabel: 'See changelog',
+          href: '/changelog',
+          dismissible: true
+        }
+      ],
+      onDismiss: (notification) => console.log('dismissed', notification.id)
+    },
+    footer: {
+      utilityActions: [
+        { id: 'help', ariaLabel: 'Help', icon: <IconHelp size={16} />, href: '/help' },
+        { id: 'settings', ariaLabel: 'Settings', icon: <IconSettings size={16} />, onClick: () => {} }
+      ]
+    }
+  }}
+>
+  {/* ... */}
+</AppShell>
+```
+
+`AppSidenavUtilityAction` also accepts a `renderLink` for router-driven footer links, following the same pattern as `NavMenuItem`.
+
+## Collapsed Logo
+
+When the navbar collapses into rail mode, the header switches to a compact layout: the logo shrinks into a clickable brand area (still fires `onLogoClick`), and the collapse/expand toggle button takes its place next to it.
+
+By default, `navbar.logo` is reused for the collapsed state too — if you don't pass `logoCollapsed`, `AppShell` falls back to `navbar.logo` automatically. This works fine for a square icon-only mark, but a wide horizontal logo will usually look cramped in the narrow rail width. Pass a dedicated compact mark via `logoCollapsed` for a cleaner rail header:
+
+```tsx
+<AppShell
+  navbar={{
+    logo: <img src="/logo-full.svg" alt="FlxUI" height={24} />,
+    logoCollapsed: <img src="/logo-mark.svg" alt="FlxUI" height={20} />,
+    footer: { utilityActions: [] }
+  }}
+>
+  {/* ... */}
+</AppShell>
+```
+
+<Callout type="info">
+  If `logoCollapsed` resolves to nothing (e.g. `navbar.logo` is also unset), the clickable brand area is skipped
+  entirely — only the expand toggle button renders in the rail header.
+</Callout>
+
+## Collapse Events
+
+```tsx
+import { AppShell } from '@flxui/uikit/business'
+
+function Demo() {
+  return (
+    <AppShell
+      navbar={{
+        logo: <Logo />,
+        footer: { utilityActions: [] },
+        onCollapse: () => console.log('Navbar collapsed'),
+        onExpand: () => console.log('Navbar expanded')
+      }}
+    >
+      {/* content */}
+    </AppShell>
+  )
+}
+```
+
+Collapse state can also be controlled externally via `navbar.collapsed` — when provided, `AppShell` no longer manages the collapsed/expanded state internally, and `onCollapse`/`onExpand` become the only way to react to the user's toggle clicks.
+
+## AppShell Props
+
+| Prop       | Type        | Default | Description                 |
+| ---------- | ----------- | ------- | --------------------------- |
+| `banner`   | `ReactNode` | -       | Banner displayed at the top |
+| `navbar`   | `object`    | -       | Navbar configuration object |
+| `children` | `ReactNode` | -       | Nav items + page content    |
+
+### Navbar Configuration
+
+| Prop                       | Type         | Default       | Description                                                                                                                                           |
+| -------------------------- | ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `navbar.width`             | `number`     | `240`         | Width of the navbar in expanded state (px)                                                                                                            |
+| `navbar.logo`              | `ReactNode`  | -             | Logo shown in the expanded navbar header                                                                                                              |
+| `navbar.logoCollapsed`     | `ReactNode`  | `navbar.logo` | Logo shown in the collapsed rail header. Falls back to `navbar.logo` if omitted — see [Collapsed Logo](#collapsed-logo) below for when to override it |
+| `navbar.collapsed`         | `boolean`    | -             | Controlled collapsed state (omit for uncontrolled)                                                                                                    |
+| `navbar.headerLeftSection` | `ReactNode`  | -             | Left section of the navbar header                                                                                                                     |
+| `navbar.aboveMenu`         | `ReactNode`  | -             | Content rendered between the header and the nav menu (hidden when collapsed)                                                                          |
+| `navbar.notifications`     | `object`     | -             | Sidebar announcement cards config (see below)                                                                                                         |
+| `navbar.footer`            | `object`     | -             | **Required.** Footer utility actions config (see below)                                                                                               |
+| `navbar.onLogoClick`       | `() => void` | -             | Callback when the logo is clicked                                                                                                                     |
+| `navbar.onCollapse`        | `() => void` | -             | Callback fired when the user collapses the navbar                                                                                                     |
+| `navbar.onExpand`          | `() => void` | -             | Callback fired when the user expands the navbar                                                                                                       |
+
+**`navbar.notifications`**
+
+| Prop                     | Type                                             | Default           | Description                                    |
+| ------------------------ | ------------------------------------------------ | ----------------- | ---------------------------------------------- |
+| `notificationsAriaLabel` | `string`                                         | `'Announcements'` | Accessible label for the section               |
+| `notifications`          | `AppSidenavNotification[]`                       | -                 | List of announcement cards                     |
+| `onDismiss`              | `(notification: AppSidenavNotification) => void` | -                 | Called when a card's dismiss button is clicked |
+
+**`navbar.footer`**
+
+| Prop                 | Type                        | Default               | Description                               |
+| -------------------- | --------------------------- | --------------------- | ----------------------------------------- |
+| `utilitiesAriaLabel` | `string`                    | `'Sidebar utilities'` | Accessible label for the section          |
+| `utilityActions`     | `AppSidenavUtilityAction[]` | -                     | **Required.** List of icon-button actions |
+
+## Types
+
+```ts
+interface AppSidenavNotification {
+  id: string
+  title: string
+  description: string
+  href?: string
+  linkLabel?: string
+  icon?: ReactNode
+  dismissible?: boolean
+  onAction?: () => void
+}
+
+interface AppSidenavUtilityAction {
+  id: string
+  ariaLabel: string
+  icon: ReactNode
+  href?: string
+  onClick?: () => void
+  renderLink?: (linkProps: {
+    className: string
+    'aria-label': string
+    onClick: (event: React.MouseEvent) => void
+  }) => ReactNode
+}
+```
+
+## Sub-components
+
+| Component        | Description                                                                                                                   |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `NavMenuItem`    | Navigation item. Portals itself into the navbar automatically — render it as a direct child of `AppShell`, no wrapper needed. |
+| `NavMenuSubItem` | Nested sub-navigation item, used as a child of `NavMenuItem`                                                                  |
+
+---
+
+# AppPageShell
+
+Page-level shell component designed to work within `AppShell`. Provides a sticky header with title, breadcrumbs, subtitle, secondary nav, and back-button support.
+
+## Import
+
+```tsx
+import { AppPageShell } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { AppPageShell } from '@flxui/uikit/business'
+
+function Demo() {
+  return (
+    <AppPageShell title="Page Title">
+      <p>Page content goes here</p>
+    </AppPageShell>
+  )
+}
+```
+
+## With Back Button
+
+Back-button configuration lives inside `headerProps`, not as top-level props:
+
+```tsx
+import { AppPageShell } from '@flxui/uikit/business'
+
+function Demo() {
+  return (
+    <AppPageShell title="Details" headerProps={{ withBack: true, onBackClick: () => window.history.back() }}>
+      <p>Detail content</p>
+    </AppPageShell>
+  )
+}
+```
+
+## Breadcrumbs, subtitle, and secondary nav
+
+These can be passed either as top-level props or nested inside `headerProps` (the `headerProps` version takes precedence if both are given):
+
+```tsx
+<AppPageShell
+  title="Database Console"
+  breadcrumbs={<Breadcrumbs items={[{ label: 'Databases', href: '/db' }, { label: 'my-cluster' }]} />}
+  subtitle="us-east-1 · Serverless"
+  secondaryNav={<Tabs items={['Overview', 'Monitoring', 'Settings']} />}
+>
+  {/* ... */}
+</AppPageShell>
+```
+
+## Notification bell and header actions
+
+```tsx
+<AppPageShell
+  title="Dashboard"
+  headerProps={{ notificationBell: { count: 3, onClick: () => {} } }}
+  headerActions={<Button>New database</Button>}
+>
+  {/* ... */}
+</AppPageShell>
+```
+
+`notificationBell` accepts a few more options than the basic count badge shown above — see [PageShellNotificationBell](/docs/pageshell#pageshellnotificationbell) for the full set (a `dot` mode for unread-without-a-number, a custom `icon`, and an optional dropdown menu via `menuItems`).
+
+## Without a header
+
+```tsx
+<AppPageShell withHeader={false}>{/* full-bleed content, no header at all */}</AppPageShell>
+```
+
+## AppPageShell Props
+
+| Prop            | Type        | Default  | Description                                                               |
+| --------------- | ----------- | -------- | ------------------------------------------------------------------------- |
+| `maxWidth`      | `string`    | `'100%'` | Maximum width of the page content                                         |
+| `withHeader`    | `boolean`   | `true`   | Whether to render the header at all                                       |
+| `title`         | `ReactNode` | -        | Page title                                                                |
+| `breadcrumbs`   | `ReactNode` | -        | Breadcrumbs (fallback — prefer `headerProps.breadcrumbs`)                 |
+| `subtitle`      | `ReactNode` | -        | Subtitle text (fallback — prefer `headerProps.subtitle`)                  |
+| `secondaryNav`  | `ReactNode` | -        | Tabs/pills under the title (fallback — prefer `headerProps.secondaryNav`) |
+| `children`      | `ReactNode` | -        | Page content                                                              |
+| `headerActions` | `ReactNode` | -        | Rendered in the header's right section, after the notification bell       |
+| `footer`        | `ReactNode` | -        | Rendered below the page content                                           |
+| `wrapperProps`  | `object`    | -        | Props forwarded to the outer wrapper                                      |
+| `bodyProps`     | `object`    | -        | Props forwarded to the scrollable body element                            |
+| `headerProps`   | `object`    | -        | See below                                                                 |
+
+**`headerProps`**
+
+| Prop               | Type         | Default | Description                                                                                                                                      |
+| ------------------ | ------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `withBack`         | `boolean`    | -       | Show the back button                                                                                                                             |
+| `onBackClick`      | `() => void` | -       | Back button click handler                                                                                                                        |
+| `breadcrumbs`      | `ReactNode`  | -       | Overrides the top-level `breadcrumbs` prop                                                                                                       |
+| `subtitle`         | `ReactNode`  | -       | Overrides the top-level `subtitle` prop                                                                                                          |
+| `secondaryNav`     | `ReactNode`  | -       | Overrides the top-level `secondaryNav` prop                                                                                                      |
+| `notificationBell` | `object`     | -       | Config for an auto-rendered notification bell — see [PageShellNotificationBell](/docs/pageshell#pageshellnotificationbell) for its full prop set |
+
+<Callout type="info">
+  The header is always sticky in `AppPageShell` — there's no `stickyHeader` toggle to opt out of it.
+</Callout>

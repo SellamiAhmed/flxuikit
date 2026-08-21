@@ -1,0 +1,288 @@
+import { Callout } from 'nextra/components'
+
+# TimeRangePicker
+
+A relative/absolute time-range picker — quick presets like "Past 15 minutes" plus a custom calendar + time entry
+mode for exact date ranges, similar to what you'd find in an observability dashboard.
+
+## Import
+
+```tsx
+import { TimeRangePicker } from '@flxui/uikit/business'
+```
+
+<Callout type="warning">
+  If you've used tidbcloud's `TimeRangePicker` docs before, don't reuse their `TimeRange` shape — it's genuinely
+  different here, not just renamed:
+
+| tidbcloud                                      | This package                                                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `{ type: 'relative', duration: number }`       | `{ type: 'relative', value: number, isFuture?, utcOffset? }`                                     |
+| `{ type: 'absolute', start: Date, end: Date }` | `{ type: 'absolute', value: [from: number, to: number] }` (unix **seconds**, not `Date` objects) |
+
+State initialized with tidbcloud's shape (`duration`, or `start`/`end` as `Date`s) will silently fail to select
+anything in this component, since it reads `value.value`, not `duration`/`start`/`end`.
+
+</Callout>
+
+<Callout type="warning">
+  Several prop names also differ:
+
+| tidbcloud                                    | This package                                                                              |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `formatRelative`                             | `relativeFormatter`                                                                       |
+| `formatAbsolute`                             | `absoluteFormatter`                                                                       |
+| `dropdownFooter`                             | `footer`                                                                                  |
+| `quickOptions`                               | `quickRanges`                                                                             |
+| `hideCustomPicker`                           | `disableAbsoluteRanges`                                                                   |
+| `timezoneOffset`                             | `timezone`                                                                                |
+| `minDateTime` / `maxDateTime` (plain `Date`) | `minDateTime` / `maxDateTime` (`() => Date` **functions** — see the callout further down) |
+
+`sx` isn't confirmed either way — it comes from the underlying `ButtonProps`, whose source wasn't available here.
+If the primitive `Button` is on a modern Mantine version, `sx` was dropped there in favor of `style`/`className`.
+
+</Callout>
+
+## Basic Usage
+
+```tsx
+import { useState } from 'react'
+import { TimeRangePicker, TimeRange } from '@flxui/uikit/business'
+
+function Demo() {
+  const [value, setValue] = useState<TimeRange>()
+  return <TimeRangePicker value={value} onChange={setValue} />
+}
+```
+
+<Callout type="info">
+  `value` is a discriminated union, not a `Date` or `[Date, Date]` — see [The `TimeRange` Type](#the-timerange-type)
+  below. Picking a quick preset produces a `{ type: 'relative', value: seconds }` object; using the custom calendar
+  produces `{ type: 'absolute', value: [fromUnixSeconds, toUnixSeconds] }`.
+</Callout>
+
+## Quick Ranges
+
+By default the dropdown lists `DEFAULT_QUICK_RANGES` — 5m, 15m, 30m, 1h, 3h, 12h, 24h, 2d, 3d, each rendered as
+"Past X". Override with `quickRanges`, mixing plain numbers (seconds) and richer objects:
+
+```tsx
+<TimeRangePicker
+  value={value}
+  onChange={setValue}
+  quickRanges={[
+    5 * 60,
+    30 * 60,
+    { value: 60 * 60, label: 'Last hour' },
+    { value: 60 * 60, isFuture: true, label: 'Next hour' }
+  ]}
+/>
+```
+
+<Callout type="warning">
+  The currently-selected quick range is only highlighted in the dropdown when `quickRanges` are **plain numbers**.
+  If an item is an object (`{ value, label, isFuture }`), the equality check used to detect "is this the active
+  item" (`quickRanges.find(it => it === value.value)`) will never match an object against a number, so the active
+  state won't visually highlight even when it's genuinely selected. This doesn't affect the trigger button's own
+  display text — only the checkmark/highlight state inside the dropdown list.
+</Callout>
+
+## Clearable
+
+```tsx
+<TimeRangePicker value={value} onChange={setValue} clearable />
+```
+
+An "×" appears in the trigger button on hover once a value is set; clicking it calls `onChange()` with no
+arguments (i.e. `undefined`), not `onChange(null)`.
+
+## Custom (Absolute) Range
+
+Clicking "Custom" in the dropdown switches to a calendar + start/end date-and-time entry view, built on the
+package's `DatePicker` in range mode. It validates as you go:
+
+- start after end
+- start earlier than `minDateTime()`
+- end later than `maxDateTime()`
+- selected span longer than `maxDuration` (seconds)
+
+The Apply button stays disabled until both ends are picked and no validation error is active.
+
+```tsx
+<TimeRangePicker
+  value={value}
+  onChange={setValue}
+  minDateTime={() => new Date('2024-01-01')}
+  maxDateTime={() => new Date()}
+  maxDuration={7 * 24 * 60 * 60} // 7 days, in seconds
+/>
+```
+
+<Callout type="warning">
+  `minDateTime` and `maxDateTime` are **functions returning a `Date`** (`() => Date`), not plain `Date` values —
+  different from `DateTimePicker`'s `startDate`/`endDate`, which are plain `Date`s. Passing a `Date` directly here
+  will not work.
+</Callout>
+
+You can also pass `datePickerProps` (forwarded to the underlying range `DatePicker`) or `dateInputFormat` (a
+`(date: Date) => string` formatter for the two read-only date fields above the calendar).
+
+## Disable Absolute Ranges
+
+Hide the "Custom" entry and only offer the quick relative presets — also switches the dropdown to a narrower,
+compact width:
+
+```tsx
+<TimeRangePicker value={value} onChange={setValue} disableAbsoluteRanges />
+```
+
+## Localization
+
+```tsx
+<TimeRangePicker
+  value={value}
+  onChange={setValue}
+  localization={{
+    entry: 'Custom range',
+    back: 'Back',
+    start: 'From',
+    end: 'To',
+    apply: 'Apply',
+    cancel: 'Cancel',
+    errors: {
+      startAfterEnd: 'End must be after start.',
+      beyondMin: (min) => `Start must be after ${min.toLocaleDateString()}`,
+      beyondMax: (max) => `End must be before ${max.toLocaleDateString()}`,
+      beyondDuration: (seconds) => `Range can't exceed ${seconds / 3600} hours.`
+    }
+  }}
+/>
+```
+
+All `localization` keys are optional — anything omitted falls back to the English default shown in the source.
+
+## Display Timezone
+
+`timezone` (a UTC offset in hours) only affects how the **absolute** trigger text and tooltip are formatted — it
+doesn't affect what gets stored in `value`, and it has no effect on relative ranges like "Past 15 minutes":
+
+```tsx
+<TimeRangePicker value={value} onChange={setValue} timezone={8} />
+```
+
+For actually editing and storing values in a specific timezone (not just display), use `useTimeRangePicker` below.
+
+## Timezone-Aware Editing with `useTimeRangePicker`
+
+`useTimeRangePicker` converts `value`, `onChange`, `minDateTime`/`maxDateTime`, and the formatter props between a
+target `utcOffset` and the browser's local time — the picker's calendar/time inputs behave as if the user is in
+that timezone, while what you receive in `onChange` (for absolute ranges) is expressed in the target offset too:
+
+```tsx
+import { useState } from 'react'
+import { TimeRangePicker, useTimeRangePicker, TimeRange } from '@flxui/uikit/business'
+
+function Demo() {
+  const [value, setValue] = useState<TimeRange>()
+
+  const pickerProps = useTimeRangePicker({
+    value: value ?? { type: 'relative', value: 1800 },
+    onChange: setValue,
+    utcOffset: 480, // UTC+8, in minutes
+    minDateTime: () => new Date('2024-01-01'),
+    maxDateTime: () => new Date()
+  })
+
+  return <TimeRangePicker {...pickerProps} />
+}
+```
+
+<Callout type="info">
+  Relative ranges (`{ type: 'relative', ... }`) are passed through unchanged by the hook — timezone only matters for
+  absolute ranges, since "past 15 minutes" means the same thing everywhere.
+</Callout>
+
+## Props
+
+`TimeRangePickerProps` extends `TimeRangePickerBaseProps`, which itself extends `ButtonProps` (the trigger is a
+`Button`, and props like `variant` or `size` pass straight through and override the component's own defaults).
+
+| Prop                    | Type                                   | Default                | Description                                                                |
+| ----------------------- | -------------------------------------- | ---------------------- | -------------------------------------------------------------------------- |
+| `value`                 | `TimeRange`                            | -                      | Controlled value                                                           |
+| `onChange`              | `(value?: TimeRange) => void`          | -                      | Change callback; called with `undefined` when cleared                      |
+| `clearable`             | `boolean`                              | -                      | Show a clear ("×") button in the trigger on hover                          |
+| `loading`               | `boolean`                              | -                      | Loading state on the trigger button                                        |
+| `placeholder`           | `string`                               | `'Time Range'`         | Trigger text shown when there's no value                                   |
+| `badgePlaceholder`      | `string`                               | `'All'`                | Small badge text shown when there's no value                               |
+| `quickRanges`           | `(number \| QuickRange)[]`             | `DEFAULT_QUICK_RANGES` | Presets shown in the dropdown — see [Quick Ranges](#quick-ranges)          |
+| `disableAbsoluteRanges` | `boolean`                              | `false`                | Hide the "Custom" entry, showing only quick ranges                         |
+| `minDateTime`           | `() => Date`                           | -                      | Lower bound for the custom calendar, as a function                         |
+| `maxDateTime`           | `() => Date`                           | -                      | Upper bound for the custom calendar, as a function                         |
+| `maxDuration`           | `number` (seconds)                     | -                      | Maximum span allowed in the custom calendar                                |
+| `timezone`              | `number` (UTC offset, hours)           | -                      | Display-only offset used to format the absolute-range trigger text/tooltip |
+| `relativeFormatter`     | `(range: RelativeTimeRange) => string` | -                      | Custom trigger text for relative ranges                                    |
+| `absoluteFormatter`     | `(range: AbsoluteTimeRange) => string` | -                      | Custom trigger text (and tooltip) for absolute ranges                      |
+| `dateInputFormat`       | `(date: Date) => string`               | -                      | Custom formatter for the two date fields in custom mode                    |
+| `datePickerProps`       | `DatePickerProps<'range'>`             | -                      | Forwarded to the underlying range `DatePicker`                             |
+| `localization`          | `Localization`                         | -                      | Text overrides for the custom-mode UI — see [Localization](#localization)  |
+| `footer`                | `ReactNode`                            | -                      | Content rendered below the dropdown list/custom view                       |
+
+## The `TimeRange` Type
+
+```tsx
+type TimeRange = RelativeTimeRange | AbsoluteTimeRange
+
+interface RelativeTimeRange {
+  type: 'relative'
+  value: number // duration in seconds
+  isFuture?: boolean // "next X" vs "past X"
+  utcOffset?: number | string
+}
+
+interface AbsoluteTimeRange {
+  type: 'absolute'
+  value: [from: number, to: number] // unix seconds
+}
+```
+
+## Utility Functions
+
+These are re-exported alongside `TimeRangePicker` from the same import path, so `import { TimeRangePicker, formatDuration } from '@flxui/uikit/business'` works.
+
+| Export                              | Signature                                                                                  | Description                                                                                      |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `formatDuration`                    | `(seconds: number, short?: boolean) => string`                                             | Human-readable duration via `pretty-ms`; `short` gives the compact form used in the badge        |
+| `toTimeRangeValue`                  | `(range: TimeRange, offset?: number) => [number, number]`                                  | Resolves a `TimeRange` (including relative) to concrete `[from, to]` unix seconds                |
+| `fromTimeRangeValue`                | `(v: [number, number]) => AbsoluteTimeRange`                                               | Wraps a `[from, to]` tuple as an `AbsoluteTimeRange`                                             |
+| `timeFormatter`                     | `(value: number \| string \| Date, utcOffset?: number \| null, format?: string) => string` | Formats a time value, defaulting to the browser's local offset and `DEFAULT_TIME_FORMAT`         |
+| `toURLTimeRange`                    | `(range: TimeRange) => { from: string; to: string }`                                       | Serializes a `TimeRange` for a URL query string — relative ranges become `'now'`/seconds strings |
+| `urlToTimeRange`                    | `(urlRange: { from: string; to: string }) => TimeRange`                                    | Inverse of `toURLTimeRange`                                                                      |
+| `urlToTimeRangeValue`               | `(urlRange: { from: string; to: string }) => [number, number]`                             | Shortcut combining `urlToTimeRange` and `toTimeRangeValue`                                       |
+| `getUTCString`                      | `(offset: number) => string`                                                               | Formats a numeric UTC offset as e.g. `'UTC+08:00'`                                               |
+| `addOffsetUTC`                      | `(time: string \| number \| Date, utcOffset: number) => Date`                              | Shifts a time by a UTC offset (in hours)                                                         |
+| `DEFAULT_QUICK_RANGES`              | `number[]`                                                                                 | `[5m, 15m, 30m, 1h, 3h, 12h, 24h, 2d, 3d]`, in seconds                                           |
+| `DEFAULT_TIME_RANGE`                | `TimeRange`                                                                                | `{ type: 'relative', value: 1800 }` — "past 30 minutes"                                          |
+| `DEFAULT_TIME_FORMAT`               | `string`                                                                                   | `'YYYY-MM-DD HH:mm:ss'`                                                                          |
+| `DEFAULT_TIME_FORMAT_WITH_TIMEZONE` | `string`                                                                                   | `'YYYY-MM-DD HH:mm:ss Z'`                                                                        |
+
+<Callout type="info">
+  This also resolves an earlier open question from the `DateTimePicker` docs: `DateTimePicker`'s `format` default,
+  `DEFAULT_TIME_FORMAT`, is imported from this same helper file and is `'YYYY-MM-DD HH:mm:ss'`.
+</Callout>
+
+## `useTimeRangePicker` Reference
+
+| Option              | Type                                   | Default                  | Description                                                                                                          |
+| ------------------- | -------------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `value`             | `TimeRange`                            | -                        | **Required.** Current value, in the target `utcOffset`                                                               |
+| `onChange`          | `(value?: TimeRange) => void`          | -                        | Called with a value converted back into the target `utcOffset`                                                       |
+| `minDateTime`       | `() => Date`                           | -                        | Lower bound, in the target `utcOffset`                                                                               |
+| `maxDateTime`       | `() => Date`                           | -                        | Upper bound, in the target `utcOffset`                                                                               |
+| `maxDuration`       | `number`                               | -                        | Passed through unchanged                                                                                             |
+| `relativeFormatter` | `(range: RelativeTimeRange) => string` | -                        | Passed through unchanged (relative ranges aren't timezone-converted)                                                 |
+| `absoluteFormatter` | `(range: AbsoluteTimeRange) => string` | -                        | Receives the range converted into the target `utcOffset` before formatting                                           |
+| `dateInputFormat`   | `(date: Date) => string`               | -                        | Receives the date converted into the target `utcOffset` before formatting                                            |
+| `utcOffset`         | `number \| string`                     | browser's current offset | Target offset; numbers under 16 (and above −16) are treated as hours, not minutes — or pass a string like `'+09:00'` |
+
+Returns an object spreadable directly onto `<TimeRangePicker />`: `value`, `onChange`, `minDateTime`, `maxDateTime`, `maxDuration`, `relativeFormatter`, `absoluteFormatter`, `dateInputFormat`, `timezone`.

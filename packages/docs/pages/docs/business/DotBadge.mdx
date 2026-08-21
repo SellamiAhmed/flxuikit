@@ -1,0 +1,76 @@
+import { Callout } from 'nextra/components'
+
+# DotBadge
+
+A `Badge` variant with a colored status dot (or custom icon) in the leading section — useful for status indicators like "Live", "Online", "Draft", or category tags.
+
+## Import
+
+```tsx
+import { DotBadge } from '@flxui/uikit/business'
+```
+
+## Basic Usage
+
+```tsx
+import { DotBadge } from '@flxui/uikit/business'
+
+function Demo() {
+  return <DotBadge color="success">Active</DotBadge>
+}
+```
+
+## Pulsing dot
+
+For a "live" or actively-updating status, add `pulse` for a subtle pulsing animation on the dot:
+
+```tsx
+<DotBadge color="danger" pulse>
+  Live
+</DotBadge>
+```
+
+<Callout type="info">
+  `pulse` is ignored when `icon` is set — the pulsing animation only applies to the plain colored dot.
+</Callout>
+
+## Custom icon instead of a dot
+
+Pass `icon` to render a custom icon in place of the dot — e.g. a platform logo or category icon. It's sized automatically to match the badge's `size`:
+
+```tsx
+import { IconBrandGithub } from '@tabler/icons-react'
+
+;<DotBadge color="neutral" icon={<IconBrandGithub />}>
+  GitHub
+</DotBadge>
+```
+
+## Sizes
+
+`DotBadge` accepts the same `size` values as `Badge` (`xs`, `sm`, `md`, `lg`, `xl`) — the dot (or icon) scales automatically to match:
+
+```tsx
+<DotBadge size="xs">Extra small</DotBadge>
+<DotBadge size="sm">Small</DotBadge>
+<DotBadge size="md">Medium</DotBadge>
+<DotBadge size="lg">Large</DotBadge>
+<DotBadge size="xl">Extra large</DotBadge>
+```
+
+## Props
+
+`DotBadge` extends all `Badge` props except `variant` and `leftSection`, which are managed internally.
+
+| Prop       | Type                 | Default     | Description                                                                                                                      |
+| ---------- | -------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `color`    | `Color`              | `'success'` | Theme color applied to the badge and the dot. One of `'brand'`, `'danger'`, `'warning'`, `'success'`, `'discovery'`, `'neutral'` |
+| `size`     | `BadgeProps['size']` | `'md'`      | Badge size — also controls dot/icon sizing                                                                                       |
+| `pulse`    | `boolean`            | -           | Adds a pulsing animation to the dot. Ignored when `icon` is set                                                                  |
+| `icon`     | `ReactNode`          | -           | Renders instead of the colored dot, auto-sized to match `size`                                                                   |
+| `children` | `ReactNode`          | -           | Badge label content                                                                                                              |
+
+<Callout type="info">
+  `variant` and `leftSection` are omitted from the public props — `DotBadge` always renders as the `light` variant and
+  manages its own leading section (the dot or icon).
+</Callout>
