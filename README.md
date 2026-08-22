@@ -4,7 +4,7 @@ This repo hosts FlxUI, the Flx design system UI library, including primitive and
 
 ## Quick Start
 
-Visit the [documentation site](http://localhost:3001) to learn more about how to use this component library.
+Visit the [documentation site](https://flxui.vercel.app/docs/getting-started) to learn more about how to use this component library.
 
 ```tsx
 import { ThemeProvider } from '@flxui/uikit/theme'
