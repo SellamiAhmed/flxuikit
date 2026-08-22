@@ -1,0 +1,86 @@
+import { Callout } from 'nextra/components'
+
+# Button
+
+A thin wrapper around Mantine's `Button`, adding a `data-loading` state hook and consistent default styling.
+
+## Import
+
+```tsx
+import { Button } from '@flxui/uikit'
+```
+
+## Basic Usage
+
+```tsx
+import { Button } from '@flxui/uikit'
+
+function Demo() {
+  return <Button>Click me</Button>
+}
+```
+
+## Loading State
+
+```tsx
+<Button loading>Saving…</Button>
+```
+
+While `loading` (or `data-loading`, see below) is truthy, `leftSection` is replaced with a spinner and the button is
+forced disabled — passing your own `leftSection` at the same time has no visible effect until loading finishes.
+
+<Callout type="info">
+  There's a second way to trigger the loading state: the `data-loading` prop, separate from `loading`. Either one being
+  truthy puts the button into the loading/disabled state. This is useful if you're driving state through a `data-*`
+  attribute elsewhere in your app, but it means `loading={false} data-loading={true}` still shows as loading — the two
+  aren't independent, they're OR'd together.
+</Callout>
+
+## Disabled
+
+```tsx
+<Button disabled>Can't click this</Button>
+```
+
+Same OR logic applies here too: `disabled`, `data-disabled`, and the loading state (from either `loading` or
+`data-loading`) are all combined — being disabled while loading is automatic, you don't need to set both.
+
+## Variants
+
+```tsx
+<Button variant="filled">Filled</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="subtle">Subtle</Button>
+<Button variant="default">Default</Button>
+```
+
+`variant` defaults to `'filled'` if you don't set one.
+
+## Compound API
+
+Everything from Mantine's `Button` that isn't about styling classes still works exactly the same, since it's copied over directly:
+
+```tsx
+<Button.Group>
+  <Button variant="default">Left</Button>
+  <Button variant="default">Right</Button>
+</Button.Group>
+```
+
+`Button.Group`, `Button.classes`, `Button.displayName`, `Button.extend`, and `Button.withProps` are all the same as Mantine's own `Button` statics.
+
+## Props
+
+Extends Mantine's `ButtonProps` (minus `classNames`, which is retyped more narrowly here), plus:
+
+| Prop           | Type                                                                 | Description                                                              |
+| -------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `data-loading` | `boolean`                                                            | Alternate trigger for the loading state, OR'd with `loading`             |
+| `classNames`   | `Partial<Record<'root' \| 'inner' \| 'label' \| 'section', string>>` | Narrower than Mantine's full `ButtonStylesNames` map — see warning below |
+
+<Callout type="warning">
+  If you pass `classNames={{ root: 'my-class' }}`, it's **silently dropped** — the `root` key specifically is never read
+  from your `classNames`, only from the separate `className` prop. `inner`, `label`, and `section` from your
+  `classNames` **do** get merged in correctly (appended alongside the component's own classes), so this only affects
+  `root`. Use `className` (not `classNames.root`) to add classes to the button's root element.
+</Callout>

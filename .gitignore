@@ -5,3 +5,4 @@ dist
 .typeui-design-system.json
 .agents
 *.tgz
+test

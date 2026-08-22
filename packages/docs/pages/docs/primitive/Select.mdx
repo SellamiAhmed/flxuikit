@@ -1,0 +1,134 @@
+import { Callout } from 'nextra/components'
+
+# Select / MultiSelect
+
+Wrappers around Mantine's `Select` and `MultiSelect`, adding an optional "create new option" flow on top.
+
+## Import
+
+```tsx
+import { Select, MultiSelect } from '@flxui/uikit'
+```
+
+## Basic Usage
+
+```tsx
+import { Select } from '@flxui/uikit'
+
+function Demo() {
+  return (
+    <Select
+      label="Status"
+      data={[
+        { value: 'active', label: 'Active' },
+        { value: 'archived', label: 'Archived' }
+      ]}
+    />
+  )
+}
+```
+
+`MultiSelect` works the same way, just with an array value:
+
+```tsx
+import { MultiSelect } from '@flxui/uikit'
+
+function Demo() {
+  return (
+    <MultiSelect
+      label="Tags"
+      data={[
+        { value: 'urgent', label: 'Urgent' },
+        { value: 'bug', label: 'Bug' }
+      ]}
+    />
+  )
+}
+```
+
+## Creatable
+
+Set `creatable` to let users type something that isn't in `data` and add it as a new option. `onCreate` is **required** whenever `creatable` is set:
+
+```tsx
+import { useState } from 'react'
+import { Select } from '@flxui/uikit'
+
+function Demo() {
+  const [data, setData] = useState([
+    { value: 'design', label: 'Design' },
+    { value: 'engineering', label: 'Engineering' }
+  ])
+
+  return (
+    <Select
+      label="Department"
+      data={data}
+      creatable
+      onCreate={(query) => {
+        const item = { value: query, label: query }
+        setData((current) => [...current, item])
+        return item
+      }}
+    />
+  )
+}
+```
+
+<Callout type="warning">
+  Passing `creatable` without a valid `onCreate` function doesn't fail gracefully — it **throws at render time**:
+  `Error: \`onCreate\` is required when \`creatable\` is true`. This will crash the component (and, depending on your
+  error boundary setup, potentially the page) rather than just logging a warning.
+</Callout>
+
+<Callout type="warning">
+  Returning `null` or `undefined` from `onCreate` doesn't cleanly cancel the creation the way it looks like it should.
+  When that happens, the component falls through to setting the raw internal placeholder string (something like
+  `"$create:yourquery"`) as the actual value — for `Select`, that string becomes `value` directly; for `MultiSelect`,
+  it's left inside the array. There's currently no clean way to "reject" a create attempt from `onCreate` — always
+  return a real `ComboboxItem`, or handle rejection in your own state before it reaches here.
+</Callout>
+
+<Callout type="info">
+  `searchable` is forced on whenever `creatable` is set (`searchable={false}` is silently overridden) — typing is how
+  the create flow works, so it can't be turned off independently.
+</Callout>
+
+## Custom `getCreateLabel`
+
+Customize the text shown for the "create" option in the dropdown:
+
+```tsx
+<Select
+  creatable
+  getCreateLabel={(query) => `Add "${query}" as new option`}
+  onCreate={(query) => ({ value: query, label: query })}
+  data={data}
+/>
+```
+
+Default is `+ Create {query}`.
+
+## Props
+
+Both extend their respective Mantine props (`SelectProps` / `MultiSelectProps`) plus:
+
+| Prop             | Type                                                   | Description                                                                                                                     |
+| ---------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `creatable`      | `boolean`                                              | Enables the "create new option" flow                                                                                            |
+| `getCreateLabel` | `(query: string) => string`                            | Label for the create option; defaults to `+ Create {query}`                                                                     |
+| `onCreate`       | `(query: string) => ComboboxItem \| null \| undefined` | **Required if `creatable` is true.** Return the item to create, or a falsy value (see warning above on what that actually does) |
+
+<Callout type="warning">
+  Custom `classNames` you pass in are **silently ignored** on both components — `Select`/`MultiSelect` here always
+  render with their own hardcoded `classNames` (`input`, `error`, `dropdown`, `option`, `empty`, `groupLabel`), set
+  after your props are spread, so anything you pass in that prop has no effect. Use `className` for a root-level
+  override, or reach for the underlying Mantine styling props/CSS variables instead.
+</Callout>
+
+<Callout type="info">
+  `Select`'s displayed `value` is only ever a string or `null` — if the underlying value is anything else (e.g. left
+  `undefined` or accidentally an array), the input just shows as empty rather than erroring. `MultiSelect` is more
+  forgiving in the other direction: a single non-array truthy value gets auto-wrapped into a one-item array rather than
+  rejected.
+</Callout>

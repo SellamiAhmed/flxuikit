@@ -1,0 +1,58 @@
+import { Callout } from 'nextra/components'
+
+# NumberInput
+
+A wrapper around Mantine's `NumberInput`, adding text `leftAddon`/`rightAddon` slots on top of the usual sections.
+
+## Import
+
+```tsx
+import { NumberInput } from '@flxui/uikit'
+```
+
+## Basic Usage
+
+```tsx
+import { NumberInput } from '@flxui/uikit'
+
+function Demo() {
+  return <NumberInput label="Quantity" min={0} />
+}
+```
+
+## Addons
+
+`leftAddon`/`rightAddon` render as text (via the library's own `Typography` component, `variant="label-lg"`) inside the input's left/right sections — useful for units, currency symbols, etc.:
+
+```tsx
+<NumberInput label="Price" leftAddon="$" rightAddon="USD" />
+```
+
+<Callout type="warning">
+  `leftAddon` takes priority over `leftSection` — if you pass both, `leftSection` is silently ignored while `leftAddon`
+  is set. Same for `rightAddon` vs. `rightSection`. They're mutually exclusive in effect even though nothing stops you
+  from passing both.
+</Callout>
+
+Style the addon text itself via `leftAddonProps`/`rightAddonProps`, which accept the same props as `Typography`:
+
+```tsx
+<NumberInput label="Discount" rightAddon="%" rightAddonProps={{ c: 'dimmed' }} />
+```
+
+## Props
+
+Extends Mantine's `NumberInputProps`, plus:
+
+| Prop              | Type              | Description                                                       |
+| ----------------- | ----------------- | ----------------------------------------------------------------- |
+| `leftAddon`       | `ReactNode`       | Text/content shown in the left section; overrides `leftSection`   |
+| `rightAddon`      | `ReactNode`       | Text/content shown in the right section; overrides `rightSection` |
+| `leftAddonProps`  | `TypographyProps` | Props for the `Typography` wrapping `leftAddon`                   |
+| `rightAddonProps` | `TypographyProps` | Props for the `Typography` wrapping `rightAddon`                  |
+
+<Callout type="warning">
+  Same as `Select`/`MultiSelect`: any `classNames` you pass in are **silently ignored**. This component always renders
+  with its own hardcoded `classNames` (`wrapper`, `section`, `input`, `controls`, `control`), set after your props are
+  spread in, so your own `classNames` prop has no effect regardless of what keys you pass.
+</Callout>

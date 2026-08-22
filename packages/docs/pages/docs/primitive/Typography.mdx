@@ -1,0 +1,71 @@
+import { Callout } from 'nextra/components'
+
+# Typography
+
+A polymorphic text component built on Mantine's `Text`, using a fixed set of named type-scale variants instead of raw font-size props.
+
+## Import
+
+```tsx
+import { Typography } from '@flxui/uikit'
+```
+
+## Basic Usage
+
+```tsx
+import { Typography } from '@flxui/uikit'
+
+function Demo() {
+  return <Typography variant="body-md">Regular body text.</Typography>
+}
+```
+
+## Variants
+
+`variant` accepts one of a fixed set of type-scale names, grouped into four families with `lg`/`md`/`sm` sizes (`label` also has an `xs`):
+
+```tsx
+<Typography variant="headline-lg">Headline Large</Typography>
+<Typography variant="title-md">Title Medium</Typography>
+<Typography variant="action-sm">Action Small</Typography>
+<Typography variant="label-xs">Label Extra Small</Typography>
+<Typography variant="body-lg">Body Large</Typography>
+```
+
+Full list: `headline-lg` / `headline-md` / `headline-sm`, `title-lg` / `title-md` / `title-sm`, `action-lg` / `action-md` / `action-sm`, `label-lg` / `label-md` / `label-sm` / `label-xs`, `body-lg` / `body-md` / `body-sm` / `body-xs`.
+
+<Callout type="warning">
+  `variant` here **isn't** Mantine's own `Text` `variant` prop (which normally controls things like gradient text
+  styling) — it's fully repurposed to mean "which type-scale class to apply" instead, and the type explicitly omits
+  Mantine's original `variant` (`Omit<TextProps, 'variant'>`). If you're used to Mantine's `Text`, don't expect
+  `variant="gradient"` or similar to work here — that feature isn't exposed through this component at all.
+</Callout>
+
+## Polymorphic — Render as Any Element
+
+Like Mantine's own components, `Typography` is polymorphic — use `component` to render as a different HTML element or a custom component, while keeping the same type-scale styling:
+
+```tsx
+<Typography variant="headline-lg" component="h1">
+  Page Title
+</Typography>
+
+<Typography variant="body-sm" component="span">
+  Inline text
+</Typography>
+```
+
+<Callout type="info">
+  Mantine's `Text` defaults to rendering a `<p>` when no `component` is given — not a `<div>`, despite this
+  component's internal `ref` being typed as `HTMLDivElement`. In practice the actual DOM node depends entirely on
+  whatever `component` you pass (or the `<p>` default), so treat the ref's type as approximate rather than exact.
+</Callout>
+
+## Props
+
+Extends Mantine's `TextProps` (minus its own `variant`), plus:
+
+| Prop        | Type                                        | Description                                                            |
+| ----------- | ------------------------------------------- | ---------------------------------------------------------------------- |
+| `variant`   | One of the 17 type-scale names listed above | Which typography style to apply                                        |
+| `component` | `ElementType`                               | Renders as this element/component instead of the default (polymorphic) |

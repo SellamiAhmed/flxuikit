@@ -1,0 +1,76 @@
+import { Callout } from 'nextra/components'
+
+# TextInput
+
+A wrapper around Mantine's `TextInput`, adding text addons and a built-in success state alongside the usual error state.
+
+## Import
+
+```tsx
+import { TextInput } from '@flxui/uikit'
+```
+
+## Basic Usage
+
+```tsx
+import { TextInput } from '@flxui/uikit'
+
+function Demo() {
+  return <TextInput label="Email" placeholder="you@example.com" />
+}
+```
+
+## Addons
+
+`leftAddon`/`rightAddon` render as text (via `Typography`, `variant="label-lg"`) in the input's left/right sections:
+
+```tsx
+<TextInput label="Website" leftAddon="https://" />
+<TextInput label="Username" rightAddon="@flxui.dev" />
+```
+
+<Callout type="warning">
+  Same as `NumberInput`: `leftAddon` overrides `leftSection` if both are passed, and `rightAddon` overrides
+  `rightSection` — they don't combine.
+</Callout>
+
+## Error State
+
+```tsx
+<TextInput label="Email" error="Enter a valid email address" />
+```
+
+When `error` is truthy, a warning-triangle icon automatically appears in the right section — you don't need to add it yourself via `rightSection`.
+
+## Success State
+
+```tsx
+<TextInput label="Email" success value="you@example.com" />
+```
+
+`success` shows a checkmark icon in the right section, the same way `error` shows a warning icon. `error` takes priority — if both `error` and `success` are set, only the error state shows.
+
+<Callout type="warning">
+  The automatic error/success icon only appears when you **haven't** passed your own `rightSection`. If you pass
+  `rightSection` explicitly (and there's no `rightAddon`), it takes priority and the error/success icon is silently
+  suppressed — even with `error` or `success` set. This only affects `rightSection`; `leftAddon`/`rightAddon` are a
+  separate, higher-priority path that override both.
+</Callout>
+
+<Callout type="info">
+  Unlike `Select`, `MultiSelect`, and `NumberInput` in this library — where custom `classNames` are silently ignored —
+  `TextInput` **does** merge your `classNames.wrapper`, `classNames.section`, and `classNames.input` in alongside its
+  own via `clsx`, so passing your own classes here actually works.
+</Callout>
+
+## Props
+
+Extends Mantine's `TextInputProps`, plus:
+
+| Prop              | Type              | Description                                                                       |
+| ----------------- | ----------------- | --------------------------------------------------------------------------------- |
+| `leftAddon`       | `ReactNode`       | Text/content shown in the left section; overrides `leftSection`                   |
+| `rightAddon`      | `ReactNode`       | Text/content shown in the right section; overrides `rightSection`                 |
+| `leftAddonProps`  | `TypographyProps` | Props for the `Typography` wrapping `leftAddon`                                   |
+| `rightAddonProps` | `TypographyProps` | Props for the `Typography` wrapping `rightAddon`                                  |
+| `success`         | `boolean`         | Shows a success (check) icon in the right section; ignored if `error` is also set |
