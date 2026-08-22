@@ -195,29 +195,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Card 2: Business Components */}
-            <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 border-t border-l border-white/50 dark:border-white/10">
-              <div className="absolute -bottom-10 -right-10 opacity-10 group-hover:opacity-20 transition-opacity">
-                <LayoutGridIcon className="w-48 h-48" />
-              </div>
-              <div className="relative z-10">
-                <div className="h-12 w-12 rounded-2xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400">
-                  <CodeIcon className="w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Business Components</h3>
-                <p className="text-muted-foreground mb-4">
-                  Ready-made building blocks like Form, SearchArea, and TimeRangePicker — react-hook-form wired up,
-                  validated, and themed out of the box.
-                </p>
-                <Link
-                  href="/docs/form"
-                  className="text-sm font-medium text-primary hover:underline inline-flex items-center"
-                >
-                  Learn more <ArrowRightIcon className="ml-1 w-3 h-3" />
-                </Link>
-              </div>
-            </div>
-
             {/* Card 3: Theming */}
             <div className="glass-card rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 border-t border-l border-white/50 dark:border-white/10">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-pink-500 to-orange-400 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity" />
