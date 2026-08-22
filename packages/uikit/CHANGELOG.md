@@ -1,5 +1,11 @@
 # @flxui/uikit
 
+## 0.9.0
+
+### Minor Changes
+
+- [`8c96213`](https://github.com/SellamiAhmed/flxuikit/commit/8c96213d87fd6e8380d0bbac57b66bea79674c6e) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - bump version and improve docs site concept , correct few mismatch
+
 ## 0.7.3
 
 ### Patch Changes
