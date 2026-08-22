@@ -133,15 +133,14 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 animate-fade-in-up [animation-delay:100ms]">
-            Build <span className="text-gradient">Cloud-Native</span> <br className="hidden md:block" />
-            Interfaces with Speed
+            Build <span className="text-gradient">Beautiful</span> Interfaces, <br className="hidden md:block" />
+            Faster
           </h1>
 
           <p className="max-w-[800px] text-lg md:text-xl text-muted-foreground mb-10 animate-fade-in-up [animation-delay:200ms]">
-            The definitive UI library for FlxUI. A comprehensive suite of components, icons, and tools designed to
-            build modern, consistent, and powerful data applications.
+            FlxUI is a component library for building modern, accessible product interfaces — primitives and
+            business components, fully themeable, ready to ship.
           </p>
-
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up [animation-delay:300ms]">
             <Link
               href="/docs"
@@ -152,7 +151,7 @@ export default function Home() {
             </Link>
             {/* TODO: point this at your real repo once flxui is public/hosted somewhere */}
             <Link
-              href="https://github.com/flxui/flxui"
+              href="https://github.com/SellamiAhmed/flxuikit"
               target="_blank"
               className="inline-flex h-12 items-center justify-center rounded-full border border-input bg-background/50 backdrop-blur-sm px-8 text-base font-medium shadow-sm transition-all hover:bg-accent hover:text-accent-foreground hover:scale-105 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >

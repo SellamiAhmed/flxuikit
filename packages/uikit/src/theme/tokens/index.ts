@@ -1,27 +1,27 @@
 export * from './primitives.js'
 
-export * from './colors.js'
-export * from './colors.dark.js'
-export * from './backgrounds.js'
 export * from './backgrounds.dark.js'
-export * from './borders.js'
-export * from './borders.dark.js'
-export * from './icons.js'
-export * from './icons.dark.js'
-export * from './links.js'
-export * from './links.dark.js'
-export * from './interactions.js'
-export * from './interactions.dark.js'
-export * from './blankets.js'
+export * from './backgrounds.js'
 export * from './blankets.dark.js'
-export * from './charts.js'
+export * from './blankets.js'
+export * from './borders.dark.js'
+export * from './borders.js'
 export * from './charts.dark.js'
-export * from './skeletons.js'
-export * from './skeletons.dark.js'
-export * from './surfaces.js'
-export * from './surfaces.dark.js'
-export * from './shadows.js'
+export * from './charts.js'
+export * from './colors.dark.js'
+export * from './colors.js'
+export * from './icons.dark.js'
+export * from './icons.js'
+export * from './interactions.dark.js'
+export * from './interactions.js'
+export * from './links.dark.js'
+export * from './links.js'
 export * from './shadows.dark.js'
+export * from './shadows.js'
+export * from './skeletons.dark.js'
+export * from './skeletons.js'
+export * from './surfaces.dark.js'
+export * from './surfaces.js'
 export * from './typography.js'
 
 // ── Runtime token map ──
@@ -81,9 +81,9 @@ export type TokenName = keyof typeof tokenMap.light
 
 /** Get raw hex value at runtime (for JS logic, canvas, etc.) */
 export function getToken(name: TokenName, mode: 'light' | 'dark' = 'light'): string {
-  return tokenMap[mode][name]
+  const resolvedMode = mode === 'light' || mode === 'dark' ? mode : 'light'
+  return tokenMap[resolvedMode][name]
 }
-
 /** Convert dot-notation token to CSS custom property string */
 export function tokenToCssVar(name: TokenName): string {
   const cssName = name.replace(/\./g, '-')

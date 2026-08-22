@@ -103,17 +103,17 @@ const featuredComponents = [
   {
     title: 'DotBadge',
     desc: 'A status-indicator badge with a colored dot or custom icon — for "Live", "Online", "Draft", and category tags.',
-    link: '/docs/dotbadge'
+    link: '/docs/business/DotBadge'
   },
   {
     title: 'DateTimePicker',
     desc: 'A calendar, time input, and scrollable time selector combined into one date-and-time picker.',
-    link: '/docs/datetimepicker'
+    link: '/docs/business/DateTimePicker'
   },
   {
     title: 'SearchArea',
     desc: 'A row of auto-submitting filter fields — text, select, multi-select, date, and time-range — with optional URL persistence.',
-    link: '/docs/searcharea'
+    link: '/docs/business/SearchArea'
   }
 ]
 

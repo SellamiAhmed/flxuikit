@@ -53,7 +53,8 @@ export const tokens = {
 export type TokenName = keyof typeof tokens.light
 
 export function getToken(name: TokenName, mode: 'light' | 'dark' = 'light'): string {
-  return tokens[mode][name]
+  const resolvedMode = mode === 'light' || mode === 'dark' ? mode : 'light'
+  return tokens[resolvedMode][name]
 }
 
 export function tokenToCssVar(name: TokenName): string {

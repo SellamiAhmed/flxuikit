@@ -1,9 +1,9 @@
 import type { DocsThemeConfig } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
-  logo: <span style={{ fontWeight: 700 }}>YourUIKit</span>,
+  logo: <span style={{ fontWeight: 700 }}>FlxUI</span>,
   project: {
-    link: 'https://github.com/you/your-uikit'
+    link: 'https://github.com/SellamiAhmed/flxuikit'
   },
   docsRepositoryBase: 'https://github.com/you/your-uikit/tree/main/pages',
   toc: {
@@ -22,7 +22,7 @@ const config: DocsThemeConfig = {
     defaultMenuCollapseLevel: 1
   },
   footer: {
-    content: <span>© {new Date().getFullYear()} Your Company. All rights reserved.</span>
+    content: <span>© {new Date().getFullYear()}. Ahmed Sellami. All rights reserved.</span>
   }
 }
 
