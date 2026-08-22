@@ -28,7 +28,7 @@ export default {
   storybook_link: {
     type: 'page',
     title: 'Storybook ↗',
-    href: 'http://localhost:6006/',
+    href: 'https://flxui-uikit-stories.vercel.app/',
     newWindow: true
   }
 }
