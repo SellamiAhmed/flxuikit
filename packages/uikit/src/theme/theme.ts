@@ -1,28 +1,29 @@
 // eslint-disable-next-line no-restricted-imports
 import {
-    AccordionProps,
-    ActionIconProps,
-    AlertProps,
-    BadgeProps,
-    CheckboxProps,
-    createTheme,
-    DEFAULT_THEME,
-    InputProps,
-    MantineTheme,
-    MantineThemeOverride,
-    mergeMantineTheme,
-    MultiSelectProps,
-    NavLinkProps,
-    NumberInputProps,
-    PaperProps,
-    PasswordInputProps,
-    RadioProps,
-    SelectProps,
-    SkeletonProps,
-    StepperProps,
-    SwitchProps,
-    TableProps,
-    TabsProps
+  AccordionProps,
+  ActionIconProps,
+  AlertProps,
+  AvatarProps,
+  BadgeProps,
+  CheckboxProps,
+  createTheme,
+  DEFAULT_THEME,
+  InputProps,
+  MantineTheme,
+  MantineThemeOverride,
+  mergeMantineTheme,
+  MultiSelectProps,
+  NavLinkProps,
+  NumberInputProps,
+  PaperProps,
+  PasswordInputProps,
+  RadioProps,
+  SelectProps,
+  SkeletonProps,
+  StepperProps,
+  SwitchProps,
+  TableProps,
+  TabsProps
 } from '@mantine/core'
 
 import { rem, token, tokenHex, type TokenName } from './fns.js'
@@ -938,6 +939,38 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         }
       },
 
+
+      Avatar: {
+        defaultProps: {
+          radius: 'xl'
+        },
+        styles: (theme: MantineTheme, props: AvatarProps) => {
+          const color = (props.color ?? 'neutral') as Color
+          const byColor: Record<Color, { bg: TokenName; text: TokenName }> = {
+            brand: { bg: 'color.background.brand.subtlest', text: 'color.text.brand' },
+            danger: { bg: 'color.background.danger', text: 'color.text.danger' },
+            warning: { bg: 'color.background.warning', text: 'color.text.warning' },
+            success: { bg: 'color.background.success', text: 'color.text.success' },
+            discovery: { bg: 'color.background.discovery', text: 'color.text.discovery' },
+            neutral: { bg: 'color.background.accent.gray.subtle', text: 'color.text.subtle' }
+          }
+          const t = byColor[color] ?? byColor.neutral
+
+          return {
+            root: {
+              backgroundColor: token(t.bg),
+              color: token(t.text)
+            },
+            placeholder: {
+              backgroundColor: token(t.bg),
+              color: token(t.text)
+            },
+            image: {
+              objectFit: 'cover'
+            }
+          }
+        }
+      },
       // ── Paper ──
       Paper: {
         defaultProps: {

@@ -1,0 +1,23 @@
+.root {
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.indicatorWrapper {
+  display: inline-flex;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+}
+
+.groupItem {
+  margin-left: var(--avatar-overlap, -8px);
+  border-radius: 50%;
+  border: 2px solid var(--ds-elevation-surface);
+}
+
+.groupItem:first-child {
+  margin-left: 0;
+}

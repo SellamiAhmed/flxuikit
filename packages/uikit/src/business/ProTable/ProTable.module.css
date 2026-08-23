@@ -1,0 +1,219 @@
+/* ── Wrapper: rounded card ── */
+.wrapper {
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-space-100);
+  overflow: hidden;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  background: var(--ds-elevation-surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: inherit;
+}
+
+/* ── Header ── */
+.thead {
+  background-color: var(--ds-elevation-surface-raised);
+}
+
+.thead[data-sticky='true'] {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.th {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--ds-color-border-bold);
+  white-space: nowrap;
+}
+
+.headerLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ds-color-text-subtle);
+  font-weight: 500;
+}
+
+.headerIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--ds-color-icon-subtlest);
+  flex-shrink: 0;
+}
+
+.sortableHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortIcon,
+.sortIconBtn {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  color: var(--ds-color-icon-subtlest);
+  cursor: pointer;
+}
+
+.sortIcon[data-active='true'],
+.sortIconBtn[data-active='true'] {
+  color: var(--ds-color-icon-brand);
+}
+
+/* ── Checkbox column ── */
+.checkboxCell {
+  width: 44px;
+  padding-left: 20px;
+}
+
+/* ── Rows ── */
+.tr {
+  background-color: var(--ds-elevation-surface);
+  transition: background-color 100ms ease-in-out;
+}
+
+.tr[data-clickable='true'] {
+  cursor: pointer;
+}
+
+.tr:hover {
+  background-color: var(--ds-elevation-surface-raised-hovered);
+}
+
+.tr:not(:last-of-type) .td {
+  border-bottom: 1px solid var(--ds-color-border);
+}
+
+.td {
+  padding: 10px 16px;
+  height: 68px;
+  vertical-align: middle;
+  color: var(--ds-color-text-subtle);
+  font-size: var(--ds-font-size-200);
+}
+
+.expandCell {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.emptyState {
+  padding: var(--ds-space-600);
+  text-align: center;
+  color: var(--ds-color-text-subtlest);
+}
+
+.skeletonCell {
+  height: 16px;
+  border-radius: var(--ds-space-050);
+  background-color: var(--ds-color-skeleton);
+}
+
+/* ── Generic stacked cell: primary + secondary line ── */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stackWithLeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.primaryText {
+  color: var(--ds-color-text);
+  font-size: var(--ds-font-size-200);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.secondaryText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ds-color-text-subtlest);
+  font-size: var(--ds-font-size-100);
+}
+
+/* ── Leading icon inline with secondary text ── */
+.inlineIcon {
+  width: 12px;
+  height: 12px;
+  color: var(--ds-color-icon-subtlest);
+  flex-shrink: 0;
+}
+
+/* ── Flag: circular chip ── */
+.flagIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--ds-color-border);
+}
+
+/* ── Actions cell ── */
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--ds-color-border);
+  background: transparent;
+  color: var(--ds-color-text-subtle);
+  font-size: var(--ds-font-size-100);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+
+.actionButton:hover {
+  background-color: var(--ds-elevation-surface-raised-hovered);
+  border-color: var(--ds-color-border-bold);
+}
+
+.actionButton[data-variant='danger']:hover {
+  background-color: var(--ds-color-background-danger);
+  border-color: var(--ds-color-border-danger);
+  color: var(--ds-color-text-danger);
+}
+
+.actionButtonIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.dragHandle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-icon-subtlest);
+  cursor: grab;
+  flex-shrink: 0;
+}

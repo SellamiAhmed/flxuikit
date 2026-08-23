@@ -96,6 +96,8 @@ export { NumberInput, type NumberInputProps } from './NumberInput/index.js'
 
 export * from './notifier/index.js'
 
+export * from './Avatar/index.js'
+
 // Hooks — re-export from sibling folder
 export { useColorScheme } from '../hooks/index.js'
 
