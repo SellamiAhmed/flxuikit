@@ -50,6 +50,53 @@ Pass `rules` (a standard react-hook-form `RegisterOptions` object) to any `Form*
 </Form>
 ```
 
+## With Zod Validation
+
+`Form` doesn't expose a `resolver` prop directly, so you can't pass a Zod schema straight to `<Form>`. Instead, build
+your own `useForm()` with `zodResolver` and hand it to `Form` via the `form` prop — the same escape hatch documented
+under [Form Props](#form-props) for bringing your own form instance:
+
+```tsx
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { Form, FormTextInput, FormNumberInput } from '@flxui/uikit/business'
+
+const schema = z.object({
+  email: z.string().email('Enter a valid email address'),
+  age: z.number().min(18, 'Must be at least 18')
+})
+
+type FormValues = z.infer<typeof schema>
+
+function Demo() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { email: '', age: 18 }
+  })
+
+  return (
+    <Form form={form} onSubmit={(data) => console.log(data)}>
+      <FormTextInput name="email" label="Email" />
+      <FormNumberInput name="age" label="Age" />
+    </Form>
+  )
+}
+```
+
+<Callout type="warning">
+  Once you pass your own `form` instance, `Form`'s own `mode`, `reValidateMode`, and `defaultValues` props become
+  no-ops — they only configure the `useForm()` that `Form` creates internally when you *don't* supply `form`. Set
+  `mode`, `reValidateMode`, and `defaultValues` directly on your own `useForm({ resolver, mode, defaultValues, ... })`
+  call instead, as shown above.
+</Callout>
+
+<Callout type="info">
+  Individual `Form*` fields' own `rules` prop still works alongside a Zod resolver, but the two validate independently —
+  react-hook-form runs both, so it's easy to end up with duplicate or conflicting error messages for the same field if
+  you validate it in both places. Pick one source of truth per field: either the Zod schema, or `rules`, not both.
+</Callout>
+
 ## Horizontal Layout
 
 ```tsx
@@ -190,9 +237,9 @@ Also accepts all `AlertProps` except `children`.
 The fields below all follow the same shape: a `name` prop that maps to a react-hook-form field, an optional `rules` prop for validation, and — for most of them — an automatically-rendered error message wired up via `getFieldState`. They must be used inside a `Form` (or any `FormProvider`), since they call `useFormContext()` internally.
 
 <Callout type="warning">
-  A few exported names differ from the tidbcloud reference table above: it's **`FormTextareaInput`** (not
-  `FormTextArea`), **`FormRatingInput`** (not `FormRating`), and **`FormSegmentedControl`** (not `FormSegmentControl` —
-  note the "ed"). Import using the names below.
+  A few exported names are easy to guess wrong: it's **`FormTextareaInput`** (not `FormTextArea`), **`FormRatingInput`**
+  (not `FormRating`), and **`FormSegmentedControl`** (not `FormSegmentControl` — note the "ed"). Import using the names
+  below.
 </Callout>
 
 <Callout type="warning">
@@ -396,9 +443,7 @@ Also accepts all `PasswordInputProps`. It ships its own default `classNames` (wr
 
 ### FormTextareaInput
 
-<Callout type="warning">
-  The exported name is `FormTextareaInput`, not `FormTextArea` as in the tidbcloud reference table above.
-</Callout>
+<Callout type="warning">The exported name is `FormTextareaInput`, not `FormTextArea`.</Callout>
 
 ```tsx
 <FormTextareaInput name="bio" label="Bio" />
@@ -441,9 +486,7 @@ Also accepts all `SwitchProps` except `onChange` and `label` (both are redeclare
 
 ### FormRatingInput
 
-<Callout type="warning">
-  The exported name is `FormRatingInput`, not `FormRating` as in the tidbcloud reference table above.
-</Callout>
+<Callout type="warning">The exported name is `FormRatingInput`, not `FormRating`.</Callout>
 
 ```tsx
 <FormRatingInput name="satisfaction" label="How satisfied were you?" />
@@ -462,10 +505,10 @@ Also accepts all `RatingProps`. Unlike the other fields, it's wrapped in `Input.
 ### FormSegmentedControl
 
 <Callout type="warning">
-  The exported name is `FormSegmentedControl`, not `FormSegmentControl` as in the tidbcloud reference table above. It
-  also renders its error differently from every other field here — as plain `error.message` text rather than through the
-  shared `<ErrorMessage />` helper — so it won't correctly display errors that come from nested or array-type validation
-  paths the way the others do.
+  The exported name is `FormSegmentedControl`, not `FormSegmentControl` (note the "ed"). It also renders its error
+  differently from every other field here — as plain `error.message` text rather than through the shared `
+  <ErrorMessage />` helper — so it won't correctly display errors that come from nested or array-type validation paths
+  the way the others do.
 </Callout>
 
 ```tsx

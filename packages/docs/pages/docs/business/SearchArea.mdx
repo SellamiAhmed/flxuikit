@@ -12,17 +12,8 @@ import { SearchArea } from '@flxui/uikit/business'
 ```
 
 <Callout type="warning">
-  If you're porting examples from the tidbcloud reference docs, several prop names don't carry over — this
-  package's `SearchArea` uses different names for the same concepts, and drops one prop entirely:
-
-| tidbcloud     | This package                                                                                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `filters`     | `data`                                                                                                                                                                                |
-| `persistUrl`  | `recoverFromURLEnabled`                                                                                                                                                               |
-| `urlStateKey` | `formStateQueryKey`                                                                                                                                                                   |
-| `clearText`   | `clearFiltersText`                                                                                                                                                                    |
-| `debug`       | `debugEnabled` (present in the type, but not wired up — see below)                                                                                                                    |
-| `formProps`   | **not supported** — `SearchArea` builds its own `useForm()`/`FormProvider` directly rather than rendering the `Form` component, so there's nothing to forward extra `Form` props into |
+  `SearchArea` doesn't accept a `formProps` prop — it builds its own `useForm()`/`FormProvider` directly rather than
+  rendering the `Form` component internally, so there's nothing to forward extra `Form` props into.
 
 Field-level `label` also isn't supported — `FormItem` only has `name` and `placeholder`, and none of the internal
 field renders pass a `label` through. Use `placeholder` for in-field hint text; there's currently no way to add a

@@ -12,35 +12,12 @@ import { TimeRangePicker } from '@flxui/uikit/business'
 ```
 
 <Callout type="warning">
-  If you've used tidbcloud's `TimeRangePicker` docs before, don't reuse their `TimeRange` shape — it's genuinely
-  different here, not just renamed:
-
-| tidbcloud                                      | This package                                                                                     |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `{ type: 'relative', duration: number }`       | `{ type: 'relative', value: number, isFuture?, utcOffset? }`                                     |
-| `{ type: 'absolute', start: Date, end: Date }` | `{ type: 'absolute', value: [from: number, to: number] }` (unix **seconds**, not `Date` objects) |
-
-State initialized with tidbcloud's shape (`duration`, or `start`/`end` as `Date`s) will silently fail to select
-anything in this component, since it reads `value.value`, not `duration`/`start`/`end`.
-
-</Callout>
-
-<Callout type="warning">
-  Several prop names also differ:
-
-| tidbcloud                                    | This package                                                                              |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `formatRelative`                             | `relativeFormatter`                                                                       |
-| `formatAbsolute`                             | `absoluteFormatter`                                                                       |
-| `dropdownFooter`                             | `footer`                                                                                  |
-| `quickOptions`                               | `quickRanges`                                                                             |
-| `hideCustomPicker`                           | `disableAbsoluteRanges`                                                                   |
-| `timezoneOffset`                             | `timezone`                                                                                |
-| `minDateTime` / `maxDateTime` (plain `Date`) | `minDateTime` / `maxDateTime` (`() => Date` **functions** — see the callout further down) |
-
-`sx` isn't confirmed either way — it comes from the underlying `ButtonProps`, whose source wasn't available here.
-If the primitive `Button` is on a modern Mantine version, `sx` was dropped there in favor of `style`/`className`.
-
+  Don't assume this uses `Date` objects or a `duration` field, even if a similarly-named picker you've used
+  elsewhere does — the shape here is `{ type: 'relative', value: number, isFuture?, utcOffset? }` for relative
+  ranges and `{ type: 'absolute', value: [from: number, to: number] }` (unix **seconds**, not `Date` objects) for
+  absolute ranges. State initialized with a different shape (e.g. a `duration` field, or `start`/`end` as `Date`s)
+  will silently fail to select anything in this component, since it reads `value.value`, not
+  `duration`/`start`/`end`.
 </Callout>
 
 ## Basic Usage
