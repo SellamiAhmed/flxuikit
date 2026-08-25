@@ -4,11 +4,14 @@ import clsx from 'clsx'
 
 import { Box, Skeleton } from '../../primitive/index.js'
 
+import type { ProColumnMeta } from './cells.js'
 import type { ProTableFeatures } from './features.js'
 import styles from './ProTable.module.css'
 import { ProTablePagination } from './ProTablePagination.js'
 import type { ProTableProps } from './types.js'
 import { useProTable } from './useProTable.js'
+
+const SHRINK_COLUMN_WIDTH = 180 // px reserved for shrink columns (e.g. Actions)
 
 export function ProTable<TData extends Record<string, any>>(props: ProTableProps<TData>) {
   const {
@@ -27,22 +30,44 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
 
   const table = useProTable(props)
   const rows = table.getRowModel().rows
-  const columnCount = table.getAllLeafColumns().length
+  const leafColumns = table.getAllLeafColumns()
+  const columnCount = leafColumns.length
   const showPagination = !!paginationProps || table.state.pagination.pageSize > 0
+
+  // Deterministic column widths, computed once from meta — not from
+  // TanStack's columnSizingFeature defaults, which can't be trusted to
+  // stay `undefined` for "no explicit size" the way earlier logic assumed.
+  const shrinkCount = leafColumns.filter((col) => (col.columnDef.meta as ProColumnMeta | undefined)?.shrink).length
+  const growCount = columnCount - shrinkCount
+  const growWidthPercent = growCount > 0 ? 100 / growCount : 0
 
   return (
     <Box className={clsx(styles.wrapper, className)} data-with-border={withBorder} {...wrapperProps}>
       <Box className={styles.tableContainer}>
         <table className={styles.table}>
+          <colgroup>
+            {leafColumns.map((col) => {
+              const shrink = (col.columnDef.meta as ProColumnMeta | undefined)?.shrink
+              return (
+                <col
+                  key={col.id}
+                  style={shrink ? { width: SHRINK_COLUMN_WIDTH } : { width: `${growWidthPercent}%` }}
+                />
+              )
+            })}
+          </colgroup>
+
           <thead className={styles.thead} data-sticky={stickyHeader}>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort()
                   const sortDir = header.column.getIsSorted()
+                  const meta = header.column.columnDef.meta as ProColumnMeta | undefined
+                  const shrink = meta?.shrink
 
                   return (
-                    <th key={header.id} className={styles.th} style={{ width: header.getSize() }}>
+                    <th key={header.id} className={styles.th} data-shrink={shrink ? 'true' : undefined}>
                       {header.isPlaceholder ? null : canSort ? (
                         <div className={styles.sortableHeader} onClick={header.column.getToggleSortingHandler()}>
                           {flexRender(header.column.columnDef.header, header.getContext())}
@@ -90,8 +115,11 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
                 >
                   {row.getVisibleCells().map((cell) => {
                     const isExpandCell = enableExpanding && cell.column.id === row.getVisibleCells()[0]?.column.id
+                    const meta = cell.column.columnDef.meta as ProColumnMeta | undefined
+                    const shrink = meta?.shrink
+
                     return (
-                      <td key={cell.id} className={styles.td}>
+                      <td key={cell.id} className={styles.td} data-shrink={shrink ? 'true' : undefined}>
                         {isExpandCell && row.getCanExpand() ? (
                           <div
                             className={styles.expandCell}

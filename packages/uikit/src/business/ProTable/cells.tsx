@@ -5,6 +5,15 @@ import { Avatar } from '../../primitive/index.js'
 
 import styles from './ProTable.module.css'
 
+export interface ProColumnMeta {
+  shrink?: boolean
+  noEllipsis?: boolean // opt OUT of truncation for this specific column
+}
+
+export function actionsColumnMeta(): ProColumnMeta {
+  return { shrink: true }
+}
+
 export function HeaderLabel({
   icon: Icon,
   label,
