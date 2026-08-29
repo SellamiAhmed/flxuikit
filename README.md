@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./packages/docs/public/images/apple-touch-icon.png" alt="FlxUI logo" width="120" />
+</p>
+
 # FlxUI
 
 This repo hosts FlxUI, the Flx design system UI library, including primitive and business components. Built on Mantine.
