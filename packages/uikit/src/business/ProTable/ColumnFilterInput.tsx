@@ -16,7 +16,6 @@ import type { ProColumnMeta } from './cells.js'
 import type { ProTableFeatures } from './features.js'
 import styles from './ProTable.module.css'
 
-
 interface ColumnFilterInputProps<TData extends Record<string, any>> {
   column: Column<ProTableFeatures, TData, unknown>
 }
@@ -33,7 +32,7 @@ export function ColumnFilterInput<TData extends Record<string, any>>({ column }:
         <TextInput
           placeholder={meta.placeholder ?? meta.label}
           value={(column.getFilterValue() as string) ?? ''}
-          onChange={(e) => column.setFilterValue(e.currentTarget.value)}
+          onChange={(e) => column.setFilterValue(e.currentTarget.value || undefined)}
           size="sm"
           className={styles.filterControl}
         />
@@ -46,7 +45,7 @@ export function ColumnFilterInput<TData extends Record<string, any>>({ column }:
           inputMode="numeric"
           placeholder={meta.placeholder ?? meta.label}
           value={(column.getFilterValue() as string) ?? ''}
-          onChange={(e) => column.setFilterValue(e.currentTarget.value)}
+          onChange={(e) => column.setFilterValue(e.currentTarget.value || undefined)}
           size="sm"
           rightSection={meta.unit ? <span className={styles.filterUnit}>{meta.unit}</span> : undefined}
           className={styles.filterControl}

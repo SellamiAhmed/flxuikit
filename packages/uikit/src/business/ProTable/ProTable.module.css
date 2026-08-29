@@ -91,6 +91,14 @@
   color: var(--ds-color-text-subtle); /* ← add, matches .headerLabel's color */
   background: none; /* ← add, in case Menu.Target renders a <button> */
   border: none;
+  margin: -4px -6px;
+  transition:
+    background-color 120ms ease-in-out,
+    color 120ms ease-in-out;
+}
+.sortableHeader:hover {
+  background-color: var(--ds-elevation-surface-raised-hovered);
+  color: var(--ds-color-text);
 }
 .sortableHeader svg {
   flex-shrink: 0;

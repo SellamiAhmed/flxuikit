@@ -1,3 +1,4 @@
+
 export default {
   AppShell: 'AppShell',
   DateTimePicker: 'DateTimePicker',
@@ -7,5 +8,6 @@ export default {
   PhoneInput: 'PhoneInput',
   StatCard: 'StatCard',
   SearchArea: 'SearchArea',
-  TimeRangePicker: 'TimeRangePicker'
+  TimeRangePicker: 'TimeRangePicker',
+  ProTable:"ProTable"
 }

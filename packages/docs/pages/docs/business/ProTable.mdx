@@ -1,0 +1,417 @@
+---
+title: ProTable
+description: A batteries-included data table built on TanStack Table — sorting, filtering, pagination, expanding rows, and prebuilt cell renderers.
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# ProTable
+
+`ProTable` is an opinionated wrapper around [TanStack Table](https://tanstack.com/table) that gives you
+sorting, column filtering, pagination, row expansion, loading skeletons, and a set of prebuilt cell
+renderers out of the box — while still exposing the underlying table instance when you need full control.
+
+<Callout type="info">
+  ProTable is headless-friendly: pass your own `table` instance (built with [`useProTable`](#useprotable)) if you need
+  to share state with a `ProTableToolbar` or drive filters from outside the table.
+</Callout>
+
+## Installation
+
+```bash npm2yarn
+npm install @tanstack/react-table @tabler/icons-react clsx
+```
+
+## Quick start
+
+```tsx
+import { ProTable, useProTable, type ProColumnMeta } from '@your-scope/protable'
+import type { ColumnDef } from '@tanstack/react-table'
+
+interface User {
+  id: string
+  name: string
+  email: string
+  active: boolean
+}
+
+const columns: ColumnDef<ProTableFeatures, User, any>[] = [
+  {
+    accessorKey: 'name',
+    meta: { label: 'Name' } satisfies ProColumnMeta
+  },
+  {
+    accessorKey: 'email',
+    meta: {
+      label: 'Email',
+      filter: { variant: 'text', label: 'Email' }
+    } satisfies ProColumnMeta
+  },
+  {
+    accessorKey: 'active',
+    meta: {
+      label: 'Active',
+      filter: { variant: 'boolean', label: 'Active' }
+    } satisfies ProColumnMeta
+  }
+]
+
+export function UsersTable({ data }: { data: User[] }) {
+  return <ProTable data={data} columns={columns} />
+}
+```
+
+## Toolbar + sorting + filters together
+
+Filtering, sorting menus, and the table body all need to share one `table` instance. Build it once with
+`useProTable` and pass it down explicitly:
+
+```tsx
+import { ProTable, ProTableToolbar, useProTable } from '@your-scope/protable'
+
+export function UsersTable({ data, columns }) {
+  const table = useProTable({ data, columns })
+
+  return (
+    <>
+      <ProTableToolbar table={table} />
+      <ProTable table={table} data={data} columns={columns} />
+    </>
+  )
+}
+```
+
+<Callout type="warning">
+  If you don't pass `table`, `ProTable` builds its own instance internally — which means a separately rendered
+  `ProTableToolbar` or `ProTableSortList` won't see the same state. Share one instance whenever you use those components
+  together.
+</Callout>
+
+## `ProTable` props
+
+| Prop                                                     | Type                                              | Default                   | Description                                                                       |
+| -------------------------------------------------------- | ------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| `data`                                                   | `TData[]`                                         | —                         | Row data.                                                                         |
+| `columns`                                                | `ColumnDef<ProTableFeatures, TData, any>[]`       | —                         | Column definitions. Use `meta` to configure label, icon, shrink, and filters.     |
+| `table`                                                  | `ReturnType<typeof useProTable<TData>>`           | —                         | Bring your own table instance (see above). If omitted, one is created internally. |
+| `sorting` / `onSortingChange`                            | `SortingState` / `OnChangeFn`                     | —                         | Controlled sorting.                                                               |
+| `pagination` / `onPaginationChange`                      | `PaginationState` / `OnChangeFn`                  | —                         | Controlled pagination.                                                            |
+| `columnFilters` / `onColumnFiltersChange`                | `ColumnFiltersState` / `OnChangeFn`               | —                         | Controlled column filters.                                                        |
+| `manualSorting` / `manualPagination` / `manualFiltering` | `boolean`                                         | `false`                   | Set when the server handles that operation.                                       |
+| `rowCount`                                               | `number`                                          | —                         | Total row count on the server, for manual pagination.                             |
+| `enableSorting`                                          | `boolean`                                         | `true`                    | Globally enable/disable sorting.                                                  |
+| `enableExpanding`                                        | `boolean`                                         | `false`                   | Enables expandable rows; the first cell of each row becomes the expand toggle.    |
+| `getSubRows`                                             | `(row: TData) => TData[] \| undefined`            | —                         | Required alongside `enableExpanding` for tree data.                               |
+| `expanded` / `onExpandedChange`                          | `ExpandedState` / `OnChangeFn`                    | —                         | Controlled expansion state.                                                       |
+| `loading`                                                | `boolean`                                         | `false`                   | Renders `skeletonRowCount` skeleton rows instead of data.                         |
+| `skeletonRowCount`                                       | `number`                                          | `5`                       | Number of skeleton rows while loading.                                            |
+| `emptyMessage`                                           | `string`                                          | `'No records to display'` | Shown when `data` is empty.                                                       |
+| `errorMessage`                                           | `string`                                          | —                         | Overrides `emptyMessage` when set.                                                |
+| `hidePagination`                                         | `boolean`                                         | `false`                   | Hides the pagination bar entirely.                                                |
+| `withBorder`                                             | `boolean`                                         | `true`                    | Adds a border/rounded card around the table.                                      |
+| `stickyHeader`                                           | `boolean`                                         | `false`                   | Sticks the header to the top of the scroll container.                             |
+| `onRowClick`                                             | `(row: TData) => void`                            | —                         | Makes rows clickable.                                                             |
+| `rowKey`                                                 | `(row: TData, index: number) => string \| number` | —                         | Custom row id, passed to TanStack's `getRowId`.                                   |
+| `paginationProps`                                        | `TablePaginationProps`                            | —                         | Forwarded to `ProTablePagination`.                                                |
+| `wrapperProps`                                           | `BoxProps`                                        | —                         | Forwarded to the outer `Box`.                                                     |
+| `className`                                              | `string`                                          | —                         | Applied to the outer wrapper.                                                     |
+
+### Column widths
+
+Columns are sized deterministically from `meta.shrink`, not from TanStack's column-sizing defaults:
+
+- `shrink: true` columns get a fixed `180px` and never wrap (`white-space: nowrap`) — use this for things
+  like an actions column.
+- Every other column splits the remaining width evenly via `calc((100% - shrinkPx) / growCount)`.
+
+```tsx
+{
+  id: 'actions',
+  meta: { shrink: true }, // or use the actionsColumnMeta() helper
+  cell: ({ row }) => <ActionsCell onEdit={...} onDelete={...} editIcon={IconPencil} deleteIcon={IconTrash} />,
+}
+```
+
+## `ProColumnMeta`
+
+Set this on `columnDef.meta` to configure a column's header, width behavior, and filter UI.
+
+```ts
+interface ProColumnMeta {
+  shrink?: boolean // fixed 180px, no wrap — use for narrow/actions columns
+  noEllipsis?: boolean // allow primary/secondary text to wrap instead of truncating
+  label?: string // header label (falls back to column id)
+  icon?: React.ComponentType<{ size?: number; className?: string }>
+  filter?: ProColumnFilterMeta // enables a filter control in ProTableToolbar
+}
+```
+
+## Filtering
+
+### `ProColumnFilterMeta`
+
+```ts
+interface ProColumnFilterMeta {
+  label: string
+  variant: 'text' | 'number' | 'range' | 'date' | 'dateRange' | 'boolean' | 'select' | 'multiSelect'
+  options?: FilterOption[] // required for 'select' / 'multiSelect'
+  placeholder?: string
+  unit?: string // shown as a right-section suffix on 'number' inputs
+}
+```
+
+Any column with `meta.filter` set automatically renders a matching input inside `ProTableToolbar`,
+via `ColumnFilterInput`.
+
+| Variant       | Control                                                 | Filter value shape                            |
+| ------------- | ------------------------------------------------------- | --------------------------------------------- |
+| `text`        | Text input                                              | `string`                                      |
+| `number`      | Numeric input (optional unit suffix)                    | `string`                                      |
+| `boolean`     | Select (`True` / `False`)                               | `'true' \| 'false'`                           |
+| `select`      | Searchable, clearable select                            | `string[]` (single value wrapped in an array) |
+| `multiSelect` | Searchable, clearable multi-select                      | `string[]`                                    |
+| `date`        | Popover calendar with a clear button                    | `number` (epoch ms)                           |
+| `dateRange`   | Popover calendar in range mode                          | `[number, number]` (epoch ms)                 |
+| `range`       | _Not yet implemented_ — needs a `RangeSlider` primitive | —                                             |
+
+<Callout type="warning">
+  The `range` variant currently renders nothing (`return null`). Wire up a `RangeSlider` primitive before using it, or
+  filter it out of your column config.
+</Callout>
+
+### Filter functions
+
+`getFilterFn(variant)` maps a filter variant to the right TanStack `filterFn`:
+
+| Variant                 | `filterFn`                                                  |
+| ----------------------- | ----------------------------------------------------------- |
+| `select`, `multiSelect` | `'arrIncludesSome'`                                         |
+| `boolean`               | `'equals'`                                                  |
+| `number`, `range`       | `'inNumberRange'`                                           |
+| `date`                  | custom `dateEquals` (compares by day, ignoring time-of-day) |
+| `dateRange`             | custom `dateRangeBetween` (inclusive bounds)                |
+| `text` (default)        | `'includesString'`                                          |
+
+Pass it on the column definition:
+
+```tsx
+{
+  accessorKey: 'createdAt',
+  filterFn: getFilterFn('date'),
+  meta: { label: 'Created', filter: { variant: 'date', label: 'Created' } },
+}
+```
+
+### Filter operators (advanced / builder UIs)
+
+`getFilterOperators(variant)` and `getDefaultFilterOperator(variant)` return the operator list for
+building a custom filter-builder UI (e.g. "contains", "is between", "is empty"). These are metadata
+helpers only — they describe available operators per variant but aren't wired into `ColumnFilterInput`
+automatically.
+
+```ts
+type FilterOperator =
+  | 'eq'
+  | 'ne'
+  | 'contains'
+  | 'notContains'
+  | 'startsWith'
+  | 'endsWith'
+  | 'gt'
+  | 'gte'
+  | 'lt'
+  | 'lte'
+  | 'isBetween'
+  | 'isEmpty'
+  | 'isNotEmpty'
+  | 'isAnyOf'
+  | 'isNoneOf'
+```
+
+## Sorting
+
+`ProTableColumnHeader` renders each header as a menu (Asc / Desc / Reset, plus Hide when the column
+supports it) and shows the current sort direction as an icon.
+
+For multi-column sorting, drop `ProTableSortList` into your toolbar — it lets users add, reorder, and
+remove sort criteria from a menu:
+
+```tsx
+<ProTableToolbar table={table} showSort />
+// or standalone:
+<ProTableSortList table={table} />
+```
+
+`ProTableToolbar` renders `ProTableSortList` by default (`showSort` defaults to `true`); pass
+`showSort={false}` to omit it.
+
+## Pagination
+
+`ProTablePagination` is rendered automatically by `ProTable` unless `hidePagination` is set. Configure it
+via `paginationProps`:
+
+| Prop                | Type        | Default                            | Description                                                                                         |
+| ------------------- | ----------- | ---------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `pageSizeOptions`   | `number[]`  | `[5, 10, 15, 20, 25, 30, 50, 100]` | Options for the rows-per-page select.                                                               |
+| `showRowsPerPage`   | `boolean`   | `false`                            | Shows the rows-per-page control.                                                                    |
+| `showTotal`         | `boolean`   | `false`                            | Shows the total row count.                                                                          |
+| `showSelectedCount` | `boolean`   | `false`                            | Shows "`x` of `y` row(s) selected" (requires row selection).                                        |
+| `localization`      | object      | —                                  | Override the strings above, including `pageOf(current, total)` and `rowsSelected(selected, total)`. |
+| `wrapperProps`      | `FlexProps` | —                                  | Forwarded to the outer `Flex`.                                                                      |
+
+<Callout type="info">
+  `showTotal` uses `table.getRowCount()` (the server-reported total in manual mode), while the filtered count used
+  elsewhere comes from `getFilteredRowModel().rows.length` — in manual/server filtering mode that equals `data.length`
+  as given, since filtering already happened server-side.
+</Callout>
+
+First/last page buttons (`paginationEdgeButton`) hide automatically below `640px` to save space on
+mobile — only prev/next remain.
+
+## Loading state
+
+Pass `loading` to swap the body for skeleton rows in place:
+
+```tsx
+<ProTable data={data} columns={columns} loading={isLoading} skeletonRowCount={8} />
+```
+
+For a full-page skeleton (including toolbar and pagination) before any table instance exists — e.g. during
+a route transition — use `ProTableSkeleton` directly:
+
+```tsx
+<ProTableSkeleton
+  columnCount={5}
+  rowCount={8}
+  withToolbar
+  filterCount={3}
+  columnWidths={['180px', 'auto', 'auto', 'auto', '120px']}
+/>
+```
+
+## Row expansion
+
+```tsx
+<ProTable data={data} columns={columns} enableExpanding getSubRows={(row) => row.children} />
+```
+
+The first visible cell in each row becomes the expand/collapse toggle (chevron + indentation by
+`row.depth * 20px`) when `row.getCanExpand()` is true.
+
+## Cell renderers
+
+A set of prebuilt cells for common column shapes, all in `cells.ts`:
+
+<Tabs items={['PersonCell', 'IconStackCell', 'CountryCell', 'ActionsCell', 'HeaderLabel']}>
+  <Tabs.Tab>
+    ```tsx
+    cell: ({ row }) => (
+      <PersonCell
+        avatarUrl={row.original.avatarUrl}
+        name={row.original.name}
+        subtitle={row.original.email}
+      />
+    )
+    ```
+    Avatar + name, with the subtitle joined by a middot and truncated independently of the primary text.
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```tsx
+    cell: ({ row }) => (
+      <IconStackCell icon={IconBuilding} primary={row.original.company} secondary={row.original.role} />
+    )
+    ```
+    Same primary/secondary layout as `PersonCell`, with a leading icon instead of an avatar.
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```tsx
+    cell: ({ row }) => (
+      <CountryCell flagUrl={row.original.flagUrl} country={row.original.country} city={row.original.city} />
+    )
+    ```
+    Circular flag chip + country/city pair.
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```tsx
+    {
+      id: 'actions',
+      meta: actionsColumnMeta(), // { shrink: true }
+      cell: ({ row }) => (
+        <ActionsCell
+          onEdit={() => edit(row.original)}
+          onDelete={() => remove(row.original)}
+          editIcon={IconPencil}
+          deleteIcon={IconTrash}
+          dragIcon={IconGripVertical} // optional
+        />
+      ),
+    }
+    ```
+    Edit/Delete buttons that fade in on row hover, plus an optional drag handle.
+  </Tabs.Tab>
+  <Tabs.Tab>
+    `HeaderLabel` is a lower-level piece used by `ProTableColumnHeader` — reach for it if you're building
+    a fully custom header and just want the icon + label + sort-icon layout.
+    ```tsx
+    <HeaderLabel icon={IconMail} label="Email" sorted={column.getIsSorted()} />
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+  By default, primary/secondary text in stacked cells truncates with an ellipsis. Set
+  `meta: { noEllipsis: true }` on the column to let it wrap instead.
+</Callout>
+
+## `useProTable`
+
+The hook that assembles a TanStack Table instance with all `ProTableFeatures` enabled
+(sorting, pagination, expansion, column visibility, column sizing, row selection, column filtering).
+Every state slice is dual-mode: pass a controlled value + `onChange`, or omit both and `useProTable`
+manages it internally with `useState`.
+
+```tsx
+const table = useProTable({
+  data,
+  columns,
+  // controlled, e.g. server-side pagination:
+  pagination,
+  onPaginationChange: setPagination,
+  manualPagination: true,
+  rowCount: totalFromServer
+})
+```
+
+Use the returned `table` instance directly with `ProTable`, `ProTableToolbar`, and `ProTableSortList` to
+keep them in sync.
+
+## `proTableFeatures`
+
+The TanStack `tableFeatures()` bundle ProTable is built on — exported in case you need to type a table
+instance yourself (`Table<ProTableFeatures, TData>`, `Column<ProTableFeatures, TData, TValue>`, etc.)
+outside of `useProTable`.
+
+```ts
+export const proTableFeatures = tableFeatures({
+  rowSortingFeature,
+  rowPaginationFeature,
+  rowExpandingFeature,
+  columnVisibilityFeature,
+  columnSizingFeature,
+  rowSelectionFeature,
+  columnFilteringFeature,
+  sortedRowModel: createSortedRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  expandedRowModel: createExpandedRowModel(),
+  filteredRowModel: createFilteredRowModel()
+})
+```
+
+## Known limitations
+
+- The `range` filter variant has no control implemented yet (needs a `RangeSlider` primitive).
+- `showSelectedCount` in `ProTablePagination` requires `rowSelectionFeature` to be wired up on your
+  columns (a selection column with checkboxes) — it renders `0 of n` otherwise.
+- `showTotal` and the filtered-count text can diverge under manual filtering, since the filtered count
+  reflects what the server already returned rather than a true server-side total; use `rowCount` /
+  `getRowCount()` for the real total in that mode.

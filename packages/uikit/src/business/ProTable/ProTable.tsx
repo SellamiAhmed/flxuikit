@@ -33,7 +33,7 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
   const internalTable = useProTable(props)
   const table = props.table ?? internalTable
   const rows = table.getRowModel().rows
-  const leafColumns = table.getAllLeafColumns()
+  const leafColumns = table.getVisibleLeafColumns()
   const columnCount = leafColumns.length
   const showPagination = !hidePagination && (!!paginationProps || table.state.pagination.pageSize > 0)
   // Deterministic column widths, computed once from meta — not from

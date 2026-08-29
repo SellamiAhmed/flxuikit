@@ -5,13 +5,18 @@ import { Button } from '../../primitive/index.js'
 
 import { ColumnFilterInput } from './ColumnFilterInput.js'
 import styles from './ProTable.module.css'
+import { ProTableSortList } from './ProTableSortList.js'; // ← add
 import type { useProTable } from './useProTable.js'
 
-interface ProTableToolbarProps<TData extends Record<string, any>> {   // CHANGED — restored the constraint, removed the stray `column` line
+interface ProTableToolbarProps<TData extends Record<string, any>> {
   table: ReturnType<typeof useProTable<TData>>
+  showSort?: boolean   // ← optional, default true — lets consumers opt out
 }
 
-export function ProTableToolbar<TData extends Record<string, any>>({ table }: ProTableToolbarProps<TData>) {
+export function ProTableToolbar<TData extends Record<string, any>>({
+  table,
+  showSort = true,
+}: ProTableToolbarProps<TData>) {
   const isFiltered = table.state.columnFilters.length > 0
 
   const filterableColumns = useMemo(
@@ -23,18 +28,21 @@ export function ProTableToolbar<TData extends Record<string, any>>({ table }: Pr
     table.resetColumnFilters()
   }, [table])
 
-  if (filterableColumns.length === 0) return null
+  if (filterableColumns.length === 0 && !showSort) return null
 
   return (
     <div className={styles.toolbar}>
       {filterableColumns.map((col) => (
         <ColumnFilterInput key={col.id} column={col} />
       ))}
+
       {isFiltered && (
         <Button variant="default" size="sm" leftSection={<IconX size={14} />} onClick={onReset}>
           Reset
         </Button>
       )}
+
+      {showSort && <ProTableSortList table={table} />}
     </div>
   )
 }
