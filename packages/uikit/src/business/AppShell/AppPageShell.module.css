@@ -122,10 +122,10 @@
 /* ── Body ── */
 .body {
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
-
 .content {
   padding: var(--ds-space-300);
   max-width: var(--app-shell-page-max-width, 100%);

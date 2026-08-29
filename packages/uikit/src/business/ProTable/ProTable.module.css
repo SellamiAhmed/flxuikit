@@ -4,6 +4,8 @@
   border: 1px solid var(--ds-color-border);
   border-radius: var(--ds-space-100);
   overflow: hidden;
+  --table-row-height: 48px;
+  --table-cell-padding-x: 16px;
 }
 
 .tableContainer {
@@ -31,9 +33,10 @@
   overflow: visible;
   text-overflow: clip;
 }
+
 /* ── Header ── */
 .thead {
-  background-color: var(--ds-elevation-surface-raised);
+  background-color: var(--ds-elevation-surface);
 }
 
 .thead[data-sticky='true'] {
@@ -43,10 +46,14 @@
 }
 
 .th {
-  padding: 14px 16px;
+  height: var(--table-row-height);
+  padding: 0 var(--table-cell-padding-x);
   text-align: left;
-  border-bottom: 1px solid var(--ds-color-border-bold);
-  overflow: hidden; /* was missing — this is the actual bug */
+  border-bottom: 1px solid var(--ds-color-border);
+  overflow: hidden;
+  box-sizing: border-box;
+  font-weight: normal;
+  font-size: var(--ds-font-size-200);
 }
 
 .headerLabel {
@@ -54,9 +61,8 @@
   align-items: center;
   gap: 6px;
   color: var(--ds-color-text-subtle);
-  font-weight: 500;
   overflow: hidden;
-  min-width: 0; /* required for flex children to actually shrink instead of overflowing */
+  min-width: 0;
 }
 
 .headerLabel span {
@@ -75,14 +81,26 @@
 .sortableHeader {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   cursor: pointer;
+  font: inherit;
   user-select: none;
   overflow: hidden;
   min-width: 0;
   width: 100%;
+  color: var(--ds-color-text-subtle); /* ← add, matches .headerLabel's color */
+  background: none; /* ← add, in case Menu.Target renders a <button> */
+  border: none;
+}
+.sortableHeader svg {
+  flex-shrink: 0;
+  margin: 0; /* ← kill any inherited icon margin from Tabler/Menu defaults */
 }
 
+.sortableHeader span {
+  margin: 0;
+  padding: 0;
+}
 .sortIcon,
 .sortIconBtn {
   margin-left: auto;
@@ -90,11 +108,18 @@
   height: 16px;
   color: var(--ds-color-icon-subtlest);
   cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 120ms ease-in-out;
+}
+
+.sortableHeader:hover .sortIconBtn {
+  opacity: 1;
 }
 
 .sortIcon[data-active='true'],
 .sortIconBtn[data-active='true'] {
   color: var(--ds-color-icon-brand);
+  opacity: 1;
 }
 
 /* ── Checkbox column ── */
@@ -106,7 +131,7 @@
 /* ── Rows ── */
 .tr {
   background-color: var(--ds-elevation-surface);
-  transition: background-color 100ms ease-in-out;
+  transition: background-color 120ms ease-in-out;
 }
 
 .tr[data-clickable='true'] {
@@ -122,13 +147,58 @@
 }
 
 .td {
-  padding: 10px 16px;
-  height: 68px;
+  padding: 0 var(--table-cell-padding-x);
+  height: var(--table-row-height);
   vertical-align: middle;
   color: var(--ds-color-text-subtle);
   font-size: var(--ds-font-size-200);
   overflow: hidden;
+  box-sizing: border-box;
 }
+
+/* ── Single-line leading + inline pair ── */
+.stackWithLeading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.inlineRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.primaryTextInline {
+  color: var(--ds-color-text);
+  font-size: var(--ds-font-size-200);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+
+.secondaryTextInline {
+  color: var(--ds-color-text-subtlest);
+  font-size: var(--ds-font-size-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 2;
+  min-width: 0;
+}
+
+.dotSep {
+  color: var(--ds-color-text-subtlest);
+  flex-shrink: 0;
+}
+
 .expandCell {
   display: flex;
   align-items: center;
@@ -147,20 +217,12 @@
   background-color: var(--ds-color-skeleton);
 }
 
-/* ── Generic stacked cell: primary + secondary line ── */
+/* ── Generic stacked cell (kept for optional two-line use elsewhere) ── */
 .stack {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 0; /* same fix */
-}
-
-.stackWithLeading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   min-width: 0;
-  overflow: hidden;
 }
 
 .primaryText {
@@ -201,7 +263,7 @@
   border: 1px solid var(--ds-color-border);
 }
 
-/* ── Actions cell ── */
+/* ── Actions cell: dimmed until the ROW is hovered/focused ── */
 .actionsCell {
   display: flex;
   align-items: center;
@@ -220,7 +282,16 @@
   font-size: var(--ds-font-size-100);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 100ms ease-in-out;
+  opacity: 0.55;
+  transition:
+    background-color 120ms ease-in-out,
+    border-color 120ms ease-in-out,
+    opacity 120ms ease-in-out;
+}
+
+.tr:hover .actionButton,
+.actionButton:focus-visible {
+  opacity: 1;
 }
 
 .actionButton:hover {
@@ -248,4 +319,37 @@
   color: var(--ds-color-icon-subtlest);
   cursor: grab;
   flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity 120ms ease-in-out;
+}
+
+.tr:hover .dragHandle {
+  opacity: 1;
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: none;
+  border-bottom: none;
+}
+
+.filterControl {
+  min-width: 160px;
+}
+
+.filterUnit {
+  color: var(--ds-color-text-subtlest);
+  font-size: var(--ds-font-size-100);
+}
+.paginationEdgeButton {
+  display: inline-flex;
+}
+
+@media (max-width: 640px) {
+  .paginationEdgeButton {
+    display: none;
+  }
 }

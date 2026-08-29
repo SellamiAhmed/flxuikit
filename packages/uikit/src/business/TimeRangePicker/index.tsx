@@ -4,25 +4,25 @@ import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 
 import {
-  ActionIcon,
-  Button,
-  ButtonProps,
-  DatePickerProps,
-  Divider,
-  Menu,
-  Text,
-  Tooltip
+    ActionIcon,
+    Button,
+    ButtonProps,
+    DatePickerProps,
+    Divider,
+    Menu,
+    Text,
+    Tooltip
 } from '../../primitive/index.js'
 
 import AbsoluteTimeRangePicker, { Localization } from './AbsoluteTimeRangePicker.js'
 import {
-  DEFAULT_QUICK_RANGES,
-  TimeRange,
-  formatDuration,
-  toTimeRangeValue,
-  timeFormatter,
-  AbsoluteTimeRange,
-  RelativeTimeRange
+    AbsoluteTimeRange,
+    DEFAULT_QUICK_RANGES,
+    RelativeTimeRange,
+    TimeRange,
+    formatDuration,
+    timeFormatter,
+    toTimeRangeValue
 } from './helper.js'
 import classes from './index.module.css'
 

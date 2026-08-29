@@ -1,9 +1,10 @@
-import type { ExpandedState, PaginationState, SortingState } from '@tanstack/react-table'
-import { useTable } from '@tanstack/react-table'
-import { useState } from 'react'
+import type { ColumnFiltersState, ExpandedState, PaginationState, SortingState } from '@tanstack/react-table';
+import { useTable } from '@tanstack/react-table';
+import { useState } from 'react';
 
-import { proTableFeatures, type ProTableFeatures } from './features.js'
-import type { ProTableProps } from './types.js'
+import type { ProTableFeatures } from './features.js'; // ADD THIS LINE
+import { proTableFeatures } from './features.js';
+import type { ProTableProps } from './types.js';
 
 export function useProTable<TData extends Record<string, any>>(props: ProTableProps<TData>) {
   const {
@@ -13,6 +14,9 @@ export function useProTable<TData extends Record<string, any>>(props: ProTablePr
     onSortingChange,
     pagination: controlledPagination,
     onPaginationChange,
+    columnFilters: controlledColumnFilters,       // ← new
+    onColumnFiltersChange,                         // ← new
+    manualFiltering = false,
     rowCount,
     manualSorting = false,
     manualPagination = false,
@@ -27,6 +31,7 @@ export function useProTable<TData extends Record<string, any>>(props: ProTablePr
   const [internalSorting, setInternalSorting] = useState<SortingState>([])
   const [internalPagination, setInternalPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
   const [internalExpanded, setInternalExpanded] = useState<ExpandedState>({})
+  const [internalColumnFilters, setInternalColumnFilters] = useState<ColumnFiltersState>([])  // ← add this
 
   return useTable<ProTableFeatures, TData>({
     features: proTableFeatures,
@@ -38,14 +43,17 @@ export function useProTable<TData extends Record<string, any>>(props: ProTablePr
     enableExpanding,
     manualSorting,
     manualPagination,
+    manualFiltering,
     rowCount,
     state: {
       sorting: controlledSorting ?? internalSorting,
       pagination: controlledPagination ?? internalPagination,
-      expanded: controlledExpanded ?? internalExpanded
+      expanded: controlledExpanded ?? internalExpanded,
+      columnFilters: controlledColumnFilters ?? internalColumnFilters,
     },
     onSortingChange: onSortingChange ?? setInternalSorting,
     onPaginationChange: onPaginationChange ?? setInternalPagination,
-    onExpandedChange: onExpandedChange ?? setInternalExpanded
+    onExpandedChange: onExpandedChange ?? setInternalExpanded,
+    onColumnFiltersChange: onColumnFiltersChange ?? setInternalColumnFilters,  // ← new
   })
 }

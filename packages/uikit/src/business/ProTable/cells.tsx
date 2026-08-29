@@ -5,11 +5,28 @@ import { Avatar } from '../../primitive/index.js'
 
 import styles from './ProTable.module.css'
 
-export interface ProColumnMeta {
-  shrink?: boolean
-  noEllipsis?: boolean // opt OUT of truncation for this specific column
+export interface FilterOption {
+  label: string
+  value: string
+  icon?: React.ComponentType<{ className?: string }>
+  count?: number
 }
 
+export interface ProColumnFilterMeta {
+  label: string
+  variant: 'text' | 'number' | 'range' | 'date' | 'dateRange' | 'boolean' | 'select' | 'multiSelect'
+  options?: FilterOption[]
+  placeholder?: string
+  unit?: string
+}
+
+export interface ProColumnMeta {
+  shrink?: boolean
+  noEllipsis?: boolean
+  label?: string
+  icon?: React.ComponentType<{ size?: number; className?: string }>
+  filter?: ProColumnFilterMeta
+}
 export function actionsColumnMeta(): ProColumnMeta {
   return { shrink: true }
 }
@@ -34,6 +51,21 @@ export function HeaderLabel({
   )
 }
 
+/* ── Single-line primary + muted secondary, joined by a dot ── */
+function InlinePair({ primary, secondary }: { primary: React.ReactNode; secondary?: React.ReactNode }) {
+  return (
+    <span className={styles.inlineRow}>
+      <span className={styles.primaryTextInline}>{primary}</span>
+      {secondary && (
+        <>
+          <span className={styles.dotSep} aria-hidden="true">·</span>
+          <span className={styles.secondaryTextInline}>{secondary}</span>
+        </>
+      )}
+    </span>
+  )
+}
+
 export function PersonCell({
   avatarUrl,
   name,
@@ -45,11 +77,8 @@ export function PersonCell({
 }) {
   return (
     <div className={styles.stackWithLeading}>
-      <Avatar name={name} src={avatarUrl} size="md" />
-      <div className={styles.stack}>
-        <span className={styles.primaryText}>{name}</span>
-        <span className={styles.secondaryText}>{subtitle}</span>
-      </div>
+      <Avatar name={name} src={avatarUrl} size="sm" />
+      <InlinePair primary={name} secondary={subtitle} />
     </div>
   )
 }
@@ -64,12 +93,9 @@ export function IconStackCell({
   secondary?: string
 }) {
   return (
-    <div className={styles.stack}>
-      <span className={styles.secondaryText}>
-        {Icon && <Icon className={styles.inlineIcon} />}
-        {primary}
-      </span>
-      {secondary && <span className={styles.secondaryText}>{secondary}</span>}
+    <div className={styles.stackWithLeading}>
+      {Icon && <Icon className={styles.inlineIcon} />}
+      <InlinePair primary={primary} secondary={secondary} />
     </div>
   )
 }
@@ -78,10 +104,7 @@ export function CountryCell({ flagUrl, country, city }: { flagUrl: string; count
   return (
     <div className={styles.stackWithLeading}>
       <img src={flagUrl} alt="" className={styles.flagIcon} />
-      <div className={styles.stack}>
-        <span className={styles.primaryText}>{country}</span>
-        <span className={styles.secondaryText}>{city}</span>
-      </div>
+      <InlinePair primary={country} secondary={city} />
     </div>
   )
 }

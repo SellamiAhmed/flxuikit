@@ -1,20 +1,29 @@
-import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react'
+import {
+    IconChevronLeft,
+    IconChevronRight,
+    IconChevronsLeft,
+    IconChevronsRight
+} from '@tabler/icons-react'
 
-import { Flex, Pagination, Select, Text, type ComboboxData, type FlexProps, type PaginationProps } from '../../primitive/index.js'
+import { ActionIcon, Flex, Select, Text, type FlexProps } from '../../primitive/index.js'
 
+import styles from './ProTable.module.css'
 import type { useProTable } from './useProTable.js'
 
-const defaultRowsPerPage: ComboboxData = [5, 10, 15, 20, 25, 30, 50, 100].map((x) => ({
-  value: x.toString(),
-  label: `${x} / page`
-}))
+const DEFAULT_PAGE_SIZE_OPTIONS = [5, 10, 15, 20, 25, 30, 50, 100]
 
-export interface TablePaginationProps extends Partial<PaginationProps> {
-  rowsPerPageOptions?: ComboboxData
+export interface TablePaginationProps {
+  pageSizeOptions?: number[]
   showRowsPerPage?: boolean
   showTotal?: boolean
+  showSelectedCount?: boolean
   wrapperProps?: FlexProps
-  localization?: { total?: string }
+  localization?: {
+    total?: string
+    rowsPerPage?: string
+    pageOf?: (current: number, total: number) => string
+    rowsSelected?: (selected: number, total: number) => string
+  }
 }
 
 interface ProTablePaginationProps<TData extends Record<string, any>> extends TablePaginationProps {
@@ -23,52 +32,108 @@ interface ProTablePaginationProps<TData extends Record<string, any>> extends Tab
 
 export function ProTablePagination<TData extends Record<string, any>>({
   table,
-  ...props
+  pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
+  showRowsPerPage = false,
+  showTotal = false,
+  showSelectedCount = false,
+  localization,
+  wrapperProps
 }: ProTablePaginationProps<TData>) {
   const { pageIndex, pageSize } = table.state.pagination
-  const totalRowCount = table.getRowCount()
   const numberOfPages = table.getPageCount()
+  const currentPage = pageIndex + 1
 
-  const {
-    rowsPerPageOptions = defaultRowsPerPage,
-    showRowsPerPage = false,
-    showTotal = false,
-    withEdges = numberOfPages > 2,
-    localization,
-    wrapperProps,
-    ...rest
-  } = props
+  // getFilteredRowModel reflects post-filter, client-side count. In manual/server
+  // mode the server already filtered, so this equals `data.length` as given —
+  // use getRowCount() instead if you need the true server-reported total.
+  const filteredRowCount = table.getFilteredRowModel().rows.length
+  const totalRowCount = table.getRowCount()
+
+  // getSelectedRowModel only exists once rowSelectionFeature is enabled on
+  // proTableFeatures — guard defensively until that feature is added.
+  const selectedCount = table.getFilteredSelectedRowModel().rows.length
+
+  const canPreviousPage = table.getCanPreviousPage()
+  const canNextPage = table.getCanNextPage()
+
+  const rowsPerPageData = pageSizeOptions.map((n) => ({ value: n.toString(), label: n.toString() }))
 
   return (
-    <Flex align="center" justify={showTotal ? 'space-between' : 'flex-end'} p="xs" {...wrapperProps}>
-      {showTotal && (
-        <Flex align="center" gap={2}>
-          <Text c="carbon.7">{localization?.total ?? 'Total:'}</Text>
-          <Text c="carbon.8">{totalRowCount.toLocaleString()}</Text>
-        </Flex>
-      )}
-      <Flex align="center" gap="xs">
-        <Pagination
-          nextIcon={(iconProps) => <IconChevronRight size={16} stroke={1.75} {...iconProps} />}
-          previousIcon={(iconProps) => <IconChevronLeft size={16} stroke={1.75} {...iconProps} />}
-          firstIcon={(iconProps) => <IconChevronsLeft size={16} stroke={1.75} {...iconProps} />}
-          lastIcon={(iconProps) => <IconChevronsRight size={16} stroke={1.75} {...iconProps} />}
-          total={numberOfPages}
-          value={pageIndex + 1}
-          onChange={(p) => table.setPageIndex(p - 1)}
-          withEdges={withEdges}
-          {...rest}
-        />
+    <Flex align="center" justify="space-between" p="xs" wrap="wrap" gap="sm" {...wrapperProps}>
+      <Text c="carbon.7" size="sm">
+        {showSelectedCount
+          ? (localization?.rowsSelected?.(selectedCount, filteredRowCount) ??
+            `${selectedCount} of ${filteredRowCount} row(s) selected.`)
+          : showTotal
+            ? `${localization?.total ?? 'Total:'} ${totalRowCount.toLocaleString()}`
+            : null}
+      </Text>
+
+      <Flex align="center" gap="lg" wrap="wrap">
         {showRowsPerPage && (
-          <Select
-            w={114}
-            size="sm"
-            allowDeselect={false}
-            data={rowsPerPageOptions}
-            value={pageSize.toString()}
-            onChange={(v) => v && table.setPageSize(+v)}
-          />
+          <Flex align="center" gap="xs">
+            <Text c="carbon.7" size="sm">
+              {localization?.rowsPerPage ?? 'Rows per page'}
+            </Text>
+            <Select
+              w={70}
+              size="sm"
+              allowDeselect={false}
+              data={rowsPerPageData}
+              value={pageSize.toString()}
+              onChange={(v) => v && table.setPageSize(+v)}
+            />
+          </Flex>
         )}
+
+        <Text c="carbon.8" size="sm">
+          {localization?.pageOf?.(currentPage, numberOfPages) ?? `Page ${currentPage} of ${numberOfPages}`}
+        </Text>
+
+        <Flex align="center" gap={4}>
+          <ActionIcon
+            variant="default"
+            size="sm"
+            radius="xl"
+            className={styles.paginationEdgeButton}
+            disabled={!canPreviousPage}
+            onClick={() => table.setPageIndex(0)}
+            aria-label="First page"
+          >
+            <IconChevronsLeft size={16} stroke={1.75} />
+          </ActionIcon>
+          <ActionIcon
+            variant="default"
+            size="sm"
+            radius="xl"
+            disabled={!canPreviousPage}
+            onClick={() => table.previousPage()}
+            aria-label="Previous page"
+          >
+            <IconChevronLeft size={16} stroke={1.75} />
+          </ActionIcon>
+          <ActionIcon
+            variant="default"
+            size="sm"
+            radius="xl"
+            disabled={!canNextPage}
+            onClick={() => table.nextPage()}
+            aria-label="Next page"
+          >
+            <IconChevronRight size={16} stroke={1.75} />
+          </ActionIcon>
+          <ActionIcon
+            variant="default"
+            size="sm"
+            radius="xl"
+            className={styles.paginationEdgeButton}
+            disabled={!canNextPage}
+            onClick={() => table.setPageIndex(numberOfPages - 1)}
+            aria-label="Last page"
+          >
+            <IconChevronsRight size={16} stroke={1.75} />
+          </ActionIcon>
+        </Flex>
       </Flex>
     </Flex>
   )

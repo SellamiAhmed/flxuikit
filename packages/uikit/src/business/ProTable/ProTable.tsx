@@ -1,12 +1,13 @@
-import { IconArrowDown, IconArrowUp, IconChevronDown, IconChevronRight, IconSwitchVertical } from '@tabler/icons-react'
+import { IconChevronDown, IconChevronRight } from '@tabler/icons-react'
 import { flexRender, type Row } from '@tanstack/react-table'
 import clsx from 'clsx'
 
 import { Box, Skeleton } from '../../primitive/index.js'
 
 import type { ProColumnMeta } from './cells.js'
-import type { ProTableFeatures } from './features.js'
+import type { ProTableFeatures } from './features.js'; // ADD THIS LINE
 import styles from './ProTable.module.css'
+import { ProTableColumnHeader } from './ProTableColumnHeader.js'; // ← this line, in ProTable.tsx
 import { ProTablePagination } from './ProTablePagination.js'
 import type { ProTableProps } from './types.js'
 import { useProTable } from './useProTable.js'
@@ -25,21 +26,27 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
     wrapperProps,
     className,
     enableExpanding = false,
-    paginationProps
+    paginationProps,
+    hidePagination = false,
   } = props
 
-  const table = useProTable(props)
+  const internalTable = useProTable(props)
+  const table = props.table ?? internalTable
   const rows = table.getRowModel().rows
   const leafColumns = table.getAllLeafColumns()
   const columnCount = leafColumns.length
-  const showPagination = !!paginationProps || table.state.pagination.pageSize > 0
-
+  const showPagination = !hidePagination && (!!paginationProps || table.state.pagination.pageSize > 0)
   // Deterministic column widths, computed once from meta — not from
   // TanStack's columnSizingFeature defaults, which can't be trusted to
   // stay `undefined` for "no explicit size" the way earlier logic assumed.
+  const SHRINK_COLUMN_WIDTH = 180
+
   const shrinkCount = leafColumns.filter((col) => (col.columnDef.meta as ProColumnMeta | undefined)?.shrink).length
   const growCount = columnCount - shrinkCount
-  const growWidthPercent = growCount > 0 ? 100 / growCount : 0
+  const totalShrinkWidth = shrinkCount * SHRINK_COLUMN_WIDTH
+
+  // was: `${100 / growCount}%` — wrong, ignores the pixel-fixed columns entirely
+  const growColumnWidth = growCount > 0 ? `calc((100% - ${totalShrinkWidth}px) / ${growCount})` : '100%'
 
   return (
     <Box className={clsx(styles.wrapper, className)} data-with-border={withBorder} {...wrapperProps}>
@@ -51,7 +58,7 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
               return (
                 <col
                   key={col.id}
-                  style={shrink ? { width: SHRINK_COLUMN_WIDTH } : { width: `${growWidthPercent}%` }}
+                  style={shrink ? { width: SHRINK_COLUMN_WIDTH } : { width: growColumnWidth }}
                 />
               )
             })}
@@ -61,22 +68,17 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  const canSort = header.column.getCanSort()
-                  const sortDir = header.column.getIsSorted()
                   const meta = header.column.columnDef.meta as ProColumnMeta | undefined
                   const shrink = meta?.shrink
 
                   return (
                     <th key={header.id} className={styles.th} data-shrink={shrink ? 'true' : undefined}>
-                      {header.isPlaceholder ? null : canSort ? (
-                        <div className={styles.sortableHeader} onClick={header.column.getToggleSortingHandler()}>
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {sortDir === 'asc' && <IconArrowUp className={styles.sortIcon} data-active="true" />}
-                          {sortDir === 'desc' && <IconArrowDown className={styles.sortIcon} data-active="true" />}
-                          {!sortDir && <IconSwitchVertical className={styles.sortIcon} />}
-                        </div>
-                      ) : (
-                        flexRender(header.column.columnDef.header, header.getContext())
+                      {header.isPlaceholder ? null : (
+                        <ProTableColumnHeader
+                          column={header.column}
+                          label={meta?.label ?? header.column.id}
+                          icon={meta?.icon}
+                        />
                       )}
                     </th>
                   )
