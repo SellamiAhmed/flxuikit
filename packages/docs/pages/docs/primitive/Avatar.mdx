@@ -1,0 +1,249 @@
+---
+title: Avatar
+description: A Mantine-based avatar with automatic initials, deterministic color, presence status, tooltip, and a truncating AvatarGroup.
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# Avatar
+
+`Avatar` wraps Mantine's `Avatar` with three things most apps end up rebuilding by hand: initials
+generated from a name, a deterministic color per person, and an optional presence dot + tooltip —
+all driven by a single `name` prop that accepts either a display-name string or raw `{ firstName,
+lastName }` fields straight from your database.
+
+<Callout type="info">
+  `name` is the only required prop. Everything else — initials, color, tooltip text — is derived from it automatically,
+  so most call sites are just `<Avatar name={person} />
+  `.
+</Callout>
+
+## Quick start
+
+```tsx
+import { Avatar } from '@your-scope/primitive'
+
+// From a pre-joined display name:
+<Avatar name="Ava Carter" />
+
+// From raw DB fields:
+<Avatar name={{ firstName: user.firstName, lastName: user.lastName }} src={user.avatarUrl} />
+```
+
+With no `src`, the avatar renders initials (`"Ava Carter"` → `AC`) on a color deterministically hashed
+from the name, so the same person always gets the same color across renders.
+
+## `AvatarProps`
+
+| Prop          | Type                                                      | Default             | Description                                                                                                                   |
+| ------------- | --------------------------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | `AvatarNameInput` (`string \| { firstName?, lastName? }`) | —                   | **Required.** Drives initials, tooltip text, and (when `color` is unset) the deterministic color.                             |
+| `src`         | `string`                                                  | —                   | Image URL. Falls back to initials when unset or when the image fails to load (Mantine's default behavior).                    |
+| `size`        | `AvatarSize \| number`                                    | `'md'`              | One of `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`, or a raw pixel number.                                                         |
+| `color`       | `AvatarColor`                                             | derived from `name` | One of `'brand' \| 'success' \| 'warning' \| 'danger' \| 'discovery' \| 'neutral'`. Overrides the automatic hash-based color. |
+| `status`      | `AvatarStatus`                                            | —                   | `'online' \| 'offline' \| 'away' \| 'busy'`. Renders a colored `Indicator` dot in the bottom-right corner. Omit for no dot.   |
+| `withTooltip` | `boolean`                                                 | `false`             | Wraps the avatar in a `Tooltip` showing the resolved display name on hover.                                                   |
+| `className`   | `string`                                                  | —                   | Applied to the root avatar element.                                                                                           |
+
+Any other prop Mantine's `Avatar` accepts (besides `size`, `color`, `children`, and `name`, which this
+component owns) is forwarded through as-is.
+
+## Sizes
+
+`size` accepts the named scale or a raw pixel value:
+
+```tsx
+<Avatar name="Ava Carter" size="xs" />  {/* 20px */}
+<Avatar name="Ava Carter" size="sm" />  {/* 24px */}
+<Avatar name="Ava Carter" size="md" />  {/* 32px — default */}
+<Avatar name="Ava Carter" size="lg" />  {/* 40px */}
+<Avatar name="Ava Carter" size="xl" />  {/* 56px */}
+<Avatar name="Ava Carter" size={48} />  {/* custom pixel size */}
+```
+
+```ts
+export const AVATAR_SIZES = { xs: 20, sm: 24, md: 32, lg: 40, xl: 56 } as const
+```
+
+The `status` indicator scales with the avatar: its size is `max(8, size * 0.25)` and its offset is
+`size * 0.08`, so the dot stays proportional at every size instead of looking oversized on `xs` or
+lost on `xl`.
+
+## Name input: string or DB fields
+
+`AvatarNameInput` accepts either shape, so you don't need to pre-join names before rendering:
+
+```ts
+export interface PersonNameParts {
+  firstName?: string | null
+  lastName?: string | null
+}
+
+export type AvatarNameInput = string | PersonNameParts
+```
+
+```tsx
+<Avatar name="Ava Carter" />
+<Avatar name={{ firstName: 'Ava', lastName: 'Carter' }} />
+<Avatar name={{ firstName: 'Ava', lastName: null }} />   {/* → "Ava", initials "A" */}
+<Avatar name="" />                                        {/* → tooltip/alt "Unknown user", initials "?" */}
+```
+
+<Callout type="warning">
+  A blank or all-whitespace name resolves to `'?'` for initials and `'Unknown user'` for the tooltip/`alt` text — it
+  never renders an empty chip.
+</Callout>
+
+## Status indicator
+
+```tsx
+<Avatar name="Ava Carter" status="online" />
+<Avatar name="Liam Nguyen" status="away" />
+<Avatar name="Noah Silva" status="busy" />
+<Avatar name="Mia Kowalski" status="offline" />
+```
+
+| Status    | Color token                          |
+| --------- | ------------------------------------ |
+| `online`  | `--ds-color-background-success-bold` |
+| `offline` | `--ds-color-background-neutral-bold` |
+| `away`    | `--ds-color-background-warning-bold` |
+| `busy`    | `--ds-color-background-danger-bold`  |
+
+## Tooltip
+
+```tsx
+<Avatar name={{ firstName: 'Ava', lastName: 'Carter' }} withTooltip />
+```
+
+Shows the resolved display name (`"Ava Carter"`) on hover, with a 300ms open delay and an arrow. Combine
+with `status` freely — the tooltip wraps the status indicator, not the other way around, so hovering
+anywhere on the dot or the avatar shows the same tooltip.
+
+## Color
+
+By default, color is a deterministic hash of the resolved display name — the same person always lands on
+the same color, and different people are spread across the palette:
+
+```ts
+const AVATAR_PALETTE = ['brand', 'success', 'warning', 'danger', 'discovery', 'neutral'] as const
+```
+
+Pass `color` explicitly to opt out of the automatic hash (e.g. to color-code by role or team instead of
+by identity):
+
+```tsx
+<Avatar name={user.name} color="brand" />
+```
+
+## Helper functions
+
+These live in `helpers.ts` and back the component, but are also useful directly — e.g. rendering initials
+or a name string somewhere that isn't an `<Avatar>` at all.
+
+| Function             | Signature                                                            | Description                                                                                                                                                                                                      |
+| -------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `resolveDisplayName` | `(input: AvatarNameInput) => string`                                 | Normalizes either input shape into one trimmed display string. Empty/whitespace-only input returns `''` — callers typically do `resolveDisplayName(x) \|\| 'Unknown user'`.                                      |
+| `getInitials`        | `(input: AvatarNameInput, maxChars = 2) => string`                   | Returns up to `maxChars` uppercase initials. For a string, takes the first letter of up to `maxChars` words; for `{ firstName, lastName }`, takes the first letter of each. Returns `'?'` when nothing resolves. |
+| `getColorFromString` | `(seed: AvatarNameInput) => AvatarColor`                             | Deterministically hashes the resolved name to one of the six palette colors.                                                                                                                                     |
+| `truncateForGroup`   | `<T>(items: T[], max: number) => { visible: T[]; overflow: number }` | Splits a list into the first `max` items plus an overflow count — powers `AvatarGroup`.                                                                                                                          |
+
+```tsx
+getInitials('Ava Carter') // 'AC'
+getInitials({ firstName: 'Ava', lastName: 'Carter' }) // 'AC'
+getInitials('Cher') // 'CH'
+getInitials('') // '?'
+resolveDisplayName({ firstName: 'Ava' }) // 'Ava'
+```
+
+<Callout type="info">
+  Both functions trim each name part individually before joining, so `{ firstName: '  Ava ', lastName:
+  'Carter' }` still resolves to `'Ava Carter'` with a single space — not doubled or leading/trailing
+  whitespace.
+</Callout>
+
+## AvatarGroup
+
+Renders a row of overlapping avatars with a tooltip per person and a `"+N"` overflow chip once the list
+exceeds `max`.
+
+```tsx
+import { AvatarGroup } from '@your-scope/primitive'
+
+;<AvatarGroup
+  people={[
+    { id: '1', name: 'Ava Carter', src: avaUrl },
+    { id: '2', name: { firstName: 'Liam', lastName: 'Nguyen' } },
+    { id: '3', name: 'Noah Silva' },
+    { id: '4', name: 'Mia Kowalski' },
+    { id: '5', name: 'Ethan Haddad' }
+  ]}
+  max={4}
+  onOverflowClick={() => setShowFullList(true)}
+/>
+```
+
+### `AvatarGroupProps`
+
+| Prop              | Type                                                                            | Default | Description                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `people`          | `AvatarGroupPerson[]` (`{ id: string; name: AvatarNameInput; src?: string }[]`) | —       | **Required.** Returns `null` when empty.                                                                                        |
+| `max`             | `number`                                                                        | `4`     | Number of avatars shown before collapsing the rest into a `"+N"` chip.                                                          |
+| `size`            | `AvatarSize`                                                                    | `'sm'`  | Applied to every avatar in the group, including the overflow chip.                                                              |
+| `onOverflowClick` | `() => void`                                                                    | —       | Called when the `"+N"` chip is clicked — typically opens a full member-list popover. Omitting this renders the chip `disabled`. |
+
+<Callout type="warning">
+  When `onOverflowClick` is omitted, the overflow chip is rendered as a disabled `<button>` rather than
+  hidden — so it's still visible (showing the count) but not interactive. Pass the handler whenever the
+  count should be actionable.
+</Callout>
+
+Each visible person is wrapped in its own `Tooltip` showing their resolved display name, and avatars
+overlap using a CSS custom property scaled to the chosen `size`:
+
+```ts
+style={{ '--avatar-overlap': `-${resolvedSize * 0.3}px` }}
+```
+
+## Exports
+
+```ts
+export { Avatar, type AvatarProps, type AvatarStatus } from './Avatar.js'
+export { AvatarGroup, type AvatarGroupPerson, type AvatarGroupProps } from './AvatarGroup.js'
+export {
+  AVATAR_SIZES,
+  getColorFromString,
+  getInitials,
+  resolveDisplayName,
+  truncateForGroup,
+  type AvatarColor,
+  type AvatarNameInput,
+  type AvatarSize,
+  type PersonNameParts
+} from './helpers.js'
+```
+
+## Using Avatar inside ProTable
+
+[`PersonCell`](/docs/protable#cell-renderers) accepts the same `AvatarNameInput` shape and forwards
+`status`/`withTooltip` straight through, so table rows get the same initials/color/status behavior as any
+other `Avatar` usage:
+
+```tsx
+<PersonCell
+  name={{ firstName: row.original.firstName, lastName: row.original.lastName }}
+  subtitle={row.original.email}
+  status="online"
+  withTooltip
+/>
+```
+
+## Known limitations
+
+- `color` accepts only the six-color `AvatarColor` palette — Mantine's other built-in color options
+  (including its own `color="initials"` auto-coloring mode) aren't exposed through this prop.
+- `AvatarGroup` always shows a tooltip per visible avatar; there's no prop to disable it for a
+  no-JS-hover or touch-only context.
+- Overlap and status-dot sizing are computed from `size`, not independently configurable — if you need a
+  different overlap ratio or dot scale, that currently requires editing the component rather than passing
+  a prop.

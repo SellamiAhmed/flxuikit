@@ -4,5 +4,6 @@ export default {
   Select: 'Select',
   Textinput: 'Textinput',
   Typography: 'Typography',
-  Switch:'Switch'
+  Switch: 'Switch',
+  Avatar:'Avatar'
 }

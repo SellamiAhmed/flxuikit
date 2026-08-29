@@ -28,7 +28,7 @@ export type {
 
 export {
   Accordion, ActionIcon, Affix, Alert, AlphaSlider, Anchor, AngleSlider, AppShell,
-  AspectRatio, Autocomplete, Avatar,
+  AspectRatio, Autocomplete,
   BackgroundImage,
   Badge, Blockquote, Box, Breadcrumbs,
   Burger, Card, Center, Checkbox,

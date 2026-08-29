@@ -1,7 +1,7 @@
 import { IconArrowDown, IconArrowUp, IconSwitchVertical } from '@tabler/icons-react'
 import type { SortDirection } from '@tanstack/react-table'
 
-import { Avatar } from '../../primitive/index.js'
+import { Avatar, resolveDisplayName, type AvatarNameInput, type AvatarStatus } from '../../primitive/index.js'
 
 import styles from './ProTable.module.css'
 
@@ -27,6 +27,7 @@ export interface ProColumnMeta {
   icon?: React.ComponentType<{ size?: number; className?: string }>
   filter?: ProColumnFilterMeta
 }
+
 export function actionsColumnMeta(): ProColumnMeta {
   return { shrink: true }
 }
@@ -69,16 +70,23 @@ function InlinePair({ primary, secondary }: { primary: React.ReactNode; secondar
 export function PersonCell({
   avatarUrl,
   name,
-  subtitle
+  subtitle,
+  status,
+  withTooltip
 }: {
   avatarUrl?: string
-  name: string
+
+  name: AvatarNameInput
   subtitle: string
+  status?: AvatarStatus
+  withTooltip?: boolean
 }) {
+  const displayName = resolveDisplayName(name) || 'Unknown user'
+
   return (
     <div className={styles.stackWithLeading}>
-      <Avatar name={name} src={avatarUrl} size="sm" />
-      <InlinePair primary={name} secondary={subtitle} />
+      <Avatar name={displayName} src={avatarUrl} size="sm" status={status} withTooltip={withTooltip} />
+      <InlinePair primary={displayName} secondary={subtitle} />
     </div>
   )
 }
