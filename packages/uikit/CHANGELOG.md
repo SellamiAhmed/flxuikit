@@ -1,5 +1,22 @@
 # @flxui/uikit
 
+## 1.0.0
+
+### Major Changes
+
+- [`cb7b73a`](https://github.com/SellamiAhmed/flxuikit/commit/cb7b73a925ce01b5255d2d29949b06b09e6568e9) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - add Protable mdx
+  - chore : improve the portable bussines by headers , pagination , skeleton
+  - chore:improve on new business Table , change the logo
+  - add dataTable business concept
+  - feat: add FlxUI favicon and custom logo
+  - chore: modify .gitignore
+  - adjustment
+  - fix docs website
+  - Update Route in docs site
+  - modify ReadMD
+  - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - improve concept website docs
+
 ## 0.9.0
 
 ### Minor Changes
