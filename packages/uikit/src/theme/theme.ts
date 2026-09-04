@@ -1132,42 +1132,65 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
         vars: (theme: MantineTheme, props: CheckboxProps) => {
           const sizes = { xs: 14, sm: 16, md: 20, lg: 24, xl: 30 }
           const iconSizes = { xs: 6, sm: 8, md: 10, lg: 12, xl: 14 }
-
           const sizeKey = (props.size ?? 'sm') as keyof typeof sizes
           const size = sizes[sizeKey]
           const iconSize = iconSizes[sizeKey]
-
           return {
             root: {
               '--checkbox-size': rem(size),
               '--checkbox-icon-size': rem(iconSize),
               '--checkbox-color': token('color.background.brand.bold'),
               '--checkbox-icon-color':
-                props.variant === 'outline' ? token('color.text.brand') : token('color.text.inverse'),
-              '--checkbox-error-color': token('color.border.danger')
+                props.variant === 'outline' ? token('color.text.brand') : token('color.text.inverse')
             }
           }
         },
         styles: (theme: MantineTheme, props: CheckboxProps) => ({
           label: {
             color: token('color.text'),
+            cursor: props.disabled ? 'not-allowed' : 'pointer',
             '&[data-disabled]': {
               color: token('color.text.disabled')
             }
           },
           input: {
-            borderColor: token('color.border.input'),
+            // NOTHING unconditional here anymore — border/background/boxShadow
+            // as base properties become inline styles and permanently beat
+            // every class rule, including :checked, even Mantine's own.
+            // Only pseudo/attribute-nested rules go here; each nested key
+            // becomes a real CSS class selector, not an inline style.
+            '&:not(:checked):not(:indeterminate):not(:disabled)': {
+              backgroundColor: token('elevation.surface'),
+              boxShadow: `inset 0 0 0 1px ${token('color.border.input')}`
+            },
+            '&:hover:not(:checked):not(:disabled)': {
+              boxShadow: `inset 0 0 0 1px ${token('color.border.brand')}`
+            },
+            '&:focus-visible': {
+              outline: `2px solid ${token('color.border.focused')}`,
+              outlineOffset: 2
+            },
             '&:disabled:not(:checked)': {
-              background: token('color.background.disabled'),
-              borderColor: token('color.border.disabled'),
+              backgroundColor: token('color.background.disabled'),
+              boxShadow: `inset 0 0 0 1px ${token('color.border.disabled')}`,
               cursor: 'not-allowed'
             },
             '&:disabled:checked': {
               color: token('color.text.disabled'),
-              background: token('color.background.disabled'),
-              borderColor: token('color.border.disabled'),
+              backgroundColor: token('color.background.disabled'),
               cursor: 'not-allowed'
+            },
+            '&[data-error]:not(:disabled)': {
+              boxShadow: `inset 0 0 0 1px ${token('color.border.danger')}`
             }
+          },
+          icon: {
+            color: 'var(--checkbox-icon-color)',
+            width: 'var(--checkbox-icon-size)',
+            height: 'var(--checkbox-icon-size)',
+            transitionProperty: 'transform, opacity',
+            transitionDuration: '120ms',
+            transitionTimingFunction: 'ease-out'
           }
         })
       },

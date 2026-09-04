@@ -14,9 +14,9 @@
 }
 
 /* ── Navbar ──
-   Hairline right edge — uses interaction-hovered token
-   (rgba(0,0,0,0.06) light / rgba(255,255,255,0.08) dark).
-   Tight, modern, no visual weight. */
+    Hairline right edge — uses interaction-hovered token
+    (rgba(0,0,0,0.06) light / rgba(255,255,255,0.08) dark).
+    Tight, modern, no visual weight. */
 .navbar {
   display: flex;
   flex-direction: column;
@@ -166,22 +166,26 @@
     background-color 150ms ease,
     color 150ms ease;
 }
+.navItem.navItem,
+.navButton.navButton {
+  border-bottom: none !important;
+}
 
 /* IMPORTANT: Mantine's Anchor applies `color: var(--ds-color-link)` from
-   its own core stylesheet, which loads with the same effective specificity
-   as a single class and can win the cascade by source order regardless of
-   how many times we double our own class. !important is used deliberately
-   here — this is a confirmed, understood conflict with a specific known
-   source (Mantine core), not a blind guess. */
+    its own core stylesheet, which loads with the same effective specificity
+    as a single class and can win the cascade by source order regardless of
+    how many times we double our own class. !important is used deliberately
+    here — this is a confirmed, understood conflict with a specific known
+    source (Mantine core), not a blind guess. */
 .navButton.navButton {
   color: var(--ds-color-text-subtle) !important;
 }
 
 /* Hover stays neutral, intentionally NOT brand-colored — reserving
-   brand/text-brand exclusively for the active state keeps "where am I"
-   (active) visually distinct from "what am I pointing at" (hover).
-   A small brand accent on the icon only is a safe middle ground if you
-   want a touch more personality on hover without the ambiguity. */
+    brand/text-brand exclusively for the active state keeps "where am I"
+    (active) visually distinct from "what am I pointing at" (hover).
+    A small brand accent on the icon only is a safe middle ground if you
+    want a touch more personality on hover without the ambiguity. */
 .navButton:hover {
   color: var(--ds-color-text) !important;
   background: var(--ds-color-background-neutral-subtle-hovered);
@@ -255,8 +259,15 @@
 .childList {
   list-style: none;
   margin: 3px 0 6px;
-  padding-left: 34px;
+  padding-left: 0;
+  margin-left: 26px; /* 26 + childLink's 10px padding-left = 36px, matching navButton's label start */
 }
+
+/* margin-left instead of padding-left: a consumer's global reset (e.g.
+    Tailwind preflight `ul, ol { padding: 0 }`) can zero out padding-left
+    here before this rule applies. margin-left isn't targeted by that
+    reset, so it survives. Same defensive reasoning as the Mantine
+    Anchor overrides above. */
 
 .childItem {
   margin: 0;
@@ -380,7 +391,7 @@
 }
 
 /* Same Mantine Anchor/ActionIcon-as-link override — rail leaf items are
-   also rendered via <Anchor>/<ActionIcon as="a">, equally exposed. */
+    also rendered via <Anchor>/<ActionIcon as="a">, equally exposed. */
 .railNavButton.railNavButton {
   color: var(--ds-color-text-subtle) !important;
 }

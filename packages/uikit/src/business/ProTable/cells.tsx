@@ -22,6 +22,11 @@ export interface ProColumnFilterMeta {
 
 export interface ProColumnMeta {
   shrink?: boolean
+  /** Marks this as the checkbox/row-selection column. ProTable.tsx gives it
+   *  a narrower fixed width (44px, via .checkboxCell) instead of the regular
+   *  180px shrink width, and skips the sort/hide header menu for it.
+   *  Set via `selectionColumnMeta()` in selectionColumn.tsx. */
+  selection?: boolean
   noEllipsis?: boolean
   label?: string
   icon?: React.ComponentType<{ size?: number; className?: string }>
@@ -53,7 +58,7 @@ export function HeaderLabel({
 }
 
 /* ── Single-line primary + muted secondary, joined by a dot ── */
-function InlinePair({ primary, secondary }: { primary: React.ReactNode; secondary?: React.ReactNode }) {
+export function InlinePair({ primary, secondary }: { primary: React.ReactNode; secondary?: React.ReactNode }) {
   return (
     <span className={styles.inlineRow}>
       <span className={styles.primaryTextInline}>{primary}</span>

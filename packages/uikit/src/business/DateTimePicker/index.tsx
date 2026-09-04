@@ -1,33 +1,31 @@
 import { IconClock } from '@tabler/icons-react'
 import { useMemoizedFn } from 'ahooks'
-import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 
 import { useDisclosure, useUncontrolled } from '../../hooks/index.js'
 import {
-  Box,
-  DatePicker,
-  Divider,
-  Flex,
-  Group,
-  Loader,
-  MantineSize,
-  Popover,
-  PopoverProps,
-  Stack,
-  TextInput,
-  TimeInput,
-  TimeInputProps
+    Box,
+    DatePicker,
+    Divider,
+    Group,
+    Loader,
+    MantineSize,
+    Popover,
+    PopoverProps,
+    Stack,
+    TextInput,
+    TimeInput,
+    TimeInputProps
 } from '../../primitive/index.js'
 import { dayjs, type Dayjs } from '../../utils/dayjs.js'
-import { DEFAULT_TIME_FORMAT } from '../TimeRangePicker/helper.js' // ← fixed: was 'helpers.js'
+import { DEFAULT_TIME_FORMAT } from '../TimeRangePicker/helper.js'; // ← fixed: was 'helpers.js'
 
 import classes from './index.module.css'
-import { CurrentValueChangedBy, TimeScrollerPicker } from './TimeScollerPicker.js' // ← fixed name
+import { CurrentValueChangedBy, TimeScrollerPicker } from './TimeScollerPicker.js'; // ← fixed name
 import { DateTimePickerProps } from './types.js'
 
-export type { DateTimePickerProps } from './types.js'
 export { useDateTimePicker } from './helpers.js'
+export type { DateTimePickerProps } from './types.js'
 
 const HighlightRow = () => (
   <div className={classes.highlightRow}>

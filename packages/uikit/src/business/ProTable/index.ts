@@ -1,10 +1,8 @@
 export {
   ActionsCell,
   actionsColumnMeta,
-  CountryCell,
-  HeaderLabel,
-  IconStackCell,
-  PersonCell,
+  CountryCell, HeaderLabel,
+  IconStackCell, InlinePair, PersonCell,
   type FilterOption,
   type ProColumnFilterMeta, type ProColumnMeta
 } from './cells.js';
@@ -17,6 +15,7 @@ export { ProTablePagination, type TablePaginationProps } from './ProTablePaginat
 export { ProTableSkeleton } from './ProTableSkeleton.js';
 export { ProTableSortList } from './ProTableSortList.js';
 export { ProTableToolbar } from './ProTableToolbar.js';
+export { createSelectionColumn, selectionColumnMeta } from './SelectionColumn.js';
 export type { ProTableProps } from './types.js';
 export { useProTable } from './useProTable.js';
 

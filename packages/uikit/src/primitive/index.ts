@@ -31,7 +31,7 @@ export {
   AspectRatio, Autocomplete,
   BackgroundImage,
   Badge, Blockquote, Box, Breadcrumbs,
-  Burger, Card, Center, Checkbox,
+  Burger, Card, Center,
   Chip, CloseButton, Code, Collapse, ColorInput,
   ColorPicker, ColorSchemeScript, ColorSwatch, Combobox, Container, CopyButton, defaultOptionsFilter, Dialog, Divider, Drawer, Fieldset, FileButton, FileInput, Flex, FloatingIndicator, FocusTrap, getOptionsLockup,
   getParsedComboboxData, Grid,
@@ -100,5 +100,7 @@ export * from './Avatar/index.js'
 
 // Hooks — re-export from sibling folder
 export { useColorScheme } from '../hooks/index.js'
+
+export { Checkbox } from './Checkbox/index.js'
 
 // Business components — root convenience exports

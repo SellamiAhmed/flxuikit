@@ -4,6 +4,7 @@ import type {
   ExpandedState,
   OnChangeFn,
   PaginationState,
+  RowSelectionState,
   SortingState,
   Table as TanTable
 } from '@tanstack/react-table';
@@ -40,7 +41,10 @@ export interface ProTableProps<TData extends Record<string, any>> {
   getSubRows?: (row: TData) => TData[] | undefined
   expanded?: ExpandedState
   onExpandedChange?: OnChangeFn<ExpandedState>
-
+  enableRowSelection?: boolean
+  enableMultiRowSelection?: boolean
+  rowSelection?: RowSelectionState
+  onRowSelectionChange?: OnChangeFn<RowSelectionState>
   loading?: boolean
   skeletonRowCount?: number
   emptyMessage?: string

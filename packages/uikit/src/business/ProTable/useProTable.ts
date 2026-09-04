@@ -1,11 +1,16 @@
-import type { ColumnFiltersState, ExpandedState, PaginationState, SortingState } from '@tanstack/react-table';
+import type {
+    ColumnFiltersState,
+    ExpandedState,
+    PaginationState,
+    RowSelectionState,
+    SortingState
+} from '@tanstack/react-table';
 import { useTable } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import type { ProTableFeatures } from './features.js'; // ADD THIS LINE
 import { proTableFeatures } from './features.js';
 import type { ProTableProps } from './types.js';
-
 export function useProTable<TData extends Record<string, any>>(props: ProTableProps<TData>) {
   const {
     data,
@@ -25,14 +30,18 @@ export function useProTable<TData extends Record<string, any>>(props: ProTablePr
     getSubRows,
     expanded: controlledExpanded,
     onExpandedChange,
+    // NEW — row selection
+    enableRowSelection = false,
+    enableMultiRowSelection = true,
+    rowSelection: controlledRowSelection,
+    onRowSelectionChange,
     rowKey
   } = props
-
   const [internalSorting, setInternalSorting] = useState<SortingState>([])
   const [internalPagination, setInternalPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
   const [internalExpanded, setInternalExpanded] = useState<ExpandedState>({})
   const [internalColumnFilters, setInternalColumnFilters] = useState<ColumnFiltersState>([])  // ← add this
-
+  const [internalRowSelection, setInternalRowSelection] = useState<RowSelectionState>({}) // ← new
   return useTable<ProTableFeatures, TData>({
     features: proTableFeatures,
     data,
@@ -41,6 +50,8 @@ export function useProTable<TData extends Record<string, any>>(props: ProTablePr
     getSubRows,
     enableSorting,
     enableExpanding,
+    enableRowSelection,        // ← new — lets rowSelectionFeature actually toggle rows
+    enableMultiRowSelection,   // ← new — set false for single-select (radio-style) tables
     manualSorting,
     manualPagination,
     manualFiltering,
@@ -50,10 +61,12 @@ export function useProTable<TData extends Record<string, any>>(props: ProTablePr
       pagination: controlledPagination ?? internalPagination,
       expanded: controlledExpanded ?? internalExpanded,
       columnFilters: controlledColumnFilters ?? internalColumnFilters,
+      rowSelection: controlledRowSelection ?? internalRowSelection, // ← new
     },
     onSortingChange: onSortingChange ?? setInternalSorting,
     onPaginationChange: onPaginationChange ?? setInternalPagination,
     onExpandedChange: onExpandedChange ?? setInternalExpanded,
     onColumnFiltersChange: onColumnFiltersChange ?? setInternalColumnFilters,  // ← new
+    onRowSelectionChange: onRowSelectionChange ?? setInternalRowSelection,     // ← new
   })
 }
