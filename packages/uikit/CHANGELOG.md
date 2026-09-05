@@ -1,5 +1,13 @@
 # @flxui/uikit
 
+## 1.0.3
+
+### Patch Changes
+
+- [`b920cc1`](https://github.com/SellamiAhmed/flxuikit/commit/b920cc16919cc6d4c4f3acfe916a084980db2c47) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - bump version , chore: imporvment on switch and Stat card businees
+  - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - add improvements switch ,StatCard Business
+
 ## 1.0.2
 
 ### Patch Changes
