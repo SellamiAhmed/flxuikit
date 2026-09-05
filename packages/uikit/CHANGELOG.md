@@ -1,5 +1,12 @@
 # @flxui/uikit
 
+## 1.0.2
+
+### Patch Changes
+
+- [`1dc6d4c`](https://github.com/SellamiAhmed/flxuikit/commit/1dc6d4c7a2f15e18328570fc3e744e69f2ec189b) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - add improvements switch ,StatCard Business
+
 ## 1.0.1
 
 ### Patch Changes
