@@ -2,113 +2,68 @@
 .root {
   /* --switch-color, --switch-bg, --switch-bd-color, --switch-thumb-bg,
      --switch-off-thumb-bg, --switch-label-color are set by
-     theme.ts's Switch `vars` function. */
+     theme.ts's Switch vars function. */
 
-  /* Motion tokens */
-  --switch-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --switch-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --switch-duration: 220ms;
-  --switch-duration-fast: 120ms;
-
-  -webkit-tap-highlight-color: transparent;
+  --switch-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --switch-duration-thumb: 140ms;
+  --switch-duration-track: 180ms;
 }
 
 /* ── Track ── */
 .track {
-  border: none;
+  border: 1px solid var(--switch-bd-color);
   background: var(--switch-bg);
-  transition: background-color var(--switch-duration) var(--switch-ease-out);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition:
+    background-color var(--switch-duration-track) var(--switch-ease),
+    border-color var(--switch-duration-track) var(--switch-ease);
 }
 
 .track[data-checked] {
   background: var(--switch-color);
+  border-color: var(--switch-color);
+  box-shadow: none;
+}
+
+.root:hover .track:not([data-checked]) {
+  border-color: var(--switch-off-thumb-bg);
+  background: color-mix(in srgb, var(--switch-bg), black 6%);
+}
+
+.root:hover .track[data-checked] {
+  background: color-mix(in srgb, var(--switch-color), black 8%);
 }
 
 /* ── Thumb ── */
 .thumb {
   background: var(--switch-off-thumb-bg);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   border: none;
-  will-change: transform, left, inset-inline-start;
   transition:
-    transform var(--switch-duration) var(--switch-ease-spring),
-    background-color var(--switch-duration-fast) var(--switch-ease-out),
-    left var(--switch-duration) var(--switch-ease-spring),
-    inset-inline-start var(--switch-duration) var(--switch-ease-spring),
-    box-shadow var(--switch-duration-fast) var(--switch-ease-out);
+    transform var(--switch-duration-thumb) var(--switch-ease),
+    background-color var(--switch-duration-thumb) var(--switch-ease),
+    box-shadow var(--switch-duration-thumb) var(--switch-ease);
 }
 
 .track[data-checked] .thumb {
   background: var(--switch-thumb-bg);
 }
 
-/* Overshoot pop on toggle */
-.track[data-checked] .thumb,
-.track:not([data-checked]) .thumb {
-  animation: switch-thumb-pop var(--switch-duration) var(--switch-ease-spring);
-}
-
-@keyframes switch-thumb-pop {
-  0% {
-    transform: scale(1);
-  }
-  40% {
-    transform: scale(1.16);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Track gets a subtle scale-breathe alongside the thumb pop, so the
-   whole control feels like one connected motion rather than two
-   separate animations running in parallel */
-.root {
-  transition: transform var(--switch-duration-fast) var(--switch-ease-spring);
-}
-
-.root:has(input:checked),
-.root:has(input:not(:checked)) {
-  animation: switch-root-pop var(--switch-duration) var(--switch-ease-spring);
-}
-
-@keyframes switch-root-pop {
-  0% {
-    transform: scale(1);
-  }
-  35% {
-    transform: scale(1.03);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* ── Hover ── */
-.root:hover .track {
-  filter: brightness(0.94);
-}
-
 .root:hover .thumb {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-  transform: scale(1.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: scale(1.06);
 }
 
 /* ── Pressed ── */
 .root:active .thumb {
-  transform: scale(0.88);
-  transition-duration: var(--switch-duration-fast);
-}
-
-.root:active {
-  transform: scale(0.98);
+  transform: scale(0.9);
+  transition-duration: 90ms;
 }
 
 /* ── Focus ── */
 .root input:focus-visible + .track {
   outline: 2px solid var(--ds-color-border-focused);
   outline-offset: 2px;
-  transition: outline-offset var(--switch-duration-fast) var(--switch-ease-spring);
 }
 
 /* ── Disabled ── */
@@ -117,18 +72,8 @@
   opacity: 0.4;
 }
 
-.root[data-disabled] .track {
-  background: var(--switch-bg);
-}
-
 .root[data-disabled] .thumb {
-  background: var(--switch-off-thumb-bg);
   box-shadow: none;
-  animation: none;
-}
-
-.root[data-disabled]:active {
-  transform: none;
 }
 
 /* ── Label ── */
@@ -138,6 +83,7 @@
   padding-left: var(--ds-space-100);
   user-select: none;
 }
+
 .label[data-disabled] {
   color: var(--ds-color-text-disabled);
 }
@@ -150,9 +96,7 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .track,
-  .thumb,
-  .root {
+  .thumb {
     transition-duration: 1ms !important;
-    animation: none !important;
   }
 }

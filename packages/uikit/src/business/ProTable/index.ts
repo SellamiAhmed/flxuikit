@@ -1,10 +1,10 @@
 export {
-  ActionsCell,
-  actionsColumnMeta,
-  CountryCell, HeaderLabel,
-  IconStackCell, InlinePair, PersonCell,
-  type FilterOption,
-  type ProColumnFilterMeta, type ProColumnMeta
+    ActionsCell,
+    actionsColumnMeta,
+    CountryCell, HeaderLabel,
+    IconStackCell, InlinePair, PersonCell,
+    type FilterOption,
+    type ProColumnFilterMeta, type ProColumnMeta
 } from './cells.js';
 export { ColumnFilterInput } from './ColumnFilterInput.js';
 export { proTableFeatures, type ProTableFeatures } from './features.js';

@@ -5,32 +5,54 @@ import { Card, CardProps, Group, Stack, Typography, TypographyProps } from '../.
 
 import classes from './index.module.css'
 
+type IconTone = 'brand' | 'neutral' | 'warning' | 'success' | 'danger'
+
+const iconToneClass: Record<IconTone, string | undefined> = {
+  brand: undefined, // .icon's default background already covers this
+  neutral: classes.iconNeutral,
+  warning: classes.iconWarning,
+  success: classes.iconSuccess,
+  danger: classes.iconDanger
+}
+
 export interface StatCardProps extends CardProps {
   title: string
   value: string | number
   icon?: React.ReactNode
+  /** Visual tone of the icon badge background/color. Defaults to 'brand' (existing behavior, unchanged). */
+  iconTone?: IconTone
   titleProps?: TypographyProps
   valueProps?: TypographyProps
+  /** Marks the card as clickable: adds hover/active/focus states and a pointer cursor. */
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 export const StatCard = ({
   title,
   value,
   icon,
+  iconTone = 'brand',
   titleProps,
   valueProps,
   children,
   className,
+  onClick,
   ...rest
 }: StatCardProps) => {
   return (
-    <Card {...rest} className={clsx(classes.card, className)}>
+    <Card
+      {...rest}
+      onClick={onClick}
+      tabIndex={onClick ? 0 : undefined}
+      role={onClick ? 'button' : undefined}
+      className={clsx(classes.card, onClick && classes.interactive, className)}
+    >
       <Group justify="space-between" align="flex-start" className={classes.header}>
         <Typography variant="label-lg" className={classes.title} {...titleProps}>
           {title}
         </Typography>
         {icon && (
-          <span className={classes.icon} aria-hidden="true">
+          <span className={clsx(classes.icon, iconToneClass[iconTone])} aria-hidden="true">
             {icon}
           </span>
         )}

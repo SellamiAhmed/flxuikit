@@ -1,42 +1,83 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--ds-space-150, 12px);
+  gap: var(--ds-space-100, 8px); /* was 150/12px — tightens header-to-value gap */
+  padding: var(--ds-space-150, 12px); /* explicit tighter padding for stat cards */
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.interactive {
+  cursor: pointer;
+}
+.interactive:hover {
+  border-color: var(--ds-color-border-brand);
+  background: var(--ds-color-background-neutral-subtle-hovered);
+}
+.interactive:active {
+  transform: translateY(1px);
+}
+.interactive:focus-visible {
+  outline: 2px solid var(--ds-color-border-brand);
+  outline-offset: 2px;
 }
 
 .header {
   width: 100%;
+  flex-wrap: nowrap;
+  gap: var(--ds-space-100, 8px);
 }
 
 .title {
   color: var(--ds-color-text-subtle);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  font-weight: 600;
 }
 
 .icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px; /* was 32px */
+  height: 28px; /* was 32px */
   border-radius: 8px;
   background: var(--ds-color-background-brand-subtlest);
   color: var(--ds-color-text-brand);
   flex-shrink: 0;
 }
 
+.iconNeutral {
+  background: var(--ds-color-background-accent-gray-subtlest, var(--ds-color-background-neutral-subtle));
+  color: var(--ds-color-text-subtle);
+}
+.iconWarning {
+  background: var(--ds-color-background-warning);
+  color: var(--ds-color-text-warning);
+}
+.iconSuccess {
+  background: var(--ds-color-background-accent-green-subtlest);
+  color: var(--ds-color-text-success, #1a7f37);
+}
+.iconDanger {
+  background: var(--ds-color-background-accent-orange-subtlest);
+  color: var(--ds-color-text-danger, #cf222e);
+}
+
 .body {
   align-items: flex-start;
+  gap: 2px; /* was the Stack's gap={4} in JSX — tightening title→value further */
 }
 
 .value {
   font-variant-numeric: tabular-nums;
   color: var(--ds-color-text);
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 .trend {
-  margin-top: 2px;
+  margin-top: 0; /* was 2px — .body gap already provides spacing now */
 }
 
 .trendIcon {
