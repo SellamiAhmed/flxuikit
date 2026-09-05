@@ -912,7 +912,7 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             }
           }
         }
-      },      // ── Divider ──
+      }, // ── Divider ──
       Divider: {
         defaultProps: {
           color: undefined // let default CSS var (--ds-color-border) apply
@@ -938,7 +938,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
           }
         }
       },
-
 
       Avatar: {
         defaultProps: {
@@ -1023,9 +1022,9 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             transition: 'fade-down'
           },
           overlayProps: {
-            backgroundOpacity: 0.85,
-            blur: 3,
-            color: '#000000'
+            backgroundOpacity: 0.45,
+            blur: 4,
+            color: token('color.blanket')
           }
         }),
         styles: () => ({
@@ -1107,25 +1106,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             }
           }
         }
-      },
-
-      Switch: {
-        vars: (theme: MantineTheme, props: SwitchProps) => {
-          return {
-            root: {
-              '--switch-color': token('color.background.brand.bold'),
-              '--switch-bg': token('color.border.bold'),
-              '--switch-thumb-bg': token('color.text.inverse'),
-              '--switch-off-thumb-bg': token('elevation.surface'), // ← fixed, no 'color.' prefix
-              '--switch-label-color': token('color.text')
-            }
-          }
-        },
-        styles: (theme: MantineTheme, props: SwitchProps) => ({
-          trackLabel: {
-            color: token('color.text.subtlest')
-          }
-        })
       },
 
       Checkbox: {

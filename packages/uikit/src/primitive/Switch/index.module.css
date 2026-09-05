@@ -1,8 +1,17 @@
 /* ── Root ── */
 .root {
-  /* --switch-color, --switch-bg, --switch-bd-color, --switch-thumb-bg,
-     --switch-off-thumb-bg, --switch-label-color are set by
-     theme.ts's Switch vars function. */
+  /* Design tokens, declared directly — no theme.ts indirection needed,
+     since --ds-* vars already handle light/dark via CSS cascade alone. */
+  --fx-switch-color: var(--ds-color-background-brand-bold);
+  --fx-switch-bg: var(
+    --ds-color-background-accent-gray-subtle
+  ); /* was border-bold — wrong token, too dark for a fill */
+  --fx-switch-bd-color: var(
+    --ds-color-border-accent-gray-subtle
+  ); /* matches bg, soft outline instead of a bold border */
+  --fx-switch-thumb-bg: var(--ds-color-text-inverse);
+  --fx-switch-off-thumb-bg: var(--ds-elevation-surface);
+  --fx-switch-label-color: var(--ds-color-text);
 
   --switch-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --switch-duration-thumb: 140ms;
@@ -11,33 +20,45 @@
 
 /* ── Track ── */
 .track {
-  border: 1px solid var(--switch-bd-color);
-  background: var(--switch-bg);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--fx-switch-bd-color);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--fx-switch-bg), white 6%) 0%, var(--fx-switch-bg) 100%);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
   transition:
     background-color var(--switch-duration-track) var(--switch-ease),
     border-color var(--switch-duration-track) var(--switch-ease);
 }
 
-.track[data-checked] {
-  background: var(--switch-color);
-  border-color: var(--switch-color);
+.root input:checked + .track {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fx-switch-color), white 14%) 0%,
+    var(--fx-switch-color) 100%
+  );
+  border-color: var(--fx-switch-color);
   box-shadow: none;
 }
 
-.root:hover .track:not([data-checked]) {
-  border-color: var(--switch-off-thumb-bg);
-  background: color-mix(in srgb, var(--switch-bg), black 6%);
+.root:hover input:not(:checked) + .track {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fx-switch-bg), white 2%) 0%,
+    color-mix(in srgb, var(--fx-switch-bg), black 4%) 100%
+  );
 }
-
-.root:hover .track[data-checked] {
-  background: color-mix(in srgb, var(--switch-color), black 8%);
+.root:hover input:checked + .track {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fx-switch-color), white 8%) 0%,
+    color-mix(in srgb, var(--fx-switch-color), black 6%) 100%
+  );
 }
 
 /* ── Thumb ── */
 .thumb {
-  background: var(--switch-off-thumb-bg);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(180deg, #ffffff 0%, var(--fx-switch-off-thumb-bg) 100%);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 0 0 0.5px rgba(0, 0, 0, 0.04);
   border: none;
   transition:
     transform var(--switch-duration-thumb) var(--switch-ease),
@@ -45,12 +66,14 @@
     box-shadow var(--switch-duration-thumb) var(--switch-ease);
 }
 
-.track[data-checked] .thumb {
-  background: var(--switch-thumb-bg);
+.root input:checked + .track .thumb {
+  background: linear-gradient(180deg, #ffffff 0%, var(--fx-switch-thumb-bg) 100%);
 }
 
 .root:hover .thumb {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.22),
+    0 0 0 0.5px rgba(0, 0, 0, 0.05);
   transform: scale(1.06);
 }
 
@@ -79,7 +102,7 @@
 /* ── Label ── */
 .label {
   font: var(--ds-font-body);
-  color: var(--switch-label-color);
+  color: var(--fx-switch-label-color);
   padding-left: var(--ds-space-100);
   user-select: none;
 }
