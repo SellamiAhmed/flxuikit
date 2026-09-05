@@ -1,5 +1,13 @@
 # @flxui/uikit
 
+## 1.0.1
+
+### Patch Changes
+
+- [`5ba4dda`](https://github.com/SellamiAhmed/flxuikit/commit/5ba4ddac6843e650a2708fcbcf9d8855db8d1dc7) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - fix: fix UI component issue
+  - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - udapte readMD
+
 ## 1.0.0
 
 ### Major Changes
