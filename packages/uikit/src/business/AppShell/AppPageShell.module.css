@@ -127,9 +127,12 @@
   scroll-behavior: smooth;
 }
 .content {
-  padding: var(--ds-space-300);
-  max-width: var(--app-shell-page-max-width, 100%);
+  width: 100%;
+  max-width: var(--app-shell-content-max-width, 1280px); /* was: var(--app-shell-page-max-width, 100%) */
   margin: 0 auto;
+  padding: var(--ds-space-300);
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 
 /* ── Footer ── */

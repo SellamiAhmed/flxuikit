@@ -26,29 +26,26 @@ type CSSWithVars = React.CSSProperties & {
 
 export interface AppPageShellProps {
   maxWidth?: string
+  /** Caps the width of the scrollable content (and footer) independently of
+   *  the header, which always spans the shell's full width. Defaults to
+   *  1280px — every page should inherit this unless it genuinely needs
+   *  full-width content (e.g. a wide table or calendar). */
+  contentMaxWidth?: string // NEW
   withHeader?: boolean
   title?: React.ReactNode
-  /** Fallback breadcrumbs (use `headerProps.breadcrumbs` to group with header config). */
   breadcrumbs?: React.ReactNode
-  /** Fallback subtitle (use `headerProps.subtitle` to group with header config). */
   subtitle?: React.ReactNode
-  /** Fallback secondary nav (use `headerProps.secondaryNav` to group with header config). */
   secondaryNav?: React.ReactNode
   children?: React.ReactNode
   headerActions?: React.ReactNode
   footer?: React.ReactNode
   wrapperProps?: PageShellBaseRootProps
   bodyProps?: PageShellBaseBodyProps
-  /** Optional notification bell — auto-rendered in the right section before `headerActions`. */
-
   headerProps?: PageShellBaseHeaderProps & {
     withBack?: boolean
     onBackClick?: () => void
-    /** Optional breadcrumbs — overrides top-level `breadcrumbs`. */
     breadcrumbs?: React.ReactNode
-    /** Optional subtitle — overrides top-level `subtitle`. */
     subtitle?: React.ReactNode
-    /** Optional secondary nav (tabs/pills under title) — overrides top-level `secondaryNav`. */
     secondaryNav?: React.ReactNode
     notificationBell?: PageShellNotificationBellProps
   }
@@ -60,6 +57,7 @@ export const AppPageShell = ({
   bodyProps,
   wrapperProps,
   maxWidth = '100%',
+  contentMaxWidth = '1280px', // NEW — app-wide default, every page inherits this
   title,
   breadcrumbs,
   subtitle,
@@ -87,7 +85,8 @@ export const AppPageShell = ({
         style={
           {
             ...bodyProps?.style,
-            '--app-shell-page-max-width': maxWidth
+            '--app-shell-page-max-width': maxWidth,
+            '--app-shell-content-max-width': contentMaxWidth // NEW
           } as CSSWithVars
         }
       >
@@ -110,7 +109,6 @@ export const AppPageShell = ({
   const activeSubtitle = hpSubtitle ?? subtitle
   const activeSecondaryNav = hpSecondaryNav ?? secondaryNav
 
-  // Compose right section: bell (optional) + custom actions
   const rightSection = headerPropsWithoutBack.rightSection ?? (
     <>
       {notificationBell && <PageShellNotificationBell {...notificationBell} />}
@@ -125,7 +123,8 @@ export const AppPageShell = ({
       style={
         {
           ...wrapperProps?.style,
-          '--app-shell-page-max-width': maxWidth
+          '--app-shell-page-max-width': maxWidth,
+          '--app-shell-content-max-width': contentMaxWidth // NEW
         } as CSSWithVars
       }
     >

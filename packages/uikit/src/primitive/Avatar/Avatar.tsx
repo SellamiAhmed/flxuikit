@@ -3,13 +3,13 @@ import clsx from 'clsx'
 import { forwardRef } from 'react'
 
 import {
-    AVATAR_SIZES,
-    getColorFromString,
-    getInitials,
-    resolveDisplayName,
-    type AvatarColor,
-    type AvatarNameInput,
-    type AvatarSize
+  AVATAR_SIZES,
+  getColorFromString,
+  getInitials,
+  resolveDisplayName,
+  type AvatarColor,
+  type AvatarNameInput,
+  type AvatarSize
 } from './helpers.js'
 import styles from './index.module.css'
 
