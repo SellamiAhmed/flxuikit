@@ -134,9 +134,17 @@
 
 /* ── Footer ── */
 .footer {
+  width: 100%;
+  max-width: var(--app-shell-content-max-width, 1400px);
+  margin: auto auto 0;
   padding: var(--ds-space-300);
   border-top: 1px solid var(--ds-color-border);
-  margin-top: auto;
+  box-sizing: border-box;
+
+  /* NEW — dimmed/secondary text treatment */
+  font-size: var(--ds-font-size-100, 13px); /* smaller than body text */
+  line-height: var(--ds-line-height-100, 1.4);
+  color: var(--ds-color-text-subtle); /* muted, not full-contrast text */
 }
 
 /* ── Context Switcher (All Projects ▼) ── */

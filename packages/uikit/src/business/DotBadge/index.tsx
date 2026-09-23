@@ -33,6 +33,8 @@ export interface DotBadgeProps extends Omit<BadgeProps, 'variant' | 'leftSection
    * match the badge size.
    */
   icon?: React.ReactNode
+  /** Removes the badge border. Defaults to false. */
+  borderless?: boolean
 }
 
 export const DotBadge: React.FC<DotBadgeProps> = ({
@@ -41,6 +43,8 @@ export const DotBadge: React.FC<DotBadgeProps> = ({
   pulse,
   icon,
   children,
+  borderless,
+  className,
   ...rest
 }) => {
   const dotSize = DOT_SIZE_BY_BADGE_SIZE[size] ?? 8
@@ -53,7 +57,14 @@ export const DotBadge: React.FC<DotBadgeProps> = ({
   )
 
   return (
-    <Badge variant="light" color={color} size={size} leftSection={left} {...rest}>
+    <Badge
+      variant="light"
+      color={color}
+      size={size}
+      leftSection={left}
+      className={clsx(borderless && classes.borderless, className)}
+      {...rest}
+    >
       {children}
     </Badge>
   )

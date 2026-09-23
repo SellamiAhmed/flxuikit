@@ -17,8 +17,9 @@
   --btn-light-bg-active: var(--ds-color-background-brand-subtlest-pressed);
   --btn-light-color: var(--ds-color-text-brand);
 
-  --btn-outline-border: var(--ds-color-border-brand);
-  --btn-outline-color: var(--ds-color-text-brand);
+  /* was: var(--ds-color-border-brand) / var(--ds-color-text-brand) */
+  --btn-outline-border: var(--ds-color-border-input);
+  --btn-outline-color: var(--ds-color-text);
   --btn-outline-bg-hover: var(--ds-color-background-neutral-subtle-hovered);
   --btn-outline-bg-active: var(--ds-color-background-neutral-subtle-pressed);
 
