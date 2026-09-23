@@ -42,12 +42,11 @@
 
 /* ── Body ── */
 .body {
-  padding-left: var(--ds-space-300);
-  padding-right: var(--ds-space-300);
-  padding-top: var(--ds-space-200);
-  padding-bottom: var(--ds-space-200);
+  padding: 0; /* ← was: var(--ds-space-200)/300 — remove entirely */
   flex: 1;
-  min-width: 0; /* ← ADD THIS TOO */
+  min-width: 0;
+  display: flex; /* ← add this */
+  flex-direction: column; /* ← add this, so footer's margin-top: auto works */
 }
 
 /* ── Back Button ── */
