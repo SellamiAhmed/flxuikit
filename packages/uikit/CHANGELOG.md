@@ -1,5 +1,15 @@
 # @flxui/uikit
 
+## 1.0.8
+
+### Patch Changes
+
+- [`9e356d1`](https://github.com/SellamiAhmed/flxuikit/commit/9e356d18f0f8db431c00c5be828412acd84caab3) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - Merge pull request [#11](https://github.com/SellamiAhmed/flxuikit/pull/11) from SellamiAhmed/changeset-release/v0
+  - release: bump versions
+  - fixes
+  - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - fixes chore(): appshell padding
+
 ## 1.0.7
 
 ### Patch Changes
