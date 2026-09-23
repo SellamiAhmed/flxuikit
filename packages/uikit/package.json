@@ -1,10 +1,6 @@
 {
   "name": "@flxui/uikit",
-<<<<<<< HEAD
   "version": "1.0.6",
-=======
-  "version": "1.0.7",
->>>>>>> db11efda23d6373e5c705ad139ce5819e9d1d5f7
   "description": "system UI kit built on Mantine v7",
   "repository": {
     "type": "git",

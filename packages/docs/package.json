@@ -1,10 +1,6 @@
 {
   "name": "@flxui/uikit-documentation",
-<<<<<<< HEAD
   "version": "0.1.9",
-=======
-  "version": "0.1.10",
->>>>>>> db11efda23d6373e5c705ad139ce5819e9d1d5f7
   "private": true,
   "scripts": {
     "dev": "next dev",
