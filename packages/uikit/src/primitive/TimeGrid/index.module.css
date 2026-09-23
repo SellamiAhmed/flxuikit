@@ -1,0 +1,130 @@
+/* ═══════════════════════════════════════════════════════
+   TimeAxis
+   ═══════════════════════════════════════════════════════ */
+.timeAxis {
+  width: var(--time-axis-width); /* must match .axisSpacer — single source of truth */
+  flex-shrink: 0;
+  border-right: 1px solid var(--ds-color-border);
+}
+
+.hourLabel {
+  position: relative;
+  font-size: 11px;
+  color: var(--ds-color-text-subtlest);
+  text-align: right;
+  padding-right: 8px;
+}
+
+.hourLabel span {
+  position: absolute;
+  top: -7px; /* nudges label up so it sits centered on its gridline, not below it */
+  right: 8px;
+}
+
+.axisColumn {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DayColumns
+   ═══════════════════════════════════════════════════════ */
+.dayColumns {
+  display: flex;
+  flex: 1;
+}
+
+.dayHeader {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0;
+}
+
+.weekday {
+  font-size: 11px;
+  color: var(--ds-color-text-subtlest);
+  text-transform: uppercase;
+}
+
+.dayNumber {
+  font-size: 13px;
+  color: var(--ds-color-text);
+  font-weight: 500;
+}
+
+.dayHeader[data-today] .dayNumber {
+  background-color: var(--ds-color-background-danger-bold);
+  color: var(--ds-color-text-inverse);
+  border-radius: 9999px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HourGrid — gridlines painted as background, not DOM nodes
+   ═══════════════════════════════════════════════════════ */
+.hourGrid {
+  display: grid;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ds-color-border) 0,
+    var(--ds-color-border) 1px,
+    transparent 1px,
+    transparent 100%
+  );
+  /* backgroundSize set inline per-instance (pxPerHour) — see HourGrid.tsx */
+}
+
+.dayColumn {
+  border-right: 1px solid var(--ds-color-border);
+}
+
+.dayColumn:last-child {
+  border-right: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NowLine
+   ═══════════════════════════════════════════════════════ */
+.nowLine {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.nowLineTrack {
+  flex: 1;
+  height: 2px;
+  background-color: var(--ds-color-background-danger-bold);
+}
+
+.nowLineTrack::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--ds-color-background-danger-bold);
+}
+
+.nowBadge {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ds-color-text-inverse);
+  background-color: var(--ds-color-background-danger-bold);
+  padding: 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  transform: translateX(calc(-100% - 4px)); /* sits to the left of the line, like Image 1's badge */
+}
