@@ -830,9 +830,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             },
             outline: {
               color: token(t.text),
-              borderColor: token(t.border),
-              borderWidth: 1,
-              borderStyle: 'solid',
               backgroundColor: 'transparent',
               '&:hover': {
                 backgroundColor: token(t.lightBg)
@@ -841,9 +838,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             light: {
               backgroundColor: token(t.lightBg),
               color: token(t.text),
-              borderColor: token(t.border),
-              borderWidth: 1,
-              borderStyle: 'solid',
               '&:hover': {
                 backgroundColor: token(t.lightBgHover)
               }
@@ -857,9 +851,6 @@ export function createAppTheme(colorScheme: 'light' | 'dark', fontConfig?: FontC
             chip: {
               backgroundColor: token(byColor.neutral.lightBg),
               color: token(byColor.neutral.text),
-              borderColor: token(byColor.neutral.border),
-              borderWidth: 1,
-              borderStyle: 'solid',
               '&:hover': {
                 backgroundColor: token(byColor.neutral.lightBgHover)
               }

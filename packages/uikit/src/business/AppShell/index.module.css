@@ -21,7 +21,7 @@
 .appShellBody {
   flex: 1;
   min-width: 0;
-  overflow: auto;
+  overflow: hidden;
   background-color: var(--ds-elevation-surface);
 }
 
