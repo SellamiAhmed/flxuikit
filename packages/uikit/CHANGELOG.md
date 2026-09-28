@@ -1,5 +1,13 @@
 # @flxui/uikit
 
+## 1.0.10
+
+### Patch Changes
+
+- [`a9e1495`](https://github.com/SellamiAhmed/flxuikit/commit/a9e149543b90d90b5c644bb86e82f7e9d8e6987f) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - chore ():fix badge border ui
+  - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - chore: adjsut the max width of pageshell consitent
+
 ## 1.0.9
 
 ### Patch Changes
