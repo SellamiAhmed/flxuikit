@@ -31,6 +31,7 @@ export interface HourGridProps {
   startHour: number
   endHour: number
   pxPerHour: number
+  todayIndex?: number
   columnCount: number
   className?: string
 }

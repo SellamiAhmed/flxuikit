@@ -1,0 +1,75 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-200);
+}
+
+.colorBar {
+  height: 4px;
+  width: 48px;
+  border-radius: 9999px;
+  background-color: var(--event-border);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dateLine {
+  color: var(--ds-color-text);
+}
+
+.attendeeList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-100);
+}
+
+.attendeeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-100);
+}
+
+.actions {
+  display: flex;
+  gap: var(--ds-space-100);
+  margin-top: var(--ds-space-100);
+}
+
+.editButton,
+.deleteButton {
+  padding: var(--ds-space-075) var(--ds-space-150);
+  border-radius: var(--ds-space-050);
+  border: 1px solid var(--ds-color-border);
+  cursor: pointer;
+  font-size: var(--ds-font-size-100);
+  font-weight: 600;
+}
+
+.editButton {
+  background-color: var(--ds-color-background-brand-bold);
+  color: var(--ds-color-text-inverse);
+  border-color: var(--ds-color-background-brand-bold);
+}
+
+.deleteButton {
+  background-color: transparent;
+  color: var(--ds-color-text-danger);
+  border-color: var(--ds-color-border-danger);
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--event-text);
+  opacity: 0.6;
+  padding: var(--ds-space-025) var(--ds-space-050);
+}
+
+.menuButton:hover {
+  opacity: 1;
+}

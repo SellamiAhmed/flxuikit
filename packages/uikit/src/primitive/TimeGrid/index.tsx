@@ -35,7 +35,13 @@ export const TimeGrid = forwardRef<HTMLDivElement, TimeGridProps>(
           </div>
 
           <div className={classes.gridArea}>
-            <HourGrid startHour={startHour} endHour={endHour} pxPerHour={pxPerHour} columnCount={days.length} />
+            <HourGrid
+              startHour={startHour}
+              endHour={endHour}
+              pxPerHour={pxPerHour}
+              columnCount={days.length}
+              todayIndex={todayColumnIndex >= 0 ? todayColumnIndex : undefined} // NEW
+            />
             {showNowIndicator && (
               <NowLineTrack
                 startHour={startHour}

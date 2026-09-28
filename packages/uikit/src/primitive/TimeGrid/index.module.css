@@ -1,8 +1,52 @@
 /* ═══════════════════════════════════════════════════════
+   Wrapper / layout skeleton
+   ═══════════════════════════════════════════════════════ */
+.wrapper {
+  --time-axis-width: 56px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--ds-font-family-sans);
+}
+
+.headerRow {
+  display: flex;
+  border-bottom: 1px solid var(--ds-color-border);
+  flex-shrink: 0;
+}
+
+.axisSpacer {
+  width: var(--time-axis-width);
+  flex-shrink: 0;
+}
+
+.scrollBody {
+  display: flex;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.gridArea {
+  position: relative; /* anchors HourGrid + NowLine + day content slots */
+  flex: 1;
+}
+
+.dayContentSlot {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dayContentSlot > * {
+  pointer-events: auto;
+}
+
+/* ═══════════════════════════════════════════════════════
    TimeAxis
    ═══════════════════════════════════════════════════════ */
 .timeAxis {
-  width: var(--time-axis-width); /* must match .axisSpacer — single source of truth */
+  width: var(--time-axis-width);
   flex-shrink: 0;
   border-right: 1px solid var(--ds-color-border);
 }
@@ -17,7 +61,7 @@
 
 .hourLabel span {
   position: absolute;
-  top: -7px; /* nudges label up so it sits centered on its gridline, not below it */
+  top: -7px;
   right: 8px;
 }
 
@@ -55,8 +99,15 @@
   font-weight: 500;
 }
 
+/* Today header: gradient tint fading down to brand, blue underline, filled circle */
+.dayHeader[data-today] {
+  background: linear-gradient(to bottom, transparent 40%, var(--ds-color-background-brand-subtlest) 100%);
+  border-bottom: 2px solid var(--ds-color-border-brand);
+  margin-bottom: -2px; /* keeps this header the same height as the others */
+}
+
 .dayHeader[data-today] .dayNumber {
-  background-color: var(--ds-color-background-danger-bold);
+  background-color: var(--ds-color-background-brand-bold);
   color: var(--ds-color-text-inverse);
   border-radius: 9999px;
   width: 22px;
@@ -65,12 +116,12 @@
   align-items: center;
   justify-content: center;
 }
-
 /* ═══════════════════════════════════════════════════════
    HourGrid — gridlines painted as background, not DOM nodes
    ═══════════════════════════════════════════════════════ */
 .hourGrid {
   display: grid;
+  grid-auto-columns: minmax(140px, 1fr);
   background-image: repeating-linear-gradient(
     to bottom,
     var(--ds-color-border) 0,
@@ -78,7 +129,6 @@
     transparent 1px,
     transparent 100%
   );
-  /* backgroundSize set inline per-instance (pxPerHour) — see HourGrid.tsx */
 }
 
 .dayColumn {
@@ -103,7 +153,7 @@
 .nowLineTrack {
   flex: 1;
   height: 2px;
-  background-color: var(--ds-color-background-danger-bold);
+  background-color: var(--ds-color-background-brand-bold);
 }
 
 .nowLineTrack::before {
@@ -114,7 +164,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--ds-color-background-danger-bold);
+  background-color: var(--ds-color-background-brand-bold);
 }
 
 .nowBadge {
@@ -122,9 +172,9 @@
   font-size: 10px;
   font-weight: 600;
   color: var(--ds-color-text-inverse);
-  background-color: var(--ds-color-background-danger-bold);
+  background-color: var(--ds-color-background-brand-bold);
   padding: 1px 4px;
   border-radius: 3px;
   white-space: nowrap;
-  transform: translateX(calc(-100% - 4px)); /* sits to the left of the line, like Image 1's badge */
+  transform: translateX(calc(-100% - 4px));
 }

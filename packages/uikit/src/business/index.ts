@@ -9,4 +9,6 @@ export * from './ProTable/index.js'
 export * from './SearchArea/index.js'
 export * from './StatCard/index.js'
 export * from './TimeRangePicker/index.js'
-
+export { EventCalendar, type EventCalendarProps } from './Calendar/index.js'
+export * from './Calendar/CalendarToolbar.js'
+export type { CalendarViewMode } from './Calendar/CalendarToolbar.js'

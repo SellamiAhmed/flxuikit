@@ -11,7 +11,11 @@ const WEEKDAY_FORMAT = new Intl.DateTimeFormat(undefined, { weekday: 'short' })
 
 export const DayColumns = forwardRef<HTMLDivElement, DayColumnsProps>(({ days, today, className }, ref) => {
   return (
-    <div ref={ref} className={`${classes.dayColumns} ${className ?? ''}`}>
+    <div
+      ref={ref}
+      className={`${classes.dayColumns} ${className ?? ''}`}
+      style={{ display: 'grid', gridTemplateColumns: `repeat(${days.length}, minmax(140px, 1fr))` }}
+    >
       {days.map((day) => {
         const isToday = today ? isSameDay(day, today) : false
         return (
