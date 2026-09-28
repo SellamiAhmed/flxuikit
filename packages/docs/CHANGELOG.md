@@ -1,5 +1,12 @@
 # @flxui/uikit-documentation
 
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies [[`fc774d6`](https://github.com/SellamiAhmed/flxuikit/commit/fc774d6f8923fb56dce1bdc0b30d3a4c99013f5e)]:
+  - @flxui/uikit@1.0.11
+
 ## 0.1.13
 
 ### Patch Changes
