@@ -1,5 +1,13 @@
 # @flxui/uikit
 
+## 1.0.11
+
+### Patch Changes
+
+- [`fc774d6`](https://github.com/SellamiAhmed/flxuikit/commit/fc774d6f8923fb56dce1bdc0b30d3a4c99013f5e) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - bump version
+  - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - chore ():fix badge border ui
+
 ## 1.0.10
 
 ### Patch Changes
