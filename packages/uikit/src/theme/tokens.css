@@ -3,6 +3,9 @@
  *
  * Primitive scales + Semantic mappings.
  * Import once in your app entry (e.g., main.tsx).
+ *
+ * Lines marked "CHANGED" or "NEW" are the edits made for visible
+ * hover / pressed states. Everything else is unchanged.
  */
 
 /* ============================================
@@ -111,6 +114,16 @@
   --ds-magenta-700: #a3183e;
   --ds-magenta-800: #bf1f4b;
   --ds-magenta-900: #a3183e;
+
+  /* ============================================
+     RADIUS  (NEW)
+     Buttons use --ds-radius-100 instead of a spacing token.
+     ============================================ */
+  --ds-radius-050: 0.25rem; /* 4px */
+  --ds-radius-100: 0.375rem; /* 6px */
+  --ds-radius-150: 0.5rem; /* 8px */
+  --ds-radius-200: 0.75rem; /* 12px */
+  --ds-radius-full: 9999px;
 
   /* ============================================
      CANVAS — Layered Surface System (Light)
@@ -230,11 +243,16 @@
   --ds-color-background-neutral-hovered: #e5e5e5;
   --ds-color-background-neutral-pressed: #d4d4d8;
   --ds-color-background-neutral-subtle: #00000000;
-  --ds-color-background-neutral-subtle-hovered: var(--ds-canvas-soft);
-  --ds-color-background-neutral-subtle-pressed: var(--ds-canvas-soft-2);
-  --ds-color-background-neutral-bold: var(--ds-canvas);
-  --ds-color-background-neutral-bold-hovered: #09090b;
-  --ds-color-background-neutral-bold-pressed: #09090b;
+  /* CHANGED: was var(--ds-canvas-soft) #fafafa, same as the page background */
+  --ds-color-background-neutral-subtle-hovered: #f4f4f5;
+  /* CHANGED: was var(--ds-canvas-soft-2) #f5f5f5 */
+  --ds-color-background-neutral-subtle-pressed: #e4e4e7;
+  /* CHANGED: was var(--ds-canvas) #fff, which gave white text on white */
+  --ds-color-background-neutral-bold: #18181b;
+  /* CHANGED: was #09090b */
+  --ds-color-background-neutral-bold-hovered: #27272a;
+  /* CHANGED: was #09090b */
+  --ds-color-background-neutral-bold-pressed: #3f3f46;
 
   --ds-color-background-selected: var(--ds-canvas-soft-2);
   --ds-color-background-selected-hovered: #e5e5e5;
@@ -247,8 +265,10 @@
   --ds-color-background-brand-subtlest-hovered: #d6e8fb;
   --ds-color-background-brand-subtlest-pressed: #b9d8f8;
   --ds-color-background-brand-bold: #1163a6;
-  --ds-color-background-brand-bold-hovered: #0f5894;
-  --ds-color-background-brand-bold-pressed: #0d4f85;
+  /* CHANGED: was #0f5894, too close to the base color */
+  --ds-color-background-brand-bold-hovered: #0f538a;
+  /* CHANGED: was #0d4f85 */
+  --ds-color-background-brand-bold-pressed: #0c4878;
   --ds-color-background-brand-boldest: #0d4f85;
   --ds-color-background-brand-boldest-hovered: #0a3f6b;
   --ds-color-background-brand-boldest-pressed: #0a3f6b;
@@ -787,15 +807,20 @@
   --ds-color-background-inverse-subtle-hovered: rgba(255, 255, 255, 0.12);
   --ds-color-background-inverse-subtle-pressed: rgba(255, 255, 255, 0.16);
 
-  --ds-color-background-neutral: var(--ds-canvas);
+  /* CHANGED: was var(--ds-canvas) #000, which blended into the page */
+  --ds-color-background-neutral: #18181b;
   --ds-color-background-neutral-hovered: #27272a;
   --ds-color-background-neutral-pressed: #3f3f46;
   --ds-color-background-neutral-subtle: #00000000;
-  --ds-color-background-neutral-subtle-hovered: var(--ds-canvas);
+  /* CHANGED: was var(--ds-canvas) #000, same as the page background */
+  --ds-color-background-neutral-subtle-hovered: #18181b;
   --ds-color-background-neutral-subtle-pressed: #27272a;
-  --ds-color-background-neutral-bold: var(--ds-canvas);
-  --ds-color-background-neutral-bold-hovered: #27272a;
-  --ds-color-background-neutral-bold-pressed: #3f3f46;
+  /* CHANGED: was var(--ds-canvas) #000, which gave dark text on black */
+  --ds-color-background-neutral-bold: #fafafa;
+  /* CHANGED: was #27272a */
+  --ds-color-background-neutral-bold-hovered: #e4e4e7;
+  /* CHANGED: was #3f3f46 */
+  --ds-color-background-neutral-bold-pressed: #d4d4d8;
 
   --ds-color-background-selected: var(--ds-canvas-soft-2);
   --ds-color-background-selected-hovered: #252525;
@@ -1200,8 +1225,6 @@
   --ds-color-chart-gray-boldest-hovered: #e4e4e7;
 
   /* ── Elevation Surface (Dark) ── */
-  /* ── Elevation Surface (Dark) ── */
-
   --ds-elevation-surface: var(--ds-canvas-soft);
   --ds-elevation-surface-hovered: var(--ds-canvas-soft-2);
   --ds-elevation-surface-pressed: #18181b;
@@ -1220,14 +1243,9 @@
   --ds-elevation-surface-container-pressed: #18181b;
 
   /* ── Elevation Shadow (Dark) ── */
-
   --ds-elevation-shadow-overflow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-
   --ds-elevation-shadow-overflow-perimeter: rgb(0 0 0 / 0.05);
-
   --ds-elevation-shadow-overflow-spread: rgb(0 0 0 / 0.08);
-
   --ds-elevation-shadow-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
-
   --ds-elevation-shadow-raised: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
 }

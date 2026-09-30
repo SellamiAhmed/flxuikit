@@ -1,27 +1,66 @@
 /* ============================================
    APP PAGE SHELL — Vercel Dashboard Style
+   ============================================
+
+   Layout rules (do not break these):
+   - .shell is the full-width frame. It NEVER gets a max-width or auto
+     margins, otherwise the scrollbar of .body floats inward.
+   - .body is the ONLY vertical scroller, so its scrollbar sits at the
+     far right edge of the shell.
+   - Width limits (contentMaxWidth) apply ONLY to .content and .footer.
    ============================================ */
 
 .shell {
+  /* Kept because AppPageShell.tsx still sets it. Intentionally unused
+     on the shell itself; use contentMaxWidth to limit page width. */
   --app-shell-page-max-width: 100%;
 
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
-  max-width: min(100%, var(--app-shell-page-max-width));
-  margin: 0 auto;
-  overflow-x: auto;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
   background: var(--ds-elevation-surface);
+}
+
+/* Doubled selectors beat the base primitives (.root / .header / .body)
+   regardless of stylesheet load order. */
+.shell.shell {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden; /* base .root has overflow-x: auto, override it */
+}
+
+.header.header {
+  display: grid; /* beats the base display: flex */
+}
+
+.body.body {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 .shellNoHeader {
   --app-shell-page-max-width: 100%;
 
+  width: 100%;
   height: 100%;
-  max-width: min(100%, var(--app-shell-page-max-width));
-  margin: 0 auto;
+  margin: 0;
   padding: var(--ds-space-300);
-  overflow-x: auto;
+  overflow: auto;
+  box-sizing: border-box;
   background: var(--ds-elevation-surface);
 }
 
@@ -119,35 +158,61 @@
   gap: var(--ds-space-050);
 }
 
-/* ── Body ── */
+/* ── Body (the single vertical scroller) ── */
 .body {
-  flex: 1;
-  min-width: 0;
-  overflow-y: auto;
   scroll-behavior: smooth;
+
+  /* Light, Vercel-style scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--ds-color-border) transparent;
 }
+
+.body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: var(--ds-color-border);
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
+}
+
+.body::-webkit-scrollbar-thumb:hover {
+  background: var(--ds-color-text-subtle);
+  background-clip: content-box;
+}
+
+/* ── Content: width-limited column, grows to push footer down ── */
 .content {
+  flex: 1 0 auto;
   width: 100%;
-  max-width: var(--app-shell-content-max-width, 1280px); /* was: var(--app-shell-page-max-width, 100%) */
+  max-width: var(--app-shell-content-max-width, 1280px);
   margin: 0 auto;
   padding: var(--ds-space-400) var(--ds-space-300) var(--ds-space-300);
-  overflow-x: auto;
   box-sizing: border-box;
+  /* No overflow here: it would create a nested scroll container.
+     Wide children (tables, calendars) should scroll in their own wrapper. */
 }
 
 /* ── Footer ── */
 .footer {
+  flex-shrink: 0;
   width: 100%;
   max-width: var(--app-shell-content-max-width, 1280px);
-  margin: auto auto 0;
+  margin: 0 auto;
   padding: var(--ds-space-300);
   border-top: 1px solid var(--ds-color-border);
   box-sizing: border-box;
 
-  /* NEW — dimmed/secondary text treatment */
-  font-size: var(--ds-font-size-100, 13px); /* smaller than body text */
+  /* Dimmed/secondary text treatment */
+  font-size: var(--ds-font-size-100, 13px);
   line-height: var(--ds-line-height-100, 1.4);
-  color: var(--ds-color-text-subtle); /* muted, not full-contrast text */
+  color: var(--ds-color-text-subtle);
 }
 
 /* ── Context Switcher (All Projects ▼) ── */

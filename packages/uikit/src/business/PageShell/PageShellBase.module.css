@@ -5,18 +5,19 @@
 .root {
   display: flex;
   flex-direction: column;
+  width: 100%; /* NEW: no shrink-to-fit */
   height: 100%;
-  overflow-x: auto;
+  min-height: 0; /* NEW */
+  /* remove overflow-x: auto so the root isn't a scroll container */
 }
 
-/* ── Header ── */
-.header {
+.body {
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+  min-height: 0; /* NEW: lets the flex child scroll */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  gap: 0;
-  flex-shrink: 0;
+  flex-direction: column;
 }
 
 .header[data-sticky] {

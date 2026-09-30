@@ -9,12 +9,14 @@ type ButtonClassNames = Partial<Record<ButtonStylesNames, string>>
 
 type ButtonWrapperProps = Omit<MantineButtonProps, 'classNames'> & {
   'data-loading'?: boolean
+  'data-disabled'?: boolean
   classNames?: ButtonClassNames
 }
 
+const cx = (...parts: Array<string | false | null | undefined>) => parts.filter(Boolean).join(' ')
+
 const _Button = forwardRef<HTMLButtonElement, ButtonWrapperProps>((props, ref) => {
   const {
-    leftSection,
     loading,
     disabled,
     loaderProps,
@@ -26,26 +28,29 @@ const _Button = forwardRef<HTMLButtonElement, ButtonWrapperProps>((props, ref) =
     ...rest
   } = props
 
-  const loader = <Loader size={16} color="currentColor" {...loaderProps} />
-  const isLoading = loading || dataLoading
-  const isDisabled = disabled || dataDisabled || isLoading
+  const isLoading = Boolean(loading || dataLoading)
+  const isDisabled = Boolean(disabled || dataDisabled || isLoading)
 
   const mergedClassNames: ButtonClassNames = {
-    root: `${classes.root}${className ? ` ${className}` : ''}`,
-    inner: [classes['btn-inner'], classNames?.inner].filter(Boolean).join(' '),
-    label: [classes['btn-label'], classNames?.label].filter(Boolean).join(' '),
-    section: [classes['btn-section'], classNames?.section].filter(Boolean).join(' ')
+    ...classNames,
+    root: cx(classes.root, className, classNames?.root),
+    inner: cx(classes['btn-inner'], classNames?.inner),
+    label: cx(classes['btn-label'], classNames?.label),
+    section: cx(classes['btn-section'], classNames?.section),
+    loader: cx(classes['btn-loader'], classNames?.loader)
   }
 
   return (
     <MantineButton
-      {...rest}
+      {...rest} // leftSection stays in rest, untouched
       ref={ref}
       variant={variant}
       classNames={mergedClassNames}
-      leftSection={isLoading ? loader : leftSection}
+      loading={isLoading}
+      loaderProps={{ size: 16, color: 'currentColor', ...loaderProps }}
       disabled={isDisabled}
       data-loading={isLoading || undefined}
+      aria-busy={isLoading || undefined}
     />
   )
 })
