@@ -1,5 +1,12 @@
 # @flxui/uikit
 
+## 1.0.12
+
+### Patch Changes
+
+- [`6f1bd58`](https://github.com/SellamiAhmed/flxuikit/commit/6f1bd585ddcff38b90e218e013bef9563056ba28) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - chore (): add business calendar events ui
+
 ## 1.0.11
 
 ### Patch Changes
