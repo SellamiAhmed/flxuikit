@@ -11,8 +11,7 @@ import { useState } from 'react'
 import { Button, Divider, Group, Popover, Select, TextInput } from '../../primitive/index.js'
 
 import classes from './CalendarToolbar.module.css'
-
-export type CalendarViewMode = 'day' | 'week' | 'month'
+import type { CalendarViewMode } from './types.js'
 
 export interface CalendarToolbarProps {
   rangeStart: Date

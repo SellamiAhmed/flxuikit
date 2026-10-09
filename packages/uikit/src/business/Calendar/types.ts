@@ -31,3 +31,4 @@ export interface PositionedEvent {
   /** Total columns in this event's overlap cluster — width = 100 / columnCount. */
   columnCount: number
 }
+export type CalendarViewMode = 'day' | 'week' | 'month'

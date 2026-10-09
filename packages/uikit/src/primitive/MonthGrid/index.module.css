@@ -1,0 +1,84 @@
+/* primitive/MonthGrid/index.module.css */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--ds-font-family-sans);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-bottom: 1px solid var(--ds-color-border);
+  flex-shrink: 0;
+}
+
+.weekday {
+  padding: var(--ds-space-100) 0;
+  text-align: center;
+  font-size: var(--ds-font-size-100);
+  color: var(--ds-color-text-subtlest);
+  text-transform: uppercase;
+}
+
+.grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--weeks), minmax(0, 1fr)); /* rows share the height equally */
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-050);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: var(--ds-space-050);
+  border-right: 1px solid var(--ds-color-border);
+  border-bottom: 1px solid var(--ds-color-border);
+}
+
+.cell:nth-child(7n) {
+  border-right: none;
+}
+
+.dayNumber {
+  align-self: flex-end;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 var(--ds-space-050);
+  border: none;
+  border-radius: 9999px;
+  background: none;
+  cursor: pointer;
+  font-size: var(--ds-font-size-100);
+  font-weight: 500;
+  color: var(--ds-color-text);
+}
+
+.dayNumber:hover {
+  background-color: var(--ds-color-background-neutral-hovered);
+}
+
+.cell[data-outside] .dayNumber {
+  color: var(--ds-color-text-disabled);
+}
+
+.cell[data-today] .dayNumber {
+  background-color: var(--ds-color-background-brand-bold);
+  color: var(--ds-color-text-inverse);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
+  overflow: hidden;
+}
