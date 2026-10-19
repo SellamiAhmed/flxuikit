@@ -1,5 +1,12 @@
 # @flxui/uikit
 
+## 1.0.13
+
+### Patch Changes
+
+- [`d6f44d0`](https://github.com/SellamiAhmed/flxuikit/commit/d6f44d07d83a609f5083f96f68e928d045ac2b71) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - chore(): fix scrollbar issue , fix loader for button primitive
+
 ## 1.0.12
 
 ### Patch Changes
