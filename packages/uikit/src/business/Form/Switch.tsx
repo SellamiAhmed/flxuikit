@@ -4,7 +4,7 @@ import { Controller, RegisterOptions, useFormContext } from 'react-hook-form'
 
 import { Switch, SwitchProps } from '../../primitive/index.js'
 
-export interface FormSwitchProps extends Omit<SwitchProps, 'onChange' | 'label'> {
+export interface FormSwitchProps extends Omit<SwitchProps, 'onChange' | 'onCheckedChange' | 'label' | 'name'> {
   name: string
   rules?: RegisterOptions
   label?: React.ReactNode
@@ -12,27 +12,26 @@ export interface FormSwitchProps extends Omit<SwitchProps, 'onChange' | 'label'>
 }
 
 export const FormSwitch: React.FC<FormSwitchProps> = ({ name, rules, onChange, label, ...rest }) => {
-  const { control, formState, getFieldState } = useFormContext()
-  const { error } = getFieldState(name, formState)
+  const { control, formState } = useFormContext()
 
   return (
     <Controller
       control={control}
       name={name}
       rules={rules}
-      render={({ field }) => {
+      render={({ field, fieldState }) => {
         const { onChange: handleChange, value, ...restField } = field
         return (
           <Switch
             label={label}
-            checked={value}
             {...restField}
             {...rest}
-            onChange={(checked: boolean) => {
+            checked={!!value}
+            onCheckedChange={(checked: boolean) => {
               handleChange(checked)
               onChange?.(checked)
             }}
-            error={error ? <ErrorMessage errors={formState.errors} name={name} /> : undefined}
+            error={fieldState.error ? <ErrorMessage errors={formState.errors} name={name} /> : undefined}
           />
         )
       }}

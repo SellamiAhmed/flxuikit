@@ -5,9 +5,9 @@ import clsx from 'clsx'
 import { Box, Skeleton } from '../../primitive/index.js'
 
 import type { ProColumnMeta } from './cells.js'
-import type { ProTableFeatures } from './features.js'; // ADD THIS LINE
+import type { ProTableFeatures } from './features.js' // ADD THIS LINE
 import styles from './ProTable.module.css'
-import { ProTableColumnHeader } from './ProTableColumnHeader.js'; // ← this line, in ProTable.tsx
+import { ProTableColumnHeader } from './ProTableColumnHeader.js' // ← this line, in ProTable.tsx
 import { ProTablePagination } from './ProTablePagination.js'
 import type { ProTableProps } from './types.js'
 import { useProTable } from './useProTable.js'
@@ -19,11 +19,12 @@ const CHECKBOX_COLUMN_WIDTH = 44 // px reserved for the row-selection column —
 // Returns undefined for normal columns, which split the remaining space.
 // selection columns (meta.selection) get the narrower checkbox width;
 // shrink columns (meta.shrink, e.g. Actions) get the standard 180px.        // ← new
-function getFixedColumnWidth(meta: ProColumnMeta | undefined): number | undefined { // ← new
-  if (meta?.selection) return CHECKBOX_COLUMN_WIDTH                                 // ← new
-  if (meta?.shrink) return SHRINK_COLUMN_WIDTH                                      // ← new
-  return undefined                                                                  // ← new
-}                                                                                     // ← new
+function getFixedColumnWidth(meta: ProColumnMeta | undefined): number | undefined {
+  // ← new
+  if (meta?.selection) return CHECKBOX_COLUMN_WIDTH // ← new
+  if (meta?.shrink) return SHRINK_COLUMN_WIDTH // ← new
+  return undefined // ← new
+} // ← new
 
 export function ProTable<TData extends Record<string, any>>(props: ProTableProps<TData>) {
   const {
@@ -38,7 +39,7 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
     className,
     enableExpanding = false,
     paginationProps,
-    hidePagination = false,
+    hidePagination = false
   } = props
 
   const internalTable = useProTable(props)
@@ -56,9 +57,9 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
   // fixed width is looked up individually via getFixedColumnWidth and
   // summed, instead of `shrinkCount * SHRINK_COLUMN_WIDTH`.                 // ← changed comment
   const fixedWidths = leafColumns.map((col) => getFixedColumnWidth(col.columnDef.meta as ProColumnMeta | undefined)) // ← new
-  const fixedCount = fixedWidths.filter((w) => w !== undefined).length                                                // ← new
-  const totalFixedWidth = fixedWidths.reduce((sum: number, w) => sum + (w ?? 0), 0)                                   // ← new
-  const growCount = columnCount - fixedCount                                                                          // ← changed
+  const fixedCount = fixedWidths.filter((w) => w !== undefined).length // ← new
+  const totalFixedWidth = fixedWidths.reduce((sum: number, w) => sum + (w ?? 0), 0) // ← new
+  const growCount = columnCount - fixedCount // ← changed
 
   // was: `${100 / growCount}%` — wrong, ignores the pixel-fixed columns entirely
   const growColumnWidth = growCount > 0 ? `calc((100% - ${totalFixedWidth}px) / ${growCount})` : '100%' // ← changed (totalShrinkWidth → totalFixedWidth)
@@ -68,8 +69,9 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
       <Box className={styles.tableContainer}>
         <table className={styles.table}>
           <colgroup>
-            {leafColumns.map((col, i) => {                                 // ← changed (added index `i`)
-              const fixedWidth = fixedWidths[i]                            // ← changed (was: reading `shrink` from meta here)
+            {leafColumns.map((col, i) => {
+              // ← changed (added index `i`)
+              const fixedWidth = fixedWidths[i] // ← changed (was: reading `shrink` from meta here)
               return (
                 <col
                   key={col.id}
@@ -93,7 +95,7 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
                       className={clsx(styles.th, isSelection && styles.checkboxCell)} // ← changed (added clsx + checkboxCell)
                       data-shrink={shrink ? 'true' : undefined}
                     >
-                      {header.isPlaceholder ? null : isSelection ? (             // ← changed (added isSelection branch)
+                      {header.isPlaceholder ? null : isSelection ? ( // ← changed (added isSelection branch)
                         flexRender(header.column.columnDef.header, header.getContext()) // ← new — renders the "select all" checkbox as-is, skipping the sort/hide menu
                       ) : (
                         <ProTableColumnHeader
@@ -174,9 +176,7 @@ export function ProTable<TData extends Record<string, any>>(props: ProTableProps
         </table>
       </Box>
 
-      {showPagination && !loading && rows.length > 0 && (
-        <ProTablePagination table={table} {...paginationProps} />
-      )}
+      {showPagination && !loading && rows.length > 0 && <ProTablePagination table={table} {...paginationProps} />}
     </Box>
   )
 }

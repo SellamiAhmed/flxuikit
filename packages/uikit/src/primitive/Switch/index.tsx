@@ -3,34 +3,41 @@ import { forwardRef } from 'react'
 
 import classes from './index.module.css'
 
-export interface SwitchProps extends Omit<MantineSwitchProps, 'onChange'> {
-  onChange?: (checked: boolean) => void
-  label?: React.ReactNode
+export interface SwitchProps extends MantineSwitchProps {
+  /** Convenience: receives the boolean directly. Native onChange still works. */
+  onCheckedChange?: (checked: boolean) => void
 }
 
-const _Switch = forwardRef<HTMLInputElement, SwitchProps>(({ onChange, label, ...props }, ref) => {
-  return (
-    <MantineSwitch
-      ref={ref}
-      label={label}
-      classNames={{
-        root: classes.root,
-        track: classes.track,
-        thumb: classes.thumb,
-        body: classes.body,
-        label: classes.label
-      }}
-      onChange={(event) => onChange?.(event.currentTarget.checked)}
-      {...props}
-    />
-  )
-})
+const own = {
+  root: classes.root,
+  body: classes.body,
+  input: classes.input,
+  track: classes.track,
+  thumb: classes.thumb,
+  label: classes.label
+}
 
+const _Switch = forwardRef<HTMLInputElement, SwitchProps>(
+  ({ onChange, onCheckedChange, classNames, ...props }, ref) => {
+    const extra = (typeof classNames === 'object' ? classNames : {}) as Record<string, string | undefined>
+
+    const merged = Object.fromEntries(
+      Object.entries(own).map(([key, value]) => [key, [value, extra[key]].filter(Boolean).join(' ')])
+    )
+
+    return (
+      <MantineSwitch
+        ref={ref}
+        {...props}
+        classNames={{ ...extra, ...merged }}
+        onChange={(e) => {
+          onChange?.(e)
+          onCheckedChange?.(e.currentTarget.checked)
+        }}
+      />
+    )
+  }
+)
 _Switch.displayName = 'Switch'
 
-type SwitchType = typeof _Switch & {
-  Group: typeof MantineSwitch.Group
-}
-
-export const Switch = _Switch as SwitchType
-Switch.Group = MantineSwitch.Group
+export const Switch = Object.assign(_Switch, { Group: MantineSwitch.Group })

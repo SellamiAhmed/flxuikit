@@ -21,7 +21,6 @@ import {
   SelectProps,
   SkeletonProps,
   StepperProps,
-  SwitchProps,
   TableProps,
   TabsProps
 } from '@mantine/core'

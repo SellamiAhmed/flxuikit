@@ -1,125 +1,142 @@
-/* ── Root ── */
 .root {
-  /* Design tokens, declared directly — no theme.ts indirection needed,
-     since --ds-* vars already handle light/dark via CSS cascade alone. */
-  --fx-switch-color: var(--ds-color-background-brand-bold);
-  --fx-switch-bg: var(
-    --ds-color-background-accent-gray-subtle
-  ); /* was border-bold — wrong token, too dark for a fill */
-  --fx-switch-bd-color: var(
-    --ds-color-border-accent-gray-subtle
-  ); /* matches bg, soft outline instead of a bold border */
-  --fx-switch-thumb-bg: var(--ds-color-text-inverse);
-  --fx-switch-off-thumb-bg: var(--ds-elevation-surface);
-  --fx-switch-label-color: var(--ds-color-text);
+  /* colors: unchanged */
+  --sw-on: var(--ds-color-background-brand-bold);
+  --sw-off: var(--ds-color-background-accent-gray-subtle);
+  --sw-off-hover: var(--ds-color-background-accent-gray-subtler-hovered, var(--sw-off));
+  --sw-on-hover: var(--ds-color-background-brand-bold-hovered, var(--sw-on));
 
-  --switch-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --switch-duration-thumb: 140ms;
-  --switch-duration-track: 180ms;
+  /* shape (md, Linear-like) */
+  --sw-w: 36px;
+  --sw-h: 22px;
+  --sw-thumb: 16px;
+  --sw-pad: 3px;
+  --sw-stretch: 2px;
+
+  /* motion */
+  --sw-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --sw-dur: 150ms;
 }
 
-/* ── Track ── */
-.track {
-  border: 1px solid var(--fx-switch-bd-color);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--fx-switch-bg), white 6%) 0%, var(--fx-switch-bg) 100%);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
-  transition:
-    background-color var(--switch-duration-track) var(--switch-ease),
-    border-color var(--switch-duration-track) var(--switch-ease);
+/* Sizes: Mantine puts data-size on the root */
+.root[data-size='xs'] {
+  --sw-w: 28px;
+  --sw-h: 16px;
+  --sw-thumb: 12px;
+  --sw-pad: 2px;
+  --sw-stretch: 1px;
 }
-
-.root input:checked + .track {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--fx-switch-color), white 14%) 0%,
-    var(--fx-switch-color) 100%
-  );
-  border-color: var(--fx-switch-color);
-  box-shadow: none;
+.root[data-size='sm'] {
+  --sw-w: 32px;
+  --sw-h: 20px;
+  --sw-thumb: 14px;
+  --sw-pad: 3px;
 }
-
-.root:hover input:not(:checked) + .track {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--fx-switch-bg), white 2%) 0%,
-    color-mix(in srgb, var(--fx-switch-bg), black 4%) 100%
-  );
-}
-.root:hover input:checked + .track {
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--fx-switch-color), white 8%) 0%,
-    color-mix(in srgb, var(--fx-switch-color), black 6%) 100%
-  );
-}
-
-/* ── Thumb ── */
-.thumb {
-  background: linear-gradient(180deg, #ffffff 0%, var(--fx-switch-off-thumb-bg) 100%);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.18),
-    0 0 0 0.5px rgba(0, 0, 0, 0.04);
-  border: none;
-  transition:
-    transform var(--switch-duration-thumb) var(--switch-ease),
-    background-color var(--switch-duration-thumb) var(--switch-ease),
-    box-shadow var(--switch-duration-thumb) var(--switch-ease);
-}
-
-.root input:checked + .track .thumb {
-  background: linear-gradient(180deg, #ffffff 0%, var(--fx-switch-thumb-bg) 100%);
-}
-
-.root:hover .thumb {
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.22),
-    0 0 0 0.5px rgba(0, 0, 0, 0.05);
-  transform: scale(1.06);
-}
-
-/* ── Pressed ── */
-.root:active .thumb {
-  transform: scale(0.9);
-  transition-duration: 90ms;
-}
-
-/* ── Focus ── */
-.root input:focus-visible + .track {
-  outline: 2px solid var(--ds-color-border-focused);
-  outline-offset: 2px;
-}
-
-/* ── Disabled ── */
-.root[data-disabled] {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-.root[data-disabled] .thumb {
-  box-shadow: none;
-}
-
-/* ── Label ── */
-.label {
-  font: var(--ds-font-body);
-  color: var(--fx-switch-label-color);
-  padding-left: var(--ds-space-100);
-  user-select: none;
-}
-
-.label[data-disabled] {
-  color: var(--ds-color-text-disabled);
+.root[data-size='lg'] {
+  --sw-w: 44px;
+  --sw-h: 26px;
+  --sw-thumb: 20px;
+  --sw-pad: 3px;
+  --sw-stretch: 3px;
 }
 
 .body {
   display: flex;
   align-items: center;
+  gap: var(--ds-space-100);
 }
 
-/* ── Reduced motion ── */
+/* Track: flat pill */
+.root .track {
+  width: var(--sw-w);
+  min-width: var(--sw-w);
+  height: var(--sw-h);
+  border-radius: 999px;
+  background-color: var(--sw-off);
+  background-image: none;
+  border: 1px solid transparent;
+  box-shadow: none;
+  cursor: pointer;
+  transition:
+    background-color var(--sw-dur) var(--sw-ease),
+    border-color var(--sw-dur) var(--sw-ease);
+}
+.root .input:checked + .track {
+  background-color: var(--sw-on);
+}
+.root .input:not(:disabled):not(:checked) + .track:hover {
+  background-color: var(--sw-off-hover);
+}
+.root .input:not(:disabled):checked + .track:hover {
+  background-color: var(--sw-on-hover);
+}
+
+/* Thumb: plain circle, centered, slides via inset-inline-start */
+.root .thumb {
+  width: var(--sw-thumb);
+  height: var(--sw-thumb);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline-start: var(--sw-pad);
+  background: #fff;
+  border: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+  transition:
+    inset-inline-start var(--sw-dur) var(--sw-ease),
+    width 120ms var(--sw-ease);
+}
+.root .input:checked + .track .thumb {
+  inset-inline-start: calc(100% - var(--sw-thumb) - var(--sw-pad));
+}
+
+/* Pressed: thumb stretches toward its direction of travel */
+.root .input:not(:disabled) + .track:active .thumb {
+  width: calc(var(--sw-thumb) + var(--sw-stretch));
+}
+.root .input:checked:not(:disabled) + .track:active .thumb {
+  inset-inline-start: calc(100% - var(--sw-thumb) - var(--sw-pad) - var(--sw-stretch));
+}
+
+/* Focus: keyboard only */
+.root .input:focus-visible + .track {
+  outline: 2px solid var(--ds-color-border-focused);
+  outline-offset: 2px;
+}
+
+/* Disabled */
+.root .input:disabled + .track {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.root .input:disabled + .track .thumb {
+  box-shadow: none;
+}
+
+/* Label */
+.label {
+  font: var(--ds-font-body);
+  color: var(--ds-color-text);
+  user-select: none;
+  cursor: pointer;
+}
+.label[data-disabled] {
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Windows high-contrast mode */
+@media (forced-colors: active) {
+  .root .track {
+    border-color: ButtonText;
+  }
+  .root .input:checked + .track {
+    background-color: Highlight;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .track,
-  .thumb {
+  .root .track,
+  .root .thumb {
     transition-duration: 1ms !important;
   }
 }

@@ -147,9 +147,8 @@
 }
 
 .tr:hover {
-  background-color: var(--ds-elevation-surface-raised-hovered);
+  background-color: var(--ds-color-background-neutral-subtle-hovered);
 }
-
 .tr:not(:last-of-type) .td {
   border-bottom: 1px solid var(--ds-color-border);
 }
