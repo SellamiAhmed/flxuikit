@@ -1,5 +1,6 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs'
+import { cp } from 'node:fs/promises'
+import { resolve, relative, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import react from '@vitejs/plugin-react'
@@ -7,66 +8,99 @@ import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
-// Always-external, regardless of how they're declared in package.json
-// (React must be external even if someone accidentally moves it to devDependencies)
-const alwaysExternal = ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime']
-
 const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
 
-const declaredDeps = Object.keys({
-  ...(packageJson.dependencies ?? {}),
-  ...(packageJson.peerDependencies ?? {})
-})
+// Every @mantine/* package we bundle
+const MANTINE: string[] = Object.keys(packageJson.devDependencies ?? {}).filter((n) => n.startsWith('@mantine/'))
 
-const externalDeps = [...new Set([...alwaysExternal, ...declaredDeps])]
+// External = declared deps/peers EXCEPT mantine (those get bundled)
+const externalDeps = [
+  'react',
+  'react-dom',
+  'react/jsx-runtime',
+  'react/jsx-dev-runtime',
+  ...Object.keys({ ...packageJson.dependencies, ...packageJson.peerDependencies }).filter(
+    (n) => !n.startsWith('@mantine/')
+  ),
+  'html-react-parser'
+]
+const external = (id: string) => externalDeps.some((d) => id === d || id.startsWith(`${d}/`))
 
-const external = (id: string) => {
-  // exact match, or subpath match (e.g. 'dayjs/plugin/utc' matches 'dayjs',
-  // 'lodash-es/debounce' matches 'lodash-es')
-  return externalDeps.some((dep) => id === dep || id.startsWith(`${dep}/`))
+// ---- Typings ----
+// Bundled mantine JS is emitted to dist/vendor/..., and its typings are copied next to it.
+const VENDOR = 'vendor'
+const vendorTypes = (pkg: string) => resolve(__dirname, 'dist', VENDOR, pkg, 'lib')
+
+function rewriteMantineImports(file: string, content: string) {
+  return content.replace(/(['"])(@mantine\/[a-z-]+)\1/g, (match, q, name) => {
+    if (!MANTINE.includes(name)) return match
+    let rel = relative(dirname(file), vendorTypes(name)).replace(/\\/g, '/')
+    if (!rel.startsWith('.')) rel = './' + rel
+    return `${q}${rel}${q}`
+  })
+}
+
+function walk(dir: string): string[] {
+  return readdirSync(dir).flatMap((f) => {
+    const p = join(dir, f)
+    return statSync(p).isDirectory() ? walk(p) : [p]
+  })
 }
 
 function ensureDir(filePath: string) {
   const dir = dirname(filePath)
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true })
-  }
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
 }
 
-function updateImportExtensions(content: string, targetExt: '.mjs' | '.cjs') {
-  return content.replace(/(from\s+['"]\.\.?\/.*?)\.js(['"'])/g, (_, start, end) => `${start}${targetExt}${end}`)
+function updateImportExtensions(content: string, ext: '.mjs' | '.cjs') {
+  return content.replace(/(from\s+['"]\.\.?\/.*?)\.js(['"'])/g, (_, s, e) => `${s}${ext}${e}`)
 }
+
+// Your module augmentation (custom colors, sizes, ...)
+const overridePath = resolve(__dirname, 'src/primitive/mantineoverride.d.ts')
+const entryFolders = ['primitive', 'business', 'hooks', 'theme', 'utils']
+
+// One shared function: Vite requires the same assetFileNames for every output
+const assetFileNames = (a: { name?: string }) =>
+  a.name?.endsWith('.css') ? 'styles.css' : 'assets/[name]-[hash][extname]'
 
 export default defineConfig({
   plugins: [
     react(),
-    // REMOVED: libInjectCss() — causes multiple CSS files
     dts({
       copyDtsFiles: false,
       entryRoot: 'src',
       exclude: ['src/test/**'],
       beforeWriteFile: (filePath, content) => {
-        if (!filePath.endsWith('.d.ts') || !content) {
-          return { filePath, content }
+        if (!filePath.endsWith('.d.ts') || !content) return { filePath, content }
+
+        content = rewriteMantineImports(filePath, content)
+
+        // top-level index of each entry loads the augmentation once
+        if (
+          entryFolders.some((f) => filePath.endsWith(`/${f}/index.d.ts`) || filePath.endsWith(`\\${f}\\index.d.ts`))
+        ) {
+          const ref = relative(dirname(filePath), resolve(__dirname, 'dist/mantine-override.d.ts')).replace(/\\/g, '/')
+          content = `/// <reference path="${ref}" />\n${content}`
         }
 
-        // Also emit a matching .d.cts file for the CJS build,
-        // so './something.cjs' imports resolve to './something.d.cts'
         ensureDir(filePath)
         writeFileSync(filePath.replace('.d.ts', '.d.cts'), updateImportExtensions(content, '.cjs'))
-
-        // Rename this file to .d.mts (not just rewrite its content),
-        // so it correctly matches the '.mjs' imports/extensions used at runtime.
-        // Previously only the *content* was rewritten to reference '.mjs' files
-        // while the *filename* stayed '.d.ts' — TypeScript requires an '.mjs'
-        // import to resolve against a '.d.mts' declaration file, not '.d.ts',
-        // which caused "has no exported member" / implicit-any errors for any
-        // nested barrel (e.g. business/AppShell/index.mjs).
-        return {
-          filePath: filePath.replace('.d.ts', '.d.mts'),
-          content: updateImportExtensions(content, '.mjs')
+        return { filePath: filePath.replace('.d.ts', '.d.mts'), content: updateImportExtensions(content, '.mjs') }
+      },
+      async afterBuild() {
+        // 1. copy typings of every bundled mantine package
+        for (const name of MANTINE) {
+          const src = resolve(__dirname, 'node_modules', name, 'lib')
+          const dest = vendorTypes(name)
+          await cp(src, dest, { recursive: true, dereference: true })
+          for (const f of walk(dest).filter((p) => /\.d\.(ts|mts|cts)$/.test(p))) {
+            writeFileSync(f, rewriteMantineImports(f, readFileSync(f, 'utf-8')))
+          }
         }
+        // 2. emit the augmentation, pointed at the bundled typings
+        const out = resolve(__dirname, 'dist/mantine-override.d.ts')
+        writeFileSync(out, rewriteMantineImports(out, readFileSync(overridePath, 'utf-8')))
       }
     })
   ],
@@ -74,8 +108,9 @@ export default defineConfig({
   css: {
     modules: {
       generateScopedName: (name, filename) => {
-        const relative = filename.split('/src/')[1]?.replace('.module.css', '').replace(/\//g, '_') ?? 'unknown'
-        return `flex-${relative}_${name}`
+        const file = filename.replace(/\\/g, '/')
+        const rel = file.split('/src/')[1]?.replace('.module.css', '').replace(/\//g, '_') ?? 'unknown'
+        return `flex-${rel}_${name}`
       }
     }
   },
@@ -84,20 +119,16 @@ export default defineConfig({
     minify: false,
     cssCodeSplit: false,
     emptyOutDir: true,
-
     lib: {
       entry: [
         resolve(__dirname, 'src/primitive/index.ts'),
         resolve(__dirname, 'src/business/index.ts'),
         resolve(__dirname, 'src/theme/index.ts'),
         resolve(__dirname, 'src/hooks/index.ts'),
-        resolve(__dirname, 'src/utils/index.ts'),
-        resolve(__dirname, 'src/icons/index.ts')
+        resolve(__dirname, 'src/utils/index.ts')
       ]
     },
-
     rollupOptions: {
-      treeshake: false,
       external,
       output: [
         {
@@ -105,26 +136,18 @@ export default defineConfig({
           format: 'esm',
           preserveModules: true,
           preserveModulesRoot: 'src',
-          entryFileNames: '[name].mjs',
+          entryFileNames: (c) => `${c.name.replace(/^.*node_modules\//, `${VENDOR}/`)}.mjs`,
           exports: 'named',
-          assetFileNames: (assetInfo) => {
-            const info = assetInfo.name as string
-            if (info.endsWith('.css')) return 'styles.css'
-            return 'assets/[name]-[hash][extname]'
-          }
+          assetFileNames
         },
         {
           dir: 'dist',
           format: 'cjs',
           preserveModules: true,
           preserveModulesRoot: 'src',
-          entryFileNames: '[name].cjs',
+          entryFileNames: (c) => `${c.name.replace(/^.*node_modules\//, `${VENDOR}/`)}.cjs`,
           exports: 'named',
-          assetFileNames: (assetInfo) => {
-            const info = assetInfo.name as string
-            if (info.endsWith('.css')) return 'styles.cjs.css'
-            return 'assets/[name]-[hash][extname]'
-          }
+          assetFileNames
         }
       ]
     }

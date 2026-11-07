@@ -1,6 +1,6 @@
 {
   "name": "@flxui/uikit",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "system UI kit built on Mantine v7",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "type": "module",
   "main": "dist/primitive/index.cjs",
   "module": "dist/primitive/index.mjs",
-  "types": "dist/primitive/index.d.ts",
+  "types": "dist/primitive/index.d.cts",
   "scripts": {
     "build": "vite build && tsx scripts/verify-dist.ts",
     "type-check": "tsc --noEmit",
@@ -19,34 +19,54 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/primitive/index.d.mts",
-      "import": "./dist/primitive/index.mjs",
-      "require": "./dist/primitive/index.cjs"
+      "import": {
+        "types": "./dist/primitive/index.d.mts",
+        "default": "./dist/primitive/index.mjs"
+      },
+      "require": {
+        "types": "./dist/primitive/index.d.cts",
+        "default": "./dist/primitive/index.cjs"
+      }
     },
     "./business": {
-      "types": "./dist/business/index.d.mts",
-      "import": "./dist/business/index.mjs",
-      "require": "./dist/business/index.cjs"
+      "import": {
+        "types": "./dist/business/index.d.mts",
+        "default": "./dist/business/index.mjs"
+      },
+      "require": {
+        "types": "./dist/business/index.d.cts",
+        "default": "./dist/business/index.cjs"
+      }
     },
     "./hooks": {
-      "types": "./dist/hooks/index.d.mts",
-      "import": "./dist/hooks/index.mjs",
-      "require": "./dist/hooks/index.cjs"
+      "import": {
+        "types": "./dist/hooks/index.d.mts",
+        "default": "./dist/hooks/index.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/index.d.cts",
+        "default": "./dist/hooks/index.cjs"
+      }
     },
     "./theme": {
-      "types": "./dist/theme/index.d.mts",
-      "import": "./dist/theme/index.mjs",
-      "require": "./dist/theme/index.cjs"
+      "import": {
+        "types": "./dist/theme/index.d.mts",
+        "default": "./dist/theme/index.mjs"
+      },
+      "require": {
+        "types": "./dist/theme/index.d.cts",
+        "default": "./dist/theme/index.cjs"
+      }
     },
     "./utils": {
-      "types": "./dist/utils/index.d.mts",
-      "import": "./dist/utils/index.mjs",
-      "require": "./dist/utils/index.cjs"
-    },
-    "./icons": {
-      "types": "./dist/icons/index.d.mts",
-      "import": "./dist/icons/index.mjs",
-      "require": "./dist/icons/index.cjs"
+      "import": {
+        "types": "./dist/utils/index.d.mts",
+        "default": "./dist/utils/index.mjs"
+      },
+      "require": {
+        "types": "./dist/utils/index.d.cts",
+        "default": "./dist/utils/index.cjs"
+      }
     },
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
@@ -55,7 +75,6 @@
   "sideEffects": [
     "**/*.css",
     "dist/styles.css",
-    "dist/styles.cjs.css",
     "**/utils/dayjs.mjs",
     "**/utils/dayjs.cjs"
   ],
@@ -78,14 +97,6 @@
     "react-window": "^1.8.9"
   },
   "peerDependencies": {
-    "@mantine/carousel": "^7.17.8",
-    "@mantine/code-highlight": "^7.17.8",
-    "@mantine/core": "^7.17.8",
-    "@mantine/dates": "^7.17.8",
-    "@mantine/dropzone": "^7.17.8",
-    "@mantine/hooks": "^7.17.8",
-    "@mantine/modals": "^7.17.8",
-    "@mantine/notifications": "^7.17.8",
     "react": "^18.x || ^19.x",
     "react-dom": "^18.x || ^19.x",
     "react-hook-form": "^7.51.5"
@@ -107,7 +118,6 @@
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/dompurify": "^3.2.0",
     "@types/google-libphonenumber": "^7.4.23",
     "@types/lodash-es": "^4.17.12",
     "@types/react": "^18.3.18",
@@ -123,7 +133,6 @@
     "typescript": "^5.4.2",
     "vite": "^6.1.1",
     "vite-plugin-dts": "^4.3.0",
-    "vite-plugin-lib-inject-css": "^2.2.2",
     "vitest": "^4.1.10"
   },
   "files": [
