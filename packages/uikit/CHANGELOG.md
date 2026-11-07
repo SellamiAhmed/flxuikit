@@ -1,5 +1,12 @@
 # @flxui/uikit
 
+## 1.0.15
+
+### Patch Changes
+
+- [`2bf5db9`](https://github.com/SellamiAhmed/flxuikit/commit/2bf5db9fa4de590632305e4a70dbc96d7281567f) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - Mantine is now bundled inside the kit. Apps must remove their own `@mantine/*` packages and imports, and import only `@flxui/uikit/styles.css`.
+
 ## 1.0.14
 
 ### Patch Changes
