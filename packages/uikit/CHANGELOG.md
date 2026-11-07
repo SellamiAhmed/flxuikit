@@ -1,5 +1,12 @@
 # @flxui/uikit
 
+## 1.0.14
+
+### Patch Changes
+
+- [`1d86dc7`](https://github.com/SellamiAhmed/flxuikit/commit/1d86dc7c7c0c22d0b95b482d72ca48b245d0db5b) Thanks [@SellamiAhmed](https://github.com/SellamiAhmed)! - - Merge branch 'v0' of https://github.com/SellamiAhmed/flxuikit into v0
+  - chore(): add month view and day to calendar biz
+
 ## 1.0.13
 
 ### Patch Changes
